@@ -1,0 +1,13 @@
+﻿<UserControl FlowDirection="RightToLeft" x:Class="MyProject_WPF.frmRoleOrRoleGroupList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        MinHeight="300" MinWidth="300"
+         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" Loaded="frmRoleList_Loaded">
+    <Grid Background="Bisque">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <telerik:RadGridView ShowGroupPanel="False" SelectionChanged="dtgRoles_SelectionChanged" x:Name="dtgRoles" Grid.Row="1" ></telerik:RadGridView>
+    </Grid>
+</UserControl>

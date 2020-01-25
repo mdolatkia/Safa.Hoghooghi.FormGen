@@ -1,0 +1,95 @@
+﻿<UserControl FlowDirection="RightToLeft" xmlns:MySecurityUI="clr-namespace:MySecurityUI"  x:Class="MySecurityUI.frmUserRole"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     MinHeight="500" MinWidth="700"
+         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    <Grid>
+        <TabControl>
+            <TabItem Header="اختصاصی کاربر به نقش">
+                <telerik:RadDocking  HasDocumentHost="False"  Background="#FFCFE2F7">
+                 
+                        <telerik:RadSplitContainer  Orientation="Horizontal" >
+                            <telerik:RadPaneGroup>
+                                <telerik:RadPane CanFloat="False"  CanUserPin="False"  CanUserClose="False" Header="لیست نقش ها">
+                                    <MySecurityUI:frmRoleList RoleSelected="ucRoleList_RoleSelected" x:Name="ucRoleList" />
+                                </telerik:RadPane>
+                            </telerik:RadPaneGroup>
+                            <telerik:RadPaneGroup >
+                                <telerik:RadPane CanFloat="False"  CanUserPin="False"  CanUserClose="False" Header=">>>لیست کاربران نقش منتخب">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Button Width="70" Margin="4" HorizontalAlignment="Right" x:Name="btnAddUserToRole" Click="btnAddUserToRole_Click" Content="افزودن کاربر به نقش"></Button>
+                                        <telerik:RadGridView x:Name="dtgUsersByRole" Grid.Row="1" ShowGroupPanel="False"></telerik:RadGridView>
+                                    </Grid>
+
+                                </telerik:RadPane>
+                            </telerik:RadPaneGroup>
+                        </telerik:RadSplitContainer>
+                  
+
+
+
+                    <!--<telerik:RadSplitContainer  InitialPosition="DockedBottom" >
+                <telerik:RadPaneGroup>
+                    <telerik:RadPane Header="لیست نقش ها"  CanFloat="False"  CanUserClose="False" >
+                        -->
+                    <!--<MySecurityUI:frmUserList x:Name="ucUserList" />-->
+                    <!--
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+                <telerik:RadPaneGroup>
+                    <telerik:RadPane Header="لیست نقش ها"  CanFloat="False"  CanUserClose="False" >
+                        <telerik:RadGridView></telerik:RadGridView>
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>-->
+
+
+
+
+                </telerik:RadDocking>
+            </TabItem>
+            <TabItem  Header="اختصاصی نقش به کاربر">
+                <telerik:RadDocking HasDocumentHost="False"  Background="#FFCFE2F7">
+                  
+                        <telerik:RadSplitContainer Orientation="Horizontal"  Background="#FFF9D3D3">
+                            <telerik:RadPaneGroup>
+                                <telerik:RadPane CanFloat="False" CanUserPin="False"  CanUserClose="False" Header="لیست کاربران">
+                                    <MySecurityUI:frmUserList UserSelected="ucUserList_UserSelected" x:Name="ucUserList" />
+                                </telerik:RadPane>
+                            </telerik:RadPaneGroup>
+                            <telerik:RadPaneGroup >
+                                <telerik:RadPane CanFloat="False"  CanUserPin="False"  CanUserClose="False" Header=">>>لیست نقشهای کاربر منتخب">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Button Width="70" Margin="4" HorizontalAlignment="Right" x:Name="btnAddRoleToUser" Click="btnAddRoleToUser_Click" Content="افزودن نقش به کاربر"></Button>
+                                        <telerik:RadGridView Grid.Row="1" ShowGroupPanel="False" x:Name="dtgRolesByUser"></telerik:RadGridView>
+                                    </Grid>
+                                </telerik:RadPane>
+                            </telerik:RadPaneGroup>
+
+
+                            <!--<telerik:RadPaneGroup>
+                        <telerik:RadPane CanFloat="False" CanUserPin="False"  CanUserClose="False" Header="لیست کاربران">
+                            <MySecurityUI:frmUserList x:Name="ucUserList" />
+                        </telerik:RadPane>
+                    </telerik:RadPaneGroup>
+                    <telerik:RadPaneGroup >
+                        <telerik:RadPane CanFloat="False"  CanUserPin="False"  CanUserClose="False" Header=">>>لیست نقشهای کاربر منتخب">
+                            <telerik:RadGridView></telerik:RadGridView>
+                        </telerik:RadPane>
+                    </telerik:RadPaneGroup>-->
+                        </telerik:RadSplitContainer>
+                    
+                </telerik:RadDocking>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</UserControl>

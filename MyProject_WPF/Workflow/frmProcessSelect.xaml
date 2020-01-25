@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="MyProject_WPF.frmProcessSelect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyProject_WPF"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        mc:Ignorable="d"
+         d:DesignHeight="600"  d:DesignWidth="600">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <telerik:RadGridView Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" x:Name="dtgList" >
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="نام" DataMemberBinding="{Binding Name}" />
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" >
+            <Button x:Name="btnSelect" Width="90" Content="انتخاب" Click="btnSelect_Click"></Button>
+            <Button x:Name="btnRetuen" Width="90"  Content="بازگشت" Click="btnRetuen_Click"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2AD586DD-C9BE-42D3-8EF7-E9657F992503}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProxyLibrary</RootNamespace>
+    <AssemblyName>ProxyLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BasicUISettings\PackageAreaUISetting.cs" />
+    <Compile Include="Login\Class1.cs" />
+    <Compile Include="Log\Log.cs" />
+    <Compile Include="MyDataObject.cs" />
+    <Compile Include="ModelEntities\TempClass.cs" />
+    <Compile Include="Package\DP_DatabaseRequest.cs" />
+    <Compile Include="Package\DP_EntitySearch.cs" />
+    <Compile Include="Report\RR_ReportSourceRequest.cs" />
+    <Compile Include="Report\RR_ReportSourceResult.cs" />
+    <Compile Include="Report\RR_ReportResult.cs" />
+    <Compile Include="Report\RR_ReportRequest.cs" />
+    <Compile Include="Package\DP_NavigationTreeRequest.cs" />
+    <Compile Include="Package\DP_NavigationItemRequest.cs" />
+    <Compile Include="Package\DP_EntityRequest.cs" />
+    <Compile Include="Package\DP_EntityResult.cs" />
+    <Compile Include="Package\DP_NavigatoinTreeResult.cs" />
+    <Compile Include="Package\Arg_PackageRequest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\LetterResult.cs" />
+    <Compile Include="Request\ArchiveResult.cs" />
+    <Compile Include="Request\ChildRelationshipInfo.cs" />
+    <Compile Include="Request\DP_DataView.cs" />
+    <Compile Include="Request\DP_DataRepository.cs" />
+    <Compile Include="Request\DR_EditRequest.cs" />
+    <Compile Include="BaseRequest.cs" />
+    <Compile Include="Request\DR_Requester.cs" />
+    <Compile Include="Request\DR_RequestExecutionTime.cs" />
+    <Compile Include="Request\DR_ResultEdit.cs" />
+    <Compile Include="BaseResult.cs" />
+    <Compile Include="Request\DR_ResultSearchView.cs" />
+    <Compile Include="Request\DR_SearchViewRequest.cs" />
+    <Compile Include="Request\Enum_DR_ExecutionTime.cs" />
+    <Compile Include="Request\Enum_DR_RequesterType.cs" />
+    <Compile Include="Request\Enum_DR_RequestType.cs" />
+    <Compile Include="Request\Enum_DR_ResultType.cs" />
+    <Compile Include="Request\IAG_RequestManager.cs" />
+    <Compile Include="Security\TempClass.cs" />
+    <Compile Include="Task\InternalTaskResult.cs" />
+    <Compile Include="Task\IRequestProcessor.cs" />
+    <Compile Include="UISetting\DataMode.cs" />
+    <Compile Include="UISetting\DirectionMode.cs" />
+    <Compile Include="UISetting\IntracionMode.cs" />
+    <Compile Include="UI\TempClass.cs" />
+    <Compile Include="Workflow\TempClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Definition\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

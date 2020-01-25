@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C85C5486-CA1A-4963-8594-C85E441CEBC2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyModelManager</RootNamespace>
+    <AssemblyName>MyModelManager</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\MyProject\bin\Debug\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\Componenets\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\Componenets\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Biz\BizBackendActionActivity.cs" />
+    <Compile Include="Biz\BizArchive.cs" />
+    <Compile Include="Biz\BizArcRelationship.cs" />
+    <Compile Include="Biz\BizColumnValueRange.cs" />
+    <Compile Include="Biz\BizEntityDirectReport.cs" />
+    <Compile Include="Biz\BizDataMenuSetting.cs" />
+    <Compile Include="Biz\BizEntityGridViewReport.cs" />
+    <Compile Include="Biz\BizEntityGirdView.cs" />
+    <Compile Include="Biz\BizEntityDataViewReport.cs" />
+    <Compile Include="Biz\BizSearchRepository.cs" />
+    <Compile Include="Biz\BizEntitySearchableReport.cs" />
+    <Compile Include="Biz\BizEntitySettings.cs" />
+    <Compile Include="Biz\BizSubSystem.cs" />
+    <Compile Include="Biz\BizDataLink.cs" />
+    <Compile Include="Biz\BizEntityDataView.cs" />
+    <Compile Include="Biz\BizEntityCrosstabReport.cs" />
+    <Compile Include="Biz\BizEntityCommand.cs" />
+    <Compile Include="Biz\BizEntityChartReport.cs" />
+    <Compile Include="Biz\BizEntityExternalReport.cs" />
+    <Compile Include="Biz\BizEntitySearch.cs" />
+    <Compile Include="Biz\BizEntityReport.cs" />
+    <Compile Include="Biz\BizEntityListView.cs" />
+    <Compile Include="Biz\BizEntityListReport.cs" />
+    <Compile Include="Biz\BizLetterTemplate.cs" />
+    <Compile Include="Biz\BizRelationshipFilter.cs" />
+    <Compile Include="Biz\BizEntityRelationshipTail.cs" />
+    <Compile Include="Biz\BizColumn.cs" />
+    <Compile Include="Biz\BizUIActionActivity.cs" />
+    <Compile Include="Biz\BizISARelationship.cs" />
+    <Compile Include="Biz\BizEntityUIComposition.cs" />
+    <Compile Include="Biz\BizRelationship.cs" />
+    <Compile Include="Biz\BizDatabase.cs" />
+    <Compile Include="Biz\BizNavigationTree.cs" />
+    <Compile Include="Biz\BizFormula.cs" />
+    <Compile Include="Biz\BizTable.cs" />
+    <Compile Include="Biz\BizTableDrivedEntity.cs" />
+    <Compile Include="Biz\BizUnionRelationship.cs" />
+    <Compile Include="Biz\BizDatabaseFunction.cs" />
+    <Compile Include="Biz\BizEntityState.cs" />
+    <Compile Include="Biz\BizCodeFunction.cs" />
+    <Compile Include="Biz\BizEntityValidation.cs" />
+    <Compile Include="Biz\BizView.cs" />
+    <Compile Include="Biz\BizUniqueConstraints.cs" />
+    <Compile Include="Biz\Security\BizOrganization.cs" />
+    <Compile Include="Biz\Security\BizOrganizationType.cs" />
+    <Compile Include="Biz\Security\BizPermission.cs" />
+    <Compile Include="Biz\Security\BizRole.cs" />
+    <Compile Include="Biz\Security\BizRoleSecurity.cs" />
+    <Compile Include="Biz\Security\BizRoleType.cs" />
+    <Compile Include="Biz\Security\BizSecurityObjects.cs" />
+    <Compile Include="Biz\Security\BizSecuritySubject.cs" />
+    <Compile Include="Biz\Security\BizUser.cs" />
+    <Compile Include="Biz\Security\SecurityHelper.cs" />
+    <Compile Include="Biz\Workflow\BizAction.cs" />
+    <Compile Include="Biz\Workflow\BizActivity.cs" />
+    <Compile Include="Biz\Workflow\BizEntityGroup.cs" />
+    <Compile Include="Biz\Workflow\BizProcess.cs" />
+    <Compile Include="Biz\Workflow\BizState.cs" />
+    <Compile Include="Biz\Workflow\BizTarget.cs" />
+    <Compile Include="Biz\Workflow\BizTransition.cs" />
+    <Compile Include="ModelDataHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ConnectoinHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{c01f0a21-457a-4dfc-a623-0ed6cc00ad86}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyCacheManager\MyCacheManager.csproj">
+      <Project>{d1c98a55-d403-45bb-b06f-63482de541f3}</Project>
+      <Name>MyCacheManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyConnectionManager\MyConnectionManager.csproj">
+      <Project>{BD833980-A9AD-4889-A9B0-23A0EFCFEA80}</Project>
+      <Name>MyConnectionManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyGeneralLibrary\MyGeneralLibrary.csproj">
+      <Project>{6f52d329-3bdd-4a8a-bb6e-5fe5a118e3be}</Project>
+      <Name>MyGeneralLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyRuleEngine\MyRuleEngine.csproj">
+      <Project>{0bbd2ee2-18e4-4135-a87d-f800dddde099}</Project>
+      <Name>MyRuleEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MySecurity\MySecurity.csproj">
+      <Project>{878D3665-BE5E-401F-A859-C81D3406E5C7}</Project>
+      <Name>MySecurity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProxyLibrary\ProxyLibrary.csproj">
+      <Project>{2ad586dd-c9be-42d3-8ef7-e9657f992503}</Project>
+      <Name>ProxyLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

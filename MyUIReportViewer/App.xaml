@@ -1,0 +1,20 @@
+﻿<Application
+  x:Class="MyUIReportViewer.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:MyUIReportViewer"
+  StartupUri="MainWindow.xaml">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary
+          Source="Themes/Material/System.Windows.xaml" />
+        <ResourceDictionary
+          Source="Themes/Material/Telerik.Windows.Controls.xaml" />
+        <ResourceDictionary
+          Source="Themes/Material/Telerik.Windows.Controls.Input.xaml" />
+        <ResourceDictionary
+          Source="Themes/Material/Telerik.Windows.Controls.Navigation.xaml" />
+        <ResourceDictionary
+          Source="Themes/Material/Telerik.ReportViewer.Wpf.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

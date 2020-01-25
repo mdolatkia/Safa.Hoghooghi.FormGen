@@ -1,0 +1,771 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FE03E933-B20F-4560-ACA1-A38DE76FF8EE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyUIGenerator</RootNamespace>
+    <AssemblyName>MyUIGenerator</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\Componenets\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telerik.Reporting.OpenXmlRendering.2.7.2, Version=12.1.18.620, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" />
+    <Reference Include="Telerik.ReportViewer.Wpf.Themes, Version=12.1.18.620, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Diagrams.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams.Extensions, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Diagrams.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Docking, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ImageEditor, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.ImageEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Input.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Navigation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RibbonView, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.RibbonView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Diagrams.Core, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Diagrams.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Telerik.Reporting, Version=12.1.18.620, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>C:\Program Files (x86)\Progress\Telerik Reporting R2 2018\bin\Telerik.Reporting.dll</HintPath>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Services.HttpClient, Version=12.1.18.620, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>C:\Program Files (x86)\Progress\Telerik Reporting R2 2018\bin\Telerik.Reporting.Services.HttpClient.dll</HintPath>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="Telerik.Reporting.XpsRendering, Version=12.1.18.620, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>C:\Program Files (x86)\Progress\Telerik Reporting R2 2018\bin\Telerik.Reporting.XpsRendering.dll</HintPath>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+    <Reference Include="Telerik.ReportViewer.Wpf, Version=12.1.18.620, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>C:\Program Files (x86)\Progress\Telerik Reporting R2 2018\bin\Telerik.ReportViewer.Wpf.dll</HintPath>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="frmTest.xaml.cs">
+      <DependentUpon>frmTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manager\ContextMenuManager.cs" />
+    <Compile Include="Manager\DialogWindow.cs" />
+    <Compile Include="Manager\PromptDialogManager.cs" />
+    <Compile Include="ReportViewerWindow1.xaml.cs">
+      <DependentUpon>ReportViewerWindow1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ReportViewerWindow2.xaml.cs">
+      <DependentUpon>ReportViewerWindow2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolsMenu.cs" />
+    <Compile Include="UC_Prompt.xaml.cs">
+      <DependentUpon>UC_Prompt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Message.xaml.cs">
+      <DependentUpon>UC_Message.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC_InfoDetails.xaml.cs">
+      <DependentUpon>UC_InfoDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIControlHelper\CommandHelper.cs" />
+    <Compile Include="UIControlHelper\ControlManager\BaseControlManager.cs" />
+    <Compile Include="UIControlHelper\ControlManager\RelationshipControlManagerForOneDataForm.cs" />
+    <Compile Include="UIControlHelper\ControlManager\RelationshipControlManagerForMultipleDataForm.cs" />
+    <Compile Include="UIControlHelper\ControlManager\ContainerManager.cs" />
+    <Compile Include="UIControlHelper\ControlManager\SimpleControlManagerForOneDataForm.cs" />
+    <Compile Include="UIControlHelper\ControlManager\SimpleControlManagerForMultipleDataForm.cs" />
+    <Compile Include="UIControlHelper\Controls\BaseControlHelper.cs" />
+    <Compile Include="UIControlHelper\MenuHelper.cs" />
+    <Compile Include="UIControlHelper\Temp.cs" />
+    <Compile Include="UI\Archive\frmAddArchiveItems.xaml.cs">
+      <DependentUpon>frmAddArchiveItems.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Archive\frmArchive.xaml.cs">
+      <DependentUpon>frmArchive.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.xaml.cs">
+      <DependentUpon>frmMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Login\frmLogin.xaml.cs">
+      <DependentUpon>frmLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Manager\UIManager.cs" />
+    <Compile Include="Manager\WorkflowUIManager.cs" />
+    <Compile Include="Security\frmSecuritySetting.xaml.cs">
+      <DependentUpon>frmSecuritySetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIControlHelper\Controls\CheckBoxHelper.cs" />
+    <Compile Include="UIControlHelper\View_MultipleDataContainer.cs" />
+    <Compile Include="UIControlHelper\View_GridContainer.cs" />
+    <Compile Include="UIControlHelper\View_Container.cs" />
+    <Compile Include="UIControlHelper\GridHelper.cs" />
+    <Compile Include="UIControlHelper\DataGridViewColumn.cs" />
+    <Compile Include="UIControlHelper\TabHelper.cs" />
+    <Compile Include="UIControlHelper\Controls\NumericTextBoxHelper.cs" />
+    <Compile Include="UIControlHelper\Controls\DatePickerHelper.cs" />
+    <Compile Include="UIControlHelper\Controls\KeyValueControlHelper.cs" />
+    <Compile Include="UIHelper.cs" />
+    <Compile Include="UIControlHelper\ControlHelper.cs" />
+    <Compile Include="UIControlHelper\DataGridHelper.cs" />
+    <Compile Include="UIControlHelper\DataGridTextColumn.cs" />
+    <Compile Include="UIControlHelper\ControlManager\LabelControlManager.cs" />
+    <Compile Include="UIControlHelper\Controls\TextBoxHelper.cs" />
+    <Compile Include="UI\Archive\frmMultipleArchiveItemsInfo.xaml.cs">
+      <DependentUpon>frmMultipleArchiveItemsInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Archive\frmArchiveItemInfo.xaml.cs">
+      <DependentUpon>frmArchiveItemInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Archive\frmArchiveTagFilter.xaml.cs">
+      <DependentUpon>frmArchiveTagFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Archive\frmViewImage.xaml.cs">
+      <DependentUpon>frmViewImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Archive\UC_ArchiveItem.xaml.cs">
+      <DependentUpon>UC_ArchiveItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Archive\UC_ArchiveFolder.xaml.cs">
+      <DependentUpon>UC_ArchiveFolder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Archive\UC_ViewFilePanel.xaml.cs">
+      <DependentUpon>UC_ViewFilePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DataLink\frmDataLink.xaml.cs">
+      <DependentUpon>frmDataLink.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DataTree\frmDataTree.xaml.cs">
+      <DependentUpon>frmDataTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DataView\frmDataViewContainer.xaml.cs">
+      <DependentUpon>frmDataViewContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DataView\frmDataView.xaml.cs">
+      <DependentUpon>frmDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DataView\UC_DataViewItem.xaml.cs">
+      <DependentUpon>UC_DataViewItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\EntitySelector\frmEntitySelector.xaml.cs">
+      <DependentUpon>frmEntitySelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Formula\UC_FormulaDataTree.xaml.cs">
+      <DependentUpon>UC_FormulaDataTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Formula\UC_FormulaCalculationArea.xaml.cs">
+      <DependentUpon>UC_FormulaCalculationArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\GeneralEntitySearch\frmEntitySelector.xaml.cs">
+      <DependentUpon>frmGeneralEntitySearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DataView\frmGridView.xaml.cs">
+      <DependentUpon>frmGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Letter\frmLettersList.xaml.cs">
+      <DependentUpon>frmLettersList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Letter\frmLetter.xaml.cs">
+      <DependentUpon>frmLetter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Log\UC_ArchiveLogDetails.xaml.cs">
+      <DependentUpon>UC_ArchiveLogDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Log\UC_EditLogDetails.xaml.cs">
+      <DependentUpon>UC_EditLogDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Log\UC_LogReport.xaml.cs">
+      <DependentUpon>UC_LogReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Report\frmReportList.xaml.cs">
+      <DependentUpon>frmReportList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Report\frmExternalReportViewer.xaml.cs">
+      <DependentUpon>frmExternalReportViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Report\frmReportViewer.xaml.cs">
+      <DependentUpon>frmReportViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Report\UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\frmReportViewer1.xaml.cs">
+      <DependentUpon>frmReportViewer1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_DataUpdateTree.xaml.cs">
+      <DependentUpon>UC_DataUpdateTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_DeleteInquiry.xaml.cs">
+      <DependentUpon>UC_DeleteInquiry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_EditEntityAreaMultiple.xaml.cs">
+      <DependentUpon>UC_EditEntityAreaMultiple.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_EditEntityArea.xaml.cs">
+      <DependentUpon>UC_EditEntityArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_SearchEntityArea.xaml.cs">
+      <DependentUpon>UC_SearchEntityArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_SearchViewEntityArea.xaml.cs">
+      <DependentUpon>UC_SearchViewEntityArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_AdvancedSearchEntityArea.xaml.cs">
+      <DependentUpon>UC_AdvancedSearchEntityArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_TemporaryDataSearchLink.xaml.cs">
+      <DependentUpon>UC_TemporaryDataSearchLink.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_EditEntityAreaInfo.xaml.cs">
+      <DependentUpon>UC_EditEntityAreaInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_UpdateConfirm.xaml.cs">
+      <DependentUpon>UC_UpdateConfirm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_ViewEntityArea.xaml.cs">
+      <DependentUpon>UC_ViewEntityArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\View\UC_SimpleSearchEntityArea.xaml.cs">
+      <DependentUpon>UC_SimpleSearchEntityArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\CustomConnector.cs" />
+    <Compile Include="UI\Workflow\CustomConnectorContent.xaml.cs">
+      <DependentUpon>CustomConnectorContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\frmDiagramStateInfo.xaml.cs">
+      <DependentUpon>frmDiagramStateInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\frmRequestFile.xaml.cs">
+      <DependentUpon>frmRequestFile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\frmRequestDiagram.xaml.cs">
+      <DependentUpon>frmRequestDiagram.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\frmWorkflowReport.xaml.cs">
+      <DependentUpon>frmWorkflowReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\frmRequestNote.xaml.cs">
+      <DependentUpon>frmRequestNote.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\frmRequestAction.xaml.cs">
+      <DependentUpon>frmRequestAction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\UC_WorkflowTransitionTargetSelection.xaml.cs">
+      <DependentUpon>UC_WorkflowTransitionTargetSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\frmWorkflowRequestCreation.xaml.cs">
+      <DependentUpon>frmWorkflowRequestCreation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\PercentageConverter.cs" />
+    <Compile Include="UI\Workflow\StateShape1.xaml.cs">
+      <DependentUpon>StateShape1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Workflow\UC_Cartable.xaml.cs">
+      <DependentUpon>UC_Cartable.xaml</DependentUpon>
+    </Compile>
+    <Page Include="frmTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReportViewerWindow1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ReportViewerWindow2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC_Prompt.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC_Message.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC_InfoDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Archive\frmAddArchiveItems.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Archive\frmArchive.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frmMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Login\frmLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Security\frmSecuritySetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Material\System.Windows.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Material\Telerik.ReportViewer.Wpf.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Material\Telerik.Windows.Controls.Input.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Material\Telerik.Windows.Controls.Navigation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Material\Telerik.Windows.Controls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Archive\frmMultipleArchiveItemsInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Archive\frmArchiveItemInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Archive\frmArchiveTagFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Archive\frmViewImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Archive\UC_ArchiveItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Archive\UC_ArchiveFolder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Archive\UC_ViewFilePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\DataLink\frmDataLink.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DataTree\frmDataTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\DataView\frmDataViewContainer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DataView\frmDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\DataView\UC_DataViewItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\EntitySelector\frmEntitySelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Formula\UC_FormulaDataTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Formula\UC_FormulaCalculationArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\GeneralEntitySearch\frmGeneralEntitySearch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\DataView\frmGridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Letter\frmLettersList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Letter\frmLetter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Log\UC_ArchiveLogDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Log\UC_EditLogDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Log\UC_LogReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Report\frmReportList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Report\frmExternalReportViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Report\frmReportViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Report\UserControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\View\frmReportViewer1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\View\UC_DataUpdateTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\View\UC_DeleteInquiry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\View\UC_EditEntityAreaMultiple.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\View\UC_EditEntityArea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\View\UC_SearchEntityArea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\View\UC_SearchViewEntityArea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\View\UC_AdvancedSearchEntityArea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\View\UC_TemporaryDataSearchLink.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\View\UC_EditEntityAreaInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\View\UC_UpdateConfirm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\View\UC_ViewEntityArea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\View\UC_SimpleSearchEntityArea.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Workflow\CustomConnectorContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Workflow\frmDiagramStateInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Workflow\frmRequestFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Workflow\frmRequestDiagram.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Workflow\frmWorkflowReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Workflow\frmRequestNote.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Workflow\frmRequestAction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Workflow\UC_WorkflowTransitionTargetSelection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Workflow\frmWorkflowRequestCreation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Workflow\StateShape1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Workflow\UC_Cartable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyCommonWPFControls\MyCommonWPFControls.csproj">
+      <Project>{df529814-4102-4145-9345-b405ed79138a}</Project>
+      <Name>MyCommonWPFControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyReportManager\MyReportManager.csproj">
+      <Project>{A1FD0583-17CC-4C81-90CD-047EB8950511}</Project>
+      <Name>MyReportManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyReportRestServices\MyReportRestServices.csproj">
+      <Project>{6B751E3F-9199-41BB-B997-9170DEC243E8}</Project>
+      <Name>MyReportRestServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyUILibraryInterfaces\MyUILibraryInterfaces.csproj">
+      <Project>{5c85873c-c376-4899-8806-fe8544419b18}</Project>
+      <Name>MyUILibraryInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyUILibrary\MyUILibrary.csproj">
+      <Project>{3175eafa-138c-4b2b-8ea6-4c09d8c0fa81}</Project>
+      <Name>MyUILibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProxyLibrary\ProxyLibrary.csproj">
+      <Project>{2ad586dd-c9be-42d3-8ef7-e9657f992503}</Project>
+      <Name>ProxyLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\refresh.png" />
+    <Resource Include="Images\insert.png" />
+    <Content Include="Images\add.png" />
+    <Resource Include="Images\msword.png" />
+    <Resource Include="Images\pdf.png" />
+    <Resource Include="Images\file.png" />
+    <Resource Include="Images\document.png" />
+    <Resource Include="Images\archive.png" />
+    <Resource Include="Images\archiveFolder1.png" />
+    <Resource Include="Images\archiveFolder.png" />
+    <Resource Include="Images\color_picker.png" />
+    <Resource Include="Images\document_background.png" />
+    <Resource Include="Images\grid.png" />
+    <Resource Include="Images\jpg.png" />
+    <Resource Include="Images\printer.png" />
+    <Resource Include="Images\zoom_extend.png" />
+    <Resource Include="Images\user.png" />
+    <Resource Include="Images\arrowdown.png" />
+    <Resource Include="Images\arrowup.png" />
+    <Resource Include="Images\report.png" />
+    <Resource Include="Images\command.png" />
+    <Resource Include="Images\createworkflow.png" />
+    <Resource Include="Images\security.png" />
+    <Resource Include="Images\form.png" />
+    <Resource Include="Images\folder.png" />
+    <Resource Include="Images\database.png" />
+    <Resource Include="Images\Royalflushxx-Systematrix-Program.ico" />
+    <Resource Include="Images\Info.png" />
+    <Resource Include="Images\Remove.png" />
+    <Resource Include="Images\clear.png" />
+    <Resource Include="Images\Save.png" />
+    <Resource Include="Images\close.png" />
+    <Resource Include="Images\confirm.png" />
+    <Resource Include="Images\EditForm.png" />
+    <Resource Include="Images\Search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Controls\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

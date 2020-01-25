@@ -1,0 +1,102 @@
+﻿<UserControl    x:Class="MyUIGenerator.View.frmRequestDiagram"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:primitives="clr-namespace:Telerik.Windows.Controls.Diagrams.Primitives;assembly=Telerik.Windows.Controls.Diagrams"
+        xmlns:toolbox="clr-namespace:MyUIGenerator.View"
+         mc:Ignorable="d"
+       d:DesignHeight="400"  d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <toolbox:PercentageConverter x:Key="PercentConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <telerik:RadRibbonView   Background="White" ContentHeight="100" x:Name="Ribbon" TitleBarVisibility="Collapsed"
+				BackstageClippingElement="{Binding ElementName=LayoutRoot}"  ApplicationButtonVisibility="Collapsed"  MinimizeButtonVisibility="Visible"
+				QuickAccessToolBarPosition="NotHosted" telerik:KeyTipService.IsKeyTipsEnabled="True">
+                <telerik:RadRibbonView.Items>
+                    <telerik:RadRibbonTab Header="خانه">
+                        <telerik:RadRibbonGroup   Header="استخراج">
+                            <telerik:RadRibbonButton Command="telerik:DiagramCommands.Export" CommandParameter="Png"
+							CommandTarget="{Binding ElementName=diagram}"
+                            LargeImage="../../Images/jpg.png"
+							 Size="Large"
+							telerik:KeyTipService.AccessText="Ex" Text="ذخبره تصویر" />
+                            <telerik:RadRibbonButton Command="telerik:DiagramExtensionCommands.Print"
+                            LargeImage="../../Images/printer.png"
+							CommandTarget="{Binding ElementName=diagram}" telerik:KeyTipService.AccessText="Pr"
+							 Size="Large" Text="چاپ دیاگرام" />
+                        </telerik:RadRibbonGroup>
+                        <telerik:RadRibbonGroup  Header="صفحه" telerik:ScreenTip.Title="Page">
+                            <telerik:RadRibbonDropDownButton x:Name="BackgroundColorButton"
+                             LargeImage="../../Images/document_background.png"
+							 Padding="5,0" Size="Large"
+							Text="رنگ زمینه" >
+
+                            </telerik:RadRibbonDropDownButton>
+                        </telerik:RadRibbonGroup>
+                        <telerik:RadRibbonGroup  Header="جدول" telerik:ScreenTip.Title="Grid">
+                            <telerik:RadRibbonToggleButton x:Name="ShowGridToggle"
+                            LargeImage="../../Images/grid.png"     
+							Command="telerik:DiagramCommands.SwitchGridVisibility"
+							CommandTarget="{Binding ElementName=diagram}" IsChecked="True"
+							 Size="Large"
+							 Text="نمایش جدول" />
+                            <telerik:RadRibbonDropDownButton x:Name="GridColorButton"
+							 Size="Large" Text="رنگ جدول"
+                                                  LargeImage="../../Images/color_picker.png"    >
+
+                            </telerik:RadRibbonDropDownButton>
+                        </telerik:RadRibbonGroup>
+                        <telerik:RadRibbonGroup   Header="بزرگنمایی" telerik:ScreenTip.Title="Zoom">
+                            <Grid HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height=".5*" />
+                                    <RowDefinition Height=".5*" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="بزرگنمایی" />
+                                    <telerik:RadNumericUpDown x:Name="ZoomSpinner" HorizontalAlignment="Left"
+									VerticalAlignment="Center" IsEditable="false" Maximum="500" Minimum="10"
+									NumberDecimalDigits="0" ValueChanged="ZoomSpinner_OnValueChanged"
+									Value="{Binding Zoom, Mode=TwoWay, Converter={StaticResource PercentConverter}, ElementName=diagram}" />
+                                </StackPanel>
+                                <telerik:RadRibbonButton x:Name="FitToWindowButton" Grid.Row="1" Margin="0,5,0,0"
+								Command="telerik:DiagramCommands.AutoFit" CommandTarget="{Binding ElementName=diagram}"
+								LargeImage="../../Images/zoom_extend.png"  Text="به اندازه صفحه" />
+                            </Grid>
+                        </telerik:RadRibbonGroup>
+                    </telerik:RadRibbonTab>
+                </telerik:RadRibbonView.Items>
+            </telerik:RadRibbonView>
+
+            <Grid Grid.Row="1" Background="White"  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <!--<telerik:RadDiagramToolbox x:Name="toolBox" Grid.Column="1" Margin="5 0 0 0"  Title="Gallery"  IsOpen="False"/>-->
+                <telerik:RadDiagram FlowDirection="LeftToRight" x:Name="diagram"
+								BorderThickness="1"
+                                />
+            </Grid>
+
+        </Grid>
+        <StackPanel HorizontalAlignment="Right" Grid.Row="3" Orientation="Horizontal" >
+            <Button Content="بازگشت" x:Name="btnExit" Click="btnExit_Click" Width="100"></Button>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,40 @@
+﻿<Window x:Class="MyProject_WPF.frmRoleGroup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        mc:Ignorable="d"
+        Title="frmEntityOrganizationSecurity" Height="350" Width="400" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid  Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{DynamicResource TextBlockStyle}" VerticalAlignment="Top"   Text="نام"></TextBlock>
+            <TextBox x:Name="txtName" Grid.Column="1" Width="200"></TextBox>
+            <TextBlock Style="{DynamicResource TextBlockStyle}" VerticalAlignment="Top" Grid.Row="1"  Text="نقش ها"></TextBlock>
+            <telerik:RadGridView x:Name="dtgRoles" Height="240" Width="230" Grid.Row="1" Grid.Column="1">
+                <telerik:RadGridView.Columns>
+                    <telerik:GridViewComboBoxColumn Header="نقش" DataMemberBinding="{Binding ID}" />
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="ثبت" x:Name="btnSave" Click="btnSave_Click"></Button>
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="بازگشت" x:Name="btnReturn" Click="btnReturn_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

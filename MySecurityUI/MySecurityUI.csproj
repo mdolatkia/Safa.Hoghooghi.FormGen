@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AACD890F-8E7B-4906-B04D-F7D022011B1D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MySecurityUI</RootNamespace>
+    <AssemblyName>MySecurityUI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MySecurity\bin\Debug\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\MySecurity\bin\Debug\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls, Version=2017.3.1018.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2017.3.1018.45\Telerik.Windows.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Docking, Version=2017.3.1018.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2017.3.1018.45\Telerik.Windows.Controls.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView, Version=2017.3.1018.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2017.3.1018.45\Telerik.Windows.Controls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2017.3.1018.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2017.3.1018.45\Telerik.Windows.Controls.Input.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation, Version=2017.3.1018.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2017.3.1018.45\Telerik.Windows.Controls.Navigation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data, Version=2017.3.1018.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2017.3.1018.45\Telerik.Windows.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="frmEntityOrganizationRoleSecurity.xaml.cs">
+      <DependentUpon>frmEntityOrganizationRoleSecurity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmEntityOrganizationSecurityDirect.xaml.cs">
+      <DependentUpon>frmEntityOrganizationSecurityDirect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmEntityOrganizationSecurityIndirect.xaml.cs">
+      <DependentUpon>frmEntityOrganizationSecurityIndirect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmEntityRoleSecurityDirect.xaml.cs">
+      <DependentUpon>frmEntityRoleSecurityDirect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmEntityRoleSecurityDirectSelect.xaml.cs">
+      <DependentUpon>frmEntityRoleSecurityDirectSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmEntityRoleSecurityIndirect.xaml.cs">
+      <DependentUpon>frmEntityRoleSecurityIndirect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmConditionalPermission.xaml.cs">
+      <DependentUpon>frmConditionalPermission.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmPermission.xaml.cs">
+      <DependentUpon>frmPermission.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmSecurityObjectTree.xaml.cs">
+      <DependentUpon>frmSecurityObjectTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmOrganizations.xaml.cs">
+      <DependentUpon>frmOrganizations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmOrganizationEdit.xaml.cs">
+      <DependentUpon>frmOrganizationEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmOrganizationList.xaml.cs">
+      <DependentUpon>frmOrganizationList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmOrganizationUser.xaml.cs">
+      <DependentUpon>frmOrganizationUser.xaml</DependentUpon>
+    </Compile>
+    <Page Include="frmEntityOrganizationRoleSecurity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frmEntityOrganizationSecurityDirect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmEntityOrganizationSecurityIndirect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmEntityRoleSecurityDirect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmEntityRoleSecurityDirectSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmEntityRoleSecurityIndirect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmConditionalPermission.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmPermission.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmOrganizationEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmRoleEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmSecurityObjectTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmOrganizations.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmOrganizationList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmOrganizationUser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmRoleGroup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmConditionalPermissionList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmRoleOrRoleGroupList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmRoleSecurity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmRoleList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmUserSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frmRoles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="frmRoleEdit.xaml.cs">
+      <DependentUpon>frmRoleEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmRoleGroup.xaml.cs">
+      <DependentUpon>frmRoleGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmConditionalPermissionList.xaml.cs">
+      <DependentUpon>frmConditionalPermissionList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmRoleOrRoleGroupList.xaml.cs">
+      <DependentUpon>frmRoleOrRoleGroupList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmRoleSecurity.xaml.cs">
+      <DependentUpon>frmRoleSecurity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmRoleList.xaml.cs">
+      <DependentUpon>frmRoleList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmUserSelect.xaml.cs">
+      <DependentUpon>frmUserSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmRoles.xaml.cs">
+      <DependentUpon>frmRoles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmUsers.xaml.cs">
+      <DependentUpon>frmUsers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\form.png" />
+    <Resource Include="Images\folder.png" />
+    <Resource Include="Images\database.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyCommonWPFFroms\MyCommonWPFFroms.csproj">
+      <Project>{8738723B-B4EE-466E-933C-9D1D8DF1B275}</Project>
+      <Name>MyCommonWPFFroms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDatabaseToObject\MyDatabaseToObject.csproj">
+      <Project>{BB4870CD-5A28-474C-A513-491AF655988F}</Project>
+      <Name>MyDatabaseToObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyFormulaLibrary\MyFormulaFunctionStateFunctionLibrary.csproj">
+      <Project>{27638591-E3A9-4697-87C5-19C33E24A658}</Project>
+      <Name>MyFormulaFunctionStateFunctionLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyModelManager\MyModelManager.csproj">
+      <Project>{c85c5486-ca1a-4963-8594-c85e441cebc2}</Project>
+      <Name>MyModelManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MySecurity\MySecurity.csproj">
+      <Project>{878d3665-be5e-401f-a859-c81d3406e5c7}</Project>
+      <Name>MySecurity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProxyLibrary\ProxyLibrary.csproj">
+      <Project>{2ad586dd-c9be-42d3-8ef7-e9657f992503}</Project>
+      <Name>ProxyLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\role.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\organization.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\organization_user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\permission.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\command.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

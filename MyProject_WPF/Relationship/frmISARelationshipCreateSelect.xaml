@@ -1,0 +1,66 @@
+﻿<UserControl FlowDirection="RightToLeft" x:Class="MyProject_WPF.frmISARelationshipCreateSelect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             mc:Ignorable="d"  d:DesignHeight="600"  d:DesignWidth="600"
+          xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <telerik:RadGridView  x:Name="dtgList" >
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="شناسه" DataMemberBinding="{Binding ID}" />
+                <telerik:GridViewDataColumn Header="نام" DataMemberBinding="{Binding Name}" />
+                <telerik:GridViewDataColumn Header="IsTolatParticipation" DataMemberBinding="{Binding IsTolatParticipation}" />
+                <telerik:GridViewDataColumn Header="IsDisjoint" DataMemberBinding="{Binding IsDisjoint}" />
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <Grid x:Name="pnlEdit" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition ></RowDefinition>
+                <RowDefinition ></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock   Text="نام"></TextBlock>
+            <TextBox Grid.Column="1" x:Name="txtName"></TextBox>
+            <Grid Grid.Column="1" Grid.Row="1" Margin="5">
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="60"></RowDefinition>
+                    <RowDefinition Height="60"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition ></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel >
+                    <RadioButton Margin="4" x:Name="optIsGeneralization" Content="optIsGeneralization"></RadioButton>
+                    <RadioButton Margin="4" x:Name="optIsSpecialization" Content="optIsSpecialization"></RadioButton>
+                </StackPanel>
+                <StackPanel Grid.Column="1" >
+                    <RadioButton Margin="4" x:Name="optIsTolatParticipation" Content="optIsTolatParticipation"></RadioButton>
+                    <RadioButton Margin="4" x:Name="optIsPartialParticipation" Content="optIsPartialParticipation"></RadioButton>
+                </StackPanel>
+                <StackPanel  Grid.Column="1" Grid.Row="1">
+                    <RadioButton Margin="4" x:Name="optIsDisjoint" Content="optIsDisjoint"></RadioButton>
+                    <RadioButton Margin="4" x:Name="optIsOverlap" Content="optIsOverlap"></RadioButton>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button Margin="2" Width="110" Click="btnCreateMode_Click" Content="ایجاد رابطه ارث بری" x:Name="btnCreateMode"></Button>
+            <Button Margin="2" Width="110" Click="btnSave_Click" Content="ثبت" x:Name="btnSave"></Button>
+            <Button Margin="2" Width="110" Click="btnClose_Click" Content="بازگشت" x:Name="btnClose"></Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal">
+            <Button Margin="2" Click="btnChoose_Click" Width="110" Content="انتخاب" x:Name="btnChoose"></Button>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

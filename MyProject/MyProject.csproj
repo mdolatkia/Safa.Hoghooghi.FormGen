@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{555F97DE-8618-4666-B094-1B200AA16DB3}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyProject</RootNamespace>
+    <AssemblyName>MyProject</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Gakuseisean-Ivista-2-Misc-Database-3.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\DataAccess\bin\Debug\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\DataAccess\bin\Debug\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.WinControls, Version=2016.2.608.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
+    <Reference Include="Telerik.WinControls.GridView, Version=2016.2.608.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.UI, Version=2016.2.608.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
+    <Reference Include="TelerikCommon, Version=2016.2.608.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Biz\BizObject.cs" />
+    <Compile Include="ControlHelper.cs" />
+    <Compile Include="frmChooseItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChooseItem.Designer.cs">
+      <DependentUpon>frmChooseItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCreateManyToManyRelationship.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCreateManyToManyRelationship.Designer.cs">
+      <DependentUpon>frmCreateManyToManyRelationship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditEntity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditEntity.Designer.cs">
+      <DependentUpon>frmEditEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmArcRelationships.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmArcRelationships.Designer.cs">
+      <DependentUpon>frmArcRelationships.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmColumnValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmColumnValue.Designer.cs">
+      <DependentUpon>frmColumnValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNavigationTree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNavigationTree.Designer.cs">
+      <DependentUpon>frmNavigationTree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmUnionRelationshipCreateSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUnionRelationshipCreateSelect.Designer.cs">
+      <DependentUpon>frmUnionRelationshipCreateSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmISARelationshipCreateSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmISARelationshipCreateSelect.Designer.cs">
+      <DependentUpon>frmISARelationshipCreateSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FromHelper.cs" />
+    <Compile Include="GeneralHelper.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLServerHelper.cs" />
+    <EmbeddedResource Include="frmChooseItem.resx">
+      <DependentUpon>frmChooseItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCreateManyToManyRelationship.resx">
+      <DependentUpon>frmCreateManyToManyRelationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditEntity.resx">
+      <DependentUpon>frmEditEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmArcRelationships.resx">
+      <DependentUpon>frmArcRelationships.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmColumnValue.resx">
+      <DependentUpon>frmColumnValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNavigationTree.resx">
+      <DependentUpon>frmNavigationTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUnionRelationshipCreateSelect.resx">
+      <DependentUpon>frmUnionRelationshipCreateSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmISARelationshipCreateSelect.resx">
+      <DependentUpon>frmISARelationshipCreateSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{c01f0a21-457a-4dfc-a623-0ed6cc00ad86}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDataManagerBusiness\MyDataEditManagerBusiness.csproj">
+      <Project>{015494b7-335c-4b3f-b896-278e4fe3b878}</Project>
+      <Name>MyDataManagerBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyRuleEngine\MyRuleEngine.csproj">
+      <Project>{0bbd2ee2-18e4-4135-a87d-f800dddde099}</Project>
+      <Name>MyRuleEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyRules\MyRules.csproj">
+      <Project>{1caad937-7b4f-475c-b489-db97c6f8aaf2}</Project>
+      <Name>MyRules</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Gakuseisean-Ivista-2-Misc-Database-3.ico" />
+    <Content Include="Resources\arrow-right.png" />
+    <None Include="Resources\Remove.png" />
+    <None Include="Resources\arrow-right1.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

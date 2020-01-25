@@ -1,0 +1,48 @@
+﻿<Window xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls"  x:Class="MyProject_WPF.frmFormulaParameter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         mc:Ignorable="d" d:DesignHeight="300"  d:DesignWidth="700"
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+
+
+    <Grid  Background="LightGray" FlowDirection="RightToLeft" >
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Text="نام"></TextBlock>
+            <TextBox  Grid.Column="1" x:Name="txtParameterName"></TextBox>
+            <TextBlock Grid.Column="2" Text="عنوان"></TextBlock>
+            <TextBox  Grid.Column="3" x:Name="txtParameterTitle"></TextBox>
+            <TextBlock  Grid.Row="1" Text="فرمول"></TextBlock>
+            <MyCommonWPFControls:MyStaticLookup x:Name="lokFormula" EditItemEnabled="True" EditItemClicked="lokFormula_EditItemClicked" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"/>
+            <!--<TextBox IsReadOnly="True"  Height="70"  Grid.Row="1" x:Name="txtParameterFormula"></TextBox>-->
+            <!--<TextBlock   Grid.Row="2" Text="پارامترها"></TextBlock>
+            <telerik:RadGridView  IsReadOnly="True" Grid.ColumnSpan="3" x:Name="dtgParameters" Height="400" Grid.Column="1" Grid.Row="2"></telerik:RadGridView>-->
+
+
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="ثبت و انتخاب" x:Name="btnSaveParameter" Click="btnSaveParameter_Click"></Button>
+            <Button x:Name="btnSearch" Margin="2" Width="110"   Content="جستجو" Click="btnSearch_Click"></Button>
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="جدید" x:Name="btnNewParameter" Click="btnNewParameter_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

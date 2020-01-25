@@ -1,0 +1,1281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MyIdeaDataDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ArchiveItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="512" Nullable="false" />
+          <Property Name="FileRepositoryID" Type="int" Nullable="false" />
+          <Property Name="FileType" Type="smallint" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="ThumbnailFileRepositoryID" Type="int" />
+          <Property Name="MainType" Type="smallint" Nullable="false" />
+          <Property Name="FileSize" Type="bigint" />
+          <Property Name="MyDataItemID" Type="int" Nullable="false" />
+          <Property Name="FolderID" Type="int" />
+        </EntityType>
+        <EntityType Name="ArchiveItem_Tag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TagID" Type="int" Nullable="false" />
+          <Property Name="ArchiveItemID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DataLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MyDataItemID" Type="int" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Time" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="MainType" Type="smallint" Nullable="false" />
+          <Property Name="MajorFunctionException" Type="bit" Nullable="false" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="LocationInfo" Type="varchar" MaxLength="1024" />
+          <Property Name="PackageGuid" Type="uniqueidentifier" />
+          <Property Name="MinorFunctionException" Type="bit" Nullable="false" />
+          <Property Name="MajorFunctionExceptionMessage" Type="varchar(max)" />
+          <Property Name="RelatedItemID" Type="int" />
+        </EntityType>
+        <EntityType Name="EditDataItemColumnDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataLogID" Type="int" Nullable="false" />
+          <Property Name="ColumnID" Type="int" Nullable="false" />
+          <Property Name="OldValue" Type="varchar(max)" />
+          <Property Name="NewValue" Type="varchar(max)" Nullable="false" />
+          <Property Name="Info" Type="varchar(max)" />
+          <Property Name="FormulaID" Type="int" />
+          <Property Name="FormulaException" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="EditDataItemExceptionLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="DataUpdateQuery" Type="varchar(max)" />
+          <Property Name="AfterSaveActionExceptionMessage" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="ExternalReportKeys">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequesterID" Type="int" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="ReportID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileRepository">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="varchar" MaxLength="512" Nullable="false" />
+          <Property Name="FileExtention" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Content" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="FormulaUsageParemeters">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormulaUsageID" Type="int" Nullable="false" />
+          <Property Name="ParameterName" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="ParameterValue" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="RelationshipKeyColumnTail" Type="varchar" MaxLength="1024" />
+          <Property Name="EditDataItemColumnDetailsID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Letter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileRepositoryID" Type="int" />
+          <Property Name="LetterTemplateID" Type="int" />
+          <Property Name="Title" Type="varchar" MaxLength="512" Nullable="false" />
+          <Property Name="Desc" Type="varchar(max)" />
+          <Property Name="IsGeneratedOrSelected" Type="bit" />
+          <Property Name="LetterTypeID" Type="int" Nullable="false" />
+          <Property Name="LetterDate" Type="datetime" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="RelatedLetterID" Type="int" />
+          <Property Name="FromExternalSource" Type="bit" Nullable="false" />
+          <Property Name="ExternalSourceKey" Type="varchar" MaxLength="512" />
+          <Property Name="MyDataItemID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="LetterNumber" Type="varchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="LetterItemLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="AfterUpdateException" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="MyDataItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TableDrivedEntityID" Type="int" Nullable="false" />
+          <Property Name="Info" Type="varchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="MyDataItemKeyColumns">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MyDataItemID" Type="int" Nullable="false" />
+          <Property Name="ColumnID" Type="int" Nullable="false" />
+          <Property Name="Value" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProcessID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="CurrentStateID" Type="int" Nullable="false" />
+          <Property Name="CreatorUserID" Type="int" Nullable="false" />
+          <Property Name="MyDataItemID" Type="int" />
+          <Property Name="LastRequestActionID" Type="int" />
+          <Property Name="CreatorOrganizationPostID" Type="int" />
+        </EntityType>
+        <EntityType Name="RequestAction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="PossibleTransitionActionID" Type="int" Nullable="false" />
+          <Property Name="PossibleTransitionID" Type="int" Nullable="false" />
+          <Property Name="PossibleActionID" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsCompleted" Type="bit" Nullable="false" />
+          <Property Name="TargetOrganizationPostID" Type="int" Nullable="false" />
+          <Property Name="TargetReason" Type="varchar" MaxLength="512" />
+          <Property Name="DoerUserID" Type="int" />
+          <Property Name="DateTimeCreation" Type="datetime" Nullable="false" />
+          <Property Name="DateTimeCompleted" Type="datetime" />
+          <Property Name="CausingRequestActionID" Type="int" />
+          <Property Name="LedToState" Type="int" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="StateID" Type="int" />
+        </EntityType>
+        <EntityType Name="RequestNote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="NoteTitle" Type="varchar" MaxLength="512" Nullable="false" />
+          <Property Name="Note" Type="varchar(max)" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_ArchiveItem_FileRepository">
+          <End Role="FileRepository" Type="Self.FileRepository" Multiplicity="0..1" />
+          <End Role="ArchiveItem" Type="Self.ArchiveItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileRepository">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArchiveItem">
+              <PropertyRef Name="ThumbnailFileRepositoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArchiveItem_MyDataItem">
+          <End Role="MyDataItem" Type="Self.MyDataItem" Multiplicity="1" />
+          <End Role="ArchiveItem" Type="Self.ArchiveItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyDataItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArchiveItem">
+              <PropertyRef Name="MyDataItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FormulaUsageParemeters_EditDataItemColumnDetails">
+          <End Role="EditDataItemColumnDetails" Type="Self.EditDataItemColumnDetails" Multiplicity="1" />
+          <End Role="FormulaUsageParemeters" Type="Self.FormulaUsageParemeters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EditDataItemColumnDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FormulaUsageParemeters">
+              <PropertyRef Name="EditDataItemColumnDetailsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letter_MyDataItem">
+          <End Role="MyDataItem" Type="Self.MyDataItem" Multiplicity="1" />
+          <End Role="Letter" Type="Self.Letter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyDataItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Letter">
+              <PropertyRef Name="MyDataItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LetterItemLog_DataLog">
+          <End Role="DataLog" Type="Self.DataLog" Multiplicity="1" />
+          <End Role="LetterItemLog" Type="Self.LetterItemLog" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DataLog">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LetterItemLog">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyDataItemKeyColumns_MyDataItem">
+          <End Role="MyDataItem" Type="Self.MyDataItem" Multiplicity="1" />
+          <End Role="MyDataItemKeyColumns" Type="Self.MyDataItemKeyColumns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyDataItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MyDataItemKeyColumns">
+              <PropertyRef Name="MyDataItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_MyDataItem">
+          <End Role="MyDataItem" Type="Self.MyDataItem" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyDataItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="MyDataItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_RequestAction">
+          <End Role="RequestAction" Type="Self.RequestAction" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestAction">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="LastRequestActionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestAction_RequestAction">
+          <End Role="RequestAction" Type="Self.RequestAction" Multiplicity="0..1" />
+          <End Role="RequestAction1" Type="Self.RequestAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestAction">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RequestAction1">
+              <PropertyRef Name="CausingRequestActionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKArchiveIte666249">
+          <End Role="ArchiveItem" Type="Self.ArchiveItem" Multiplicity="1" />
+          <End Role="ArchiveItem_Tag" Type="Self.ArchiveItem_Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArchiveItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArchiveItem_Tag">
+              <PropertyRef Name="ArchiveItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKArchiveIte863727">
+          <End Role="FileRepository" Type="Self.FileRepository" Multiplicity="1" />
+          <End Role="ArchiveItem" Type="Self.ArchiveItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileRepository">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArchiveItem">
+              <PropertyRef Name="FileRepositoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKDataLog416637">
+          <End Role="MyDataItem" Type="Self.MyDataItem" Multiplicity="0..1" />
+          <End Role="DataLog" Type="Self.DataLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyDataItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DataLog">
+              <PropertyRef Name="MyDataItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKEditDataIt390409">
+          <End Role="DataLog" Type="Self.DataLog" Multiplicity="1" />
+          <End Role="EditDataItemExceptionLog" Type="Self.EditDataItemExceptionLog" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DataLog">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EditDataItemExceptionLog">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKEditDataIt932260">
+          <End Role="DataLog" Type="Self.DataLog" Multiplicity="1" />
+          <End Role="EditDataItemColumnDetails" Type="Self.EditDataItemColumnDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataLog">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EditDataItemColumnDetails">
+              <PropertyRef Name="DataLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLetter277743">
+          <End Role="Letter" Type="Self.Letter" Multiplicity="0..1" />
+          <End Role="Letter1" Type="Self.Letter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Letter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Letter1">
+              <PropertyRef Name="RelatedLetterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLetter499527">
+          <End Role="FileRepository" Type="Self.FileRepository" Multiplicity="0..1" />
+          <End Role="Letter" Type="Self.Letter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileRepository">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Letter">
+              <PropertyRef Name="FileRepositoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKRequestAct246747">
+          <End Role="Request" Type="Self.Request" Multiplicity="1" />
+          <End Role="RequestAction" Type="Self.RequestAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RequestAction">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKRequestNot907940">
+          <End Role="Request" Type="Self.Request" Multiplicity="1" />
+          <End Role="RequestNote" Type="Self.RequestNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RequestNote">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyIdeaDataDBModelStoreContainer">
+          <EntitySet Name="ArchiveItem" EntityType="Self.ArchiveItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArchiveItem_Tag" EntityType="Self.ArchiveItem_Tag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DataLog" EntityType="Self.DataLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EditDataItemColumnDetails" EntityType="Self.EditDataItemColumnDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EditDataItemExceptionLog" EntityType="Self.EditDataItemExceptionLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExternalReportKeys" EntityType="Self.ExternalReportKeys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileRepository" EntityType="Self.FileRepository" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormulaUsageParemeters" EntityType="Self.FormulaUsageParemeters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Letter" EntityType="Self.Letter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LetterItemLog" EntityType="Self.LetterItemLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MyDataItem" EntityType="Self.MyDataItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MyDataItemKeyColumns" EntityType="Self.MyDataItemKeyColumns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestAction" EntityType="Self.RequestAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestNote" EntityType="Self.RequestNote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ArchiveItem_FileRepository" Association="Self.FK_ArchiveItem_FileRepository">
+            <End Role="FileRepository" EntitySet="FileRepository" />
+            <End Role="ArchiveItem" EntitySet="ArchiveItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArchiveItem_MyDataItem" Association="Self.FK_ArchiveItem_MyDataItem">
+            <End Role="MyDataItem" EntitySet="MyDataItem" />
+            <End Role="ArchiveItem" EntitySet="ArchiveItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FormulaUsageParemeters_EditDataItemColumnDetails" Association="Self.FK_FormulaUsageParemeters_EditDataItemColumnDetails">
+            <End Role="EditDataItemColumnDetails" EntitySet="EditDataItemColumnDetails" />
+            <End Role="FormulaUsageParemeters" EntitySet="FormulaUsageParemeters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Letter_MyDataItem" Association="Self.FK_Letter_MyDataItem">
+            <End Role="MyDataItem" EntitySet="MyDataItem" />
+            <End Role="Letter" EntitySet="Letter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LetterItemLog_DataLog" Association="Self.FK_LetterItemLog_DataLog">
+            <End Role="DataLog" EntitySet="DataLog" />
+            <End Role="LetterItemLog" EntitySet="LetterItemLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyDataItemKeyColumns_MyDataItem" Association="Self.FK_MyDataItemKeyColumns_MyDataItem">
+            <End Role="MyDataItem" EntitySet="MyDataItem" />
+            <End Role="MyDataItemKeyColumns" EntitySet="MyDataItemKeyColumns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_MyDataItem" Association="Self.FK_Request_MyDataItem">
+            <End Role="MyDataItem" EntitySet="MyDataItem" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_RequestAction" Association="Self.FK_Request_RequestAction">
+            <End Role="RequestAction" EntitySet="RequestAction" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestAction_RequestAction" Association="Self.FK_RequestAction_RequestAction">
+            <End Role="RequestAction" EntitySet="RequestAction" />
+            <End Role="RequestAction1" EntitySet="RequestAction" />
+          </AssociationSet>
+          <AssociationSet Name="FKArchiveIte666249" Association="Self.FKArchiveIte666249">
+            <End Role="ArchiveItem" EntitySet="ArchiveItem" />
+            <End Role="ArchiveItem_Tag" EntitySet="ArchiveItem_Tag" />
+          </AssociationSet>
+          <AssociationSet Name="FKArchiveIte863727" Association="Self.FKArchiveIte863727">
+            <End Role="FileRepository" EntitySet="FileRepository" />
+            <End Role="ArchiveItem" EntitySet="ArchiveItem" />
+          </AssociationSet>
+          <AssociationSet Name="FKDataLog416637" Association="Self.FKDataLog416637">
+            <End Role="MyDataItem" EntitySet="MyDataItem" />
+            <End Role="DataLog" EntitySet="DataLog" />
+          </AssociationSet>
+          <AssociationSet Name="FKEditDataIt390409" Association="Self.FKEditDataIt390409">
+            <End Role="DataLog" EntitySet="DataLog" />
+            <End Role="EditDataItemExceptionLog" EntitySet="EditDataItemExceptionLog" />
+          </AssociationSet>
+          <AssociationSet Name="FKEditDataIt932260" Association="Self.FKEditDataIt932260">
+            <End Role="DataLog" EntitySet="DataLog" />
+            <End Role="EditDataItemColumnDetails" EntitySet="EditDataItemColumnDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FKLetter277743" Association="Self.FKLetter277743">
+            <End Role="Letter" EntitySet="Letter" />
+            <End Role="Letter1" EntitySet="Letter" />
+          </AssociationSet>
+          <AssociationSet Name="FKLetter499527" Association="Self.FKLetter499527">
+            <End Role="FileRepository" EntitySet="FileRepository" />
+            <End Role="Letter" EntitySet="Letter" />
+          </AssociationSet>
+          <AssociationSet Name="FKRequestAct246747" Association="Self.FKRequestAct246747">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="RequestAction" EntitySet="RequestAction" />
+          </AssociationSet>
+          <AssociationSet Name="FKRequestNot907940" Association="Self.FKRequestNot907940">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="RequestNote" EntitySet="RequestNote" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyIdeaDataDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MyIdeaDataDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ArchiveItem" EntityType="MyIdeaDataDBModel.ArchiveItem" />
+          <EntitySet Name="ArchiveItem_Tag" EntityType="MyIdeaDataDBModel.ArchiveItem_Tag" />
+          <EntitySet Name="DataLog" EntityType="MyIdeaDataDBModel.DataLog" />
+          <EntitySet Name="EditDataItemColumnDetails" EntityType="MyIdeaDataDBModel.EditDataItemColumnDetails" />
+          <EntitySet Name="EditDataItemExceptionLog" EntityType="MyIdeaDataDBModel.EditDataItemExceptionLog" />
+          <EntitySet Name="ExternalReportKeys" EntityType="MyIdeaDataDBModel.ExternalReportKeys" />
+          <EntitySet Name="FileRepository" EntityType="MyIdeaDataDBModel.FileRepository" />
+          <EntitySet Name="FormulaUsageParemeters" EntityType="MyIdeaDataDBModel.FormulaUsageParemeters" />
+          <EntitySet Name="Letter" EntityType="MyIdeaDataDBModel.Letter" />
+          <EntitySet Name="LetterItemLog" EntityType="MyIdeaDataDBModel.LetterItemLog" />
+          <EntitySet Name="MyDataItem" EntityType="MyIdeaDataDBModel.MyDataItem" />
+          <EntitySet Name="MyDataItemKeyColumns" EntityType="MyIdeaDataDBModel.MyDataItemKeyColumns" />
+          <EntitySet Name="Request" EntityType="MyIdeaDataDBModel.Request" />
+          <EntitySet Name="RequestAction" EntityType="MyIdeaDataDBModel.RequestAction" />
+          <EntitySet Name="RequestNote" EntityType="MyIdeaDataDBModel.RequestNote" />
+          <EntitySet Name="sysdiagrams" EntityType="MyIdeaDataDBModel.sysdiagrams" />
+          <AssociationSet Name="FK_ArchiveItem_FileRepository" Association="MyIdeaDataDBModel.FK_ArchiveItem_FileRepository">
+            <End Role="FileRepository" EntitySet="FileRepository" />
+            <End Role="ArchiveItem" EntitySet="ArchiveItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArchiveItem_MyDataItem" Association="MyIdeaDataDBModel.FK_ArchiveItem_MyDataItem">
+            <End Role="MyDataItem" EntitySet="MyDataItem" />
+            <End Role="ArchiveItem" EntitySet="ArchiveItem" />
+          </AssociationSet>
+          <AssociationSet Name="FKArchiveIte666249" Association="MyIdeaDataDBModel.FKArchiveIte666249">
+            <End Role="ArchiveItem" EntitySet="ArchiveItem" />
+            <End Role="ArchiveItem_Tag" EntitySet="ArchiveItem_Tag" />
+          </AssociationSet>
+          <AssociationSet Name="FKArchiveIte863727" Association="MyIdeaDataDBModel.FKArchiveIte863727">
+            <End Role="FileRepository" EntitySet="FileRepository" />
+            <End Role="ArchiveItem" EntitySet="ArchiveItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LetterItemLog_DataLog" Association="MyIdeaDataDBModel.FK_LetterItemLog_DataLog">
+            <End Role="DataLog" EntitySet="DataLog" />
+            <End Role="LetterItemLog" EntitySet="LetterItemLog" />
+          </AssociationSet>
+          <AssociationSet Name="FKDataLog416637" Association="MyIdeaDataDBModel.FKDataLog416637">
+            <End Role="MyDataItem" EntitySet="MyDataItem" />
+            <End Role="DataLog" EntitySet="DataLog" />
+          </AssociationSet>
+          <AssociationSet Name="FKEditDataIt390409" Association="MyIdeaDataDBModel.FKEditDataIt390409">
+            <End Role="DataLog" EntitySet="DataLog" />
+            <End Role="EditDataItemExceptionLog" EntitySet="EditDataItemExceptionLog" />
+          </AssociationSet>
+          <AssociationSet Name="FKEditDataIt932260" Association="MyIdeaDataDBModel.FKEditDataIt932260">
+            <End Role="DataLog" EntitySet="DataLog" />
+            <End Role="EditDataItemColumnDetails" EntitySet="EditDataItemColumnDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FormulaUsageParemeters_EditDataItemColumnDetails" Association="MyIdeaDataDBModel.FK_FormulaUsageParemeters_EditDataItemColumnDetails">
+            <End Role="EditDataItemColumnDetails" EntitySet="EditDataItemColumnDetails" />
+            <End Role="FormulaUsageParemeters" EntitySet="FormulaUsageParemeters" />
+          </AssociationSet>
+          <AssociationSet Name="FKLetter499527" Association="MyIdeaDataDBModel.FKLetter499527">
+            <End Role="FileRepository" EntitySet="FileRepository" />
+            <End Role="Letter" EntitySet="Letter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Letter_MyDataItem" Association="MyIdeaDataDBModel.FK_Letter_MyDataItem">
+            <End Role="MyDataItem" EntitySet="MyDataItem" />
+            <End Role="Letter" EntitySet="Letter" />
+          </AssociationSet>
+          <AssociationSet Name="FKLetter277743" Association="MyIdeaDataDBModel.FKLetter277743">
+            <End Role="Letter" EntitySet="Letter" />
+            <End Role="Letter1" EntitySet="Letter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyDataItemKeyColumns_MyDataItem" Association="MyIdeaDataDBModel.FK_MyDataItemKeyColumns_MyDataItem">
+            <End Role="MyDataItem" EntitySet="MyDataItem" />
+            <End Role="MyDataItemKeyColumns" EntitySet="MyDataItemKeyColumns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_MyDataItem" Association="MyIdeaDataDBModel.FK_Request_MyDataItem">
+            <End Role="MyDataItem" EntitySet="MyDataItem" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_RequestAction" Association="MyIdeaDataDBModel.FK_Request_RequestAction">
+            <End Role="RequestAction" EntitySet="RequestAction" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FKRequestAct246747" Association="MyIdeaDataDBModel.FKRequestAct246747">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="RequestAction" EntitySet="RequestAction" />
+          </AssociationSet>
+          <AssociationSet Name="FKRequestNot907940" Association="MyIdeaDataDBModel.FKRequestNot907940">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="RequestNote" EntitySet="RequestNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestAction_RequestAction" Association="MyIdeaDataDBModel.FK_RequestAction_RequestAction">
+            <End Role="RequestAction" EntitySet="RequestAction" />
+            <End Role="RequestAction1" EntitySet="RequestAction" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ArchiveItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="FileRepositoryID" Type="Int32" Nullable="false" />
+          <Property Name="FileType" Type="Int16" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ThumbnailFileRepositoryID" Type="Int32" />
+          <Property Name="MainType" Type="Int16" Nullable="false" />
+          <Property Name="FileSize" Type="Int64" />
+          <Property Name="MyDataItemID" Type="Int32" Nullable="false" />
+          <Property Name="FolderID" Type="Int32" />
+          <NavigationProperty Name="FileRepository" Relationship="MyIdeaDataDBModel.FK_ArchiveItem_FileRepository" FromRole="ArchiveItem" ToRole="FileRepository" />
+          <NavigationProperty Name="MyDataItem" Relationship="MyIdeaDataDBModel.FK_ArchiveItem_MyDataItem" FromRole="ArchiveItem" ToRole="MyDataItem" />
+          <NavigationProperty Name="ArchiveItem_Tag" Relationship="MyIdeaDataDBModel.FKArchiveIte666249" FromRole="ArchiveItem" ToRole="ArchiveItem_Tag" />
+          <NavigationProperty Name="FileRepository1" Relationship="MyIdeaDataDBModel.FKArchiveIte863727" FromRole="ArchiveItem" ToRole="FileRepository" />
+        </EntityType>
+        <EntityType Name="ArchiveItem_Tag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagID" Type="Int32" Nullable="false" />
+          <Property Name="ArchiveItemID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ArchiveItem" Relationship="MyIdeaDataDBModel.FKArchiveIte666249" FromRole="ArchiveItem_Tag" ToRole="ArchiveItem" />
+        </EntityType>
+        <EntityType Name="DataLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MyDataItemID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Time" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="MainType" Type="Int16" Nullable="false" />
+          <Property Name="MajorFunctionException" Type="Boolean" Nullable="false" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="LocationInfo" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="PackageGuid" Type="Guid" />
+          <Property Name="MinorFunctionException" Type="Boolean" Nullable="false" />
+          <Property Name="MajorFunctionExceptionMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RelatedItemID" Type="Int32" />
+          <NavigationProperty Name="LetterItemLog" Relationship="MyIdeaDataDBModel.FK_LetterItemLog_DataLog" FromRole="DataLog" ToRole="LetterItemLog" />
+          <NavigationProperty Name="MyDataItem" Relationship="MyIdeaDataDBModel.FKDataLog416637" FromRole="DataLog" ToRole="MyDataItem" />
+          <NavigationProperty Name="EditDataItemExceptionLog" Relationship="MyIdeaDataDBModel.FKEditDataIt390409" FromRole="DataLog" ToRole="EditDataItemExceptionLog" />
+          <NavigationProperty Name="EditDataItemColumnDetails" Relationship="MyIdeaDataDBModel.FKEditDataIt932260" FromRole="DataLog" ToRole="EditDataItemColumnDetails" />
+        </EntityType>
+        <EntityType Name="EditDataItemColumnDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataLogID" Type="Int32" Nullable="false" />
+          <Property Name="ColumnID" Type="Int32" Nullable="false" />
+          <Property Name="OldValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NewValue" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FormulaID" Type="Int32" />
+          <Property Name="FormulaException" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DataLog" Relationship="MyIdeaDataDBModel.FKEditDataIt932260" FromRole="EditDataItemColumnDetails" ToRole="DataLog" />
+          <NavigationProperty Name="FormulaUsageParemeters" Relationship="MyIdeaDataDBModel.FK_FormulaUsageParemeters_EditDataItemColumnDetails" FromRole="EditDataItemColumnDetails" ToRole="FormulaUsageParemeters" />
+        </EntityType>
+        <EntityType Name="EditDataItemExceptionLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="DataUpdateQuery" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AfterSaveActionExceptionMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DataLog" Relationship="MyIdeaDataDBModel.FKEditDataIt390409" FromRole="EditDataItemExceptionLog" ToRole="DataLog" />
+        </EntityType>
+        <EntityType Name="ExternalReportKeys">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequesterID" Type="Int32" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ReportID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileRepository">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="FileExtention" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="ArchiveItem" Relationship="MyIdeaDataDBModel.FK_ArchiveItem_FileRepository" FromRole="FileRepository" ToRole="ArchiveItem" />
+          <NavigationProperty Name="ArchiveItem1" Relationship="MyIdeaDataDBModel.FKArchiveIte863727" FromRole="FileRepository" ToRole="ArchiveItem" />
+          <NavigationProperty Name="Letter" Relationship="MyIdeaDataDBModel.FKLetter499527" FromRole="FileRepository" ToRole="Letter" />
+        </EntityType>
+        <EntityType Name="FormulaUsageParemeters">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormulaUsageID" Type="Int32" Nullable="false" />
+          <Property Name="ParameterName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="ParameterValue" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="RelationshipKeyColumnTail" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="EditDataItemColumnDetailsID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EditDataItemColumnDetails" Relationship="MyIdeaDataDBModel.FK_FormulaUsageParemeters_EditDataItemColumnDetails" FromRole="FormulaUsageParemeters" ToRole="EditDataItemColumnDetails" />
+        </EntityType>
+        <EntityType Name="Letter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileRepositoryID" Type="Int32" />
+          <Property Name="LetterTemplateID" Type="Int32" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsGeneratedOrSelected" Type="Boolean" />
+          <Property Name="LetterTypeID" Type="Int32" Nullable="false" />
+          <Property Name="LetterDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RelatedLetterID" Type="Int32" />
+          <Property Name="FromExternalSource" Type="Boolean" Nullable="false" />
+          <Property Name="ExternalSourceKey" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="MyDataItemID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="LetterNumber" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FileRepository" Relationship="MyIdeaDataDBModel.FKLetter499527" FromRole="Letter" ToRole="FileRepository" />
+          <NavigationProperty Name="MyDataItem" Relationship="MyIdeaDataDBModel.FK_Letter_MyDataItem" FromRole="Letter" ToRole="MyDataItem" />
+          <NavigationProperty Name="Letter1" Relationship="MyIdeaDataDBModel.FKLetter277743" FromRole="Letter" ToRole="Letter1" />
+          <NavigationProperty Name="Letter2" Relationship="MyIdeaDataDBModel.FKLetter277743" FromRole="Letter1" ToRole="Letter" />
+        </EntityType>
+        <EntityType Name="LetterItemLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="AfterUpdateException" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DataLog" Relationship="MyIdeaDataDBModel.FK_LetterItemLog_DataLog" FromRole="LetterItemLog" ToRole="DataLog" />
+        </EntityType>
+        <EntityType Name="MyDataItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TableDrivedEntityID" Type="Int32" Nullable="false" />
+          <Property Name="Info" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ArchiveItem" Relationship="MyIdeaDataDBModel.FK_ArchiveItem_MyDataItem" FromRole="MyDataItem" ToRole="ArchiveItem" />
+          <NavigationProperty Name="DataLog" Relationship="MyIdeaDataDBModel.FKDataLog416637" FromRole="MyDataItem" ToRole="DataLog" />
+          <NavigationProperty Name="Letter" Relationship="MyIdeaDataDBModel.FK_Letter_MyDataItem" FromRole="MyDataItem" ToRole="Letter" />
+          <NavigationProperty Name="MyDataItemKeyColumns" Relationship="MyIdeaDataDBModel.FK_MyDataItemKeyColumns_MyDataItem" FromRole="MyDataItem" ToRole="MyDataItemKeyColumns" />
+          <NavigationProperty Name="Request" Relationship="MyIdeaDataDBModel.FK_Request_MyDataItem" FromRole="MyDataItem" ToRole="Request" />
+        </EntityType>
+        <EntityType Name="MyDataItemKeyColumns">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MyDataItemID" Type="Int32" Nullable="false" />
+          <Property Name="ColumnID" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MyDataItem" Relationship="MyIdeaDataDBModel.FK_MyDataItemKeyColumns_MyDataItem" FromRole="MyDataItemKeyColumns" ToRole="MyDataItem" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProcessID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CurrentStateID" Type="Int32" Nullable="false" />
+          <Property Name="CreatorUserID" Type="Int32" Nullable="false" />
+          <Property Name="MyDataItemID" Type="Int32" />
+          <Property Name="LastRequestActionID" Type="Int32" />
+          <Property Name="CreatorOrganizationPostID" Type="Int32" />
+          <NavigationProperty Name="MyDataItem" Relationship="MyIdeaDataDBModel.FK_Request_MyDataItem" FromRole="Request" ToRole="MyDataItem" />
+          <NavigationProperty Name="RequestAction" Relationship="MyIdeaDataDBModel.FK_Request_RequestAction" FromRole="Request" ToRole="RequestAction" />
+          <NavigationProperty Name="RequestAction1" Relationship="MyIdeaDataDBModel.FKRequestAct246747" FromRole="Request" ToRole="RequestAction" />
+          <NavigationProperty Name="RequestNote" Relationship="MyIdeaDataDBModel.FKRequestNot907940" FromRole="Request" ToRole="RequestNote" />
+        </EntityType>
+        <EntityType Name="RequestAction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestID" Type="Int32" Nullable="false" />
+          <Property Name="PossibleTransitionActionID" Type="Int32" Nullable="false" />
+          <Property Name="PossibleTransitionID" Type="Int32" Nullable="false" />
+          <Property Name="PossibleActionID" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsCompleted" Type="Boolean" Nullable="false" />
+          <Property Name="TargetOrganizationPostID" Type="Int32" Nullable="false" />
+          <Property Name="TargetReason" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="DoerUserID" Type="Int32" />
+          <Property Name="DateTimeCreation" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateTimeCompleted" Type="DateTime" Precision="3" />
+          <Property Name="CausingRequestActionID" Type="Int32" />
+          <Property Name="LedToState" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="StateID" Type="Int32" />
+          <NavigationProperty Name="Request" Relationship="MyIdeaDataDBModel.FK_Request_RequestAction" FromRole="RequestAction" ToRole="Request" />
+          <NavigationProperty Name="Request1" Relationship="MyIdeaDataDBModel.FKRequestAct246747" FromRole="RequestAction" ToRole="Request" />
+          <NavigationProperty Name="RequestAction1" Relationship="MyIdeaDataDBModel.FK_RequestAction_RequestAction" FromRole="RequestAction" ToRole="RequestAction1" />
+          <NavigationProperty Name="RequestAction2" Relationship="MyIdeaDataDBModel.FK_RequestAction_RequestAction" FromRole="RequestAction1" ToRole="RequestAction" />
+        </EntityType>
+        <EntityType Name="RequestNote">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="NoteTitle" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Request" Relationship="MyIdeaDataDBModel.FKRequestNot907940" FromRole="RequestNote" ToRole="Request" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_ArchiveItem_FileRepository">
+          <End Type="MyIdeaDataDBModel.FileRepository" Role="FileRepository" Multiplicity="0..1" />
+          <End Type="MyIdeaDataDBModel.ArchiveItem" Role="ArchiveItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileRepository">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArchiveItem">
+              <PropertyRef Name="ThumbnailFileRepositoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArchiveItem_MyDataItem">
+          <End Type="MyIdeaDataDBModel.MyDataItem" Role="MyDataItem" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.ArchiveItem" Role="ArchiveItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyDataItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArchiveItem">
+              <PropertyRef Name="MyDataItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKArchiveIte666249">
+          <End Type="MyIdeaDataDBModel.ArchiveItem" Role="ArchiveItem" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.ArchiveItem_Tag" Role="ArchiveItem_Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArchiveItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArchiveItem_Tag">
+              <PropertyRef Name="ArchiveItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKArchiveIte863727">
+          <End Type="MyIdeaDataDBModel.FileRepository" Role="FileRepository" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.ArchiveItem" Role="ArchiveItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileRepository">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArchiveItem">
+              <PropertyRef Name="FileRepositoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LetterItemLog_DataLog">
+          <End Type="MyIdeaDataDBModel.DataLog" Role="DataLog" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.LetterItemLog" Role="LetterItemLog" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DataLog">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LetterItemLog">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKDataLog416637">
+          <End Type="MyIdeaDataDBModel.MyDataItem" Role="MyDataItem" Multiplicity="0..1" />
+          <End Type="MyIdeaDataDBModel.DataLog" Role="DataLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyDataItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DataLog">
+              <PropertyRef Name="MyDataItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKEditDataIt390409">
+          <End Type="MyIdeaDataDBModel.DataLog" Role="DataLog" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.EditDataItemExceptionLog" Role="EditDataItemExceptionLog" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DataLog">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EditDataItemExceptionLog">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKEditDataIt932260">
+          <End Type="MyIdeaDataDBModel.DataLog" Role="DataLog" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.EditDataItemColumnDetails" Role="EditDataItemColumnDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataLog">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EditDataItemColumnDetails">
+              <PropertyRef Name="DataLogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FormulaUsageParemeters_EditDataItemColumnDetails">
+          <End Type="MyIdeaDataDBModel.EditDataItemColumnDetails" Role="EditDataItemColumnDetails" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.FormulaUsageParemeters" Role="FormulaUsageParemeters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EditDataItemColumnDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FormulaUsageParemeters">
+              <PropertyRef Name="EditDataItemColumnDetailsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLetter499527">
+          <End Type="MyIdeaDataDBModel.FileRepository" Role="FileRepository" Multiplicity="0..1" />
+          <End Type="MyIdeaDataDBModel.Letter" Role="Letter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileRepository">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Letter">
+              <PropertyRef Name="FileRepositoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Letter_MyDataItem">
+          <End Type="MyIdeaDataDBModel.MyDataItem" Role="MyDataItem" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.Letter" Role="Letter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyDataItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Letter">
+              <PropertyRef Name="MyDataItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLetter277743">
+          <End Type="MyIdeaDataDBModel.Letter" Role="Letter" Multiplicity="0..1" />
+          <End Type="MyIdeaDataDBModel.Letter" Role="Letter1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Letter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Letter1">
+              <PropertyRef Name="RelatedLetterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyDataItemKeyColumns_MyDataItem">
+          <End Type="MyIdeaDataDBModel.MyDataItem" Role="MyDataItem" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.MyDataItemKeyColumns" Role="MyDataItemKeyColumns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyDataItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MyDataItemKeyColumns">
+              <PropertyRef Name="MyDataItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_MyDataItem">
+          <End Type="MyIdeaDataDBModel.MyDataItem" Role="MyDataItem" Multiplicity="0..1" />
+          <End Type="MyIdeaDataDBModel.Request" Role="Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MyDataItem">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="MyDataItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_RequestAction">
+          <End Type="MyIdeaDataDBModel.RequestAction" Role="RequestAction" Multiplicity="0..1" />
+          <End Type="MyIdeaDataDBModel.Request" Role="Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestAction">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="LastRequestActionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKRequestAct246747">
+          <End Type="MyIdeaDataDBModel.Request" Role="Request" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.RequestAction" Role="RequestAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RequestAction">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKRequestNot907940">
+          <End Type="MyIdeaDataDBModel.Request" Role="Request" Multiplicity="1" />
+          <End Type="MyIdeaDataDBModel.RequestNote" Role="RequestNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RequestNote">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestAction_RequestAction">
+          <End Type="MyIdeaDataDBModel.RequestAction" Role="RequestAction" Multiplicity="0..1" />
+          <End Type="MyIdeaDataDBModel.RequestAction" Role="RequestAction1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestAction">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RequestAction1">
+              <PropertyRef Name="CausingRequestActionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyIdeaDataDBModelStoreContainer" CdmEntityContainer="MyIdeaDataDBEntities">
+          <EntitySetMapping Name="ArchiveItem">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.ArchiveItem">
+              <MappingFragment StoreEntitySet="ArchiveItem">
+                <ScalarProperty Name="FolderID" ColumnName="FolderID" />
+                <ScalarProperty Name="MyDataItemID" ColumnName="MyDataItemID" />
+                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+                <ScalarProperty Name="MainType" ColumnName="MainType" />
+                <ScalarProperty Name="ThumbnailFileRepositoryID" ColumnName="ThumbnailFileRepositoryID" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="FileRepositoryID" ColumnName="FileRepositoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArchiveItem_Tag">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.ArchiveItem_Tag">
+              <MappingFragment StoreEntitySet="ArchiveItem_Tag">
+                <ScalarProperty Name="ArchiveItemID" ColumnName="ArchiveItemID" />
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataLog">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.DataLog">
+              <MappingFragment StoreEntitySet="DataLog">
+                <ScalarProperty Name="RelatedItemID" ColumnName="RelatedItemID" />
+                <ScalarProperty Name="MajorFunctionExceptionMessage" ColumnName="MajorFunctionExceptionMessage" />
+                <ScalarProperty Name="MinorFunctionException" ColumnName="MinorFunctionException" />
+                <ScalarProperty Name="PackageGuid" ColumnName="PackageGuid" />
+                <ScalarProperty Name="LocationInfo" ColumnName="LocationInfo" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="MajorFunctionException" ColumnName="MajorFunctionException" />
+                <ScalarProperty Name="MainType" ColumnName="MainType" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="MyDataItemID" ColumnName="MyDataItemID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EditDataItemColumnDetails">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.EditDataItemColumnDetails">
+              <MappingFragment StoreEntitySet="EditDataItemColumnDetails">
+                <ScalarProperty Name="FormulaException" ColumnName="FormulaException" />
+                <ScalarProperty Name="FormulaID" ColumnName="FormulaID" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+                <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+                <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
+                <ScalarProperty Name="DataLogID" ColumnName="DataLogID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EditDataItemExceptionLog">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.EditDataItemExceptionLog">
+              <MappingFragment StoreEntitySet="EditDataItemExceptionLog">
+                <ScalarProperty Name="AfterSaveActionExceptionMessage" ColumnName="AfterSaveActionExceptionMessage" />
+                <ScalarProperty Name="DataUpdateQuery" ColumnName="DataUpdateQuery" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExternalReportKeys">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.ExternalReportKeys">
+              <MappingFragment StoreEntitySet="ExternalReportKeys">
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="RequesterID" ColumnName="RequesterID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileRepository">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.FileRepository">
+              <MappingFragment StoreEntitySet="FileRepository">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="FileExtention" ColumnName="FileExtention" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FormulaUsageParemeters">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.FormulaUsageParemeters">
+              <MappingFragment StoreEntitySet="FormulaUsageParemeters">
+                <ScalarProperty Name="EditDataItemColumnDetailsID" ColumnName="EditDataItemColumnDetailsID" />
+                <ScalarProperty Name="RelationshipKeyColumnTail" ColumnName="RelationshipKeyColumnTail" />
+                <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
+                <ScalarProperty Name="ParameterName" ColumnName="ParameterName" />
+                <ScalarProperty Name="FormulaUsageID" ColumnName="FormulaUsageID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Letter">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.Letter">
+              <MappingFragment StoreEntitySet="Letter">
+                <ScalarProperty Name="LetterNumber" ColumnName="LetterNumber" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="MyDataItemID" ColumnName="MyDataItemID" />
+                <ScalarProperty Name="ExternalSourceKey" ColumnName="ExternalSourceKey" />
+                <ScalarProperty Name="FromExternalSource" ColumnName="FromExternalSource" />
+                <ScalarProperty Name="RelatedLetterID" ColumnName="RelatedLetterID" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="LetterDate" ColumnName="LetterDate" />
+                <ScalarProperty Name="LetterTypeID" ColumnName="LetterTypeID" />
+                <ScalarProperty Name="IsGeneratedOrSelected" ColumnName="IsGeneratedOrSelected" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="LetterTemplateID" ColumnName="LetterTemplateID" />
+                <ScalarProperty Name="FileRepositoryID" ColumnName="FileRepositoryID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LetterItemLog">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.LetterItemLog">
+              <MappingFragment StoreEntitySet="LetterItemLog">
+                <ScalarProperty Name="AfterUpdateException" ColumnName="AfterUpdateException" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyDataItem">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.MyDataItem">
+              <MappingFragment StoreEntitySet="MyDataItem">
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="TableDrivedEntityID" ColumnName="TableDrivedEntityID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyDataItemKeyColumns">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.MyDataItemKeyColumns">
+              <MappingFragment StoreEntitySet="MyDataItemKeyColumns">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
+                <ScalarProperty Name="MyDataItemID" ColumnName="MyDataItemID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Request">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.Request">
+              <MappingFragment StoreEntitySet="Request">
+                <ScalarProperty Name="CreatorOrganizationPostID" ColumnName="CreatorOrganizationPostID" />
+                <ScalarProperty Name="LastRequestActionID" ColumnName="LastRequestActionID" />
+                <ScalarProperty Name="MyDataItemID" ColumnName="MyDataItemID" />
+                <ScalarProperty Name="CreatorUserID" ColumnName="CreatorUserID" />
+                <ScalarProperty Name="CurrentStateID" ColumnName="CurrentStateID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ProcessID" ColumnName="ProcessID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestAction">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.RequestAction">
+              <MappingFragment StoreEntitySet="RequestAction">
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LedToState" ColumnName="LedToState" />
+                <ScalarProperty Name="CausingRequestActionID" ColumnName="CausingRequestActionID" />
+                <ScalarProperty Name="DateTimeCompleted" ColumnName="DateTimeCompleted" />
+                <ScalarProperty Name="DateTimeCreation" ColumnName="DateTimeCreation" />
+                <ScalarProperty Name="DoerUserID" ColumnName="DoerUserID" />
+                <ScalarProperty Name="TargetReason" ColumnName="TargetReason" />
+                <ScalarProperty Name="TargetOrganizationPostID" ColumnName="TargetOrganizationPostID" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PossibleActionID" ColumnName="PossibleActionID" />
+                <ScalarProperty Name="PossibleTransitionID" ColumnName="PossibleTransitionID" />
+                <ScalarProperty Name="PossibleTransitionActionID" ColumnName="PossibleTransitionActionID" />
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestNote">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.RequestNote">
+              <MappingFragment StoreEntitySet="RequestNote">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="NoteTitle" ColumnName="NoteTitle" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MyIdeaDataDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

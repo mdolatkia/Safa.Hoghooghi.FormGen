@@ -1,0 +1,649 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C01F0A21-457A-4DFC-A623-0ED6CC00AD86}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataAccess</RootNamespace>
+    <AssemblyName>DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Action.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Activity.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityTarget.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityTarget_RoleType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArchiveFolder.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArchiveItem.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArchiveItem_Tag.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArchiveTag.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArcRelationshipGroup.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArcRelationshipGroup_Relationship.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BackendActionActivity.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CharetReportCategories.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CharetReportSeries.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CharetReportValues.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeFunction.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeFunctionParameter.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeFunction_TableDrivedEntity.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeFunction_TableDrivedEntity_Parameters.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Column.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ColumnPhrase.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ColumnUISetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ColumnValueRange.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ColumnValueRangeDetails.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ColumnValue_ValidValues.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConditionalPermission.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConditionalPermission_Action.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CrosstabReportColumns.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CrosstabReportRows.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CrosstabReportValues.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseFunction.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseFunctionParameter.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseFunction_TableDrivedEntity.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseFunction_TableDrivedEntity_Columns.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseInformation.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseUISetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLinkDefinition.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLinkDefinition_EntityRelationshipTail.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataLog.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataMenuDataViewRelationship.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataMenuGridViewRelationship.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataMenuReportRelationship.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataMenuSetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataViewSetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DateColumnType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBSchema.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBServer.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EditDataItemColumnDetails.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EditDataItemExceptionLog.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmptySpaceUISetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityArchiveRelationshipTails.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityChartReport.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityCommand.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityCrosstabReport.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityDataLinkReport.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityDataViewReport.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityDeterminer.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityDirectlReport.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityExternalReport.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityGridViewReport.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityGroup.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityGroup_Relationship.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityLetterRelationshipTails.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityListReport.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityListReportSubs.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityListReportSubsColumns.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityListView.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityListViewColumns.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityRelationshipTail.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityReport.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntitySearch.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntitySearchableReport.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntitySearchColumns.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntitySecurityCondition.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntitySecurityDirect.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntitySecurityInDirect.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityState_UIActionActivity.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityUIComposition.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityUISetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityValidation.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExplicitOneToOneRelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExternalReportKeys.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FileRepository.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Formula.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormulaItems.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FormulaUsageParemeters.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GridViewSetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupUISetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImplicitOneToOneRelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ISARelationship.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Letter.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LetterEnabledEntities.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LetterItemLog.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LetterSetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LetterTemplate.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LetterTemplatePlainField.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LetterTemplateRelationshipField.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LetterType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LinkedServer.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LogicPhrase.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MainLetterTemplate.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ManyToManyRelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ManyToOneRelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MyDataItem.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MyDataItemKeyColumns.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MyIdeaDataDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyIdeaDataDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MyIdeaDataDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MyIdeaDataDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyIdeaDataDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="MyProjectDataAccess.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyProjectDataAccess.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MyProjectDataAccess.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MyProjectDataAccess.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyProjectDataAccess.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationTree.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NumericColumnType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OneToManyRelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Organization.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrganizationPost.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrganizationType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrganizationType_RoleType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PartialLetterTemplate.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Permission.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Permission_Action.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Phrase.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Process.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relationship.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RelationshipColumns.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RelationshipSearchFilter.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RelationshipUISetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportGroups.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Request.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RequestAction.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RequestNote.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoleType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SearchRepository.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SecurityObject.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SecuritySubject.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="State.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StateActivity.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="State_Formula.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StringColumnType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubSystems.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubToSuperRelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubUnionToUnionRelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SuperToSubRelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>MyIdeaDataDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TabGroupUISetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Table.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TableDrivedEntity.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TableDrivedEntityState.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TableDrivedEntity_Columns.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TableDrivedEntity_EntityCommand.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TabPageUISetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transition.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransitionAction.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransitionActionTarget.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransitionAction_EntityGroup.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransitionAction_Formula.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransitionActivity.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UIActionActivity.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UIColumnValue.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UIColumnValueRange.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UIEnablityDetails.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnionRelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UnionToSubUnionRelationshipType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UniqueConstraint.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="MyProjectDataAccess.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MyProjectDataAccess.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="MyIdeaDataDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MyIdeaDataDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="MyIdeaDataDB.edmx.diagram">
+      <DependentUpon>MyIdeaDataDB.edmx</DependentUpon>
+    </None>
+    <None Include="MyProjectDataAccess.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyProjectDataAccess.edmx</DependentUpon>
+      <LastGenOutput>MyProjectDataAccess.Context.cs</LastGenOutput>
+    </None>
+    <None Include="MyProjectDataAccess.edmx.diagram">
+      <DependentUpon>MyProjectDataAccess.edmx</DependentUpon>
+    </None>
+    <None Include="MyProjectDataAccess.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyProjectDataAccess.edmx</DependentUpon>
+      <LastGenOutput>MyProjectDataAccess.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MyIdeaDataDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyIdeaDataDB.edmx</DependentUpon>
+      <LastGenOutput>MyIdeaDataDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="MyIdeaDataDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyIdeaDataDB.edmx</DependentUpon>
+      <LastGenOutput>MyIdeaDataDB.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

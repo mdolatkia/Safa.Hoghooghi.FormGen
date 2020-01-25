@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="MyUIGenerator.View.UC_SearchReportEntityArea"
+                xmlns:base="clr-namespace:MyUIGenerator.UIControlHelper"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" FlowDirection="RightToLeft" d:DesignWidth="300">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Background="Coral">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="پنل جستجو"></TextBlock>
+                <Image Grid.Column="1" Width="15" x:Name="imgUp" Cursor="Hand" MouseLeftButtonUp="imgUp_MouseLeftButtonUp"   Source="/MyUIGenerator;component/Images/arrowup.png" ></Image>
+                <Image Grid.Column="1" Width="15" x:Name="imgDown" Visibility="Collapsed" Cursor="Hand" MouseLeftButtonUp="imgDown_MouseLeftButtonUp"  Source="/MyUIGenerator;component/Images/arrowdown.png" ></Image>
+            </Grid>
+            <Grid  Grid.Row="1" x:Name="grdSearchArea"></Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Background="Coral">
+                <TextBlock Text="نتیجه جستجو"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="1" x:Name="grdViewArea"></Grid>
+        </Grid>
+    </Grid>
+</UserControl>

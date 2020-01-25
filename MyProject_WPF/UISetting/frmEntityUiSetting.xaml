@@ -1,0 +1,40 @@
+﻿<Window x:Class="MyProject_WPF.frmEntityUISetting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyProject_WPF"
+        mc:Ignorable="d"
+        Title="frmEntityValidations" Height="500" Width="700">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+          
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="تعداد ستونها"></TextBlock>
+            <TextBox x:Name="txtColumnsCount" Grid.Column="1"></TextBox>
+            
+         
+        </Grid>
+   
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="ثبت" x:Name="btnSave" Click="btnSave_Click"></Button>
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="بازگشت" x:Name="btnReturn" Click="btnReturn_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

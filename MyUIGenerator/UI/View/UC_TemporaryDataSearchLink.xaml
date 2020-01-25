@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="MyUIGenerator.View.UC_TemporaryDataSearchLink"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+           FlowDirection="RightToLeft"  mc:Ignorable="d" BorderThickness="1" BorderBrush="Gray" Margin="2" d:DesignWidth="600" Height="27"
+            >
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition  Width="auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="cmbItems" HorizontalAlignment="Stretch" ></ComboBox>
+        <TextBox  BorderThickness="0,0,1,0" BorderBrush="Gray" Background="#FFF4F4F4" x:Name="txtInfo" IsReadOnly="True"  HorizontalAlignment="Stretch" ></TextBox>
+        <TextBox  BorderThickness="0,0,1,0" BorderBrush="Gray"  x:Name="txtSearch"  HorizontalAlignment="Stretch" ></TextBox>
+
+        <StackPanel  Grid.Column="1" Orientation="Horizontal" >
+            <Button  ToolTip="جستجو" x:Name="btnPopup" Margin="2,0,0,0" Click="btnPopup_Click" >
+                <Button.Content>
+                    <!--<StackPanel Orientation="Horizontal">-->
+                    <Image  MaxWidth="20" MaxHeight="20" Source="/MyUIGenerator;component/Images/arrowdown.png"></Image>
+                    <!--<Label FontSize="10" Content="Data Link"></Label>
+                    </StackPanel>-->
+                </Button.Content>
+            </Button>
+            <Button  ToolTip="جستجو" x:Name="btnQuickSearch" Margin="2,0,0,0" Click="btnQuickSearch_Click" >
+                <Button.Content>
+                    <!--<StackPanel Orientation="Horizontal">-->
+                    <Image  MaxWidth="20" MaxHeight="20" Source="/MyUIGenerator;component/Images/zoom_extend.png"></Image>
+                    <!--<Label FontSize="10" Content="Data Link"></Label>
+                    </StackPanel>-->
+                </Button.Content>
+            </Button>
+            <Button  ToolTip="اصلاح" x:Name="btnLink" Margin="2,0,0,0" Click="btnLink_Click" >
+                <Button.Content>
+                    <!--<StackPanel Orientation="Horizontal">-->
+                    <Image  MaxWidth="20" MaxHeight="20" Source="/MyUIGenerator;component/Images/EditForm.png"></Image>
+                    <!--<Label FontSize="10" Content="Data Link"></Label>
+                    </StackPanel>-->
+                </Button.Content>
+            </Button>
+            <Button  ToolTip="حذف" x:Name="btnLinkClear" Margin="2,0,0,0"   Click="btnLinkClear_Click" >
+                <Button.Content>
+                    <Image  MaxWidth="20" MaxHeight="20" Source="/MyUIGenerator;component/Images/Clear.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button ToolTip="جستجو" x:Name="btnLinkSearch" Margin="2,0,0,0"   Click="btnLinkSearch_Click" >
+                <Button.Content>
+                    <Image MaxWidth="20" MaxHeight="20"  Source="/MyUIGenerator;component/Images/Search.png"></Image>
+                </Button.Content>
+            </Button>
+
+            <Button ToolTip="اطلاعات" x:Name="btnLinkInfo" Margin="2,0,0,0"   Click="btnLinkInfo_Click" >
+                <Button.Content>
+                    <Image MaxWidth="20" MaxHeight="20" Source="/MyUIGenerator;component/Images/Info.png"></Image>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        <Popup Grid.Row="1" Name="popup1">
+            
+        </Popup>
+    </Grid>
+
+</UserControl>

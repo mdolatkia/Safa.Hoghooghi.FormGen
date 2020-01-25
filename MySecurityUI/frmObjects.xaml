@@ -1,0 +1,36 @@
+﻿<UserControl FlowDirection="RightToLeft" xmlns:MySecurityUI="clr-namespace:MySecurityUI"  x:Class="MySecurityUI.frmObjects"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     
+         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="btnExtractObjectFromDB" Click="btnExtractObjectFromDB_Click" Content="بروزرسانی منابع"></Button>
+        </StackPanel>
+        <telerik:RadDocking Grid.Row="1" HasDocumentHost="False" >
+                <telerik:RadSplitContainer  Orientation="Horizontal" InitialPosition="DockedTop" >
+                    <telerik:RadPaneGroup  x:Name="pnlObjectList">
+                    <telerik:RadPane CanFloat="False" CanUserPin="False" Header="لیست منابع"    CanUserClose="False" >
+                            <MySecurityUI:frmObjectTree x:Name="ucObjectList" />
+                        </telerik:RadPane>
+                    
+                    </telerik:RadPaneGroup>
+                    <telerik:RadPaneGroup x:Name="pnlObjectEdit">
+                        <telerik:RadPane  Header="تعریف منبع" CanFloat="False" CanUserPin="False" CanDockInDocumentHost="False"  CanUserClose="False">
+                            <MySecurityUI:frmObjectEdit  x:Name="ucObjectEdit"/>
+                        </telerik:RadPane>
+                    </telerik:RadPaneGroup>
+                </telerik:RadSplitContainer>
+        
+            
+            <!--<telerik:RadSplitContainer InitialPosition="DockedBottom" >
+                
+            </telerik:RadSplitContainer>-->
+
+        </telerik:RadDocking>
+    </Grid>
+</UserControl>

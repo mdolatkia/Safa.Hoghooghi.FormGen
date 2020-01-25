@@ -1,0 +1,130 @@
+﻿<UserControl FlowDirection="RightToLeft" xmlns:MyProject_WPF="clr-namespace:MyProject_WPF"  x:Class="MyProject_WPF.frmOrganizationUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     MinHeight="500" MinWidth="700"
+         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    <Grid>
+        <TabControl>
+            <TabItem x:Name="tabOrganizationUser" Header="اختصاصی کاربر به سازمان">
+                <telerik:RadDocking  HasDocumentHost="False"  Background="#FFCFE2F7">
+                 
+                        <telerik:RadSplitContainer  Orientation="Horizontal" >
+                            <telerik:RadPaneGroup>
+                                <telerik:RadPane CanFloat="False"  CanUserPin="False"  CanUserClose="False" Header="لیست سازمان ها">
+                                    <MyProject_WPF:frmOrganizationList OrganizationSelected="ucOrganizationList_OrganizationSelected" x:Name="ucOrganizationList" />
+                                </telerik:RadPane>
+                            </telerik:RadPaneGroup>
+                        <telerik:RadSplitContainer  Orientation="Vertical" >
+                            <telerik:RadPaneGroup >
+
+                                <telerik:RadPane CanFloat="False"  CanUserPin="False"  CanUserClose="False" Header=">>>لیست کاربران سازمان منتخب">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Button Width="70" Margin="4" HorizontalAlignment="Right" x:Name="btnAddUserToOrganization" Click="btnAddUserToOrganization_Click" Content="افزودن کاربر به سازمان"></Button>
+                                        <telerik:RadGridView x:Name="dtgUsersByOrganization" Grid.Row="1" ShowGroupPanel="False" SelectionChanged="dtgUsersByOrganization_SelectionChanged"></telerik:RadGridView>
+                                    </Grid>
+
+                                </telerik:RadPane>
+
+                            </telerik:RadPaneGroup>
+                            <telerik:RadPaneGroup >
+
+                                <telerik:RadPane CanFloat="False"  CanUserPin="False"  CanUserClose="False" Header=">>>نقشها">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Button Width="70" Margin="4" HorizontalAlignment="Right" x:Name="btnAddRoleToOraganizationUser" Click="btnAddRoleToOraganizationUser_Click" Content="افزودن نقش"></Button>
+                                        <telerik:RadGridView x:Name="dtgRoleOrganizationUser" Grid.Row="1" ShowGroupPanel="False"></telerik:RadGridView>
+                                    </Grid>
+
+                                </telerik:RadPane>
+
+                            </telerik:RadPaneGroup>
+                        </telerik:RadSplitContainer>
+                    </telerik:RadSplitContainer>
+                  
+
+
+
+                    <!--<telerik:RadSplitContainer  InitialPosition="DockedBottom" >
+                <telerik:RadPaneGroup>
+                    <telerik:RadPane Header="لیست سازمان ها"  CanFloat="False"  CanUserClose="False" >
+                        -->
+                    <!--<MyProject_WPF:frmUserList x:Name="ucUserList" />-->
+                    <!--
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+                <telerik:RadPaneGroup>
+                    <telerik:RadPane Header="لیست سازمان ها"  CanFloat="False"  CanUserClose="False" >
+                        <telerik:RadGridView></telerik:RadGridView>
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>-->
+
+
+
+
+                </telerik:RadDocking>
+            </TabItem>
+            <TabItem x:Name="tabUserOrganization"  Header="اختصاصی سازمان به کاربر">
+                <telerik:RadDocking HasDocumentHost="False"  Background="#FFCFE2F7">
+                  
+                        <telerik:RadSplitContainer Orientation="Horizontal"  Background="#FFF9D3D3">
+                            <telerik:RadPaneGroup>
+                                <telerik:RadPane CanFloat="False" CanUserPin="False"  CanUserClose="False" Header="لیست کاربران">
+                                    <MyProject_WPF:frmUserList UserSelected="ucUserList_UserSelected" x:Name="ucUserList" />
+                                </telerik:RadPane>
+                            </telerik:RadPaneGroup>
+                        <telerik:RadSplitContainer Orientation="Vertical" >
+                            <telerik:RadPaneGroup >
+                            <telerik:RadPane CanFloat="False"  CanUserPin="False"  CanUserClose="False" Header=">>>لیست سازمانهای کاربر منتخب">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Button Width="70" Margin="4" HorizontalAlignment="Right" x:Name="btnAddOrganizationToUser" Click="btnAddOrganizationToUser_Click" Content="افزودن سازمان به کاربر"></Button>
+                                    <telerik:RadGridView Grid.Row="1" ShowGroupPanel="False" x:Name="dtgOrganizationsByUser" SelectionChanged="dtgOrganizationsByUser_SelectionChanged"></telerik:RadGridView>
+                                </Grid>
+                            </telerik:RadPane>
+                            </telerik:RadPaneGroup>
+
+                            <telerik:RadPaneGroup >
+
+                                <telerik:RadPane CanFloat="False"  CanUserPin="False"  CanUserClose="False" Header=">>>نقشها">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Button Width="70" Margin="4" HorizontalAlignment="Right" x:Name="btnAddRoleToUserOraganization" Click="btnAddRoleToOraganizationUser_Click" Content="افزودن نقش"></Button>
+                                        <telerik:RadGridView x:Name="dtgRoleUserOrganization" Grid.Row="1" ShowGroupPanel="False"></telerik:RadGridView>
+                                    </Grid>
+
+                                </telerik:RadPane>
+
+                            </telerik:RadPaneGroup>
+                        </telerik:RadSplitContainer>
+                        <!--<telerik:RadPaneGroup>
+                        <telerik:RadPane CanFloat="False" CanUserPin="False"  CanUserClose="False" Header="لیست کاربران">
+                            <MyProject_WPF:frmUserList x:Name="ucUserList" />
+                        </telerik:RadPane>
+                    </telerik:RadPaneGroup>
+                    <telerik:RadPaneGroup >
+                        <telerik:RadPane CanFloat="False"  CanUserPin="False"  CanUserClose="False" Header=">>>لیست سازمانهای کاربر منتخب">
+                            <telerik:RadGridView></telerik:RadGridView>
+                        </telerik:RadPane>
+                    </telerik:RadPaneGroup>-->
+                        </telerik:RadSplitContainer>
+                    
+                </telerik:RadDocking>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</UserControl>

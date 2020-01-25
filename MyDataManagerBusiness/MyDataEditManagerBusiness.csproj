@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{015494B7-335C-4B3F-B896-278E4FE3B878}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyDataEditManagerBusiness</RootNamespace>
+    <AssemblyName>MyDataEditManagerBusiness</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\Componenets\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\Componenets\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DeleteQueryItemManager.cs" />
+    <Compile Include="EditDataActionActivityManager.cs" />
+    <Compile Include="EditQueryItemManager.cs" />
+    <Compile Include="EditRequestManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{c01f0a21-457a-4dfc-a623-0ed6cc00ad86}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyCodeFunctionLibrary\MyCodeFunctionLibrary.csproj">
+      <Project>{c384c65c-05c3-4e36-84d2-d9551745e91e}</Project>
+      <Name>MyCodeFunctionLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyConnectionManager\MyConnectionManager.csproj">
+      <Project>{BD833980-A9AD-4889-A9B0-23A0EFCFEA80}</Project>
+      <Name>MyConnectionManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDataSearchManagerBusiness\MyDataSearchManagerBusiness.csproj">
+      <Project>{518BDF6D-0AD2-44DD-945D-DCF74BB4A055}</Project>
+      <Name>MyDataSearchManagerBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDatatbaseFunctionLibrary\MyDatabaseFunctionLibrary.csproj">
+      <Project>{867C4746-8C02-458D-9A5D-28B60FB88E18}</Project>
+      <Name>MyDatabaseFunctionLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyGeneralLibrary\MyGeneralLibrary.csproj">
+      <Project>{6F52D329-3BDD-4A8A-BB6E-5FE5A118E3BE}</Project>
+      <Name>MyGeneralLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyInterfaces\MyInterfaces.csproj">
+      <Project>{8ABC6369-3F6E-40FB-A354-5106930CB07C}</Project>
+      <Name>MyInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyLetterManager\MyDataItemManager.csproj">
+      <Project>{14CAAA31-D18C-4D10-805D-5E0E7E2C5B02}</Project>
+      <Name>MyDataItemManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyModelManager\MyModelManager.csproj">
+      <Project>{c85c5486-ca1a-4963-8594-c85e441cebc2}</Project>
+      <Name>MyModelManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyRelationshipDataManager\MyRelationshipDataManager.csproj">
+      <Project>{0612055B-9AB3-44E1-9662-7F8E1C29AF75}</Project>
+      <Name>MyRelationshipDataManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MySecurity\MySecurity.csproj">
+      <Project>{878d3665-be5e-401f-a859-c81d3406e5c7}</Project>
+      <Name>MySecurity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProxyLibrary\ProxyLibrary.csproj">
+      <Project>{2ad586dd-c9be-42d3-8ef7-e9657f992503}</Project>
+      <Name>ProxyLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

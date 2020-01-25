@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3175EAFA-138C-4B2B-8EA6-4C09D8C0FA81}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyUILibrary</RootNamespace>
+    <AssemblyName>MyUILibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MyProject\bin\Debug\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Reporting, Version=12.1.18.620, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>C:\Program Files (x86)\Progress\Telerik Reporting R2 2018\bin\Telerik.Reporting.dll</HintPath>
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\AG_InternalTaskResult.cs" />
+    <Compile Include="Core\AG_RequestManager.cs" />
+    <Compile Include="Core\BaseCommand.cs" />
+    <Compile Include="DataLinkArea\DataLinkArea.cs" />
+    <Compile Include="DataMenu\DataMenuArea.cs" />
+    <Compile Include="DataTreeArea\DataTreeArea.cs" />
+    <Compile Include="DataViewArea\DataArea.cs" />
+    <Compile Include="DataViewArea\DataViewAreaContainer.cs" />
+    <Compile Include="DataViewArea\DataViewArea.cs" />
+    <Compile Include="ArchiveArea\EditArchiveArea.cs" />
+    <Compile Include="EntityArea\CommandManager.cs" />
+    <Compile Include="EntityArea\EditEntityArea\BaseEditEntityArea.cs" />
+    <Compile Include="Commands\AddCommand.cs" />
+    <Compile Include="Commands\LogReportCommand.cs" />
+    <Compile Include="Commands\DataLinkCommand.cs" />
+    <Compile Include="Commands\GridViewCommand.cs" />
+    <Compile Include="Commands\DataViewCommand.cs" />
+    <Compile Include="Commands\DeleteCommand.cs" />
+    <Compile Include="Commands\ArchiveCommand.cs" />
+    <Compile Include="Commands\SaveAndCloseDialogCommand.cs" />
+    <Compile Include="Commands\InfoCommand.cs" />
+    <Compile Include="Commands\LetterCommand.cs" />
+    <Compile Include="EntityArea\EditEntityArea\EditAreaDataManager.cs" />
+    <Compile Include="EntityArea\EditEntityArea\EditEntityAreaMultipleData.cs" />
+    <Compile Include="EntityArea\EditEntityArea\EditEntityAreaConstructor.cs" />
+    <Compile Include="EntityArea\EntityAreaLogManager.cs" />
+    <Compile Include="EntityArea\EntityCommand.cs" />
+    <Compile Include="EntityArea\FormulaCalculationArea.cs" />
+    <Compile Include="ReportArea\DirectReportArea.cs" />
+    <Compile Include="LetterArea\EntityLettersArea.cs" />
+    <Compile Include="LetterArea\EditLetterArea.cs" />
+    <Compile Include="ReportArea\ExternalReportArea.cs" />
+    <Compile Include="ReportArea\InternalReportArea.cs" />
+    <Compile Include="EntityArea\SearchEntityArea\Commands\SearchClearCommand.cs" />
+    <Compile Include="EntityArea\SearchEntityArea\Commands\AdvancedSearchConfirmCommand.cs" />
+    <Compile Include="EntityArea\SearchEntityArea\Commands\SimpleSearchConfirmCommand.cs" />
+    <Compile Include="EntityArea\SearchEntityArea\Commands\RawSearchConfirmCommand.cs" />
+    <Compile Include="Commands\SearchCommand.cs" />
+    <Compile Include="EntityArea\SearchEntityArea\AdvancedSearchEntityArea.cs" />
+    <Compile Include="EntityArea\SearchEntityArea\SearchEntityArea.cs" />
+    <Compile Include="EntityArea\SearchEntityArea\RawSearchEntityArea.cs" />
+    <Compile Include="EntityArea\SearchEntityArea\SimpleSearchEntityArea.cs" />
+    <Compile Include="EntityArea\SearchViewEntityArea\SearchViewEntityArea.cs" />
+    <Compile Include="EntityArea\RelationshipFilterManager.cs" />
+    <Compile Include="EntityArea\UIValidationManager.cs" />
+    <Compile Include="EntityArea\UIFomulaManager.cs" />
+    <Compile Include="EntityArea\UIActionActivityManager.cs" />
+    <Compile Include="EntityArea\ViewEntityArea\ViewEntityArea.cs" />
+    <Compile Include="GeneralEntitySearchArea\GeneralEntitySearchArea.cs" />
+    <Compile Include="EntitySelectArea\EntitySelectArea.cs" />
+    <Compile Include="DataViewArea\GridViewArea.cs" />
+    <Compile Include="Helper\AgentHelper.cs" />
+    <Compile Include="Core\AgentUICoreMediator.cs" />
+    <Compile Include="Helper\FormulaFunctionHelper.cs" />
+    <Compile Include="Helper\CodeFunctionHelper.cs" />
+    <Compile Include="Helper\FormulaHelper.cs" />
+    <Compile Include="Helper\UISettingHelper.cs" />
+    <Compile Include="Core\IAgentUICoreMediator.cs" />
+    <Compile Include="Commands\CloseDialogCommand.cs" />
+    <Compile Include="Commands\ClearCommand.cs" />
+    <Compile Include="Commands\RemoveCommand.cs" />
+    <Compile Include="EntityArea\EditEntityArea\EditEntityAreaOneData.cs" />
+    <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="EntityArea\ViewEntityArea\Commands\SelectCommand.cs" />
+    <Compile Include="LogReportArea\LogReportArea.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkflowArea\CartableArea.cs" />
+    <Compile Include="WorkflowArea\WorkflowTransitionTargetSelectionArea.cs" />
+    <Compile Include="WorkflowArea\WorkflowReportArea.cs" />
+    <Compile Include="WorkflowArea\WorkflowNoteArea.cs" />
+    <Compile Include="WorkflowArea\WorkflowDiagramArea.cs" />
+    <Compile Include="WorkflowArea\WorkflowRequesActionArea.cs" />
+    <Compile Include="WorkflowArea\WorkflowCreateRequestArea.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyCodeFunctionLibrary\MyCodeFunctionLibrary.csproj">
+      <Project>{C384C65C-05C3-4E36-84D2-D9551745E91E}</Project>
+      <Name>MyCodeFunctionLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyCommonWPFControls\MyCommonWPFControls.csproj">
+      <Project>{DF529814-4102-4145-9345-B405ED79138A}</Project>
+      <Name>MyCommonWPFControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDataManager\MyDataManagerService.csproj">
+      <Project>{f1384f0f-3bac-4461-a987-48f0dc340e90}</Project>
+      <Name>MyDataManagerService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyGeneralLibrary\MyGeneralLibrary.csproj">
+      <Project>{6F52D329-3BDD-4A8A-BB6E-5FE5A118E3BE}</Project>
+      <Name>MyGeneralLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyInterfaces\MyInterfaces.csproj">
+      <Project>{8ABC6369-3F6E-40FB-A354-5106930CB07C}</Project>
+      <Name>MyInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyModelManager\MyModelManager.csproj">
+      <Project>{C85C5486-CA1A-4963-8594-C85E441CEBC2}</Project>
+      <Name>MyModelManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyRelationshipDataManager\MyRelationshipDataManager.csproj">
+      <Project>{0612055b-9ab3-44e1-9662-7f8e1c29af75}</Project>
+      <Name>MyRelationshipDataManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyRelationshipTailDataManager\MyRelationshipTailDataManager.csproj">
+      <Project>{EEC1267E-372F-46B9-A4D1-22E03743A8E3}</Project>
+      <Name>MyRelationshipTailDataManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyReportManager\MyReportManager.csproj">
+      <Project>{A1FD0583-17CC-4C81-90CD-047EB8950511}</Project>
+      <Name>MyReportManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyUILibraryInterfaces\MyUILibraryInterfaces.csproj">
+      <Project>{5C85873C-C376-4899-8806-FE8544419B18}</Project>
+      <Name>MyUILibraryInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProxyLibrary\ProxyLibrary.csproj">
+      <Project>{2ad586dd-c9be-42d3-8ef7-e9657f992503}</Project>
+      <Name>ProxyLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ExternalReportArea\" />
+    <Folder Include="GridView\" />
+    <Folder Include="Images\" />
+    <Folder Include="MainViews\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

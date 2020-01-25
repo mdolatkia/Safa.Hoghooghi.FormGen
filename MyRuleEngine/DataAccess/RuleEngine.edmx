@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MyRuleEngineModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AssemblyInfoID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssemblyInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="400" Nullable="false" />
+          <Property Name="Path" Type="varchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AssemblyInfoID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rule">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="4000" />
+          <Property Name="CinditionID" Type="int" Nullable="false" />
+          <Property Name="ActionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RuleSet">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Version" Type="smallint" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="RuleSet_Rule">
+          <Key>
+            <PropertyRef Name="RuleSetName" />
+            <PropertyRef Name="RuleName" />
+          </Key>
+          <Property Name="RuleSetName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RuleName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Priority" Type="smallint" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Vocabulary">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ClassName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AssemblyInfoID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Action_AssemblyInfo">
+          <End Role="AssemblyInfo" Type="Self.AssemblyInfo" Multiplicity="1" />
+          <End Role="Action" Type="Self.Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssemblyInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Action">
+              <PropertyRef Name="AssemblyInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Condition_AssemblyInfo">
+          <End Role="AssemblyInfo" Type="Self.AssemblyInfo" Multiplicity="1" />
+          <End Role="Condition" Type="Self.Condition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssemblyInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Condition">
+              <PropertyRef Name="AssemblyInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rule_Action">
+          <End Role="Action" Type="Self.Action" Multiplicity="1" />
+          <End Role="Rule" Type="Self.Rule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Action">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rule">
+              <PropertyRef Name="ActionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rule_Condition">
+          <End Role="Condition" Type="Self.Condition" Multiplicity="1" />
+          <End Role="Rule" Type="Self.Rule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rule">
+              <PropertyRef Name="CinditionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RuleSet_Rule_Rule">
+          <End Role="Rule" Type="Self.Rule" Multiplicity="1" />
+          <End Role="RuleSet_Rule" Type="Self.RuleSet_Rule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rule">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="RuleSet_Rule">
+              <PropertyRef Name="RuleName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RuleSet_Rule_RuleSet">
+          <End Role="RuleSet" Type="Self.RuleSet" Multiplicity="1" />
+          <End Role="RuleSet_Rule" Type="Self.RuleSet_Rule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RuleSet">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="RuleSet_Rule">
+              <PropertyRef Name="RuleSetName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vocabulary_AssemblyInfo">
+          <End Role="AssemblyInfo" Type="Self.AssemblyInfo" Multiplicity="1" />
+          <End Role="Vocabulary" Type="Self.Vocabulary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssemblyInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vocabulary">
+              <PropertyRef Name="AssemblyInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyRuleEngineModelStoreContainer">
+          <EntitySet Name="Action" EntityType="Self.Action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssemblyInfo" EntityType="Self.AssemblyInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Condition" EntityType="Self.Condition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rule" EntityType="Self.Rule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RuleSet" EntityType="Self.RuleSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RuleSet_Rule" EntityType="Self.RuleSet_Rule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vocabulary" EntityType="Self.Vocabulary" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Action_AssemblyInfo" Association="Self.FK_Action_AssemblyInfo">
+            <End Role="AssemblyInfo" EntitySet="AssemblyInfo" />
+            <End Role="Action" EntitySet="Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Condition_AssemblyInfo" Association="Self.FK_Condition_AssemblyInfo">
+            <End Role="AssemblyInfo" EntitySet="AssemblyInfo" />
+            <End Role="Condition" EntitySet="Condition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rule_Action" Association="Self.FK_Rule_Action">
+            <End Role="Action" EntitySet="Action" />
+            <End Role="Rule" EntitySet="Rule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rule_Condition" Association="Self.FK_Rule_Condition">
+            <End Role="Condition" EntitySet="Condition" />
+            <End Role="Rule" EntitySet="Rule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RuleSet_Rule_Rule" Association="Self.FK_RuleSet_Rule_Rule">
+            <End Role="Rule" EntitySet="Rule" />
+            <End Role="RuleSet_Rule" EntitySet="RuleSet_Rule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RuleSet_Rule_RuleSet" Association="Self.FK_RuleSet_Rule_RuleSet">
+            <End Role="RuleSet" EntitySet="RuleSet" />
+            <End Role="RuleSet_Rule" EntitySet="RuleSet_Rule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vocabulary_AssemblyInfo" Association="Self.FK_Vocabulary_AssemblyInfo">
+            <End Role="AssemblyInfo" EntitySet="AssemblyInfo" />
+            <End Role="Vocabulary" EntitySet="Vocabulary" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyRuleEngineModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MyRuleEngineEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Action" EntityType="MyRuleEngineModel.Action" />
+          <EntitySet Name="AssemblyInfo" EntityType="MyRuleEngineModel.AssemblyInfo" />
+          <EntitySet Name="Condition" EntityType="MyRuleEngineModel.Condition" />
+          <EntitySet Name="Rule" EntityType="MyRuleEngineModel.Rule" />
+          <EntitySet Name="RuleSet" EntityType="MyRuleEngineModel.RuleSet" />
+          <EntitySet Name="RuleSet_Rule" EntityType="MyRuleEngineModel.RuleSet_Rule" />
+          <EntitySet Name="sysdiagrams" EntityType="MyRuleEngineModel.sysdiagrams" />
+          <EntitySet Name="Vocabulary" EntityType="MyRuleEngineModel.Vocabulary" />
+          <AssociationSet Name="FK_Action_AssemblyInfo" Association="MyRuleEngineModel.FK_Action_AssemblyInfo">
+            <End Role="AssemblyInfo" EntitySet="AssemblyInfo" />
+            <End Role="Action" EntitySet="Action" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rule_Action" Association="MyRuleEngineModel.FK_Rule_Action">
+            <End Role="Action" EntitySet="Action" />
+            <End Role="Rule" EntitySet="Rule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Condition_AssemblyInfo" Association="MyRuleEngineModel.FK_Condition_AssemblyInfo">
+            <End Role="AssemblyInfo" EntitySet="AssemblyInfo" />
+            <End Role="Condition" EntitySet="Condition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vocabulary_AssemblyInfo" Association="MyRuleEngineModel.FK_Vocabulary_AssemblyInfo">
+            <End Role="AssemblyInfo" EntitySet="AssemblyInfo" />
+            <End Role="Vocabulary" EntitySet="Vocabulary" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rule_Condition" Association="MyRuleEngineModel.FK_Rule_Condition">
+            <End Role="Condition" EntitySet="Condition" />
+            <End Role="Rule" EntitySet="Rule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RuleSet_Rule_Rule" Association="MyRuleEngineModel.FK_RuleSet_Rule_Rule">
+            <End Role="Rule" EntitySet="Rule" />
+            <End Role="RuleSet_Rule" EntitySet="RuleSet_Rule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RuleSet_Rule_RuleSet" Association="MyRuleEngineModel.FK_RuleSet_Rule_RuleSet">
+            <End Role="RuleSet" EntitySet="RuleSet" />
+            <End Role="RuleSet_Rule" EntitySet="RuleSet_Rule" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AssemblyInfoID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssemblyInfo" Relationship="MyRuleEngineModel.FK_Action_AssemblyInfo" FromRole="Action" ToRole="AssemblyInfo" />
+          <NavigationProperty Name="Rule" Relationship="MyRuleEngineModel.FK_Rule_Action" FromRole="Action" ToRole="Rule" />
+        </EntityType>
+        <EntityType Name="AssemblyInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="Path" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Action" Relationship="MyRuleEngineModel.FK_Action_AssemblyInfo" FromRole="AssemblyInfo" ToRole="Action" />
+          <NavigationProperty Name="Condition" Relationship="MyRuleEngineModel.FK_Condition_AssemblyInfo" FromRole="AssemblyInfo" ToRole="Condition" />
+          <NavigationProperty Name="Vocabulary" Relationship="MyRuleEngineModel.FK_Vocabulary_AssemblyInfo" FromRole="AssemblyInfo" ToRole="Vocabulary" />
+        </EntityType>
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AssemblyInfoID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssemblyInfo" Relationship="MyRuleEngineModel.FK_Condition_AssemblyInfo" FromRole="Condition" ToRole="AssemblyInfo" />
+          <NavigationProperty Name="Rule" Relationship="MyRuleEngineModel.FK_Rule_Condition" FromRole="Condition" ToRole="Rule" />
+        </EntityType>
+        <EntityType Name="Rule">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="CinditionID" Type="Int32" Nullable="false" />
+          <Property Name="ActionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Action" Relationship="MyRuleEngineModel.FK_Rule_Action" FromRole="Rule" ToRole="Action" />
+          <NavigationProperty Name="Condition" Relationship="MyRuleEngineModel.FK_Rule_Condition" FromRole="Rule" ToRole="Condition" />
+          <NavigationProperty Name="RuleSet_Rule" Relationship="MyRuleEngineModel.FK_RuleSet_Rule_Rule" FromRole="Rule" ToRole="RuleSet_Rule" />
+        </EntityType>
+        <EntityType Name="RuleSet">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Version" Type="Int16" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RuleSet_Rule" Relationship="MyRuleEngineModel.FK_RuleSet_Rule_RuleSet" FromRole="RuleSet" ToRole="RuleSet_Rule" />
+        </EntityType>
+        <EntityType Name="RuleSet_Rule">
+          <Key>
+            <PropertyRef Name="RuleSetName" />
+            <PropertyRef Name="RuleName" />
+          </Key>
+          <Property Name="RuleSetName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RuleName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Priority" Type="Int16" />
+          <NavigationProperty Name="Rule" Relationship="MyRuleEngineModel.FK_RuleSet_Rule_Rule" FromRole="RuleSet_Rule" ToRole="Rule" />
+          <NavigationProperty Name="RuleSet" Relationship="MyRuleEngineModel.FK_RuleSet_Rule_RuleSet" FromRole="RuleSet_Rule" ToRole="RuleSet" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Vocabulary">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ClassName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AssemblyInfoID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssemblyInfo" Relationship="MyRuleEngineModel.FK_Vocabulary_AssemblyInfo" FromRole="Vocabulary" ToRole="AssemblyInfo" />
+        </EntityType>
+        <Association Name="FK_Action_AssemblyInfo">
+          <End Type="MyRuleEngineModel.AssemblyInfo" Role="AssemblyInfo" Multiplicity="1" />
+          <End Type="MyRuleEngineModel.Action" Role="Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssemblyInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Action">
+              <PropertyRef Name="AssemblyInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rule_Action">
+          <End Type="MyRuleEngineModel.Action" Role="Action" Multiplicity="1" />
+          <End Type="MyRuleEngineModel.Rule" Role="Rule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Action">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rule">
+              <PropertyRef Name="ActionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Condition_AssemblyInfo">
+          <End Type="MyRuleEngineModel.AssemblyInfo" Role="AssemblyInfo" Multiplicity="1" />
+          <End Type="MyRuleEngineModel.Condition" Role="Condition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssemblyInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Condition">
+              <PropertyRef Name="AssemblyInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vocabulary_AssemblyInfo">
+          <End Type="MyRuleEngineModel.AssemblyInfo" Role="AssemblyInfo" Multiplicity="1" />
+          <End Type="MyRuleEngineModel.Vocabulary" Role="Vocabulary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssemblyInfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vocabulary">
+              <PropertyRef Name="AssemblyInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rule_Condition">
+          <End Type="MyRuleEngineModel.Condition" Role="Condition" Multiplicity="1" />
+          <End Type="MyRuleEngineModel.Rule" Role="Rule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rule">
+              <PropertyRef Name="CinditionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RuleSet_Rule_Rule">
+          <End Type="MyRuleEngineModel.Rule" Role="Rule" Multiplicity="1" />
+          <End Type="MyRuleEngineModel.RuleSet_Rule" Role="RuleSet_Rule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rule">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="RuleSet_Rule">
+              <PropertyRef Name="RuleName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RuleSet_Rule_RuleSet">
+          <End Type="MyRuleEngineModel.RuleSet" Role="RuleSet" Multiplicity="1" />
+          <End Type="MyRuleEngineModel.RuleSet_Rule" Role="RuleSet_Rule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RuleSet">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="RuleSet_Rule">
+              <PropertyRef Name="RuleSetName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyRuleEngineModelStoreContainer" CdmEntityContainer="MyRuleEngineEntities">
+          <EntitySetMapping Name="Action">
+            <EntityTypeMapping TypeName="MyRuleEngineModel.Action">
+              <MappingFragment StoreEntitySet="Action">
+                <ScalarProperty Name="AssemblyInfoID" ColumnName="AssemblyInfoID" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssemblyInfo">
+            <EntityTypeMapping TypeName="MyRuleEngineModel.AssemblyInfo">
+              <MappingFragment StoreEntitySet="AssemblyInfo">
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Condition">
+            <EntityTypeMapping TypeName="MyRuleEngineModel.Condition">
+              <MappingFragment StoreEntitySet="Condition">
+                <ScalarProperty Name="AssemblyInfoID" ColumnName="AssemblyInfoID" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rule">
+            <EntityTypeMapping TypeName="MyRuleEngineModel.Rule">
+              <MappingFragment StoreEntitySet="Rule">
+                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+                <ScalarProperty Name="CinditionID" ColumnName="CinditionID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RuleSet">
+            <EntityTypeMapping TypeName="MyRuleEngineModel.RuleSet">
+              <MappingFragment StoreEntitySet="RuleSet">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RuleSet_Rule">
+            <EntityTypeMapping TypeName="MyRuleEngineModel.RuleSet_Rule">
+              <MappingFragment StoreEntitySet="RuleSet_Rule">
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="RuleName" ColumnName="RuleName" />
+                <ScalarProperty Name="RuleSetName" ColumnName="RuleSetName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MyRuleEngineModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vocabulary">
+            <EntityTypeMapping TypeName="MyRuleEngineModel.Vocabulary">
+              <MappingFragment StoreEntitySet="Vocabulary">
+                <ScalarProperty Name="AssemblyInfoID" ColumnName="AssemblyInfoID" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

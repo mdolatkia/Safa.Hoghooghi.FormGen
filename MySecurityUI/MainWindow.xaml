@@ -1,0 +1,86 @@
+﻿<Window  x:Class="MySecurityUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="550" Width="925"
+           xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+         FlowDirection="RightToLeft">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <telerik:RadToolBar >
+
+            <Button Margin="2" BorderBrush="DarkKhaki" Width="70" x:Name="btnUsers" Background="LightGray" Click="btnUsers_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/user.png" ></Image>
+                        <TextBlock Margin="2" Text="کاربران"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <Button Margin="2" BorderBrush="DarkKhaki" Width="70" x:Name="btnRoles" Background="LightGray"  Click="btnRoles_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/role.png" ></Image>
+                        <TextBlock Margin="2" Text="نقشها"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="2" BorderBrush="DarkKhaki" Width="70" x:Name="btnOrganizations" Background="LightGray" Click="btnOrganizations_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/organization.png" ></Image>
+                        <TextBlock Margin="2" Text="سازمانها"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="2" BorderBrush="DarkKhaki"  x:Name="btnOrganizationUser" Background="LightGray" Click="btnOrganizationUser_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/organization_user.png" ></Image>
+                        <TextBlock Margin="2" Text="ارتباط کاربر، سازمان و نقش"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <!--<Button Margin="2" MinWidth="70" x:Name="btnUserRoles" Background="LightGray" Content="Role Assignment" Click="btnUserRoles_Click">
+
+            </Button>-->
+            <!--<Button Margin="2" MinWidth="70" x:Name="btnObjects" Background="LightGray" Content="Objects" Click="btnObjects_Click">-->
+
+            <!--</Button>-->
+            <Button Margin="2" BorderBrush="DarkKhaki" MinWidth="70" x:Name="btnPermissions" Background="LightGray"  Click="btnPermissions_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/permission.png" ></Image>
+                        <TextBlock Margin="2" Text="دسترسی ها"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="2" BorderBrush="DarkKhaki" MinWidth="70" x:Name="btnEntityRoleOrganizationSecurity" Background="LightGray"  Click="btnEntityRoleOrganizationSecurity_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/permission.png" ></Image>
+                        <TextBlock Margin="2" Text="دسترسی داده بر اساس نقش و سازمان"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="2" BorderBrush="DarkKhaki" MinWidth="70" x:Name="btnConditionalPermission" Background="LightGray"  Click="btnConditionalPermission_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/permission.png" ></Image>
+                        <TextBlock Margin="2" Text="دسترسی های شرطی"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </telerik:RadToolBar>
+        <TabControl Grid.Row="1" x:Name="tabForms">
+
+        </TabControl>
+        <!--<telerik:RadTabControl  >
+            <telerik:RadTabItem Header="sdf"></telerik:RadTabItem>
+        </telerik:RadTabControl>-->
+
+    </Grid>
+</Window>

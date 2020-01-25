@@ -1,0 +1,57 @@
+﻿using MyUILibraryInterfaces.EntityArea;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace MyUIGenerator.View
+{
+    /// <summary>
+    /// Interaction logic for frmEntitySelector.xaml
+    /// </summary>
+    public partial class frmGeneralEntitySearch : UserControl, I_View_GeneralEntitySearchArea
+    {
+        public frmGeneralEntitySearch()
+        {
+            InitializeComponent();
+        }
+
+        public event EventHandler SearchLinkClicked;
+        public void AddExternalArea(object view)
+        {
+            grdView.Children.Clear();
+            grdView.Children.Add(view as UIElement);
+        }
+        public void AddEntitySelector(object view, string title)
+        {
+            txtEntitySelector.Text = title;
+            grdEntitySelector.Children.Clear();
+            grdEntitySelector.Children.Add(view as UIElement);
+        }
+        private void btnSearchLink_Click(object sender, RoutedEventArgs e)
+        {
+            if (SearchLinkClicked != null)
+                SearchLinkClicked(this, null);
+        }
+
+        public void EnableDisable(bool enable)
+        {
+            this.IsEnabled = enable;
+        }
+
+        public void EnableDisableSearchLink(bool enable)
+        {
+            btnSearchLink.IsEnabled = enable;
+        }
+    }
+}

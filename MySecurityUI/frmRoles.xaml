@@ -1,0 +1,27 @@
+﻿<UserControl FlowDirection="RightToLeft" xmlns:MySecurityUI="clr-namespace:MySecurityUI"  x:Class="MySecurityUI.frmRoles"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     
+         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    <Grid>
+        <telerik:RadDocking HasDocumentHost="False" >
+           
+                <telerik:RadSplitContainer Orientation="Vertical" InitialPosition="DockedTop" >
+                    <telerik:RadPaneGroup x:Name="pnlRoleList">
+                        <telerik:RadPane Header="لیست نقش ها"  CanFloat="False"  CanUserClose="False" >
+                            <MySecurityUI:frmRoleList x:Name="ucRoleList" />
+                        </telerik:RadPane>
+                    </telerik:RadPaneGroup>
+
+                    <telerik:RadPaneGroup x:Name="pnlRoleEdit">
+                        <telerik:RadPane  Header="تعریف نقش" CanFloat="False" CanUserPin="False" CanDockInDocumentHost="False"  CanUserClose="False">
+                            <MySecurityUI:frmRoleEdit  x:Name="ucRoleEdit"/>
+                        </telerik:RadPane>
+                    </telerik:RadPaneGroup>
+                </telerik:RadSplitContainer>
+         
+            
+      
+        </telerik:RadDocking>
+    </Grid>
+</UserControl>

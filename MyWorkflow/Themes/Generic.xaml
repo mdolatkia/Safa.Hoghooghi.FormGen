@@ -1,0 +1,163 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyWorkflow.Diagram"
+     xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+     xmlns:primitives="clr-namespace:Telerik.Windows.Controls.Diagrams.Primitives;assembly=Telerik.Windows.Controls.Diagrams">
+
+
+    <Style TargetType="{x:Type local:StateShape}">
+        <Setter Property="BorderThickness" Value="4" />
+        <Setter Property="BorderBrush" Value="#6C666666" />
+
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Color="White" />
+                    <GradientStop Offset="1" Color="#FFEDF4FF" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:StateShape">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="MouseStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ActiveConectionStates">
+                                <VisualState x:Name="NormalActiveConnectionState" />
+                                <VisualState x:Name="ActiveConnectionInsideShape">
+                                    <!--<Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0"
+                                               Storyboard.TargetName="ActiveSelectedBorder"
+                                               Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>-->
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ConnectorsAdornerVisibilityStates">
+                                <VisualState x:Name="ConnectorsAdornerCollapsed" />
+                                <VisualState x:Name="ConnectorsAdornerVisible">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0"
+                                               Storyboard.TargetName="ConnectorsControl"
+                                               Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Selected" />
+                                <VisualState x:Name="SelectedInGroup">
+                                    <!--<Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0"
+                                               Storyboard.TargetName="SelectedBorder"
+                                               Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>-->
+                                </VisualState>
+                                <VisualState x:Name="Unselected" />
+                                <VisualState x:Name="SelectedAsGroup" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="EditMode">
+                                <VisualState x:Name="NormalMode" />
+                                <VisualState x:Name="NormalEditMode">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0"
+                                               Storyboard.TargetName="NormalContent"
+                                               Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetName="EditContent"
+                                               Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="TextBoxEditMode">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0"
+                                               Storyboard.TargetName="NormalContent"
+                                               Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetName="EditTextBox"
+                                               Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border  Margin="{TemplateBinding Margin}"
+                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                       BorderBrush="{TemplateBinding BorderBrush}"
+                       BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                       CornerRadius="3">
+
+                            <Grid HorizontalAlignment="Stretch" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" x:Name="txtTitle" Text="{TemplateBinding Title}"></TextBlock>
+                                <!--<Button x:Name="btnActivitieqs" Content="فعالیتها"/>-->
+                                    <Grid HorizontalAlignment="Center" Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                    <Button x:Name="btnEditState"  Content="اصلاح حالت"></Button>
+                                    </Grid>
+                            </Grid>
+
+
+                        </Border>
+
+                        <primitives:ConnectorsControl x:Name="ConnectorsControl"
+                                       ItemsSource="{TemplateBinding Connectors}" Visibility="Collapsed"
+                                       ItemContainerStyle="{TemplateBinding ConnectorStyle}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

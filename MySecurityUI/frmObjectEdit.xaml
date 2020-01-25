@@ -1,0 +1,45 @@
+﻿<UserControl FlowDirection="RightToLeft" x:Class="MySecurityUI.frmObjectEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="auto"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition  Width="150"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition  Width="150"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{DynamicResource TextBlockStyle}" Text="نام آیتم"></TextBlock>
+            <TextBox x:Name="txtObjectName" Width="140" Grid.Column="1" Style="{DynamicResource TextBoxStyle}"></TextBox>
+
+            <TextBlock Grid.Column="2" Style="{DynamicResource TextBlockStyle}" Text="نوع"></TextBlock>
+            <TextBox x:Name="txtCategory" Width="140" Grid.Column="3" Style="{DynamicResource TextBoxStyle}"></TextBox>
+
+            <CheckBox x:Name="chkNeedsExplicitPermission" Grid.Row="1" Width="140" Grid.Column="1" Content="نیاز به مجوز صریح" ></CheckBox>
+        </Grid>
+        <Grid Grid.Row="1">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                
+                <Button x:Name="btnSave" Margin="2" Width="70" Height="25"  Content="ثبت" Click="btnSave_Click"></Button>
+                <Button x:Name="btnNewChild" Margin="2" Width="70" Height="25" Content="زیر شاخه جدید" Click="btnNew_Click"></Button>
+                <Button x:Name="btnNewSibling" Margin="2" Width="70" Height="25" Content="هم ردۀ جدید" Click="btnNewSibling_Click"></Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="MyReportWPFViewer.MyReportViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyReportWPFViewer"
+    xmlns:tr="http://schemas.telerik.com/wpf"       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="600" FlowDirection="RightToLeft"
+    xmlns:telerikReporting="clr-namespace:Telerik.Reporting;assembly=Telerik.Reporting"
+    >
+
+    <Grid  x:Name="grdArea" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Background="#FF12678F" >
+            <TextBlock x:Name="lblTitle" HorizontalAlignment="Center" FontSize="32" Foreground="#FFFAFFCC" ></TextBlock>
+            <StackPanel Margin="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Image Width="27" Cursor="Hand" Margin="4" x:Name="imgReferesh" MouseLeftButtonUp="imgReferesh_MouseLeftButtonUp" Source="/MyUIGenerator;component/Images/refresh.png"></Image>
+                <!--<Image Width="30" Cursor="Hand" Margin="4" x:Name="imgSearch" MouseLeftButtonUp="imgSearch_MouseLeftButtonUp" Source="/MyUIGenerator;component/Images/Search.png"></Image>-->
+            </StackPanel>
+
+        </Grid>
+        <tr:ReportViewer Grid.Row="1" x:Name="ReportViewer1" HorizontalAlignment="Stretch" 
+							>
+          
+            </tr:ReportViewer>
+
+    </Grid>
+
+
+    </UserControl>

@@ -1,0 +1,115 @@
+﻿<UserControl  x:Class="MyProject_WPF.SecurityMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="600"
+           xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+         FlowDirection="RightToLeft">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--<telerik:RadToolBar >
+
+            <Button Margin="2" BorderBrush="DarkKhaki" Width="100" x:Name="btnUsers" Background="LightGray" Click="btnUsers_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/user.png" ></Image>
+                        <TextBlock Margin="2" Text="کاربران"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="2" BorderBrush="DarkKhaki" Width="100" x:Name="btnRoleTypes" Background="LightGray"  Click="btnRoleTypes_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/role.png" ></Image>
+                        <TextBlock Margin="2" Text="انواع نقش"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="2" BorderBrush="DarkKhaki" Width="100" x:Name="btnOrganizatoinTypes" Background="LightGray"  Click="btnOrganizatoinTypes_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/organizationtype.png" ></Image>
+                        <TextBlock Margin="2" Text="انواع سازمان"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <Button Margin="2" BorderBrush="DarkKhaki" Width="100" x:Name="btnOrganizations" Background="LightGray" Click="btnOrganizations_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/organization.png" ></Image>
+                        <TextBlock Margin="2" Text="سازمانها"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            -->
+        <!--<Button Margin="2" BorderBrush="DarkKhaki"  x:Name="btnOrganizationUser" Background="LightGray" Click="btnOrganizationUser_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/organization_user.png" ></Image>
+                        <TextBlock Margin="2" Text="ارتباط کاربر، سازمان و نقش"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>-->
+        <!--<Button Margin="2" MinWidth="70" x:Name="btnUserRoles" Background="LightGray" Content="Role Assignment" Click="btnUserRoles_Click">
+
+            </Button>-->
+        <!--<Button Margin="2" MinWidth="70" x:Name="btnObjects" Background="LightGray" Content="Objects" Click="btnObjects_Click">-->
+
+        <!--</Button>-->
+        <!--
+            <Button Margin="2" BorderBrush="DarkKhaki" MinWidth="100" x:Name="btnPermissions" Background="LightGray"  Click="btnPermissions_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/permission.png" ></Image>
+                        <TextBlock Margin="2" Text="دسترسی ها"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="2" BorderBrush="DarkKhaki" MinWidth="100" x:Name="btnEntitySecurityDirect" Background="LightGray"  Click="btnEntitySecurityDirect_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/datasecurity.png" ></Image>
+                        <TextBlock Margin="2" Text="دسترسی موجودیت/داده مستقیم"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="2" BorderBrush="DarkKhaki" MinWidth="100" x:Name="btnEntitySecurityInDirect" Background="LightGray"  Click="btnEntitySecurityInDirect_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/datasecurityindeirect.png" ></Image>
+                        <TextBlock Margin="2" Text="دسترسی موجودیت/داده غیر مستقیم"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Margin="2" BorderBrush="DarkKhaki" MinWidth="100" x:Name="btnConditionalPermission" Background="LightGray"  Click="btnConditionalPermission_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/conditionalsecurity.png" ></Image>
+                        <TextBlock Margin="2" Text="دسترسی های شرطی"></TextBlock>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </telerik:RadToolBar>-->
+
+        <telerik:RadDocking HasDocumentHost="True" Grid.Row="1"  AllowDragReorder="False" >
+            <telerik:RadSplitContainer Orientation="Vertical"  Width="300" InitialPosition="DockedLeft" >
+                <telerik:RadPaneGroup x:Name="pnlNavigationTree">
+                    <telerik:RadPane Header="فرمهای تینظیم امنیت">
+                        <TreeView x:Name="treeNavigation"></TreeView>
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+            <telerik:RadDocking.DocumentHost >
+                <telerik:RadSplitContainer>
+                    <telerik:RadPaneGroup  x:Name="pnlForms">
+                    </telerik:RadPaneGroup>
+                </telerik:RadSplitContainer>
+            </telerik:RadDocking.DocumentHost>
+        </telerik:RadDocking>
+    </Grid>
+</UserControl>

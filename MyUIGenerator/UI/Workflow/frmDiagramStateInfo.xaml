@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="MyUIGenerator.UI.Workflow.frmDiagramStateInfo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyUIGenerator.UI.Workflow"
+             mc:Ignorable="d"    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+             d:DesignHeight="500" d:DesignWidth="600" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="نام وضعیت"></TextBlock>
+            <TextBox x:Name="txtStateName" Grid.Column="1" IsReadOnly="True"></TextBox>
+            <TextBlock Text="تاریخ ایجاد"  Grid.Column="2"></TextBlock>
+            <TextBox x:Name="txtDate" Width="120" HorizontalAlignment="Left" Grid.Column="3" IsReadOnly="True"></TextBox>
+        
+            <TextBlock Text="اقدامات ممکن بروی وضعیت" Grid.Row="1"></TextBlock>
+            <telerik:RadGridView Margin="2" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Grid.Column="1" Grid.ColumnSpan="3" x:Name="dtgPossibleRequestActions">
+                <telerik:RadGridView.Columns>
+                    <telerik:GridViewDataColumn  Header="شناسه" DataMemberBinding="{Binding ID}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="اقدام" DataMemberBinding="{Binding TransitionAction.Name}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="نام انتقال" DataMemberBinding="{Binding TransitionAction.Transition.Name}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="وضعیت بعدی" DataMemberBinding="{Binding TransitionAction.Transition.NextStateName}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="پستهای هدف" DataMemberBinding="{Binding OrganizationPost.Name}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="تاریخ انجام" DataMemberBinding="{Binding DateTimeCompleted}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="انجام شده" DataMemberBinding="{Binding IsCompleted}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="انجام شده توسط" DataMemberBinding="{Binding User.FullName}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="توضیحات" DataMemberBinding="{Binding Description}"></telerik:GridViewDataColumn>
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+            <TextBlock Text="اقدامات منتج به وضعیت" Grid.Row="2"></TextBlock>
+            <telerik:RadGridView Margin="2" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" AutoGenerateColumns="False" IsReadOnly="True" x:Name="dtgCausingRequestActions">
+                <telerik:RadGridView.Columns>
+                    <telerik:GridViewDataColumn  Header="شناسه" DataMemberBinding="{Binding ID}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="اقدام" DataMemberBinding="{Binding TransitionAction.Name}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="تاریخ انجام" DataMemberBinding="{Binding DateTimeCompleted}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="پستهای هدف" DataMemberBinding="{Binding OrganizationPost.Name}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="انجام دهنده" DataMemberBinding="{Binding User.FullName}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="توضیحات" DataMemberBinding="{Binding Description}"></telerik:GridViewDataColumn>
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+        </Grid>
+        <StackPanel HorizontalAlignment="Right" Grid.Row="1" Orientation="Horizontal" >
+            <Button Content="بازگشت" x:Name="btnExit" Click="btnExit_Click" Width="100"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

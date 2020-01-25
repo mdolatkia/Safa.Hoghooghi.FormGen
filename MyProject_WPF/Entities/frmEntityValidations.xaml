@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="MyProject_WPF.frmEntityValidations"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyProject_WPF"
+        mc:Ignorable="d"
+         Height="500" Width="700">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="عنوان"></TextBlock>
+            <TextBox x:Name="txtTitle" Grid.Column="1"></TextBox>
+            <!--<CheckBox Margin="10,0,10,0" x:Name="chkReslutSensetive" Grid.Column="3">پیشگیری از ثبت</CheckBox>-->
+            <TextBlock Grid.Row="1" Text="پیام مرتبط"></TextBlock>
+            <TextBox x:Name="txtMessage"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Height="50" AcceptsReturn="True"></TextBox>
+        </Grid>
+        <Grid  Margin="2" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+             
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="شروط" HorizontalAlignment="Left"></TextBlock>
+                <RadioButton  x:Name="optFormula" Margin="10,0,10,0" Checked="optFormula_Checked">فرمول</RadioButton>
+                <!--<RadioButton x:Name="optCode" Margin="10,0,10,0" Checked="optCode_Checked">کد</RadioButton>-->
+            </StackPanel>
+            <TabControl Grid.Row="1">
+                <TabItem IsSelected="True" x:Name="tabFormula" Header="فرمول">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                          
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Text="فرمول مرتبط"></TextBlock>
+                        <ComboBox x:Name="cmbFormula" Width="260" Grid.Column="1"></ComboBox>
+                        <Button x:Name="btnAddFormula" Width="90" Height="20" Content="تعریف فرمول" Grid.Column="2" Click="btnAddFormula_Click"></Button>
+                        <!--<TextBlock Grid.Row="1" Text="مقدار مورد تایید"></TextBlock>
+                        <TextBox x:Name="txtFormulaValue" Grid.Row="1" Grid.Column="1" ></TextBox>-->
+                    </Grid>
+                </TabItem>
+                <!--<TabItem x:Name="tabCode" Header="کد">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                          
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Text="فایل مرتبط"></TextBlock>
+                        <TextBlock  Text="فایل مرتبط"></TextBlock>
+                        <ComboBox  x:Name="cmbCodeFunction" HorizontalAlignment="Stretch" Grid.Column="1"></ComboBox>
+                        <Button x:Name="btnAddCodeFunction"  Width="90" Height="20" Content="افزودن فایل ..." Grid.Column="2" Click="btnAddCodeFunction_Click"></Button>
+                        <TextBlock Grid.Row="1" Text="مقدار مورد انتظار"></TextBlock>
+                        <TextBox x:Name="txtCodeValue" Width="230" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" ></TextBox>
+                    </Grid>
+                </TabItem>-->
+            </TabControl>
+            <!--<Border BorderBrush="Black" Grid.Row="1" BorderThickness="1" CornerRadius="5" >
+              
+            </Border>-->
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="ثبت" x:Name="btnSave" Click="btnSave_Click"></Button>
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="جدید" x:Name="btnNew" Click="btnNew_Click"></Button>
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="جستجو" x:Name="btnSearch" Click="btnSearch_Click"></Button>
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="بازگشت" x:Name="btnReturn" Click="btnReturn_Click"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

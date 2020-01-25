@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="MyProject_WPF.frmCodeFunction"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls"
+        mc:Ignorable="d"
+       d:DesignHeight="600" d:DesignWidth="800">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0"  Text="خروجی مورد انتظار"></TextBlock>
+            <TextBlock Background="LightGray" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" x:Name="lblExpectedReturnValue"></TextBlock>
+
+            <TextBlock Grid.Row="1"  Text="پارامتر ورودی مورد انتظار"></TextBlock>
+            <TextBlock Background="LightGray" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" x:Name="lblExpectedParameter"></TextBlock>
+
+            <TextBlock Grid.Row="2"  Text="عنوان"></TextBlock>
+            <TextBox  Grid.Row="2" Grid.Column="1" x:Name="txtName" ></TextBox>
+            
+            <TextBlock Grid.Row="3"  Text="فایل مرتبط"></TextBlock>
+            <TextBox TextChanged="txtCodePath_TextChanged" Grid.Row="3" Grid.Column="1" x:Name="txtCodePath" ></TextBox>
+            <Button Grid.Row="3"  x:Name="btnSelectCode"  Width="90" Height="25" Content="انتخاب فایل ..." Grid.Column="2" Click="btnSelectCode_Click"></Button>
+
+            <TextBlock Grid.Row="4" Text="نام کلاس"></TextBlock>
+            <MyCommonWPFControls:MyStaticLookup SelectionChanged="lokClassName_SelectionChanged" x:Name="lokClassName" HorizontalAlignment="Stretch" Grid.Row="4" Grid.Column="1" Margin="2,2,0,2" ></MyCommonWPFControls:MyStaticLookup>
+            <TextBlock Grid.Row="5"  Text="نام تابع"></TextBlock>
+            <MyCommonWPFControls:MyStaticLookup x:Name="lokFunctionName" SelectionChanged="lokFunctionName_SelectionChanged"  HorizontalAlignment="Stretch" Grid.Row="5" Grid.Column="1" Margin="2,2,0,2" ></MyCommonWPFControls:MyStaticLookup>
+
+            <TextBlock Grid.Row="6"  Text="خروجی تابع"></TextBlock>
+            <TextBlock Background="LightGray" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" x:Name="lblReturnValue"></TextBlock>
+         
+            <!--<TextBlock Grid.Row="7"  Text="نوع خاص"></TextBlock>
+            <ComboBox  Grid.Row="7" Width="120" HorizontalAlignment="Left" Grid.Column="1" x:Name="cmbValueCustomType"></ComboBox>-->
+            
+            <TextBlock Grid.Row="8"  Text="پارامترها"></TextBlock>
+            <TabControl  Grid.Row="8" Grid.Column="1">
+                <TabItem Header="پارامترهای تابع">
+                    <telerik:RadGridView AutoGenerateColumns="False"  x:Name="dtgCodeFunctionCurrentParams" >
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn Header="نام پارامتر" DataMemberBinding="{Binding ParameterName}" />
+                            <telerik:GridViewDataColumn Header="نوع پارامتر" DataMemberBinding="{Binding DataType}" />
+                            <!--<telerik:GridViewComboBoxColumn Header="ستون مرتبط" DataMemberBinding="{Binding ColumnID}" />-->
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                </TabItem>
+                <TabItem Header="پارامترهای ثبت شده قبلی">
+                    <telerik:RadGridView AutoGenerateColumns="False"  Height="200" x:Name="dtgSavedFunctionCurrentParams" >
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn Header="نام پارامتر" DataMemberBinding="{Binding ParameterName}" />
+                            <telerik:GridViewDataColumn Header="نوع پارامتر" DataMemberBinding="{Binding DataType}" />
+                            <!--<telerik:GridViewComboBoxColumn Header="ستون مرتبط" DataMemberBinding="{Binding ColumnID}" />-->
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                </TabItem>
+            </TabControl>
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="لیست کدها" x:Name="btnCodeList" Click="btnCodeList_Click"></Button>
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="ثبت و انتخاب" x:Name="btnSaveAndSelect" Click="btnSaveAndSelect_Click"></Button>
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="بازگشت" x:Name="btnReturn" Click="btnReturn_Click"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

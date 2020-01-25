@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27638591-E3A9-4697-87C5-19C33E24A658}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyFormulaFunctionStateFunctionLibrary</RootNamespace>
+    <AssemblyName>MyFormulaFunctionStateFunctionLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Windows.Controls.Expressions, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Componenets\Telerik\Telerik.Windows.Controls.Expressions.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FormulaFunctionHandler.cs" />
+    <Compile Include="FormulaDefinitionInstance.cs" />
+    <Compile Include="FormulaHelper.cs" />
+    <Compile Include="FormulaInstanceInternalHelper.cs" />
+    <Compile Include="FormulaInstanceItemsHelper.cs" />
+    <Compile Include="FormulaObject.cs" />
+    <Compile Include="StateHandler.cs" />
+    <Compile Include="FormulaInstance.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tempClasses.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyCodeFunctionLibrary\MyCodeFunctionLibrary.csproj">
+      <Project>{C384C65C-05C3-4E36-84D2-D9551745E91E}</Project>
+      <Name>MyCodeFunctionLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyConnectionManager\MyConnectionManager.csproj">
+      <Project>{BD833980-A9AD-4889-A9B0-23A0EFCFEA80}</Project>
+      <Name>MyConnectionManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDataSearchManagerBusiness\MyDataSearchManagerBusiness.csproj">
+      <Project>{518bdf6d-0ad2-44dd-945d-dcf74bb4a055}</Project>
+      <Name>MyDataSearchManagerBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDatatbaseFunctionLibrary\MyDatabaseFunctionLibrary.csproj">
+      <Project>{867C4746-8C02-458D-9A5D-28B60FB88E18}</Project>
+      <Name>MyDatabaseFunctionLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyGeneralLibrary\MyGeneralLibrary.csproj">
+      <Project>{6F52D329-3BDD-4A8A-BB6E-5FE5A118E3BE}</Project>
+      <Name>MyGeneralLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyInterfaces\MyInterfaces.csproj">
+      <Project>{8ABC6369-3F6E-40FB-A354-5106930CB07C}</Project>
+      <Name>MyInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyModelManager\MyModelManager.csproj">
+      <Project>{c85c5486-ca1a-4963-8594-c85e441cebc2}</Project>
+      <Name>MyModelManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyUILibraryInterfaces\MyUILibraryInterfaces.csproj">
+      <Project>{5c85873c-c376-4899-8806-fe8544419b18}</Project>
+      <Name>MyUILibraryInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProxyLibrary\ProxyLibrary.csproj">
+      <Project>{2ad586dd-c9be-42d3-8ef7-e9657f992503}</Project>
+      <Name>ProxyLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

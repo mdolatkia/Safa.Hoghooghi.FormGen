@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="MyProject_WPF.UC_LetterTemplateFields"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="لیست ستونها"/>
+            <MyCommonWPFControls:MyStaticLookup NewItemEnabled="True" HorizontalAlignment="Stretch" EditItemEnabled="True"  x:Name="lokEntityListView"  Grid.Column="1" />
+        </Grid>
+        <TabControl Grid.Row="1">
+            <TabItem Header="فیلدهای ساده">
+                <telerik:RadGridView AutoGenerateColumns="False" x:Name="dtgPlainFields" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3">
+                    <telerik:RadGridView.Columns>
+                        <!--<telerik:GridViewComboBoxColumn x:Name="colFieldType" Header="نوع" DataMemberBinding="{Binding LetterTemplateFieldType}" />-->
+                        <telerik:GridViewDataColumn Header="نام فیلد" DataMemberBinding="{Binding FieldName}" />
+                        <telerik:GridViewComboBoxColumn x:Name="colColumns" Header="ستون" DataMemberBinding="{Binding EntityListViewColumnsID}" />
+                        <telerik:GridViewComboBoxColumn x:Name="colParameters" Header="پارامتر" DataMemberBinding="{Binding FormulaID}" />
+
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </TabItem>
+            <TabItem Header="فیلدهای رابطه ای">
+                <telerik:RadGridView AutoGenerateColumns="False" x:Name="dtgRelationshipFields" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3">
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn Header="نام فیلد" DataMemberBinding="{Binding FieldName}" />
+                        <MyCommonWPFControls:MyStaticLookupColumn   x:Name="colRelationshipTail" Header=" رابطه" DataMemberBinding="{Binding RelationshipTailID}" />
+                        <MyCommonWPFControls:MyStaticLookupColumn  ItemsSourceBinding="{Binding tmpPartialLetterTemplates}" x:Name="colPartialLetterTemplates" Header="قالب رابطه" DataMemberBinding="{Binding PartialLetterTemplateID}" />
+                        <telerik:GridViewCheckBoxColumn Header="خط بعد" DataMemberBinding="{Binding NextLine}" />
+                        <telerik:GridViewCheckBoxColumn Header="ردیف" DataMemberBinding="{Binding IsRow}" />
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

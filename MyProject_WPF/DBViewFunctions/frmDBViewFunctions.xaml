@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="MyProject_WPF.frmDBViewFunctions"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyProject_WPF"
+             mc:Ignorable="d" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             d:DesignHeight="600" d:DesignWidth="700" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Margin="2" Width="140" Content="استخراج روابط" x:Name="btnImportRelationships" Click="btnImportRelationships_Click"></Button>
+                        <Button Margin="2" Width="190" Content="اعمال قوانین شناسایی نوع رابطه" x:Name="btnImposeRelationshipRule" Click="btnImposeRuleRelationship_Click"></Button>
+                    </StackPanel>-->
+        <TabControl x:Name="tabOtherObjects" Grid.Row="1">
+
+            <!--<TabItem Name="tabImportViews" Header="نماها">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90" x:Name="btnRefreshViews" Click="btnRefreshViews_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" HorizontalAlignment="Right" Width="160" Click="btnImportViews_Click" x:Name="btnImportViews">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\extract.png"  />
+                                <TextBlock Text="استخراج نماها"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                  
+                    <telerik:RadGridView x:Name="dtgViews" Grid.Row="1">
+
+                    </telerik:RadGridView>
+                </Grid>
+            </TabItem>-->
+            <TabItem Name="tabImportFunctions" Header="توابع">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90"  x:Name="btnUpdateDBFunctions" Click="btnUpdateDBFunctions_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\save.png"  />
+                                <TextBlock Text="ثبت"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" Width="90" x:Name="btnRefreshFunctions" Click="btnRefreshFunctions_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" HorizontalAlignment="Right" Width="160" Click="btnImportFunctions_Click" x:Name="btnImportFunctions">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\extract.png"  />
+                                <TextBlock Text="اسنخراج توابع"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <telerik:RadGridView x:Name="dtgFunctions" Grid.Row="1">
+
+                    </telerik:RadGridView>
+                </Grid>
+            </TabItem>
+            <TabItem Name="tabImportUniqueConstraint" Header="محدودیتهای یکتایی">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90" x:Name="btnRefreshUniqueConstraints" Click="btnRefreshUniqueConstraints_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" HorizontalAlignment="Right" Width="160"  Click="btnImportUniqueConstraints_Click" x:Name="btnImportUniqueConstraints">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\extract.png"  />
+                                <TextBlock Text="استخراج محدودیتهای یکتایی"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                 
+                    <telerik:RadGridView x:Name="dtgUniqueConstraint" Grid.Row="1">
+
+                    </telerik:RadGridView>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

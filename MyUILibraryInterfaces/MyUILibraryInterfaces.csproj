@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5C85873C-C376-4899-8806-FE8544419B18}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyUILibraryInterfaces</RootNamespace>
+    <AssemblyName>MyUILibraryInterfaces</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Reporting, Version=12.1.18.620, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChartReportArea\I_ChartReportArea.cs" />
+    <Compile Include="ContextMenu\ContextMenuArg.cs" />
+    <Compile Include="DataLink\I_DataLinkArea.cs" />
+    <Compile Include="DataMenu\I_DataMenuArea.cs" />
+    <Compile Include="DataReportArea\I_DataReportArea.cs" />
+    <Compile Include="DataTreeArea\I_DataTree.cs" />
+    <Compile Include="DataViewArea\I_DataViewArea.cs" />
+    <Compile Include="EditEntityArea\CommandFunctionParam.cs" />
+    <Compile Include="EditEntityArea\EditEntityAreaInfo.cs" />
+    <Compile Include="EditEntityArea\EditEntityAreaInitializer.cs" />
+    <Compile Include="EditEntityArea\Interfaces\IAG_View_TemporaryDisplayView.cs" />
+    <Compile Include="EditEntityArea\Interfaces\IAG_View_TemporarySearchView.cs" />
+    <Compile Include="EditEntityArea\Interfaces\IAG_View_TemporaryView.cs" />
+    <Compile Include="EditEntityArea\Interfaces\I_EditAreaDataManager.cs" />
+    <Compile Include="EditEntityArea\Interfaces\I_EditEntityArea.cs" />
+    <Compile Include="EditEntityArea\Interfaces\I_EditEntityArchiveArea.cs" />
+    <Compile Include="EditEntityArea\Interfaces\I_EntityAreaCommand.cs" />
+    <Compile Include="EditEntityArea\Interfaces\I_FormulaCalculationArea.cs" />
+    <Compile Include="GeneralEntitySearchArea\I_GeneralEntitySearchArea.cs" />
+    <Compile Include="EntitySelectArea\I_EntitySelectArea.cs" />
+    <Compile Include="EditEntityArea\Interfaces\I_View_DataDependentControl.cs" />
+    <Compile Include="EditEntityArea\Interfaces\I_View_EditEntityAreaDataView.cs" />
+    <Compile Include="EditEntityArea\Interfaces\I_EditEntityLetterArea.cs" />
+    <Compile Include="EditEntityArea\Interfaces\I_View_EditEntityAreaInfo.cs" />
+    <Compile Include="EditEntityArea\Temp.cs" />
+    <Compile Include="EditPackageArea\EditPackageAreaInitializer.cs" />
+    <Compile Include="GridViewArea\I_GridViewArea.cs" />
+    <Compile Include="LogReportArea\I_LogReportArea.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportArea\I_ExternalReportArea.cs" />
+    <Compile Include="ReportArea\I_InternalReportArea.cs" />
+    <Compile Include="ReportArea\I_View_ReportList.cs" />
+    <Compile Include="ReportArea\ReportAreaInitializer.cs" />
+    <Compile Include="SearchEntityArea\Interfaces\I_SearchAreaCommand.cs" />
+    <Compile Include="SearchEntityArea\Interfaces\I_SearchEntityArea.cs" />
+    <Compile Include="SearchEntityArea\Interfaces\I_View_SearchEntityArea.cs" />
+    <Compile Include="SearchEntityArea\SearchEntityAreaInitializer.cs" />
+    <Compile Include="SearchEntityArea\Temp.cs" />
+    <Compile Include="SearchViewEntityArea\Interfaces\I_SearchViewEntityArea.cs" />
+    <Compile Include="SearchViewEntityArea\Interfaces\I_View_SearchViewEntityArea.cs" />
+    <Compile Include="SearchViewEntityArea\SearchViewAreaInitializer.cs" />
+    <Compile Include="Temp\AG_CommandExecutionRequest.cs" />
+    <Compile Include="Temp\Arg_PackageSelected.cs" />
+    <Compile Include="Temp\Class1.cs" />
+    <Compile Include="Temp\ColumnSetting.cs" />
+    <Compile Include="Temp\Enum_UI_PropertyType.cs" />
+    <Compile Include="Temp\IAgentUIManager.cs" />
+    <Compile Include="Temp\I_Command.cs" />
+    <Compile Include="Temp\I_DeleteCommand.cs" />
+    <Compile Include="Temp\I_Control.cs" />
+    <Compile Include="Temp\I_Login.cs" />
+    <Compile Include="Temp\I_SaveCommand.cs" />
+    <Compile Include="Temp\I_SecuritySetting.cs" />
+    <Compile Include="ReportArea\I_View_ReportArea.cs" />
+    <Compile Include="ViewEntityArea\Interface\I_ViewEntityArea.cs" />
+    <Compile Include="ViewEntityArea\Interface\I_ViewAreaCommand.cs" />
+    <Compile Include="ViewEntityArea\Interface\I_View_ViewEntityArea.cs" />
+    <Compile Include="ViewEntityArea\ViewEntityAreaInitializer.cs" />
+    <Compile Include="WorkflowArea\Class1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyCommonWPFControls\MyCommonWPFControls.csproj">
+      <Project>{DF529814-4102-4145-9345-B405ED79138A}</Project>
+      <Name>MyCommonWPFControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyInterfaces\MyInterfaces.csproj">
+      <Project>{8ABC6369-3F6E-40FB-A354-5106930CB07C}</Project>
+      <Name>MyInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProxyLibrary\ProxyLibrary.csproj">
+      <Project>{2AD586DD-C9BE-42D3-8EF7-E9657F992503}</Project>
+      <Name>ProxyLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EditPackageArea\Interfaces\" />
+    <Folder Include="LetterArea\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

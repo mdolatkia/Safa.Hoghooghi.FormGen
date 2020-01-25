@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="MySecurityUI.frmEntityRoleSecurityIndirect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        mc:Ignorable="d"
+        Height="250" Width="600" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+
+        </Grid.RowDefinitions>
+     
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{DynamicResource TextBlockStyle}" Text="امنیت سازمانی مستقیم"></TextBlock>
+                    <ComboBox  x:Name="cmbDirectRoleSecurity" Width="230" SelectionChanged="cmbDirectRoleSecurity_SelectionChanged" Grid.Column="1"></ComboBox>
+                    <TextBlock Grid.Row="1" Style="{DynamicResource TextBlockStyle}" Text="مسیر دسترسی"></TextBlock>
+                    <ComboBox  Grid.Row="1" x:Name="cmbRelationshipTail" HorizontalAlignment="Stretch" Grid.Column="1"></ComboBox>
+                    <Button Grid.Row="1" x:Name="btnRelationshipTail"  Width="120" Height="20" Content="افزودن زنجیره رابطه ..." Grid.Column="2" Click="btnRelationshipTail_Click"></Button>
+                </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="ثبت" x:Name="btnSave" Click="btnSave_Click"></Button>
+            <!--<Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="بازگشت" x:Name="btnReturn" Click="btnReturn_Click"></Button>-->
+        </StackPanel>
+    </Grid>
+</UserControl>
