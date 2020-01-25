@@ -1090,14 +1090,6 @@
       <Project>{c85c5486-ca1a-4963-8594-c85e441cebc2}</Project>
       <Name>MyModelManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MyRuleEngine\MyRuleEngine.csproj">
-      <Project>{0bbd2ee2-18e4-4135-a87d-f800dddde099}</Project>
-      <Name>MyRuleEngine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyRules\MyRules.csproj">
-      <Project>{1caad937-7b4f-475c-b489-db97c6f8aaf2}</Project>
-      <Name>MyRules</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MySecurity\MySecurity.csproj">
       <Project>{878D3665-BE5E-401F-A859-C81D3406E5C7}</Project>
       <Name>MySecurity</Name>
