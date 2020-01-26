@@ -33,14 +33,14 @@
                 <RadioButton x:Name="optPersist" Checked="chkPersist_Checked" Content="وضعیت ذخیره شود (همه انواع اقدامات قابل انتخاب خواهند بود)"></RadioButton>
                 <RadioButton x:Name="optNotPersist" Checked="chkPersist_Checked" Content="وضعیت ذخیره نشود (صرفا اقدامات ظاهری قابل انتخاب خواهند بود)"></RadioButton>
             </StackPanel>-->
-            
-           
+
+
         </Grid>
         <Grid  Margin="2" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-             
+
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Text="شروط" HorizontalAlignment="Left"></TextBlock>
@@ -52,26 +52,30 @@
                     <Grid Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
-                            
+
                         </Grid.ColumnDefinitions>
                         <TextBlock  Text="فرمول مرتبط"></TextBlock>
                         <ComboBox x:Name="cmbFormula" Width="260" Grid.Column="1"></ComboBox>
                         <Button x:Name="btnAddFormula" Width="90" Height="20" Content="تعریف فرمول" Grid.Column="2" Click="btnAddFormula_Click"></Button>
                         <TextBlock Grid.Row="1" Text="مقدار مورد انتظار"></TextBlock>
-                        <TextBox x:Name="txtFormulaValue" Grid.Row="1" Grid.Column="1" ></TextBox>
+                        <telerik:RadGridView x:Name="dtgFormulaValue"  Grid.Row="1" Grid.Column="1" >
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn Header="مقدار" DataMemberBinding="{Binding Value}" />
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView>
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="tabColumn" Header="ستون">
                     <Grid Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -83,7 +87,11 @@
                         <TextBlock  Text="ستون"></TextBlock>
                         <ComboBox  x:Name="cmbColumns" Width="230" Grid.Column="1"></ComboBox>
                         <TextBlock Grid.Row="1" Text="مقدار مورد انتظار"></TextBlock>
-                        <TextBox x:Name="txtColumnValue" Width="230" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" ></TextBox>
+                        <telerik:RadGridView x:Name="dtgColumnValue"  Grid.Row="1" Grid.Column="1" >
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn Header="مقدار" DataMemberBinding="{Binding Value}" />
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView>
                         <TextBlock Grid.Row="2" Text="عملگر"></TextBlock>
                         <ComboBox x:Name="cmbOperator" Width="230" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" ></ComboBox>
                     </Grid>

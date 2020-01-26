@@ -24,24 +24,24 @@ namespace MyFormulaFunctionStateFunctionLibrary
                 var property = mainDataItem.GetProperty(state.ColumnID);
                 if (property != null)
                 {
-                    if (property.Value == state.Value)
+                    if (state.Values.Any(x => x.Value == property.Value))
                     {
-                        result.Result = true;
+                        result.Result = state.EntityStateOperator == Enum_EntityStateOperator.Equals;
                     }
                     else
-                        result.Result = false;
+                        result.Result = state.EntityStateOperator == Enum_EntityStateOperator.NotEquals;
                 }
             }
             else if (state.FormulaID != 0)
             {
                 FormulaFunctionHandler FormulaFunctionHandler = new FormulaFunctionHandler();
                 var value = FormulaFunctionHandler.CalculateFormula(state.FormulaID, mainDataItem, requester);
-                if (value.Result.ToString() == state.Value)
+                if (state.Values.Any(x => x.Value == value.Result.ToString()))
                 {
-                    result.Result = true;
+                    result.Result = state.EntityStateOperator == Enum_EntityStateOperator.Equals;
                 }
                 else
-                    result.Result = false;
+                    result.Result = state.EntityStateOperator == Enum_EntityStateOperator.NotEquals;
             }
             return result;
             //////    var parameters = new List<object>();

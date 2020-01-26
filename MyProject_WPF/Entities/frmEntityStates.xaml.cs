@@ -45,6 +45,9 @@ namespace MyProject_WPF
             }
             else
                 GetEntityState(EntityStateID);
+            ControlHelper.GenerateContextMenu(dtgColumnValue);
+            ControlHelper.GenerateContextMenu(dtgFormulaValue);
+
         }
 
         private void SetActionActivities()
@@ -96,15 +99,20 @@ namespace MyProject_WPF
             if (StateDTO.FormulaID != 0)
             {
                 cmbFormula.SelectedValue = StateDTO.FormulaID;
-                txtFormulaValue.Text = StateDTO.Value;
+                dtgFormulaValue.ItemsSource = StateDTO.Values;
                 optFormula.IsChecked = true;
             }
             else if (StateDTO.ColumnID != 0)
             {
                 cmbOperator.SelectedItem = StateDTO.EntityStateOperator;
                 cmbColumns.SelectedValue = StateDTO.ColumnID;
-                txtColumnValue.Text = StateDTO.Value;
+                dtgColumnValue.ItemsSource = StateDTO.Values;
                 optColumn.IsChecked = true;
+            }
+            else
+            {
+                dtgFormulaValue.ItemsSource = StateDTO.Values;
+                dtgColumnValue.ItemsSource = StateDTO.Values;
             }
         }
         private void optFormula_Checked(object sender, RoutedEventArgs e)
@@ -182,13 +190,11 @@ namespace MyProject_WPF
             {
                 StateDTO.FormulaID = (int)cmbFormula.SelectedValue;
                 StateDTO.ColumnID = 0;
-                StateDTO.Value = txtFormulaValue.Text;
             }
             else if (optColumn.IsChecked == true)
             {
                 StateDTO.FormulaID = 0;
                 StateDTO.ColumnID = (int)cmbColumns.SelectedValue;
-                StateDTO.Value = txtColumnValue.Text;
             }
             bizEntityState.UpdateEntityStates(StateDTO);
             MessageBox.Show("اطلاعات ثبت شد");

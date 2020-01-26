@@ -990,8 +990,15 @@
           <Property Name="FormulaID" Type="int" />
           <Property Name="ColumnID" Type="int" />
           <Property Name="Title" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="Value" Type="varchar(max)" Nullable="false" />
           <Property Name="EntityStateOperator" Type="smallint" />
+        </EntityType>
+        <EntityType Name="TableDrivedEntityStateValues">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Value" Type="varchar(max)" Nullable="false" />
+          <Property Name="TableDrivedEntityStateID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TabPageUISetting">
           <Key>
@@ -1027,6 +1034,14 @@
           <Property Name="ColumnValueRangeID" Type="int" Nullable="false" />
           <Property Name="EnumTag" Type="smallint" Nullable="false" />
           <Property Name="Value" Type="varchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UIColumnValueRangeReset">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UIActionActivityID" Type="int" Nullable="false" />
+          <Property Name="ColumnValueRangeID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UIEnablityDetails">
           <Key>
@@ -2064,6 +2079,18 @@
             </Principal>
             <Dependent Role="TableDrivedEntity">
               <PropertyRef Name="EntitySearchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableDrivedEntityStateValues_TableDrivedEntityState">
+          <End Role="TableDrivedEntityState" Type="Self.TableDrivedEntityState" Multiplicity="1" />
+          <End Role="TableDrivedEntityStateValues" Type="Self.TableDrivedEntityStateValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntityState">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntityStateValues">
+              <PropertyRef Name="TableDrivedEntityStateID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4359,6 +4386,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKUIColumnVa9864126">
+          <End Role="UIActionActivity" Type="Self.UIActionActivity" Multiplicity="1" />
+          <End Role="UIColumnValueRangeReset" Type="Self.UIColumnValueRangeReset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UIActionActivity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UIColumnValueRangeReset">
+              <PropertyRef Name="UIActionActivityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKUIColumnVa986416">
           <End Role="UIActionActivity" Type="Self.UIActionActivity" Multiplicity="1" />
           <End Role="UIColumnValueRange" Type="Self.UIColumnValueRange" Multiplicity="*" />
@@ -4596,10 +4635,12 @@
           <EntitySet Name="TableDrivedEntity_Columns" EntityType="Self.TableDrivedEntity_Columns" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TableDrivedEntity_EntityCommand" EntityType="Self.TableDrivedEntity_EntityCommand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TableDrivedEntityState" EntityType="Self.TableDrivedEntityState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TableDrivedEntityStateValues" EntityType="Self.TableDrivedEntityStateValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TabPageUISetting" EntityType="Self.TabPageUISetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UIActionActivity" EntityType="Self.UIActionActivity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UIColumnValue" EntityType="Self.UIColumnValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UIColumnValueRange" EntityType="Self.UIColumnValueRange" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UIColumnValueRangeReset" EntityType="Self.UIColumnValueRangeReset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UIEnablityDetails" EntityType="Self.UIEnablityDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnionRelationshipType" EntityType="Self.UnionRelationshipType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnionToSubUnionRelationshipType" EntityType="Self.UnionToSubUnionRelationshipType" Schema="dbo" store:Type="Tables" />
@@ -4871,6 +4912,10 @@
           <AssociationSet Name="FK_TableDrivedEntity_EntitySearch" Association="Self.FK_TableDrivedEntity_EntitySearch">
             <End Role="EntitySearch" EntitySet="EntitySearch" />
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableDrivedEntityStateValues_TableDrivedEntityState" Association="Self.FK_TableDrivedEntityStateValues_TableDrivedEntityState">
+            <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
+            <End Role="TableDrivedEntityStateValues" EntitySet="TableDrivedEntityStateValues" />
           </AssociationSet>
           <AssociationSet Name="FK_UIEnablityDetails_UIActionActivity" Association="Self.FK_UIEnablityDetails_UIActionActivity">
             <End Role="UIActionActivity" EntitySet="UIActionActivity" />
@@ -5636,6 +5681,10 @@
             <End Role="Action" EntitySet="Action" />
             <End Role="TransitionAction" EntitySet="TransitionAction" />
           </AssociationSet>
+          <AssociationSet Name="FKUIColumnVa9864126" Association="Self.FKUIColumnVa9864126">
+            <End Role="UIActionActivity" EntitySet="UIActionActivity" />
+            <End Role="UIColumnValueRangeReset" EntitySet="UIColumnValueRangeReset" />
+          </AssociationSet>
           <AssociationSet Name="FKUIColumnVa986416" Association="Self.FKUIColumnVa986416">
             <End Role="UIActionActivity" EntitySet="UIActionActivity" />
             <End Role="UIColumnValueRange" EntitySet="UIColumnValueRange" />
@@ -5790,10 +5839,12 @@
           <EntitySet Name="TableDrivedEntity_Columns" EntityType="MyProjectModel.TableDrivedEntity_Columns" />
           <EntitySet Name="TableDrivedEntity_EntityCommand" EntityType="MyProjectModel.TableDrivedEntity_EntityCommand" />
           <EntitySet Name="TableDrivedEntityState" EntityType="MyProjectModel.TableDrivedEntityState" />
+          <EntitySet Name="TableDrivedEntityStateValues" EntityType="MyProjectModel.TableDrivedEntityStateValues" />
           <EntitySet Name="TabPageUISetting" EntityType="MyProjectModel.TabPageUISetting" />
           <EntitySet Name="UIActionActivity" EntityType="MyProjectModel.UIActionActivity" />
           <EntitySet Name="UIColumnValue" EntityType="MyProjectModel.UIColumnValue" />
           <EntitySet Name="UIColumnValueRange" EntityType="MyProjectModel.UIColumnValueRange" />
+          <EntitySet Name="UIColumnValueRangeReset" EntityType="MyProjectModel.UIColumnValueRangeReset" />
           <EntitySet Name="UIEnablityDetails" EntityType="MyProjectModel.UIEnablityDetails" />
           <EntitySet Name="UnionRelationshipType" EntityType="MyProjectModel.UnionRelationshipType" />
           <EntitySet Name="UnionToSubUnionRelationshipType" EntityType="MyProjectModel.UnionToSubUnionRelationshipType" />
@@ -6681,6 +6732,10 @@
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
             <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
           </AssociationSet>
+          <AssociationSet Name="FK_TableDrivedEntityStateValues_TableDrivedEntityState" Association="MyProjectModel.FK_TableDrivedEntityStateValues_TableDrivedEntityState">
+            <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
+            <End Role="TableDrivedEntityStateValues" EntitySet="TableDrivedEntityStateValues" />
+          </AssociationSet>
           <AssociationSet Name="FK_UIEnablityDetails_UIActionActivity" Association="MyProjectModel.FK_UIEnablityDetails_UIActionActivity">
             <End Role="UIActionActivity" EntitySet="UIActionActivity" />
             <End Role="UIEnablityDetails" EntitySet="UIEnablityDetails" />
@@ -6688,6 +6743,10 @@
           <AssociationSet Name="FKColumnValu201622" Association="MyProjectModel.FKColumnValu201622">
             <End Role="UIActionActivity" EntitySet="UIActionActivity" />
             <End Role="UIColumnValue" EntitySet="UIColumnValue" />
+          </AssociationSet>
+          <AssociationSet Name="FKUIColumnVa9864126" Association="MyProjectModel.FKUIColumnVa9864126">
+            <End Role="UIActionActivity" EntitySet="UIActionActivity" />
+            <End Role="UIColumnValueRangeReset" EntitySet="UIColumnValueRangeReset" />
           </AssociationSet>
           <AssociationSet Name="FKUIColumnVa986416" Association="MyProjectModel.FKUIColumnVa986416">
             <End Role="UIActionActivity" EntitySet="UIActionActivity" />
@@ -8245,13 +8304,22 @@
           <Property Name="FormulaID" Type="Int32" />
           <Property Name="ColumnID" Type="Int32" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="EntityStateOperator" Type="Int16" />
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FKTableDrive277199" FromRole="TableDrivedEntityState" ToRole="Column" />
           <NavigationProperty Name="EntityState_UIActionActivity" Relationship="MyProjectModel.FKEntityStat936255" FromRole="TableDrivedEntityState" ToRole="EntityState_UIActionActivity" />
           <NavigationProperty Name="Formula" Relationship="MyProjectModel.FKTableDrive466458" FromRole="TableDrivedEntityState" ToRole="Formula" />
           <NavigationProperty Name="FormulaItems" Relationship="MyProjectModel.FK_FormulaItems_TableDrivedEntityState" FromRole="TableDrivedEntityState" ToRole="FormulaItems" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKTableDrive764829" FromRole="TableDrivedEntityState" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="TableDrivedEntityStateValues" Relationship="MyProjectModel.FK_TableDrivedEntityStateValues_TableDrivedEntityState" FromRole="TableDrivedEntityState" ToRole="TableDrivedEntityStateValues" />
+        </EntityType>
+        <EntityType Name="TableDrivedEntityStateValues">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TableDrivedEntityStateID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TableDrivedEntityState" Relationship="MyProjectModel.FK_TableDrivedEntityStateValues_TableDrivedEntityState" FromRole="TableDrivedEntityStateValues" ToRole="TableDrivedEntityState" />
         </EntityType>
         <EntityType Name="TabPageUISetting">
           <Key>
@@ -8273,6 +8341,7 @@
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKActionActi421900" FromRole="UIActionActivity" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="UIEnablityDetails" Relationship="MyProjectModel.FK_UIEnablityDetails_UIActionActivity" FromRole="UIActionActivity" ToRole="UIEnablityDetails" />
           <NavigationProperty Name="UIColumnValue" Relationship="MyProjectModel.FKColumnValu201622" FromRole="UIActionActivity" ToRole="UIColumnValue" />
+          <NavigationProperty Name="UIColumnValueRangeReset" Relationship="MyProjectModel.FKUIColumnVa9864126" FromRole="UIActionActivity" ToRole="UIColumnValueRangeReset" />
           <NavigationProperty Name="UIColumnValueRange" Relationship="MyProjectModel.FKUIColumnVa986416" FromRole="UIActionActivity" ToRole="UIColumnValueRange" />
         </EntityType>
         <EntityType Name="UIColumnValue">
@@ -8297,6 +8366,15 @@
           <Property Name="EnumTag" Type="Int16" Nullable="false" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UIActionActivity" Relationship="MyProjectModel.FKUIColumnVa986416" FromRole="UIColumnValueRange" ToRole="UIActionActivity" />
+        </EntityType>
+        <EntityType Name="UIColumnValueRangeReset">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UIActionActivityID" Type="Int32" Nullable="false" />
+          <Property Name="ColumnValueRangeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UIActionActivity" Relationship="MyProjectModel.FKUIColumnVa9864126" FromRole="UIColumnValueRangeReset" ToRole="UIActionActivity" />
         </EntityType>
         <EntityType Name="UIEnablityDetails">
           <Key>
@@ -11292,6 +11370,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TableDrivedEntityStateValues_TableDrivedEntityState">
+          <End Type="MyProjectModel.TableDrivedEntityState" Role="TableDrivedEntityState" Multiplicity="1" />
+          <End Type="MyProjectModel.TableDrivedEntityStateValues" Role="TableDrivedEntityStateValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntityState">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntityStateValues">
+              <PropertyRef Name="TableDrivedEntityStateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UIEnablityDetails_UIActionActivity">
           <End Type="MyProjectModel.UIActionActivity" Role="UIActionActivity" Multiplicity="0..1" />
           <End Type="MyProjectModel.UIEnablityDetails" Role="UIEnablityDetails" Multiplicity="*" />
@@ -11312,6 +11402,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="UIColumnValue">
+              <PropertyRef Name="UIActionActivityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKUIColumnVa9864126">
+          <End Type="MyProjectModel.UIActionActivity" Role="UIActionActivity" Multiplicity="1" />
+          <End Type="MyProjectModel.UIColumnValueRangeReset" Role="UIColumnValueRangeReset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UIActionActivity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UIColumnValueRangeReset">
               <PropertyRef Name="UIActionActivityID" />
             </Dependent>
           </ReferentialConstraint>
@@ -12934,11 +13036,19 @@
             <EntityTypeMapping TypeName="MyProjectModel.TableDrivedEntityState">
               <MappingFragment StoreEntitySet="TableDrivedEntityState">
                 <ScalarProperty Name="EntityStateOperator" ColumnName="EntityStateOperator" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
                 <ScalarProperty Name="FormulaID" ColumnName="FormulaID" />
                 <ScalarProperty Name="TableDrivedEntityID" ColumnName="TableDrivedEntityID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableDrivedEntityStateValues">
+            <EntityTypeMapping TypeName="MyProjectModel.TableDrivedEntityStateValues">
+              <MappingFragment StoreEntitySet="TableDrivedEntityStateValues">
+                <ScalarProperty Name="TableDrivedEntityStateID" ColumnName="TableDrivedEntityStateID" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -12976,6 +13086,15 @@
               <MappingFragment StoreEntitySet="UIColumnValueRange">
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="EnumTag" ColumnName="EnumTag" />
+                <ScalarProperty Name="ColumnValueRangeID" ColumnName="ColumnValueRangeID" />
+                <ScalarProperty Name="UIActionActivityID" ColumnName="UIActionActivityID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UIColumnValueRangeReset">
+            <EntityTypeMapping TypeName="MyProjectModel.UIColumnValueRangeReset">
+              <MappingFragment StoreEntitySet="UIColumnValueRangeReset">
                 <ScalarProperty Name="ColumnValueRangeID" ColumnName="ColumnValueRangeID" />
                 <ScalarProperty Name="UIActionActivityID" ColumnName="UIActionActivityID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

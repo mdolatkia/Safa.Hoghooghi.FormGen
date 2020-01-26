@@ -19,6 +19,7 @@ namespace DataAccess
             this.EntityState_UIActionActivity = new HashSet<EntityState_UIActionActivity>();
             this.UIEnablityDetails = new HashSet<UIEnablityDetails>();
             this.UIColumnValue = new HashSet<UIColumnValue>();
+            this.UIColumnValueRangeReset = new HashSet<UIColumnValueRangeReset>();
             this.UIColumnValueRange = new HashSet<UIColumnValueRange>();
         }
     
@@ -31,6 +32,7 @@ namespace DataAccess
         public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<UIEnablityDetails> UIEnablityDetails { get; set; }
         public virtual ICollection<UIColumnValue> UIColumnValue { get; set; }
+        public virtual ICollection<UIColumnValueRangeReset> UIColumnValueRangeReset { get; set; }
         public virtual ICollection<UIColumnValueRange> UIColumnValueRange { get; set; }
     }
 }

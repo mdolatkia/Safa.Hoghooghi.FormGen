@@ -56,6 +56,11 @@ namespace MyModelManager
                 foreach (var dbitem in item.UIColumnValueRange)
                     result.UIColumnValueRange.Add(ToUIColumnValueRangeDTO(dbitem));
             }
+            if (withDetails && result.Type == Enum_ActionActivityType.ColumnValueRangeReset)
+            {
+                foreach (var dbitem in item.UIColumnValueRangeReset)
+                    result.UIColumnValueRangeReset.Add(ToUIColumnValueRangeResetDTO(dbitem));
+            }
             //if (withDetails && result.Type == Enum_ActionActivityType.RelationshipEnablity)
             //{
             //    var relationshipEnablity = item.RelationshipEnablity.First();
@@ -80,8 +85,16 @@ namespace MyModelManager
         {
             UIColumnValueRangeDTO msgtem = new UIColumnValueRangeDTO();
             msgtem.ColumnValueRangeID = item.ColumnValueRangeID;
+            msgtem.ID = item.ID;
             msgtem.EnumTag = (EnumColumnValueRangeTag)item.EnumTag;
             msgtem.Value = item.Value;
+            return msgtem;
+        }
+        private UIColumnValueRangeResetDTO ToUIColumnValueRangeResetDTO(UIColumnValueRangeReset item)
+        {
+            UIColumnValueRangeResetDTO msgtem = new UIColumnValueRangeResetDTO();
+            msgtem.ColumnValueRangeID = item.ColumnValueRangeID;
+            msgtem.ID = item.ID;
             return msgtem;
         }
 
@@ -192,7 +205,14 @@ namespace MyModelManager
                     dbItem.Value = item.Value;
                     dbActionActivity.UIColumnValueRange.Add(dbItem);
                 }
-
+                while (dbActionActivity.UIColumnValueRangeReset.Any())
+                    projectContext.UIColumnValueRangeReset.Remove(dbActionActivity.UIColumnValueRangeReset.First());
+                foreach (var item in UIActionActivity.UIColumnValueRangeReset)
+                {
+                    UIColumnValueRangeReset dbItem = new UIColumnValueRangeReset();
+                    dbItem.ColumnValueRangeID = item.ColumnValueRangeID;
+                    dbActionActivity.UIColumnValueRangeReset.Add(dbItem);
+                }
                 //if (UIActionActivity.RelationshipEnablity != null && UIActionActivity.RelationshipEnablity.EntityRelationshipTailID != 0)
                 //{
                 //    var dbRelationshipEnablity = dbActionActivity.RelationshipEnablity.FirstOrDefault();

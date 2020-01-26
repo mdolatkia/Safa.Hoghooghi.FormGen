@@ -2236,6 +2236,7 @@ namespace ModelEntites
             UIColumnValueRange = new List<ModelEntites.UIColumnValueRangeDTO>();
             UIColumnValue = new List<ModelEntites.UIColumnValueDTO>();
             UIEnablityDetails = new List<ModelEntites.UIEnablityDetailsDTO>();
+            UIColumnValueRangeReset = new List<ModelEntites.UIColumnValueRangeResetDTO>();
         }
         public int ID { set; get; }
         public string RelatedStates { set; get; }
@@ -2247,7 +2248,7 @@ namespace ModelEntites
         public int EntityID { set; get; }
         public Enum_ActionActivityType Type { set; get; }
         public List<UIColumnValueRangeDTO> UIColumnValueRange { set; get; }
-
+        public List<UIColumnValueRangeResetDTO> UIColumnValueRangeReset { set; get; }
     }
     public class UIColumnValueRangeDTO
     {
@@ -2264,6 +2265,17 @@ namespace ModelEntites
 
         public List<string> vwCandidateValues { set; get; }
     }
+    public class UIColumnValueRangeResetDTO
+    {
+        public UIColumnValueRangeResetDTO()
+        {
+
+        }
+        public int ID { set; get; }
+        public int ColumnValueRangeID { set; get; }
+
+    }
+
     public enum EnumColumnValueRangeTag
     {
         Value,
@@ -2380,6 +2392,7 @@ namespace ModelEntites
         DatabaseFunction,
         UIEnablity,
         ColumnValueRange,
+        ColumnValueRangeReset,
         ColumnValue
     }
 
@@ -2527,6 +2540,7 @@ namespace ModelEntites
         public EntityStateDTO()
         {
             ActionActivities = new ObservableCollection<ModelEntites.UIActionActivityDTO>();
+            Values = new List<ModelEntites.EntityStateValueDTO>();
         }
         public int ID { set; get; }
         //public bool Preserve { set; get; }
@@ -2537,9 +2551,13 @@ namespace ModelEntites
         public int ColumnID { set; get; }
         public Enum_EntityStateOperator EntityStateOperator { set; get; }
         public string Title { set; get; }
-        public string Value { set; get; }
+        public List<EntityStateValueDTO> Values { set; get; }
         //public int ActionActivityID { set; get; }
         public ObservableCollection<UIActionActivityDTO> ActionActivities { set; get; }
+    }
+    public class EntityStateValueDTO
+    {
+        public string Value { set; get; }
     }
     public enum Enum_EntityStateOperator
     {

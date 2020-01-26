@@ -34,7 +34,6 @@ namespace MyUILibrary.EntityArea
 
         private void SetDataChangeEventsForDataItem(DP_DataRepository dataItem)
         {
-
             foreach (var entityState in EditArea.EntityStates)
             {
                 List<Tuple<string, int>> columns = new List<Tuple<string, int>>();
@@ -60,7 +59,7 @@ namespace MyUILibrary.EntityArea
                 foreach (var item in columns)
                     dataItem.AddChangeMonitor("stateWatch" + AgentHelper.GetUniqueDataPostfix(dataItem), entityState.ID.ToString(), item.Item1, item.Item2);
                 foreach (var item in rels)
-                    dataItem.AddChangeMonitor("stateWatch" + AgentHelper.GetUniqueDataPostfix(dataItem), entityState.ID.ToString(), item.Item1, item.Item2);
+                    dataItem.AddChangeMonitor("stateWatch" + AgentHelper.GetUniqueDataPostfix(dataItem), entityState.ID.ToString(), item.Item1, 0);
             }
         }
 
@@ -70,7 +69,7 @@ namespace MyUILibrary.EntityArea
             {
                 if (e.UsageKey == entityState.ID.ToString())
                 {
-                    CheckEntityState(e.DataToCall, entityState);
+                    CheckEntityState(e.DataToCall, entityState, true);
                 }
             }
         }
@@ -196,12 +195,11 @@ namespace MyUILibrary.EntityArea
 
             foreach (var state in EditArea.EntityStates)
             {
-
-                CheckEntityState(dataItem, state);
+                CheckEntityState(dataItem, state, false);
             }
         }
 
-        private void CheckEntityState(DP_DataRepository dataItem, EntityStateDTO state)
+        private void CheckEntityState(DP_DataRepository dataItem, EntityStateDTO state, bool onChange)
         {
             bool stateIsValid = false;
             var stateResult = AgentUICoreMediator.GetAgentUICoreMediator.StateManager.CalculateState(state.ID, dataItem, AgentUICoreMediator.GetAgentUICoreMediator.GetRequester());
@@ -216,7 +214,7 @@ namespace MyUILibrary.EntityArea
                     //ممکن است به اراو بخورد زیرا مثلا اگر داده وابسته ای تغییر کند و در این اقدام دوباره همهما وابسته مقداردهی شود پیغام کالکشن چنج میدهد
                     //بهتر است در یک ترد دیگر اجرا شود
                     //item.InAction = true;
-                    DoStateActionActivity(EditArea, dataItem, state);
+                    DoStateActionActivity(EditArea, dataItem, state, onChange);
                     //item.InAction = false;
                 }
 
@@ -368,46 +366,26 @@ namespace MyUILibrary.EntityArea
         //}
 
 
-        public void DoStateActionActivity(I_EditEntityArea editEntityArea, DP_DataRepository dataItem, EntityStateDTO state)
+        public void DoStateActionActivity(I_EditEntityArea editEntityArea, DP_DataRepository dataItem, EntityStateDTO state, bool onChange)
         {
             foreach (var item in state.ActionActivities)
             {
+                if (editEntityArea.RunningActionActivities.Any(x => x.ID == item.ID))
+                    continue;
+                editEntityArea.RunningActionActivities.Add(item);
                 if (item.UIEnablityDetails.Any())
                 {
-
-
                     foreach (var detail in item.UIEnablityDetails)
                     {
                         if (detail.ColumnID != 0)
                         {
-                            var column = GetColumnControl(editEntityArea, detail.ColumnID);
-
-                            if (detail.Hidden == true)
+                            var simpleColumn = GetColumnControl(editEntityArea, detail.ColumnID);
+                            if (simpleColumn != null)
                             {
-                                //if (column is SimpleColumnControl)
-                                //{
-                                //    (column as SimpleColumnControl).BusinessHidden = true;
-                                //    (column as SimpleColumnControl).ControlManager.Visiblity(false);
-                                //}
-                                if (column is SimpleColumnControl)
-                                {
-                                    (column as SimpleColumnControl).BusinessHidden[dataItem] = true;
-                                    (column as SimpleColumnControl).ControlManager.Visiblity(dataItem, false);
-                                }
-
-                            }
-                            else if (detail.Readonly == true)
-                            {
-                                //if (column is SimpleColumnControl)
-                                //{
-                                //    (column as SimpleColumnControl).BusinessReadonly = true;
-                                //    (column as SimpleColumnControl).ControlManager.SetReadonly(true);
-                                //}
-                                if (column is SimpleColumnControl)
-                                {
-                                    (column as SimpleColumnControl).BusinessReadOnly[dataItem] = true;
-                                    (column as SimpleColumnControl).SimpleControlManager.SetReadonly(dataItem, true);
-                                }
+                                if (detail.Hidden == true)
+                                    editEntityArea.SetSimpleColumnHidden(dataItem, simpleColumn,state);
+                                else if (detail.Readonly == true)
+                                    editEntityArea.SetSimpleColumnReadonly(dataItem, simpleColumn, state);
                             }
                         }
                         else if (detail.RelationshipID != 0)
@@ -502,211 +480,67 @@ namespace MyUILibrary.EntityArea
                 }
                 if (item.UIColumnValueRange.Any())
                 {
-                    foreach (var columnValue in item.UIColumnValueRange)
+                    foreach (var columnValueRange in item.UIColumnValueRange.GroupBy(x => x.ColumnValueRangeID))
                     {
-                        //if (editEntityArea is I_EditEntityAreaOneData)
-                        //{
-                        //    var sEditArea = (editEntityArea as I_EditEntityAreaOneData);
-                        //    if (sEditArea.SimpleColumnControls.Any(x => x.Column.ID == columnValue.ColumnValueRangeID))
-                        //    {
-                        //        var simpleColumn = sEditArea.SimpleColumnControls.First(x => x.Column.ID == columnValue.ColumnValueRangeID);
-                        //        if (!simpleColumn.BusinessReadonly && !simpleColumn.SecurityReadOnly)
-                        //        {
-                        //            if (!simpleColumn.BusinessHidden)
-                        //            {
-                        //                List<ColumnValueRangeDetailsDTO> candidates = new List<ColumnValueRangeDetailsDTO>();
-
-                        //                foreach (var detail in simpleColumn.Column.ColumnValueRange.Details)
-                        //                {
-                        //                    var value = "";
-                        //                    if (columnValue.EnumTag == EnumColumnValueRangeTag.Value)
-                        //                        value = detail.Value;
-                        //                    else if (columnValue.EnumTag == EnumColumnValueRangeTag.Title)
-                        //                        value = detail.KeyTitle;
-                        //                    else if (columnValue.EnumTag == EnumColumnValueRangeTag.Tag1)
-                        //                        value = detail.Tag1;
-                        //                    else if (columnValue.EnumTag == EnumColumnValueRangeTag.Tag2)
-                        //                        value = detail.Tag2;
-
-                        //                    if (columnValue.Value == value)
-                        //                    {
-                        //                        candidates.Add(detail);
-                        //                    }
-                        //                }
-                        //                if (dataItem.ColumnKeyValueRanges.Any(x => x.Key == simpleColumn.Column.ID))
-                        //                    dataItem.ColumnKeyValueRanges[simpleColumn.Column.ID] = candidates;
-                        //                else
-                        //                    dataItem.ColumnKeyValueRanges.Add(simpleColumn.Column.ID, candidates);
-
-                        //                sEditArea.SetColumnValueRange(simpleColumn, candidates, dataItem);
-
-
-                        //            }
-                        //        }
-                        //    }
-                        //}
-                        //else if (editEntityArea is I_EditEntityAreaMultipleData)
-                        //{
-                        //    var sEditArea = (editEntityArea as I_EditEntityAreaMultipleData);
-                        if (editEntityArea.SimpleColumnControls.Any(x => x.Column.ID == columnValue.ColumnValueRangeID))
+                        if (editEntityArea.SimpleColumnControls.Any(x => x.Column.ID == columnValueRange.Key))
                         {
-                            var simpleColumn = editEntityArea.SimpleColumnControls.First(x => x.Column.ID == columnValue.ColumnValueRangeID);
-
-                            List<ColumnValueRangeDetailsDTO> candidates = new List<ColumnValueRangeDetailsDTO>();
-
-                            foreach (var detail in simpleColumn.Column.ColumnValueRange.Details)
-                            {
-                                var value = "";
-                                if (columnValue.EnumTag == EnumColumnValueRangeTag.Value)
-                                    value = detail.Value;
-                                else if (columnValue.EnumTag == EnumColumnValueRangeTag.Title)
-                                    value = detail.KeyTitle;
-                                else if (columnValue.EnumTag == EnumColumnValueRangeTag.Tag1)
-                                    value = detail.Tag1;
-                                else if (columnValue.EnumTag == EnumColumnValueRangeTag.Tag2)
-                                    value = detail.Tag2;
-
-                                if (columnValue.Value == value)
-                                {
-                                    candidates.Add(detail);
-                                }
-                            }
+                            var simpleColumn = editEntityArea.SimpleColumnControls.First(x => x.Column.ID == columnValueRange.Key);
+                            List<ColumnValueRangeDetailsDTO> candidates = GetFilteredRange(simpleColumn, columnValueRange);
                             if (dataItem.ColumnKeyValueRanges.Any(x => x.Key == simpleColumn.Column.ID))
                                 dataItem.ColumnKeyValueRanges[simpleColumn.Column.ID] = candidates;
                             else
                                 dataItem.ColumnKeyValueRanges.Add(simpleColumn.Column.ID, candidates);
                             editEntityArea.SetColumnValueRange(simpleColumn, candidates, dataItem);
                         }
-                        //}
-
                     }
                 }
-                if (item.UIColumnValue.Any())
+                if (item.UIColumnValueRangeReset.Any())
                 {
-                    List<int> visitedColumnIds = new List<int>();
-                    foreach (var columnValue in item.UIColumnValue)
+                    foreach (var columnValueRange in item.UIColumnValueRangeReset.GroupBy(x => x.ColumnValueRangeID))
                     {
-                        if (visitedColumnIds.Contains(columnValue.ColumnID))
-                            continue;
-                        visitedColumnIds.Add(columnValue.ColumnID);
-                        if (!string.IsNullOrEmpty(columnValue.ExactValue))
+                        if (editEntityArea.SimpleColumnControls.Any(x => x.Column.ID == columnValueRange.Key))
                         {
-                            var column = dataItem.GetProperty(columnValue.ColumnID);
-                            if (column != null)
-                            {
-                                if (!column.IsKey)
-                                {
-                                    //if (editEntityArea is I_EditEntityAreaOneData)
-                                    //{
-                                    //    var sEditArea = (editEntityArea as I_EditEntityAreaOneData);
-                                    //    if (sEditArea.RelationshipColumnControls.Any(x => x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID)))
-                                    //    {
-                                    //        List<Tuple<int, string>> colAndValues = new List<Tuple<int, string>>();
-                                    //        colAndValues.Add(new Tuple<int, string>(column.ColumnID, columnValue.ExactValue));
-                                    //        var relControl = sEditArea.RelationshipColumnControls.First(x => x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID));
-                                    //        bool allColumnsValued = true;
-                                    //        foreach (var relcol in relControl.Relationship.RelationshipColumns)
-                                    //        {
-                                    //            if (!item.UIColumnValue.Any(X => X.ColumnID == relcol.FirstSideColumnID))
-                                    //                allColumnsValued = false;
-                                    //            else if (relcol.FirstSideColumnID != column.ColumnID)
-                                    //            {
-                                    //                var otherProperty = dataItem.GetProperty(columnValue.ColumnID);
-                                    //                if (otherProperty != null)
-                                    //                {
-                                    //                    colAndValues.Add(new Tuple<int, string>(relcol.FirstSideColumnID, otherProperty.Value));
-                                    //                    visitedColumnIds.Add(relcol.FirstSideColumnID);
-                                    //                }
-                                    //                else
-                                    //                    allColumnsValued = false;
-                                    //            }
-                                    //        }
-                                    //        if (allColumnsValued)
-                                    //        {
-                                    //            var relationshipColumn = sEditArea.RelationshipColumnControls.First(x => x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID));
-                                    //            if (!relationshipColumn.SecurityReadOnly && !relationshipColumn.EditNdTypeArea.AreaInitializer.SecurityReadOnlyByParent
-                                    //              && !relationshipColumn.EditNdTypeArea.AreaInitializer.ParentDataItemBusinessReadOnly.Any(x => x == dataItem) && !relationshipColumn.EditNdTypeArea.AreaInitializer.BusinessReadOnlyByParent)
-                                    //            {
-                                    //                if (!relationshipColumn.BusinessHidden)
-                                    //                {
-                                    //                    var childInfo = dataItem.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipColumn.Relationship.ID);
-                                    //                    relationshipColumn.EditNdTypeArea.SetChildRelationshipInfo(childInfo);
-                                    //                    relationshipColumn.EditNdTypeArea.SelectFromParent(dataItem, colAndValues);
-                                    //                }
-                                    //            }
-                                    //        }
-                                    //    }
-                                    //    //else if (sEditArea.SimpleColumnControls.Any(x => x.Column.ID == column.ColumnID))
-                                    //    //{
-                                    //    //    var simpleColumn = sEditArea.SimpleColumnControls.First(x => x.Column.ID == column.ColumnID);
-                                    //    //    if (!simpleColumn.BusinessReadonly && !simpleColumn.SecurityReadOnly)
-                                    //    //    {
-                                    //    //        if (!simpleColumn.BusinessHidden)
-                                    //    //        {
-                                    //    //            column.Value = columnValue.ExactValue;
-                                    //    //        }
-                                    //    //    }
-                                    //    //}
-                                    //}
-                                    //else if (editEntityArea is I_EditEntityAreaMultipleData)
-                                    //{
-                                    //    var sEditArea = (editEntityArea as I_EditEntityAreaMultipleData);
-                                    if (editEntityArea.RelationshipColumnControls.Any(x => x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID)))
-                                    {
-                                        List<Tuple<int, string>> colAndValues = new List<Tuple<int, string>>();
-                                        colAndValues.Add(new Tuple<int, string>(column.ColumnID, columnValue.ExactValue));
-                                        var relControl = editEntityArea.RelationshipColumnControls.First(x => x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID));
-                                        bool allColumnsValued = true;
-                                        foreach (var relcol in relControl.Relationship.RelationshipColumns)
-                                        {
-                                            if (!item.UIColumnValue.Any(X => X.ColumnID == relcol.FirstSideColumnID))
-                                                allColumnsValued = false;
-                                            else if (relcol.FirstSideColumnID != column.ColumnID)
-                                            {
-                                                var otherProperty = dataItem.GetProperty(columnValue.ColumnID);
-                                                if (otherProperty != null)
-                                                {
-                                                    colAndValues.Add(new Tuple<int, string>(relcol.FirstSideColumnID, otherProperty.Value));
-                                                    visitedColumnIds.Add(relcol.FirstSideColumnID);
-                                                }
-                                                else
-                                                    allColumnsValued = false;
-                                            }
-                                        }
-                                        if (allColumnsValued)
-                                        {
-                                            var relationshipColumn = editEntityArea.RelationshipColumnControls.First(x => x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID));
-                                            if (!relationshipColumn.SecurityReadOnly //&& !relationshipColumn.EditNdTypeArea.AreaInitializer.SecurityReadOnlyByParent
-                                             && !relationshipColumn.EditNdTypeArea.AreaInitializer.ParentDataItemBusinessReadOnly.Any(x => x == dataItem) && !relationshipColumn.EditNdTypeArea.AreaInitializer.BusinessReadOnlyByParent)
-                                            {
-                                                if (!relationshipColumn.BusinessHidden.Any(x => x.Key == dataItem && x.Value))
-                                                {
-                                                    var childInfo = dataItem.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipColumn.Relationship.ID);
-                                                    relationshipColumn.EditNdTypeArea.SetChildRelationshipInfo(childInfo);
-                                                    relationshipColumn.EditNdTypeArea.SelectFromParent(dataItem, colAndValues);
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else if (editEntityArea.SimpleColumnControls.Any(x => x.Column.ID == column.ColumnID))
-                                    {
-                                        var simpleColumn = editEntityArea.SimpleColumnControls.First(x => x.Column.ID == column.ColumnID);
-                                        if (!simpleColumn.SecurityReadOnly)
-                                            if (simpleColumn.SimpleControlManager.IsVisible)
-                                            {
-                                                column.Value = columnValue.ExactValue;
-                                            }
-                                    }
-
-                                    //}
-                                }
-                            }
+                            var simpleColumn = editEntityArea.SimpleColumnControls.First(x => x.Column.ID == columnValueRange.Key);
+                            if (dataItem.ColumnKeyValueRanges.Any(x => x.Key == simpleColumn.Column.ID))
+                                dataItem.ColumnKeyValueRanges.Remove(simpleColumn.Column.ID);
+                            editEntityArea.ResetColumnValueRange(simpleColumn, dataItem);
                         }
                     }
                 }
-
+                if (onChange && item.UIColumnValue.Any())
+                {
+                    //در واقع مقادیر پیش فرض را ست میکند
+                    editEntityArea.SetColumnValueFromState(dataItem, item.UIColumnValue, state);
+                }
+                editEntityArea.RunningActionActivities.Remove(item);
             }
         }
+
+        private List<ColumnValueRangeDetailsDTO> GetFilteredRange(SimpleColumnControl simpleColumn, IGrouping<int, UIColumnValueRangeDTO> columnValueRange)
+        {
+            var result = new List<ColumnValueRangeDetailsDTO>();
+            foreach (var columnValueItem in columnValueRange)
+            {
+                foreach (var detail in simpleColumn.Column.ColumnValueRange.Details)
+                {
+                    var value = "";
+                    if (columnValueItem.EnumTag == EnumColumnValueRangeTag.Value)
+                        value = detail.Value;
+                    else if (columnValueItem.EnumTag == EnumColumnValueRangeTag.Title)
+                        value = detail.KeyTitle;
+                    else if (columnValueItem.EnumTag == EnumColumnValueRangeTag.Tag1)
+                        value = detail.Tag1;
+                    else if (columnValueItem.EnumTag == EnumColumnValueRangeTag.Tag2)
+                        value = detail.Tag2;
+                    if (columnValueItem.Value == value)
+                    {
+                        result.Add(detail);
+                    }
+                }
+            }
+            return result;
+        }
+
         private static EditEntityAreaByRelationshipTail GetEditEntityAreaByRelationshipTail(I_EditEntityArea editEntityArea, EntityRelationshipTailDTO entityRelationshipTail)
         {
             //اگر مالتی پل بود و ...

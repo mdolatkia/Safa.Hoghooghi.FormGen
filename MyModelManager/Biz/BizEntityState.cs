@@ -132,7 +132,10 @@ namespace MyModelManager
             result.Title = item.Title;
             if (item.EntityStateOperator != null)
                 result.EntityStateOperator = (Enum_EntityStateOperator)item.EntityStateOperator;
-            result.Value = item.Value;
+            foreach (var valItem in item.TableDrivedEntityStateValues)
+            {
+                result.Values.Add(new ModelEntites.EntityStateValueDTO() { Value = valItem.Value });
+            }
             return result;
         }
 
@@ -181,7 +184,12 @@ namespace MyModelManager
                 dbEntityState.ID = EntityState.ID;
                 //   dbEntityState.Preserve = EntityState.Preserve;
                 dbEntityState.Title = EntityState.Title;
-                dbEntityState.Value = EntityState.Value;
+                while (dbEntityState.TableDrivedEntityStateValues.Any())
+                    projectContext.TableDrivedEntityStateValues.Remove(dbEntityState.TableDrivedEntityStateValues.First());
+                foreach (var nItem in EntityState.Values)
+                {
+                    dbEntityState.TableDrivedEntityStateValues.Add(new TableDrivedEntityStateValues() { Value = nItem.Value });
+                }
 
                 while (dbEntityState.EntityState_UIActionActivity.Any())
                 {

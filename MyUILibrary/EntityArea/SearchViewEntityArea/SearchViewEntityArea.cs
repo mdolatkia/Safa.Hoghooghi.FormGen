@@ -40,7 +40,7 @@ namespace MyUILibrary.EntityArea
             var searchEntityArea = new SearchEntityArea();
             var searchViewInitializer = new SearchEntityAreaInitializer();
             searchViewInitializer.EntityID = AreaInitializer.EntityID;
-           // searchViewInitializer.TempEntity = AreaInitializer.TempEntity;
+            // searchViewInitializer.TempEntity = AreaInitializer.TempEntity;
             searchEntityArea.SetAreaInitializer(searchViewInitializer);
             //searchEntityArea.GenerateSearchView();
             return searchEntityArea;
@@ -51,7 +51,7 @@ namespace MyUILibrary.EntityArea
             var viewEntityArea = new ViewEntityArea();
             var viewAreaInitializer = new ViewEntityAreaInitializer();
             viewAreaInitializer.EntityID = AreaInitializer.EntityID;
-        //    viewAreaInitializer.TempEntity = AreaInitializer.TempEntity;
+            //    viewAreaInitializer.TempEntity = AreaInitializer.TempEntity;
 
             viewAreaInitializer.MultipleSelection = AreaInitializer.MultipleSelection;
             viewEntityArea.SetAreaInitializer(viewAreaInitializer);
@@ -318,16 +318,15 @@ namespace MyUILibrary.EntityArea
             }
         }
 
-        public void SelectFromParent(bool isCalledFromDataView, RelationshipDTO relationship, DP_DataRepository parentDataItem, List<Tuple<int, string>> colAndValues)
+        public void SelectFromParent(bool isCalledFromDataView, RelationshipDTO relationship, DP_DataRepository parentDataItem, Dictionary<int, string> colAndValues)
         {
             IsCalledFromDataView = isCalledFromDataView;
             DP_SearchRepository searchItems = new DP_SearchRepository(AreaInitializer.EntityID);
             foreach (var item in relationship.RelationshipColumns)
             {
-                var sentCol = colAndValues.FirstOrDefault(x => x.Item1 == item.FirstSideColumnID);
-                if (sentCol != null)
+                if (colAndValues.ContainsKey(item.FirstSideColumnID))
                 {
-                    searchItems.Phrases.Add(new SearchProperty() { ColumnID = item.SecondSideColumnID, Value = sentCol.Item2 });
+                    searchItems.Phrases.Add(new SearchProperty() { ColumnID = item.SecondSideColumnID, Value = colAndValues[item.FirstSideColumnID] });
                 }
             }
             SearchConfirmed(searchItems, true);

@@ -149,10 +149,15 @@ namespace MyUILibrary.EntityArea
         List<I_Command> Commands { set; get; }
         void SetColumnValueRange(SimpleColumnControl propertyControl, List<ColumnValueRangeDetailsDTO> details, DP_DataRepository data);
         List<EntityCommandDTO> EntityCommands { get; }
+        List<UIActionActivityDTO> RunningActionActivities { get; set; }
 
-
-        void SelectFromParent(DP_DataRepository parentDataItem, List<Tuple<int, string>> colAndValues);
+        void SelectFromParent(DP_DataRepository parentDataItem, Dictionary<int, string> colAndValues);
         void CheckRedundantData(I_EditEntityArea editEntityArea);
+        void SetColumnValueFromState(DP_DataRepository dataItem, List<UIColumnValueDTO> uIColumnValue, EntityStateDTO state);
+        void ResetColumnValueRange(SimpleColumnControl simpleColumn, DP_DataRepository dataItem);
+        void SetSimpleColumnHidden(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, EntityStateDTO state);
+        void SetSimpleColumnReadonly(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, EntityStateDTO state);
+
 
 
         //      void AddRelationshipColumnMessageItem(RelationshipColumnControl relationshipControl, string message, InfoColor infoColor, string key, DP_DataRepository causingData, bool isPermanent);

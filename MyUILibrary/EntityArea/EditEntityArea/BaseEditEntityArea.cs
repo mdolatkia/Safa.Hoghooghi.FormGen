@@ -28,6 +28,7 @@ namespace MyUILibrary.EntityArea
         public abstract bool ShowDataInDataView(DP_DataRepository dataItem);
         public BaseEditEntityArea(TableDrivedEntityDTO simpleEntity)
         {
+            RunningActionActivities = new List<UIActionActivityDTO>();
             SimpleEntity = simpleEntity;
 
             Commands = new List<I_Command>();
@@ -606,7 +607,7 @@ namespace MyUILibrary.EntityArea
                     sortedListOfColumnControls.Add(propertyControl);
                     if (hasRangeOfValues)
                     {
-                        SetColumnValueRange(propertyControl, propertyControl.Column.ColumnValueRange.Details, null);
+                        SetColumnValueRange(propertyControl, propertyControl.Column.ColumnValueRange.Details);
                     }
 
                 }
@@ -1090,7 +1091,7 @@ namespace MyUILibrary.EntityArea
                 var entityState = new EntityStateDTO();
                 //////entityState.ColumnID = item.Item2.SimpleEntity.DeterminerColumnID;
                 //////entityState.Value = item.Item2.SimpleEntity.DeterminerColumnValue;
-                entityState.Title = entityState.ColumnID + ">" + entityState.Value;
+                entityState.Title = entityState.ColumnID + ">";// + entityState.Value;
                 entityState.EntityStateOperator = Enum_EntityStateOperator.NotEquals;
                 var stateAction = new UIActionActivityDTO();
                 stateAction.Title = item.Item1.Name + ">Hidden";
@@ -1541,11 +1542,22 @@ namespace MyUILibrary.EntityArea
         //}
 
         //SimpleColumnControl LastFormulaColumnControl1 { set; get; }
-
+        public void SetColumnValueRange(SimpleColumnControl propertyControl, List<ColumnValueRangeDetailsDTO> details)
+        {
+            propertyControl.SimpleControlManager.SetColumnValueRange(details);
+        }
         public void SetColumnValueRange(SimpleColumnControl propertyControl, List<ColumnValueRangeDetailsDTO> details, DP_DataRepository data)
         {
-            propertyControl.SimpleControlManager.SetColumnValueRange(details, data);
+            if (!propertyControl.Column.IsReadonly)
+                propertyControl.SimpleControlManager.SetColumnValueRange(details, data);
         }
+
+        public void ResetColumnValueRange(SimpleColumnControl simpleColumn, DP_DataRepository dataItem)
+        {
+            if (!simpleColumn.Column.IsReadonly)
+                simpleColumn.SimpleControlManager.SetColumnValueRange(simpleColumn.Column.ColumnValueRange.Details, dataItem);
+        }
+
         public void TemporaryViewActionRequestedFromMultipleEditor(IAG_View_TemporaryView TemporaryView, TemporaryLinkType linkType, RelationshipDTO relationship, DP_DataRepository parentData)
         {
             SetChildRelationshipInfo(parentData.ChildRelationshipInfos.First(x => x.Relationship == relationship));
@@ -2000,7 +2012,7 @@ namespace MyUILibrary.EntityArea
                             result = false;
                     }
                 }
-               
+
             }
             else
                 SetTempText(ChildRelationshipInfo.RelatedData);
@@ -2012,7 +2024,7 @@ namespace MyUILibrary.EntityArea
         }
 
         //میتونه یه فنکشن کلی برای برسسی فعال بودن فرم بشه. مثلا وقتی وضعیتها هم بخوان دستکاری کنن فعال بودن فرم رو
-       
+
 
         public IAG_View_TemporaryView TemporaryDisplayView { set; get; }
         public void OnDataItemShown(EditAreaDataItemArg arg)
@@ -2189,7 +2201,12 @@ namespace MyUILibrary.EntityArea
             set; get;
         }
 
-        public void SelectFromParent(DP_DataRepository parentDataItem, List<Tuple<int, string>> colAndValues)
+        public List<UIActionActivityDTO> RunningActionActivities
+        {
+            set; get;
+        }
+
+        public void SelectFromParent(DP_DataRepository parentDataItem, Dictionary<int, string> colAndValues)
         {
             bool fromDataview = (AreaInitializer.IntracionMode == IntracionMode.CreateDirect ||
                             AreaInitializer.IntracionMode == IntracionMode.CreateSelectDirect);
@@ -2388,5 +2405,76 @@ namespace MyUILibrary.EntityArea
         {
             return Commands.FirstOrDefault(x => x.GetType() == type);
         }
+
+        public void SetColumnValueFromState(DP_DataRepository dataItem, List<UIColumnValueDTO> uIColumnValue, EntityStateDTO state)
+        {
+            List<Tuple<DP_DataRepository, SimpleColumnControl, string>> simpleColumnValues = new List<Tuple<DP_DataRepository, SimpleColumnControl, string>>();
+            List<Tuple<DP_DataRepository, RelationshipColumnControl, Dictionary<int, string>>> relationshipColumnValues = new List<Tuple<DP_DataRepository, RelationshipColumnControl, Dictionary<int, string>>>();
+
+            foreach (var columnValue in uIColumnValue)
+            {
+                var column = dataItem.GetProperty(columnValue.ColumnID);
+                if (column != null)
+                {
+                    //اینجا باید بیزینسی ریدونلی شدن داده هم تست شود
+                    if (RelationshipColumnControls.Any(x => x.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && !x.Relationship.IsReadonly && x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID)))
+                    {
+                        var relationshipColumn = RelationshipColumnControls.First(x => x.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && !x.Relationship.IsReadonly && x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID));
+                        if (relationshipColumn.Relationship.RelationshipColumns.All(x => uIColumnValue.Any(z => z.ColumnID == x.FirstSideColumnID)))
+                        {
+                            Dictionary<int, string> listColumns = new Dictionary<int, string>();
+                            foreach (var relCol in relationshipColumn.Relationship.RelationshipColumns)
+                            {
+                                listColumns.Add(relCol.FirstSideColumnID, uIColumnValue.First(x => x.ColumnID == relCol.FirstSideColumnID).ExactValue);
+                            }
+                            relationshipColumnValues.Add(new Tuple<DP_DataRepository, RelationshipColumnControl, Dictionary<int, string>>(dataItem, relationshipColumn, listColumns));
+                        }
+                    }
+                    else if (SimpleColumnControls.Any(x => x.Column.ID == column.ColumnID))
+                    {
+                        //اینجا باید بیزینسی ریدونلی شدن داده هم تست شود
+                        var simpleColumn = SimpleColumnControls.First(x => x.Column.ID == column.ColumnID);
+                        if (!simpleColumn.Column.IsReadonly)
+                        {
+                            simpleColumnValues.Add(new Tuple<DP_DataRepository, SimpleColumnControl, string>(dataItem, simpleColumn, columnValue.ExactValue));
+                        }
+                    }
+                }
+            }
+            foreach (var item in simpleColumnValues)
+            {
+                SetDataItemSimplePropertyValue(item, "بر اساس وضعیت" + " " + state.TableDrivedEntityID);
+            }
+            foreach (var item in relationshipColumnValues)
+            {
+                SetDataItemRelationshipColumnValue(item, "بر اساس وضعیت" + " " + state.TableDrivedEntityID);
+            }
+        }
+
+        public void SetSimpleColumnHidden(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, EntityStateDTO state)
+        {
+            (simpleColumn as SimpleColumnControl).BusinessHidden[dataItem] = true;
+            (simpleColumn as SimpleColumnControl).ControlManager.Visiblity(dataItem, false);
+        }
+
+        public void SetSimpleColumnReadonly(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, EntityStateDTO state)
+        {
+            throw new NotImplementedException();
+        }
+        private void SetDataItemRelationshipColumnValue(Tuple<DP_DataRepository, RelationshipColumnControl, Dictionary<int, string>> item, string titlev)
+        {
+            var childInfo = item.Item1.ChildRelationshipInfos.First(x => x.Relationship.ID == item.Item2.Relationship.ID);
+            item.Item2.EditNdTypeArea.SetChildRelationshipInfo(childInfo);
+            item.Item2.EditNdTypeArea.SelectFromParent(item.Item1, item.Item3);
+        }
+
+        private void SetDataItemSimplePropertyValue(Tuple<DP_DataRepository, SimpleColumnControl, string> item, string title)
+        {
+            var column = item.Item1.GetProperty(item.Item2.Column.ID);
+            //اینجا باید بررسی بشه که نوع مقدار و پراپرتی مناسب هستند
+            column.Value = item.Item3;
+        }
+
+       
     }
 }

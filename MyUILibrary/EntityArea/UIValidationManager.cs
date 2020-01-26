@@ -335,13 +335,13 @@ namespace MyUILibrary.EntityArea
                     {
                         var childRelationshipInfo = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
                         if (childRelationshipInfo.RelatedData.Any(x => !x.ShouldBeSkipped))
-                        if (childRelationshipInfo.RelatedData.Any())
-                        {
-                            if (!hasData)
-                                hasData = true;
-                            else
-                                moreThanOneData = true;
-                        }
+                            if (childRelationshipInfo.RelatedData.Any())
+                            {
+                                if (!hasData)
+                                    hasData = true;
+                                else
+                                    moreThanOneData = true;
+                            }
                     }
                     if (moreThanOneData)
                     {
@@ -582,15 +582,24 @@ namespace MyUILibrary.EntityArea
                     }
                     else
                         validValueRange = simplePropertyControl.Column.ColumnValueRange.Details;
-                    if (!validValueRange.Any(x => x.Value == dataColumn.Value))
+                    if (simplePropertyControl.Column.ColumnValueRange.ValueFromTitleOrValue)
                     {
-                        string message = "مقدار این خصوصیت در لیست مقادیر مجاز نمی باشد";
-                        AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
+                        if (!validValueRange.Any(x => x.KeyTitle == dataColumn.Value))
+                        {
+                            string message = "مقدار این خصوصیت در لیست مقادیر مجاز نمی باشد";
+                            AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
+                        }
+                    }
+                    else
+                    {
+                        if (!validValueRange.Any(x => x.Value == dataColumn.Value))
+                        {
+                            string message = "مقدار این خصوصیت در لیست مقادیر مجاز نمی باشد";
+                            AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
+                        }
                     }
                 }
             }
-
-
         }
         //public void AddRelationshipColumnMessageItem(RelationshipColumnControl relationshipControl, string message, InfoColor infoColor, string key, DP_DataRepository causingData, bool isPermanent)
         //{

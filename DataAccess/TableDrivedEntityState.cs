@@ -18,6 +18,7 @@ namespace DataAccess
         {
             this.EntityState_UIActionActivity = new HashSet<EntityState_UIActionActivity>();
             this.FormulaItems = new HashSet<FormulaItems>();
+            this.TableDrivedEntityStateValues = new HashSet<TableDrivedEntityStateValues>();
         }
     
         public int ID { get; set; }
@@ -25,7 +26,6 @@ namespace DataAccess
         public Nullable<int> FormulaID { get; set; }
         public Nullable<int> ColumnID { get; set; }
         public string Title { get; set; }
-        public string Value { get; set; }
         public Nullable<short> EntityStateOperator { get; set; }
     
         public virtual Column Column { get; set; }
@@ -33,5 +33,6 @@ namespace DataAccess
         public virtual Formula Formula { get; set; }
         public virtual ICollection<FormulaItems> FormulaItems { get; set; }
         public virtual TableDrivedEntity TableDrivedEntity { get; set; }
+        public virtual ICollection<TableDrivedEntityStateValues> TableDrivedEntityStateValues { get; set; }
     }
 }
