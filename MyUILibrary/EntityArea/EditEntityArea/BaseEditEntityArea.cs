@@ -566,18 +566,7 @@ namespace MyUILibrary.EntityArea
                 else
                 {
                     var propertyControl = new SimpleColumnControl() { Column = column };
-                    if (column.IsIdentity == true)
-                        propertyControl.IsPermanentReadOnly = true;
-                    if (column.DataEntryEnabled == false)
-                        propertyControl.IsPermanentReadOnly = true;
-                    if (AreaInitializer.SourceRelation != null)
-                    {
-                        if (AreaInitializer.SourceRelation.RelationshipColumns.Any(x => x.SecondSideColumnID == column.ID))
-                        {
-                            if (AreaInitializer.SourceRelation.MasterRelationshipType == Enum_MasterRelationshipType.FromPrimartyToForeign)
-                                propertyControl.IsPermanentReadOnly = true;
-                        }
-                    }
+
                     //propertyControl.ControlPackage = new UIControlPackageForSimpleColumn();
                     bool hasRangeOfValues = column.ColumnValueRange != null && column.ColumnValueRange.Details.Any();
                     bool valueIsTitleOrValue = false;
@@ -594,14 +583,10 @@ namespace MyUILibrary.EntityArea
                     var info = column.ID + "," + column.Name;
                     propertyControl.AddLabelControlManagerMessage(new BaseMessageItem() { Key = "columninfo", Message = info });
 
-                    if (propertyControl.IsPermanentReadOnly)
-                        propertyControl.SimpleControlManager.SetReadonly(true);
 
-                    if (column.IsReadonly)
-                    {
-                        propertyControl.SecurityReadOnly = true;
-                        ReadonlySimpleColumnControl(propertyControl, true);
-                    }
+                    DecideSimpleColumnReadony(propertyControl, true);
+
+
 
                     SimpleColumnControls.Add(propertyControl);
                     sortedListOfColumnControls.Add(propertyControl);
@@ -724,7 +709,35 @@ namespace MyUILibrary.EntityArea
 
         }
 
-
+        private bool DecideSimpleColumnReadony(SimpleColumnControl propertyControl, bool impose)
+        {
+            bool isReadonly = false;
+            if (propertyControl.Column.IsIdentity == true)
+                isReadonly = true;
+            if (propertyControl.Column.DataEntryEnabled == false)
+                isReadonly = true;
+            if (AreaInitializer.SourceRelation != null)
+            {
+                if (AreaInitializer.SourceRelation.RelationshipColumns.Any(x => x.SecondSideColumnID == propertyControl.Column.ID))
+                {
+                    if (AreaInitializer.SourceRelation.MasterRelationshipType == Enum_MasterRelationshipType.FromPrimartyToForeign)
+                        isReadonly = true;
+                }
+            }
+            if (propertyControl.Column.IsReadonly)
+            {
+                isReadonly = true;
+            }
+            propertyControl.IsReadonly = isReadonly;
+            if (isReadonly && impose)
+            {
+                if (DataView != null)
+                {
+                    propertyControl.SimpleControlManager.SetReadonly(isReadonly);
+                }
+            }
+            return isReadonly;
+        }
 
         private void AddRelationshipControl(RelationshipDTO relationship, List<BaseColumnControl> sortedListOfColumnControls)
         {
@@ -1542,41 +1555,17 @@ namespace MyUILibrary.EntityArea
         //}
 
         //SimpleColumnControl LastFormulaColumnControl1 { set; get; }
-        public void SetColumnValueRange(SimpleColumnControl propertyControl, List<ColumnValueRangeDetailsDTO> details)
-        {
-            propertyControl.SimpleControlManager.SetColumnValueRange(details);
-        }
-        public void SetColumnValueRange(SimpleColumnControl propertyControl, List<ColumnValueRangeDetailsDTO> details, DP_DataRepository data)
-        {
-            if (!propertyControl.Column.IsReadonly)
-                propertyControl.SimpleControlManager.SetColumnValueRange(details, data);
-        }
 
-        public void ResetColumnValueRange(SimpleColumnControl simpleColumn, DP_DataRepository dataItem)
-        {
-            if (!simpleColumn.Column.IsReadonly)
-                simpleColumn.SimpleControlManager.SetColumnValueRange(simpleColumn.Column.ColumnValueRange.Details, dataItem);
-        }
 
         public void TemporaryViewActionRequestedFromMultipleEditor(IAG_View_TemporaryView TemporaryView, TemporaryLinkType linkType, RelationshipDTO relationship, DP_DataRepository parentData)
         {
             SetChildRelationshipInfo(parentData.ChildRelationshipInfos.First(x => x.Relationship == relationship));
             TemporaryViewActionRequestedInternal(TemporaryView, linkType);
         }
-        public void ReadonlySimpleColumnControl(SimpleColumnControl column, bool readonlity)
-        {
-            if (DataView != null)
-            {
-                if (this is I_EditEntityAreaOneData)
-                {
-                    (column as SimpleColumnControl).SimpleControlManager.SetReadonly(readonlity);
-                }
-                else if (this is I_EditEntityAreaMultipleData)
-                {
-                    (column as SimpleColumnControl).SimpleControlManager.SetReadonly(readonlity);
-                }
-            }
-        }
+        //public void ReadonlySimpleColumnControl(SimpleColumnControl column, bool readonlity)
+        //{
+
+        //}
         public void DisableEnableCommand(I_Command command, bool enabled)
         {
             command.CommandManager.SetEnabled(enabled);
@@ -2342,7 +2331,7 @@ namespace MyUILibrary.EntityArea
                     clearCommand.CommandManager.SetEnabled(false);
             }
         }
-        private void DecideTempViewStaticButtons()
+        public void DecideTempViewStaticButtons()
         {
             if (AreaInitializer.SourceRelation != null && AreaInitializer.SourceRelation.Relationship.IsReadonly)
             {
@@ -2360,7 +2349,7 @@ namespace MyUILibrary.EntityArea
                 TemporaryLinkState.quickSearch = false;
             }
         }
-        private void DecideDataRelatedButtons()
+        public void DecideDataRelatedButtons()
         {
             bool isDataView = (AreaInitializer.IntracionMode == IntracionMode.CreateDirect ||
              AreaInitializer.IntracionMode == IntracionMode.CreateSelectDirect);
@@ -2419,7 +2408,7 @@ namespace MyUILibrary.EntityArea
                     //اینجا باید بیزینسی ریدونلی شدن داده هم تست شود
                     if (RelationshipColumnControls.Any(x => x.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && !x.Relationship.IsReadonly && x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID)))
                     {
-                        var relationshipColumn = RelationshipColumnControls.First(x => x.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && !x.Relationship.IsReadonly && x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID));
+                        var relationshipColumn = RelationshipColumnControls.First(x => x.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID));
                         if (relationshipColumn.Relationship.RelationshipColumns.All(x => uIColumnValue.Any(z => z.ColumnID == x.FirstSideColumnID)))
                         {
                             Dictionary<int, string> listColumns = new Dictionary<int, string>();
@@ -2441,40 +2430,114 @@ namespace MyUILibrary.EntityArea
                     }
                 }
             }
+
+
             foreach (var item in simpleColumnValues)
             {
-                SetDataItemSimplePropertyValue(item, "بر اساس وضعیت" + " " + state.TableDrivedEntityID);
+                if (dataItem.IsNewItem && AgentHelper.ValueIsEmptyOrDefaultValue(item.Item1.GetProperty(item.Item2.Column.ID)))
+                    SetDataItemSimplePropertyValue(item, "بر اساس وضعیت" + " " + state.Title);
             }
             foreach (var item in relationshipColumnValues)
             {
-                SetDataItemRelationshipColumnValue(item, "بر اساس وضعیت" + " " + state.TableDrivedEntityID);
+                if (dataItem.IsNewItem && item.Item3.All(x => AgentHelper.ValueIsEmptyOrDefaultValue(item.Item1.GetProperty(x.Key))))
+                    SetDataItemRelationshipColumnValue(item, "بر اساس وضعیت" + " " + state.Title);
             }
         }
-
-        public void SetSimpleColumnHidden(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, EntityStateDTO state)
+        public void SetColumnValueRange(SimpleColumnControl propertyControl, List<ColumnValueRangeDetailsDTO> details)
         {
-            (simpleColumn as SimpleColumnControl).BusinessHidden[dataItem] = true;
-            (simpleColumn as SimpleColumnControl).ControlManager.Visiblity(dataItem, false);
+            propertyControl.SimpleControlManager.SetColumnValueRange(details);
+        }
+        public void SetColumnValueRange(SimpleColumnControl simpleColumn, List<ColumnValueRangeDetailsDTO> details, DP_DataRepository dataItem)
+        {
+            var property = dataItem.GetProperty(simpleColumn.Column.ID);
+            if (!simpleColumn.Column.IsReadonly && !property.IsHidden && !property.IsReadonly)
+                simpleColumn.SimpleControlManager.SetColumnValueRange(details, dataItem);
         }
 
-        public void SetSimpleColumnReadonly(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, EntityStateDTO state)
+        public void ResetColumnValueRange(SimpleColumnControl simpleColumn, DP_DataRepository dataItem)
         {
-            throw new NotImplementedException();
+            var property = dataItem.GetProperty(simpleColumn.Column.ID);
+            if (!simpleColumn.Column.IsReadonly && !property.IsHidden && !property.IsReadonly)
+                simpleColumn.SimpleControlManager.SetColumnValueRange(simpleColumn.Column.ColumnValueRange.Details, dataItem);
         }
+        public void ChangeSimpleColumnVisiblity(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool visible, string state)
+        {
+            dataItem.GetProperty(simpleColumn.Column.ID).IsHidden = !visible;
+            (simpleColumn as SimpleColumnControl).ControlManager.Visiblity(dataItem, visible);
+        }
+
+        public void ChangeSimpleColumnReadonly(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool isReadonly, string state)
+        {
+            dataItem.GetProperty(simpleColumn.Column.ID).IsReadonly = isReadonly;
+            if (!DecideSimpleColumnReadony(simpleColumn, false))
+                (simpleColumn as SimpleColumnControl).SimpleControlManager.SetReadonly(dataItem, isReadonly);
+        }
+
+        public void ChangeRelatoinsipColumnVisiblity(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool visible, string title)
+        {
+            if (dataItem.ChildRelationshipInfos.Any(x => x.Relationship.ID == relationshipControl.Relationship.ID))
+            {
+                var childRelationshipInfo = dataItem.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
+                childRelationshipInfo.IsHidden = !visible;
+                if (childRelationshipInfo.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary)
+                {
+                    foreach(var relCol in childRelationshipInfo.Relationship.RelationshipColumns)
+                    {
+                        var fkProp = dataItem.GetProperty(relCol.FirstSideColumnID);
+                        fkProp.IsHidden = !visible;
+                    }
+                }
+                relationshipControl.ControlManager.Visiblity(dataItem, visible);
+            }
+            //اصلا معنی نداره
+            //else if (dataItem.ParantChildRelationshipInfo != null && dataItem.ParantChildRelationshipInfo.Relationship.ID == relationshipControl.Relationship.ID)
+            //{
+            //    childRelationshipInfo = dataItem.ParantChildRelationshipInfo;
+            //}
+
+
+        }
+
+        public void ChangeRelatoinsipColumnReadonly(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool isReadonly, string title)
+        {
+            if (dataItem.ChildRelationshipInfos.Any(x => x.Relationship.ID == relationshipControl.Relationship.ID))
+            {
+                var childRelationshipInfo = dataItem.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
+                childRelationshipInfo.IsReadonly = isReadonly;
+                if (!childRelationshipInfo.Relationship.IsReadonly)
+                {
+                    relationshipControl.EditNdTypeArea.SetChildRelationshipInfo(childRelationshipInfo);
+                    relationshipControl.EditNdTypeArea.DecideDataViewStaticButtons();
+                    relationshipControl.EditNdTypeArea.DecideTempViewStaticButtons();
+                    relationshipControl.EditNdTypeArea.DecideDataRelatedButtons();
+
+                }
+            }
+            //else if (dataItem.ParantChildRelationshipInfo != null && dataItem.ParantChildRelationshipInfo.Relationship.ID == relationshipControl.Relationship.ID)
+            //{
+            //    childRelationshipInfo = dataItem.ParantChildRelationshipInfo;
+            //}
+
+        }
+
         private void SetDataItemRelationshipColumnValue(Tuple<DP_DataRepository, RelationshipColumnControl, Dictionary<int, string>> item, string titlev)
         {
             var childInfo = item.Item1.ChildRelationshipInfos.First(x => x.Relationship.ID == item.Item2.Relationship.ID);
-            item.Item2.EditNdTypeArea.SetChildRelationshipInfo(childInfo);
-            item.Item2.EditNdTypeArea.SelectFromParent(item.Item1, item.Item3);
+            if (!childInfo.Relationship.IsReadonly && !childInfo.IsReadonly && !childInfo.IsHidden)
+            {
+                item.Item2.EditNdTypeArea.SetChildRelationshipInfo(childInfo);
+                item.Item2.EditNdTypeArea.SelectFromParent(item.Item1, item.Item3);
+            }
         }
 
         private void SetDataItemSimplePropertyValue(Tuple<DP_DataRepository, SimpleColumnControl, string> item, string title)
         {
-            var column = item.Item1.GetProperty(item.Item2.Column.ID);
-            //اینجا باید بررسی بشه که نوع مقدار و پراپرتی مناسب هستند
-            column.Value = item.Item3;
+            var property = item.Item1.GetProperty(item.Item2.Column.ID);
+            if (!property.IsReadonly && !property.IsReadonly && !property.IsHidden)
+                //اینجا باید بررسی بشه که نوع مقدار و پراپرتی مناسب هستند
+                property.Value = item.Item3;
         }
 
-       
+
     }
 }

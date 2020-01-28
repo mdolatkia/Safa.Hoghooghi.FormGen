@@ -130,12 +130,12 @@ namespace MyDataEditManagerBusiness
                 {
                     foreach (var column in query.EditingProperties)
                     {
-                        if (!bizColumn.DataIsAccessable(requester, column.ColumnID))
+                        if (!bizColumn.DataIsAccessable(requester, column.ColumnID) || column.IsHidden)
                         {
                             permission = false;
                             result.Details.Add(ToResultDetail("عدم دسترسی", "عدم دسترسی به ستون" + " " + column.Column.Alias, ""));
                         }
-                        else if (column.IsChanged && bizColumn.DataIsReadonly(requester, column.ColumnID))
+                        else if (column.IsChanged && (bizColumn.DataIsReadonly(requester, column.ColumnID)||column.IsReadonly))
                         {
                             permission = false;
                             result.Details.Add(ToResultDetail("عدم دسترسی", "عدم دسترسی ثبت به ستون" + " " + column.Column.Alias, ""));
@@ -213,9 +213,9 @@ namespace MyDataEditManagerBusiness
         //    return result;
         //}
 
-      
 
-      
+
+
         private DataLogDTO GetBaseLog(QueryItem queryItem)
         {
             var dataLog = new DataLogDTO();
@@ -308,8 +308,8 @@ namespace MyDataEditManagerBusiness
             return result;
         }
 
-       
-      
+
+
         private DataLogType GetLogType(QueryItem queryItem)
         {
             if (queryItem.QueryType == Enum_QueryItemType.Insert)
@@ -330,7 +330,7 @@ namespace MyDataEditManagerBusiness
 
             return dataLog;
         }
-        
+
         private DataLogDTO ToUpdateSuccessfulLog(EditQueryResultItem item, Guid packageGUID)
         {
             var dataLog = GetBaseLog(item.QueryItem);

@@ -71,7 +71,7 @@ namespace MyUILibrary.DataViewArea
         int lastListView = 0;
         private void ManageView()
         {
-            if (SelectedListView != null && (SelectedListView.ID != lastListView|| lastListView==0))
+            if (SelectedListView != null && (SelectedListView.ID != lastListView || lastListView == 0))
             {
                 lastListView = SelectedListView.ID;
                 ViewColumnControls.Clear();
@@ -86,10 +86,9 @@ namespace MyUILibrary.DataViewArea
                     else
                         propertyControl.Alias = column.Alias;
                     //     propertyControl.ControlPackage = new UIControlPackageForSimpleColumn();
-                    propertyControl.IsPermanentReadOnly = true;
                     propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForMultipleDataForm(column.Column, GetColumnUISetting(column.Column), false, false, true, propertyControl.Alias);
-                    if (propertyControl.IsPermanentReadOnly)
-                        propertyControl.ControlManager.SetReadonly(propertyControl.IsPermanentReadOnly);
+                    //      if (propertyControl.IsPermanentReadOnly)
+                    propertyControl.ControlManager.SetReadonly(true);
                     ViewColumnControls.Add(propertyControl);
                 }
                 foreach (var columnControl in ViewColumnControls)

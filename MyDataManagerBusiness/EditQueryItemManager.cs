@@ -149,6 +149,7 @@ namespace MyDataEditManagerBusiness
                                 }
                                 else
                                     fkprop.Value = pkData.GetProperty(relCol.SecondSideColumnID).Value;
+                                //fkprop.IsHidden = child.IsHidden;
                                 foreignKeyProperties.Add(fkprop);
                             }
                         }
@@ -162,6 +163,7 @@ namespace MyDataEditManagerBusiness
                         {
                             var prop = item.GetProperty(relCol.FirstSideColumnID);
                             prop.Value = "<Null>";
+                            //prop.IsHidden = child.IsHidden;
                             foreignKeyProperties.Add(prop);
                         }
                     }
@@ -208,6 +210,7 @@ namespace MyDataEditManagerBusiness
                         else
                             fkprop.Value = pkprop.Value;
                         fkprop.HasForeignKeyData = true;
+                        //fkprop.IsHidden = parentChildRelationshipInfo.IsHidden;
                         editingProperties.Add(fkprop);
                     }
                 }

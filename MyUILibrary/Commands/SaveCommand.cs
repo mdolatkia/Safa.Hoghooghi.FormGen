@@ -108,7 +108,7 @@ namespace MyUILibrary.EntityArea.Commands
                         searchDataItem.Phrases.Add(logicPhrase);
                     }
                     ///   var requestSearchEdit = new DR_SearchEditRequest(requester, searchDataItem, EditArea.AreaInitializer.SecurityReadOnly, true);
-                      var requestSearchEdit = new DR_SearchEditRequest(requester, searchDataItem, true, true);
+                    var requestSearchEdit = new DR_SearchEditRequest(requester, searchDataItem, true, true);
                     var results = AgentUICoreMediator.GetAgentUICoreMediator.requestRegistration.SendSearchEditRequest(requestSearchEdit);
                     if (results.ResultDataItems.Count > 0)
                     {
@@ -172,12 +172,13 @@ namespace MyUILibrary.EntityArea.Commands
                     DP_DataRepository newItem = new DP_DataRepository(item.TargetEntityID, item.TargetEntityAlias);
                     foreach (var property in item.GetProperties())
                     {
-                        newItem.AddCopyProperty(property);
-                        if (item.OriginalProperties.Any(x => x.ColumnID == property.ColumnID))
-                            newItem.OriginalProperties.Add(item.OriginalProperties.First(x => x.ColumnID == property.ColumnID));
-                        else
+                        if (!property.IsHidden)
                         {
-
+                            var originalProperty = item.OriginalProperties.First(x => x.ColumnID == property.ColumnID);
+                            var newProperty = newItem.AddCopyProperty(property);
+                            newItem.OriginalProperties.Add(originalProperty);
+                            if (property.IsReadonly)
+                                newProperty.Value = originalProperty.Value;
                         }
                     }
                     newItem.IsFullData = item.IsFullData;
@@ -192,24 +193,27 @@ namespace MyUILibrary.EntityArea.Commands
 
                         //if (childItem.RemovedItems.Any() || childItems.Any())
                         //{
-                        var newChildItems = new ChildRelationshipInfo();
-                        newChildItems.Relationship = childItem.Relationship;
+                        if (!childItem.IsHidden)
+                        {
+                            var newChildItems = new ChildRelationshipInfo();
+                            newChildItems.Relationship = childItem.Relationship;
 
-                        foreach (var orginalRelationships in childItem.OriginalRelatedData)
-                            newChildItems.OriginalRelatedData.Add(orginalRelationships);
+                            foreach (var orginalRelationships in childItem.OriginalRelatedData)
+                                newChildItems.OriginalRelatedData.Add(orginalRelationships);
 
-                        newChildItems.RelationshipDeleteOption = childItem.RelationshipDeleteOption;
-                        //foreach (var removedItem in childItem.RemovedItems)
-                        //    newChildItems.RemovedItems.Add(removedItem);
+                            newChildItems.RelationshipDeleteOption = childItem.RelationshipDeleteOption;
+                            //foreach (var removedItem in childItem.RemovedItems)
+                            //    newChildItems.RemovedItems.Add(removedItem);
 
-                        var childDataItems = GetData(childItem, newChildItems);
-                        foreach (var cItem in childDataItems)
-                            newChildItems.RelatedData.Add(cItem);
+                            var childDataItems = GetData(childItem, newChildItems);
+                            foreach (var cItem in childDataItems)
+                                newChildItems.RelatedData.Add(cItem);
 
-                        newChildItems.CheckAddedRemovedRelationships();
+                            newChildItems.CheckAddedRemovedRelationships();
 
 
-                        newItem.ChildRelationshipInfos.Add(newChildItems);
+                            newItem.ChildRelationshipInfos.Add(newChildItems);
+                        }
                     }
                     //}
                 }
@@ -246,7 +250,7 @@ namespace MyUILibrary.EntityArea.Commands
                 List<EntityInstanceProperty> removeProperties = new List<EntityInstanceProperty>();
                 foreach (var property in data.GetProperties())
                 {
-                    property.IsChanged =  data.PropertyIsChanged(property);
+                    property.IsChanged = data.PropertyIsChanged(property);
                 }
                 foreach (var child in data.ChildRelationshipInfos)
                 {

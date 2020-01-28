@@ -184,10 +184,10 @@ namespace MyUILibrary.EntityArea
                 else
                     propertyControl.Alias = column.Alias;
              //   propertyControl.ControlPackage = new UIControlPackageForSimpleColumn();
-                propertyControl.IsPermanentReadOnly = true;
+           //     propertyControl.IsPermanentReadOnly = true;
                 propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForMultipleDataForm(column.Column, GetColumnUISetting(column.Column), false, false,true, propertyControl.Alias);
-                if (propertyControl.IsPermanentReadOnly)
-                    propertyControl.ControlManager.SetReadonly(propertyControl.IsPermanentReadOnly);
+          //      if (propertyControl.IsPermanentReadOnly)
+                    propertyControl.ControlManager.SetReadonly(true);
 
                 ViewColumnControls.Add(propertyControl);
 

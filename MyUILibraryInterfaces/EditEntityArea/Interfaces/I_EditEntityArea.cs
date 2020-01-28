@@ -20,7 +20,7 @@ namespace MyUILibrary.EntityArea
         event EventHandler<EditAreaDataItemArg> DataItemUnShown;
 
         event EventHandler DataViewGenerated;
-        TableDrivedEntityDTO DataEntryEntity {  get; }
+        TableDrivedEntityDTO DataEntryEntity { get; }
         //I_UIActionActivityManager ActionActivityManager { set; get; }
         ///    void ManageSecurity();
         //void SetDataShouldBeCounted();
@@ -43,7 +43,7 @@ namespace MyUILibrary.EntityArea
         void SetChildRelationshipInfo(ChildRelationshipInfo value);
         //event EventHandler<DataUpdatedArg> Updated;
         TableDrivedEntityDTO FullEntity { get; }
-        void ReadonlySimpleColumnControl(SimpleColumnControl column, bool readonlity);
+        //void ReadonlySimpleColumnControl(SimpleColumnControl column, bool readonlity);
 
         void AddDataBusinessMessage(string message, InfoColor infoColor, string key, DP_DataRepository causingData, ControlItemPriority priority);
         void RemoveDataBusinessMessage(DP_DataRepository dataItem, string key);
@@ -76,6 +76,11 @@ namespace MyUILibrary.EntityArea
         //}
         //////void ImposeTemporaryViewSecurity();
         //////void ImposeDataViewSecurity();
+
+        void DecideDataRelatedButtons();
+
+        void DecideTempViewStaticButtons();
+        void DecideDataViewStaticButtons();
         EditEntityAreaInitializer AreaInitializer
         {
             get;
@@ -155,8 +160,11 @@ namespace MyUILibrary.EntityArea
         void CheckRedundantData(I_EditEntityArea editEntityArea);
         void SetColumnValueFromState(DP_DataRepository dataItem, List<UIColumnValueDTO> uIColumnValue, EntityStateDTO state);
         void ResetColumnValueRange(SimpleColumnControl simpleColumn, DP_DataRepository dataItem);
-        void SetSimpleColumnHidden(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, EntityStateDTO state);
-        void SetSimpleColumnReadonly(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, EntityStateDTO state);
+        void ChangeSimpleColumnVisiblity(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool hidden, string title);
+        void ChangeSimpleColumnReadonly(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool isReadonly, string title);
+
+        void ChangeRelatoinsipColumnVisiblity(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool hidden, string title);
+        void ChangeRelatoinsipColumnReadonly(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool isReadonly, string title);
 
 
 
@@ -652,7 +660,7 @@ namespace MyUILibrary.EntityArea
     {
 
         I_TabPageContainer TabPageContainer { get; set; }
-        bool HasExpander {  get; }
+        bool HasExpander { get; }
         event EventHandler<Arg_MultipleTemporaryDisplayLoaded> TemporaryViewLoaded;
         event EventHandler<Arg_MultipleTemporaryDisplayViewRequested> TemporaryViewRequested;
         event EventHandler<Arg_TemporaryDisplaySerachText> TemporaryViewSerchTextChanged;
@@ -736,7 +744,7 @@ namespace MyUILibrary.EntityArea
         {
             //   ColumnSetting = new ColumnSetting();
         }
-        public bool IsPermanentReadOnly { get; set; }
+        //     public bool IsPermanentReadOnly { get; set; }
         //public ColumnSetting ColumnSetting { set; get; }
         public bool Visited { set; get; }
         public string Alias { set; get; }
@@ -862,14 +870,17 @@ namespace MyUILibrary.EntityArea
     public class SimpleColumnControl : BaseColumnControl
     {
 
-        public Dictionary<DP_DataRepository, bool> BusinessReadOnly = new Dictionary<DP_DataRepository, bool>();
-        public Dictionary<DP_DataRepository, bool> BusinessHidden = new Dictionary<DP_DataRepository, bool>();
+        //public Dictionary<DP_DataRepository, bool> BusinessReadOnly = new Dictionary<DP_DataRepository, bool>();
+        //public Dictionary<DP_DataRepository, bool> BusinessHidden = new Dictionary<DP_DataRepository, bool>();
         //    public override I_SimpleControlManager ControlManager { set; get; }
         //public bool SecurityNoAccess { get; set; }
-        public bool SecurityReadOnly { get; set; }
+        // public bool SecurityReadOnly { get; set; }
         //public bool SecurityEdit { get; set; }
         public ColumnDTO Column { set; get; }
         public I_SimpleControlManager SimpleControlManager { get { return ControlManager as I_SimpleControlManager; } }
+
+        public bool IsReadonly { get; set; }
+
         //    public List<ColumnValueRangeDetailsDTO> CurrentItemsSource { get; set; }
 
         //public event EventHandler<ColumnValueChangeArg> ValueChanged;
@@ -893,12 +904,12 @@ namespace MyUILibrary.EntityArea
         public RelationshipDTO Relationship { set; get; }
         public List<ColumnDTO> Columns { set; get; }
 
-        public Dictionary<DP_DataRepository, bool> BusinessHidden = new Dictionary<DP_DataRepository, bool>();
+        //public Dictionary<DP_DataRepository, bool> BusinessHidden = new Dictionary<DP_DataRepository, bool>();
         public I_RelationshipControlManager RelationshipControlManager { get { return ControlManager as I_RelationshipControlManager; } }
 
-        public bool SecurityNoAccess { get; set; }
-        public bool SecurityReadOnly { get; set; }
-        public bool SecurityEdit { get; set; }
+        //public bool SecurityNoAccess { get; set; }
+        //public bool SecurityReadOnly { get; set; }
+        //public bool SecurityEdit { get; set; }
 
         //public event EventHandler<ColumnValueChangeArg> ValueChanged;
         public RelationshipColumnControl()

@@ -865,7 +865,10 @@ namespace MyUILibrary
             else
                 return false;
         }
-
+        internal static bool ValueIsEmptyOrDefaultValue(EntityInstanceProperty property)
+        {
+            return ValueIsEmpty(property) || property.Value == property.Column.DefaultValue;
+        }
 
         //internal static string GetTypePropertyValue(DP_DataRepository dataRepository, ColumnDTO typeProperty)
         //{

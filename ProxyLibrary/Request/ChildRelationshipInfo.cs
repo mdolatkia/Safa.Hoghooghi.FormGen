@@ -175,7 +175,8 @@ namespace ProxyLibrary
             }
         }
 
-
+        public bool IsHidden { get; set; }
+        public bool IsReadonly { get; set; }
 
         List<ChangeMonitor> ChangeMonitorItems = new List<ChangeMonitor>();
 

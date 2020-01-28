@@ -393,9 +393,11 @@ namespace ProxyLibrary
             var orgProperty = OriginalProperties.First(x => x.ColumnID == property.ColumnID);
             return property.Value != orgProperty.Value;
         }
-        public void AddCopyProperty(EntityInstanceProperty currrentProperty)
+        public EntityInstanceProperty AddCopyProperty(EntityInstanceProperty currrentProperty)
         {
-            Properties.Add(CopyProperty(currrentProperty));
+            var prop = CopyProperty(currrentProperty);
+            Properties.Add(prop);
+            return prop;
         }
 
         private EntityInstanceProperty CopyProperty(EntityInstanceProperty currrentProperty)
@@ -403,6 +405,8 @@ namespace ProxyLibrary
             EntityInstanceProperty property = new ProxyLibrary.EntityInstanceProperty(currrentProperty.Column);
             //property.Name = currrentProperty.Name;
             property.Value = currrentProperty.Value;
+            property.IsHidden = currrentProperty.IsHidden;
+            property.IsReadonly = currrentProperty.IsReadonly;
             property.PropertyValueChanged += Property_PropertyValueChanged;
             property.FormulaID = currrentProperty.FormulaID;
             property.FormulaException = currrentProperty.FormulaException;
@@ -771,6 +775,8 @@ namespace ProxyLibrary
         public int ListViewColumnID { set; get; }
         public string RelationshipIDTailPath { get; set; }
         public bool HasForeignKeyData { get; set; }
+        public bool IsHidden { get; set; }
+        public bool IsReadonly { get; set; }
         //public int EntityListViewColumnsID { get; set; }
     }
 

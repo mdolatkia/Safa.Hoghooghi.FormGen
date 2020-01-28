@@ -187,7 +187,8 @@ namespace MyUIGenerator.UIControlHelper
         }
         public void SetReadonly( bool isreadonly)
         {
-            combo.IsReadOnly = isreadonly;
+            // combo.IsReadOnly = isreadonly;
+            combo.IsEnabled = !isreadonly;
         }
         public CommonOperator GetOperator()
         {
