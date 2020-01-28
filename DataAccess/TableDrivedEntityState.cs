@@ -27,6 +27,7 @@ namespace DataAccess
         public Nullable<int> ColumnID { get; set; }
         public string Title { get; set; }
         public Nullable<short> EntityStateOperator { get; set; }
+        public Nullable<int> EntityRelationshipTailID { get; set; }
     
         public virtual Column Column { get; set; }
         public virtual ICollection<EntityState_UIActionActivity> EntityState_UIActionActivity { get; set; }
@@ -34,5 +35,6 @@ namespace DataAccess
         public virtual ICollection<FormulaItems> FormulaItems { get; set; }
         public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<TableDrivedEntityStateValues> TableDrivedEntityStateValues { get; set; }
+        public virtual EntityRelationshipTail EntityRelationshipTail { get; set; }
     }
 }

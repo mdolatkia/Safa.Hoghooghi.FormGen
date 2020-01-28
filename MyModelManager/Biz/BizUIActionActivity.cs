@@ -49,18 +49,18 @@ namespace MyModelManager
             if (withDetails && result.Type == Enum_ActionActivityType.UIEnablity)
             {
                 foreach (var dbitem in item.UIEnablityDetails)
-                    result.UIEnablityDetails.Add(ToUIEnablityDetailsDTO(dbitem));
+                    result.UIEnablityDetails.Add(ToUIEnablityDetailsDTO(result.UIEnablityDetails, dbitem));
             }
             if (withDetails && result.Type == Enum_ActionActivityType.ColumnValueRange)
             {
                 foreach (var dbitem in item.UIColumnValueRange)
                     result.UIColumnValueRange.Add(ToUIColumnValueRangeDTO(dbitem));
             }
-            if (withDetails && result.Type == Enum_ActionActivityType.ColumnValueRangeReset)
-            {
-                foreach (var dbitem in item.UIColumnValueRangeReset)
-                    result.UIColumnValueRangeReset.Add(ToUIColumnValueRangeResetDTO(dbitem));
-            }
+            //if (withDetails && result.Type == Enum_ActionActivityType.ColumnValueRangeReset)
+            //{
+            //    foreach (var dbitem in item.UIColumnValueRangeReset)
+            //        result.UIColumnValueRangeReset.Add(ToUIColumnValueRangeResetDTO(dbitem));
+            //}
             //if (withDetails && result.Type == Enum_ActionActivityType.RelationshipEnablity)
             //{
             //    var relationshipEnablity = item.RelationshipEnablity.First();
@@ -90,13 +90,13 @@ namespace MyModelManager
             msgtem.Value = item.Value;
             return msgtem;
         }
-        private UIColumnValueRangeResetDTO ToUIColumnValueRangeResetDTO(UIColumnValueRangeReset item)
-        {
-            UIColumnValueRangeResetDTO msgtem = new UIColumnValueRangeResetDTO();
-            msgtem.ColumnValueRangeID = item.ColumnValueRangeID;
-            msgtem.ID = item.ID;
-            return msgtem;
-        }
+        //private UIColumnValueRangeResetDTO ToUIColumnValueRangeResetDTO(UIColumnValueRangeReset item)
+        //{
+        //    UIColumnValueRangeResetDTO msgtem = new UIColumnValueRangeResetDTO();
+        //    msgtem.ColumnValueRangeID = item.ColumnValueRangeID;
+        //    msgtem.ID = item.ID;
+        //    return msgtem;
+        //}
 
         public UIColumnValueDTO ToColumnValueDTO(DataAccess.UIColumnValue item)
         {
@@ -125,13 +125,25 @@ namespace MyModelManager
         //    result.Readonly = relationshipEnablity.Readonly;
         //    return result;
         //}
-        private UIEnablityDetailsDTO ToUIEnablityDetailsDTO(UIEnablityDetails dbitem)
+        private UIEnablityDetailsDTO ToUIEnablityDetailsDTO(List<UIEnablityDetailsDTO> list, UIEnablityDetails dbitem)
         {
             var cItem = new UIEnablityDetailsDTO();
             if (dbitem.ColumnID != null)
-                cItem.ColumnID = dbitem.ColumnID.Value;
-            if (dbitem.RelationshipID != null)
-                cItem.RelationshipID = dbitem.RelationshipID.Value;
+            {
+                short relType = (short)Enum_MasterRelationshipType.FromForeignToPrimary;
+                if (dbitem.Column.RelationshipColumns.Any(x => x.Relationship.MasterTypeEnum == relType))
+                {
+                    var relID = dbitem.Column.RelationshipColumns.First(x => x.Relationship.MasterTypeEnum == relType).Relationship.ID;
+                    if (!list.Any(x => x.RelationshipID == relID))
+                        cItem.RelationshipID = relID;
+                }
+                else
+                    cItem.ColumnID = dbitem.ColumnID.Value;
+
+            }
+            //if (dbitem.RelationshipID != null)
+            //    cItem.RelationshipID = dbitem.RelationshipID.Value;
+
             if (dbitem.EntityUICompositionID != null)
                 cItem.UICompositionID = dbitem.EntityUICompositionID.Value;
             cItem.Hidden = dbitem.Hidden;
@@ -174,24 +186,45 @@ namespace MyModelManager
                     projectContext.UIEnablityDetails.Remove(dbActionActivity.UIEnablityDetails.First());
                 foreach (var item in UIActionActivity.UIEnablityDetails)
                 {
-                    UIEnablityDetails dbItem = new UIEnablityDetails();
-                    dbItem.Hidden = item.Hidden;
-                    dbItem.Readonly = item.Readonly;
                     if (item.RelationshipID != 0)
-                        dbItem.RelationshipID = item.RelationshipID;
+                    {
+                        var relationship = projectContext.Relationship.First(x => x.ID == item.RelationshipID);
+                        if (relationship.MasterTypeEnum == (short)Enum_MasterRelationshipType.FromPrimartyToForeign)
+                        {
+                            throw new Exception("امکان تععین وضعیت برای رابطه" + " " + relationship.ID + " " + "میسر نمی باشد");
+                        }
+                        else
+                        {
+                            foreach (var relCol in relationship.RelationshipColumns)
+                            {
+                                UIEnablityDetails dbItem = new UIEnablityDetails();
+                                dbItem.Hidden = item.Hidden;
+                                dbItem.Readonly = item.Readonly;
+                                dbItem.ColumnID = relCol.FirstSideColumnID;
+                                dbActionActivity.UIEnablityDetails.Add(dbItem);
+                            }
+                        }
+                    }
                     else
-                        dbItem.RelationshipID = null;
-                    if (item.ColumnID != 0)
-                        dbItem.ColumnID = item.ColumnID;
-                    else
-                        dbItem.ColumnID = null;
+                    {
 
-                    if (item.UICompositionID != 0)
-                        dbItem.EntityUICompositionID = item.UICompositionID;
-                    else
-                        dbItem.EntityUICompositionID = null;
+                        UIEnablityDetails dbItem = new UIEnablityDetails();
+                        dbItem.Hidden = item.Hidden;
+                        dbItem.Readonly = item.Readonly;
 
-                    dbActionActivity.UIEnablityDetails.Add(dbItem);
+
+                        if (item.ColumnID != 0)
+                            dbItem.ColumnID = item.ColumnID;
+                        else
+                            dbItem.ColumnID = null;
+
+                        if (item.UICompositionID != 0)
+                            dbItem.EntityUICompositionID = item.UICompositionID;
+                        else
+                            dbItem.EntityUICompositionID = null;
+
+                        dbActionActivity.UIEnablityDetails.Add(dbItem);
+                    }
                 }
 
 
@@ -205,14 +238,14 @@ namespace MyModelManager
                     dbItem.Value = item.Value;
                     dbActionActivity.UIColumnValueRange.Add(dbItem);
                 }
-                while (dbActionActivity.UIColumnValueRangeReset.Any())
-                    projectContext.UIColumnValueRangeReset.Remove(dbActionActivity.UIColumnValueRangeReset.First());
-                foreach (var item in UIActionActivity.UIColumnValueRangeReset)
-                {
-                    UIColumnValueRangeReset dbItem = new UIColumnValueRangeReset();
-                    dbItem.ColumnValueRangeID = item.ColumnValueRangeID;
-                    dbActionActivity.UIColumnValueRangeReset.Add(dbItem);
-                }
+                //while (dbActionActivity.UIColumnValueRangeReset.Any())
+                //    projectContext.UIColumnValueRangeReset.Remove(dbActionActivity.UIColumnValueRangeReset.First());
+                //foreach (var item in UIActionActivity.UIColumnValueRangeReset)
+                //{
+                //    UIColumnValueRangeReset dbItem = new UIColumnValueRangeReset();
+                //    dbItem.ColumnValueRangeID = item.ColumnValueRangeID;
+                //    dbActionActivity.UIColumnValueRangeReset.Add(dbItem);
+                //}
                 //if (UIActionActivity.RelationshipEnablity != null && UIActionActivity.RelationshipEnablity.EntityRelationshipTailID != 0)
                 //{
                 //    var dbRelationshipEnablity = dbActionActivity.RelationshipEnablity.FirstOrDefault();

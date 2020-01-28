@@ -115,6 +115,9 @@ namespace MyModelManager
                 result.Formula = bizFormula.GetFormula(item.FormulaID.Value, withDetails);
             }
             result.ColumnID = item.ColumnID ?? 0;
+            result.RelationshipIDTailID = item.EntityRelationshipTailID ?? 0;
+            if (item.EntityRelationshipTail != null)
+                result.RelationshipIDTail = item.EntityRelationshipTail.RelationshipPath;
             result.TableDrivedEntityID = item.TableDrivedEntityID;
             //result.Preserve = item.Preserve;
             //result.ActionActivityID = item.ActionActivityID ?? 0;
@@ -172,9 +175,18 @@ namespace MyModelManager
                 else
                     dbEntityState.FormulaID = null;
                 if (EntityState.ColumnID != 0)
+                {
                     dbEntityState.ColumnID = EntityState.ColumnID;
+                    if (EntityState.RelationshipIDTailID == 0)
+                        dbEntityState.EntityRelationshipTailID = null;
+                    else
+                        dbEntityState.EntityRelationshipTailID = EntityState.RelationshipIDTailID;
+                }
                 else
+                {
                     dbEntityState.ColumnID = null;
+                    dbEntityState.EntityRelationshipTailID = null;
+                }
                 dbEntityState.EntityStateOperator = (short)EntityState.EntityStateOperator;
                 //if (EntityState.ActionActivityID != 0)
                 //    dbEntityState.ActionActivityID = EntityState.ActionActivityID;

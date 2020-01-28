@@ -168,7 +168,7 @@ namespace MyProject_WPF
                 var actionActivity = (source.DataContext as UIActionActivityDTO);
                 frmUIActionActivity view = new frmUIActionActivity((source.DataContext as UIActionActivityDTO).ID, EntityID);
                 view.ItemSaved += View_ItemSaved;
-                MyProjectManager.GetMyProjectManager.ShowDialog(view, "تعریف اقدامات");
+                MyProjectManager.GetMyProjectManager.ShowDialog(view, "تعریف اقدامات", Enum_WindowSize.Big);
             }
         }
     }

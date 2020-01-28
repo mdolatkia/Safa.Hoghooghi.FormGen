@@ -2392,7 +2392,7 @@ namespace ModelEntites
         DatabaseFunction,
         UIEnablity,
         ColumnValueRange,
-        ColumnValueRangeReset,
+       // ColumnValueRangeResetOld,
         ColumnValue
     }
 
@@ -2547,6 +2547,7 @@ namespace ModelEntites
         public int TableDrivedEntityID { set; get; }
         public int FormulaID { set; get; }
         public FormulaDTO Formula { set; get; }
+        public int RelationshipIDTailID { set; get; }
         public string RelationshipIDTail { set; get; }
         public int ColumnID { set; get; }
         public Enum_EntityStateOperator EntityStateOperator { set; get; }

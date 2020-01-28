@@ -991,6 +991,7 @@
           <Property Name="ColumnID" Type="int" />
           <Property Name="Title" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="EntityStateOperator" Type="smallint" />
+          <Property Name="EntityRelationshipTailID" Type="int" />
         </EntityType>
         <EntityType Name="TableDrivedEntityStateValues">
           <Key>
@@ -1035,14 +1036,6 @@
           <Property Name="EnumTag" Type="smallint" Nullable="false" />
           <Property Name="Value" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <EntityType Name="UIColumnValueRangeReset">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UIActionActivityID" Type="int" Nullable="false" />
-          <Property Name="ColumnValueRangeID" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="UIEnablityDetails">
           <Key>
             <PropertyRef Name="ID" />
@@ -1050,7 +1043,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntityUICompositionID" Type="int" />
           <Property Name="ColumnID" Type="int" />
-          <Property Name="RelationshipID" Type="int" />
           <Property Name="Hidden" Type="bit" />
           <Property Name="Readonly" Type="bit" />
           <Property Name="UIActionActivityID" Type="int" />
@@ -2079,6 +2071,18 @@
             </Principal>
             <Dependent Role="TableDrivedEntity">
               <PropertyRef Name="EntitySearchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableDrivedEntityState_EntityRelationshipTail">
+          <End Role="EntityRelationshipTail" Type="Self.EntityRelationshipTail" Multiplicity="0..1" />
+          <End Role="TableDrivedEntityState" Type="Self.TableDrivedEntityState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityRelationshipTail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntityState">
+              <PropertyRef Name="EntityRelationshipTailID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4386,18 +4390,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKUIColumnVa9864126">
-          <End Role="UIActionActivity" Type="Self.UIActionActivity" Multiplicity="1" />
-          <End Role="UIColumnValueRangeReset" Type="Self.UIColumnValueRangeReset" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UIActionActivity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UIColumnValueRangeReset">
-              <PropertyRef Name="UIActionActivityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKUIColumnVa986416">
           <End Role="UIActionActivity" Type="Self.UIActionActivity" Multiplicity="1" />
           <End Role="UIColumnValueRange" Type="Self.UIColumnValueRange" Multiplicity="*" />
@@ -4407,18 +4399,6 @@
             </Principal>
             <Dependent Role="UIColumnValueRange">
               <PropertyRef Name="UIActionActivityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKUIEnablity256082">
-          <End Role="Relationship" Type="Self.Relationship" Multiplicity="0..1" />
-          <End Role="UIEnablityDetails" Type="Self.UIEnablityDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Relationship">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UIEnablityDetails">
-              <PropertyRef Name="RelationshipID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4640,7 +4620,6 @@
           <EntitySet Name="UIActionActivity" EntityType="Self.UIActionActivity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UIColumnValue" EntityType="Self.UIColumnValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UIColumnValueRange" EntityType="Self.UIColumnValueRange" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UIColumnValueRangeReset" EntityType="Self.UIColumnValueRangeReset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UIEnablityDetails" EntityType="Self.UIEnablityDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnionRelationshipType" EntityType="Self.UnionRelationshipType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnionToSubUnionRelationshipType" EntityType="Self.UnionToSubUnionRelationshipType" Schema="dbo" store:Type="Tables" />
@@ -4912,6 +4891,10 @@
           <AssociationSet Name="FK_TableDrivedEntity_EntitySearch" Association="Self.FK_TableDrivedEntity_EntitySearch">
             <End Role="EntitySearch" EntitySet="EntitySearch" />
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableDrivedEntityState_EntityRelationshipTail" Association="Self.FK_TableDrivedEntityState_EntityRelationshipTail">
+            <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
+            <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
           </AssociationSet>
           <AssociationSet Name="FK_TableDrivedEntityStateValues_TableDrivedEntityState" Association="Self.FK_TableDrivedEntityStateValues_TableDrivedEntityState">
             <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
@@ -5681,17 +5664,9 @@
             <End Role="Action" EntitySet="Action" />
             <End Role="TransitionAction" EntitySet="TransitionAction" />
           </AssociationSet>
-          <AssociationSet Name="FKUIColumnVa9864126" Association="Self.FKUIColumnVa9864126">
-            <End Role="UIActionActivity" EntitySet="UIActionActivity" />
-            <End Role="UIColumnValueRangeReset" EntitySet="UIColumnValueRangeReset" />
-          </AssociationSet>
           <AssociationSet Name="FKUIColumnVa986416" Association="Self.FKUIColumnVa986416">
             <End Role="UIActionActivity" EntitySet="UIActionActivity" />
             <End Role="UIColumnValueRange" EntitySet="UIColumnValueRange" />
-          </AssociationSet>
-          <AssociationSet Name="FKUIEnablity256082" Association="Self.FKUIEnablity256082">
-            <End Role="Relationship" EntitySet="Relationship" />
-            <End Role="UIEnablityDetails" EntitySet="UIEnablityDetails" />
           </AssociationSet>
           <AssociationSet Name="FKUIEnablity310255" Association="Self.FKUIEnablity310255">
             <End Role="Column" EntitySet="Column" />
@@ -5844,7 +5819,6 @@
           <EntitySet Name="UIActionActivity" EntityType="MyProjectModel.UIActionActivity" />
           <EntitySet Name="UIColumnValue" EntityType="MyProjectModel.UIColumnValue" />
           <EntitySet Name="UIColumnValueRange" EntityType="MyProjectModel.UIColumnValueRange" />
-          <EntitySet Name="UIColumnValueRangeReset" EntityType="MyProjectModel.UIColumnValueRangeReset" />
           <EntitySet Name="UIEnablityDetails" EntityType="MyProjectModel.UIEnablityDetails" />
           <EntitySet Name="UnionRelationshipType" EntityType="MyProjectModel.UnionRelationshipType" />
           <EntitySet Name="UnionToSubUnionRelationshipType" EntityType="MyProjectModel.UnionToSubUnionRelationshipType" />
@@ -6656,10 +6630,6 @@
             <End Role="Relationship" EntitySet="Relationship" />
             <End Role="RelationshipType" EntitySet="RelationshipType" />
           </AssociationSet>
-          <AssociationSet Name="FKUIEnablity256082" Association="MyProjectModel.FKUIEnablity256082">
-            <End Role="Relationship" EntitySet="Relationship" />
-            <End Role="UIEnablityDetails" EntitySet="UIEnablityDetails" />
-          </AssociationSet>
           <AssociationSet Name="FKSubToSuper672991" Association="MyProjectModel.FKSubToSuper672991">
             <End Role="RelationshipType" EntitySet="RelationshipType" />
             <End Role="SubToSuperRelationshipType" EntitySet="SubToSuperRelationshipType" />
@@ -6743,10 +6713,6 @@
           <AssociationSet Name="FKColumnValu201622" Association="MyProjectModel.FKColumnValu201622">
             <End Role="UIActionActivity" EntitySet="UIActionActivity" />
             <End Role="UIColumnValue" EntitySet="UIColumnValue" />
-          </AssociationSet>
-          <AssociationSet Name="FKUIColumnVa9864126" Association="MyProjectModel.FKUIColumnVa9864126">
-            <End Role="UIActionActivity" EntitySet="UIActionActivity" />
-            <End Role="UIColumnValueRangeReset" EntitySet="UIColumnValueRangeReset" />
           </AssociationSet>
           <AssociationSet Name="FKUIColumnVa986416" Association="MyProjectModel.FKUIColumnVa986416">
             <End Role="UIActionActivity" EntitySet="UIActionActivity" />
@@ -6927,6 +6893,10 @@
           <AssociationSet Name="UniqueConstraint_Column" Association="MyProjectModel.UniqueConstraint_Column">
             <End Role="UniqueConstraint" EntitySet="UniqueConstraint" />
             <End Role="Column" EntitySet="Column" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableDrivedEntityState_EntityRelationshipTail" Association="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail">
+            <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
+            <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ArchiveFolder">
@@ -7620,6 +7590,7 @@
           <NavigationProperty Name="EntitySecurityInDirect" Relationship="MyProjectModel.FKEntitySecu489951" FromRole="EntityRelationshipTail" ToRole="EntitySecurityInDirect" />
           <NavigationProperty Name="EntitySecurityCondition" Relationship="MyProjectModel.FKEntitySecu518173" FromRole="EntityRelationshipTail" ToRole="EntitySecurityCondition" />
           <NavigationProperty Name="RelationshipSearchFilter1" Relationship="MyProjectModel.FKRelationsh552099" FromRole="EntityRelationshipTail" ToRole="RelationshipSearchFilter" />
+          <NavigationProperty Name="TableDrivedEntityState" Relationship="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail" FromRole="EntityRelationshipTail" ToRole="TableDrivedEntityState" />
         </EntityType>
         <EntityType Name="EntityReport">
           <Key>
@@ -8039,7 +8010,6 @@
           <NavigationProperty Name="RelationshipSearchFilter" Relationship="MyProjectModel.FKRelationsh283976" FromRole="Relationship" ToRole="RelationshipSearchFilter" />
           <NavigationProperty Name="RelationshipColumns" Relationship="MyProjectModel.FKRelationsh685437" FromRole="Relationship" ToRole="RelationshipColumns" />
           <NavigationProperty Name="RelationshipType" Relationship="MyProjectModel.FKRelationsh827735" FromRole="Relationship" ToRole="RelationshipType" />
-          <NavigationProperty Name="UIEnablityDetails" Relationship="MyProjectModel.FKUIEnablity256082" FromRole="Relationship" ToRole="UIEnablityDetails" />
         </EntityType>
         <EntityType Name="RelationshipColumns">
           <Key>
@@ -8311,6 +8281,8 @@
           <NavigationProperty Name="FormulaItems" Relationship="MyProjectModel.FK_FormulaItems_TableDrivedEntityState" FromRole="TableDrivedEntityState" ToRole="FormulaItems" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKTableDrive764829" FromRole="TableDrivedEntityState" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="TableDrivedEntityStateValues" Relationship="MyProjectModel.FK_TableDrivedEntityStateValues_TableDrivedEntityState" FromRole="TableDrivedEntityState" ToRole="TableDrivedEntityStateValues" />
+          <Property Name="EntityRelationshipTailID" Type="Int32" />
+          <NavigationProperty Name="EntityRelationshipTail" Relationship="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail" FromRole="TableDrivedEntityState" ToRole="EntityRelationshipTail" />
         </EntityType>
         <EntityType Name="TableDrivedEntityStateValues">
           <Key>
@@ -8341,7 +8313,6 @@
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKActionActi421900" FromRole="UIActionActivity" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="UIEnablityDetails" Relationship="MyProjectModel.FK_UIEnablityDetails_UIActionActivity" FromRole="UIActionActivity" ToRole="UIEnablityDetails" />
           <NavigationProperty Name="UIColumnValue" Relationship="MyProjectModel.FKColumnValu201622" FromRole="UIActionActivity" ToRole="UIColumnValue" />
-          <NavigationProperty Name="UIColumnValueRangeReset" Relationship="MyProjectModel.FKUIColumnVa9864126" FromRole="UIActionActivity" ToRole="UIColumnValueRangeReset" />
           <NavigationProperty Name="UIColumnValueRange" Relationship="MyProjectModel.FKUIColumnVa986416" FromRole="UIActionActivity" ToRole="UIColumnValueRange" />
         </EntityType>
         <EntityType Name="UIColumnValue">
@@ -8367,15 +8338,6 @@
           <Property Name="Value" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UIActionActivity" Relationship="MyProjectModel.FKUIColumnVa986416" FromRole="UIColumnValueRange" ToRole="UIActionActivity" />
         </EntityType>
-        <EntityType Name="UIColumnValueRangeReset">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UIActionActivityID" Type="Int32" Nullable="false" />
-          <Property Name="ColumnValueRangeID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="UIActionActivity" Relationship="MyProjectModel.FKUIColumnVa9864126" FromRole="UIColumnValueRangeReset" ToRole="UIActionActivity" />
-        </EntityType>
         <EntityType Name="UIEnablityDetails">
           <Key>
             <PropertyRef Name="ID" />
@@ -8383,13 +8345,11 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EntityUICompositionID" Type="Int32" />
           <Property Name="ColumnID" Type="Int32" />
-          <Property Name="RelationshipID" Type="Int32" />
           <Property Name="Hidden" Type="Boolean" />
           <Property Name="Readonly" Type="Boolean" />
           <Property Name="UIActionActivityID" Type="Int32" />
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FKUIEnablity310255" FromRole="UIEnablityDetails" ToRole="Column" />
           <NavigationProperty Name="EntityUIComposition" Relationship="MyProjectModel.FKUIEnablity905716" FromRole="UIEnablityDetails" ToRole="EntityUIComposition" />
-          <NavigationProperty Name="Relationship" Relationship="MyProjectModel.FKUIEnablity256082" FromRole="UIEnablityDetails" ToRole="Relationship" />
           <NavigationProperty Name="UIActionActivity" Relationship="MyProjectModel.FK_UIEnablityDetails_UIActionActivity" FromRole="UIEnablityDetails" ToRole="UIActionActivity" />
         </EntityType>
         <EntityType Name="UnionRelationshipType">
@@ -11142,18 +11102,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKUIEnablity256082">
-          <End Type="MyProjectModel.Relationship" Role="Relationship" Multiplicity="0..1" />
-          <End Type="MyProjectModel.UIEnablityDetails" Role="UIEnablityDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Relationship">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UIEnablityDetails">
-              <PropertyRef Name="RelationshipID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKSubToSuper672991">
           <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
           <End Type="MyProjectModel.SubToSuperRelationshipType" Role="SubToSuperRelationshipType" Multiplicity="0..1" />
@@ -11402,18 +11350,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="UIColumnValue">
-              <PropertyRef Name="UIActionActivityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKUIColumnVa9864126">
-          <End Type="MyProjectModel.UIActionActivity" Role="UIActionActivity" Multiplicity="1" />
-          <End Type="MyProjectModel.UIColumnValueRangeReset" Role="UIColumnValueRangeReset" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UIActionActivity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UIColumnValueRangeReset">
               <PropertyRef Name="UIActionActivityID" />
             </Dependent>
           </ReferentialConstraint>
@@ -11949,6 +11885,18 @@
         <Association Name="UniqueConstraint_Column">
           <End Type="MyProjectModel.UniqueConstraint" Role="UniqueConstraint" Multiplicity="*" />
           <End Type="MyProjectModel.Column" Role="Column" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_TableDrivedEntityState_EntityRelationshipTail">
+          <End Type="MyProjectModel.EntityRelationshipTail" Role="EntityRelationshipTail" Multiplicity="0..1" />
+          <End Type="MyProjectModel.TableDrivedEntityState" Role="TableDrivedEntityState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityRelationshipTail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntityState">
+              <PropertyRef Name="EntityRelationshipTailID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -13035,6 +12983,7 @@
           <EntitySetMapping Name="TableDrivedEntityState">
             <EntityTypeMapping TypeName="MyProjectModel.TableDrivedEntityState">
               <MappingFragment StoreEntitySet="TableDrivedEntityState">
+                <ScalarProperty Name="EntityRelationshipTailID" ColumnName="EntityRelationshipTailID" />
                 <ScalarProperty Name="EntityStateOperator" ColumnName="EntityStateOperator" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
@@ -13092,22 +13041,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UIColumnValueRangeReset">
-            <EntityTypeMapping TypeName="MyProjectModel.UIColumnValueRangeReset">
-              <MappingFragment StoreEntitySet="UIColumnValueRangeReset">
-                <ScalarProperty Name="ColumnValueRangeID" ColumnName="ColumnValueRangeID" />
-                <ScalarProperty Name="UIActionActivityID" ColumnName="UIActionActivityID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UIEnablityDetails">
             <EntityTypeMapping TypeName="MyProjectModel.UIEnablityDetails">
               <MappingFragment StoreEntitySet="UIEnablityDetails">
                 <ScalarProperty Name="UIActionActivityID" ColumnName="UIActionActivityID" />
                 <ScalarProperty Name="Readonly" ColumnName="Readonly" />
                 <ScalarProperty Name="Hidden" ColumnName="Hidden" />
-                <ScalarProperty Name="RelationshipID" ColumnName="RelationshipID" />
                 <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
                 <ScalarProperty Name="EntityUICompositionID" ColumnName="EntityUICompositionID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

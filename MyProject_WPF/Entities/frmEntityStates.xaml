@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MyProject_WPF.frmEntityStates"
+﻿<UserControl xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls"  x:Class="MyProject_WPF.frmEntityStates"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MyProject_WPF"
        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         mc:Ignorable="d"
-        Height="500" Width="800">
+       >
     <Grid FlowDirection="RightToLeft">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -75,6 +75,7 @@
                     <Grid Margin="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
@@ -84,16 +85,18 @@
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                             <ColumnDefinition ></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <TextBlock  Text="ستون"></TextBlock>
-                        <ComboBox  x:Name="cmbColumns" Width="230" Grid.Column="1"></ComboBox>
-                        <TextBlock Grid.Row="1" Text="مقدار مورد انتظار"></TextBlock>
-                        <telerik:RadGridView x:Name="dtgColumnValue"  Grid.Row="1" Grid.Column="1" >
+                        <TextBlock Grid.Row="0" Text="رابطه"></TextBlock>
+                        <MyCommonWPFControls:MyStaticLookup Grid.Row="0" x:Name="lokRelationshipTail" Width="230" Grid.Column="1" />
+                        <TextBlock Grid.Row="1" Text="ستون"></TextBlock>
+                        <ComboBox Grid.Row="1" x:Name="cmbColumns" Width="230" Grid.Column="1"></ComboBox>
+                        <TextBlock Grid.Row="2" Text="مقدار مورد انتظار"></TextBlock>
+                        <telerik:RadGridView x:Name="dtgColumnValue"  Grid.Row="2" Grid.Column="1" >
                             <telerik:RadGridView.Columns>
                                 <telerik:GridViewDataColumn Header="مقدار" DataMemberBinding="{Binding Value}" />
                             </telerik:RadGridView.Columns>
                         </telerik:RadGridView>
-                        <TextBlock Grid.Row="2" Text="عملگر"></TextBlock>
-                        <ComboBox x:Name="cmbOperator" Width="230" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" ></ComboBox>
+                        <TextBlock Grid.Row="3" Text="عملگر"></TextBlock>
+                        <ComboBox x:Name="cmbOperator" Width="230" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="1" ></ComboBox>
                     </Grid>
                 </TabItem>
             </TabControl>

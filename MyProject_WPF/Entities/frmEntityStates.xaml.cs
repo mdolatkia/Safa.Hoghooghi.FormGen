@@ -28,6 +28,7 @@ namespace MyProject_WPF
     {
         EntityStateDTO StateDTO { set; get; }
         BizEntityState bizEntityState = new BizEntityState();
+        BizEntityRelationshipTail bizEntityRelationshipTail = new BizEntityRelationshipTail();
         int EntityID { set; get; }
         int EntityStateID { set; get; }
         public frmEntityStates(int entityID, int entityStateID)
@@ -36,6 +37,7 @@ namespace MyProject_WPF
             EntityID = entityID;
             EntityStateID = entityStateID;
             SetColumns();
+            SetRelationshipTails();
             SetFromulas();
             SetActionActivities();
             if (EntityStateID == 0)
@@ -47,7 +49,21 @@ namespace MyProject_WPF
                 GetEntityState(EntityStateID);
             ControlHelper.GenerateContextMenu(dtgColumnValue);
             ControlHelper.GenerateContextMenu(dtgFormulaValue);
+            lokRelationshipTail.SelectionChanged += LokRelationshipTail_SelectionChanged;
+            cmbOperator.ItemsSource = Enum.GetValues(typeof(Enum_EntityStateOperator)).Cast<Enum_EntityStateOperator>();
+        }
 
+        private void LokRelationshipTail_SelectionChanged(object sender, MyCommonWPFControls.SelectionChangedArg e)
+        {
+            SetColumns();
+        }
+
+        private void SetRelationshipTails()
+        {
+            var tails = bizEntityRelationshipTail.GetEntityRelationshipTails(MyProjectManager.GetMyProjectManager.GetRequester(), EntityID);
+            lokRelationshipTail.DisplayMember = "EntityPath";
+            lokRelationshipTail.SelectedValueMember = "ID";
+            lokRelationshipTail.ItemsSource = tails;
         }
 
         private void SetActionActivities()
@@ -72,14 +88,25 @@ namespace MyProject_WPF
         {
             BizColumn bizColumn = new BizColumn();
             BizTableDrivedEntity biz = new BizTableDrivedEntity();
-            var entity = biz.GetTableDrivedEntity(MyProjectManager.GetMyProjectManager.GetRequester(), EntityID, EntityColumnInfoType.WithSimpleColumns, EntityRelationshipInfoType.WithoutRelationships);
+            var entityID = 0;
+            if (lokRelationshipTail.SelectedItem == null)
+                entityID = EntityID;
+            else
+            {
+                EntityRelationshipTailDTO item = lokRelationshipTail.SelectedItem as EntityRelationshipTailDTO;
+                entityID = item.TargetEntityID;
+            }
+            var entity = biz.GetTableDrivedEntity(MyProjectManager.GetMyProjectManager.GetRequester(), entityID, EntityColumnInfoType.WithSimpleColumns, EntityRelationshipInfoType.WithoutRelationships);
             var columns = entity.Columns;
             cmbColumns.DisplayMemberPath = "Alias";
             cmbColumns.SelectedValuePath = "ID";
             cmbColumns.ItemsSource = columns;
-
-
-            cmbOperator.ItemsSource = Enum.GetValues(typeof(Enum_EntityStateOperator)).Cast<Enum_EntityStateOperator>();
+            if(StateDTO!=null &&StateDTO.ID!=0)
+            {
+                if (StateDTO.ColumnID != 0)
+                    cmbColumns.SelectedValue = StateDTO.ColumnID;
+            }
+    
         }
 
         private void GetEntityState(int entityStateID)
@@ -264,7 +291,7 @@ namespace MyProject_WPF
             //}
             frmUIActionActivity view = new frmUIActionActivity(0, EntityID);
             view.ItemSaved += View_ItemSaved;
-            MyProjectManager.GetMyProjectManager.ShowDialog(view, "تعریف اقدامات");
+            MyProjectManager.GetMyProjectManager.ShowDialog(view, "تعریف اقدامات", Enum_WindowSize.Big);
         }
         private void View_ItemSaved(object sender, SavedItemArg e)
         {
@@ -305,7 +332,7 @@ namespace MyProject_WPF
             {
                 frmUIActionActivity view = new frmUIActionActivity((source.DataContext as UIActionActivityDTO).ID, EntityID);
                 view.ItemSaved += View_ItemSavedEdit;
-                MyProjectManager.GetMyProjectManager.ShowDialog(view, "تعریف اقدامات");
+                MyProjectManager.GetMyProjectManager.ShowDialog(view, "تعریف اقدامات",Enum_WindowSize.Big);
             }
         }
         private void View_ItemSavedEdit(object sender, SavedItemArg e)

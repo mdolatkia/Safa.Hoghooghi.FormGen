@@ -580,9 +580,6 @@
     <Compile Include="UIColumnValueRange.cs">
       <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
     </Compile>
-    <Compile Include="UIColumnValueRangeReset.cs">
-      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
-    </Compile>
     <Compile Include="UIEnablityDetails.cs">
       <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
     </Compile>

@@ -134,7 +134,6 @@ namespace DataAccess
         public virtual DbSet<UIActionActivity> UIActionActivity { get; set; }
         public virtual DbSet<UIColumnValue> UIColumnValue { get; set; }
         public virtual DbSet<UIColumnValueRange> UIColumnValueRange { get; set; }
-        public virtual DbSet<UIColumnValueRangeReset> UIColumnValueRangeReset { get; set; }
         public virtual DbSet<UIEnablityDetails> UIEnablityDetails { get; set; }
         public virtual DbSet<UnionRelationshipType> UnionRelationshipType { get; set; }
         public virtual DbSet<UnionToSubUnionRelationshipType> UnionToSubUnionRelationshipType { get; set; }

@@ -68,14 +68,14 @@ namespace MyProject_WPF
                 dtgDetails.ItemsSource = Message.UIEnablityDetails;
                 dtgColumnValue.ItemsSource = Message.UIColumnValue;
                 dtgColumnValueRange.ItemsSource = Message.UIColumnValueRange;
-                dtgColumnValueRangeReset.ItemsSource = Message.UIColumnValueRangeReset;
+                //dtgColumnValueRangeReset.ItemsSource = Message.UIColumnValueRangeReset;
             }
             else
                 GetActionActivity(ActionActivityID);
             ControlHelper.GenerateContextMenu(dtgDetails);
             ControlHelper.GenerateContextMenu(dtgColumnValue);
             ControlHelper.GenerateContextMenu(dtgColumnValueRange);
-            ControlHelper.GenerateContextMenu(dtgColumnValueRangeReset);
+            //    ControlHelper.GenerateContextMenu(dtgColumnValueRangeReset);
             dtgColumnValueRange.CellEditEnded += DtgColumnValueRange_CellEditEnded;
             dtgColumnValueRange.RowLoaded += DtgColumnValueRange_RowLoaded;
         }
@@ -136,16 +136,16 @@ namespace MyProject_WPF
 
         private void SetUIColumnValueRangeColumns()
         {
-             TableDrivedEntityDTO targetEntity = bizTableDrivedEntity.GetTableDrivedEntity(MyProjectManager.GetMyProjectManager.GetRequester(), EntityID, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithoutRelationships);
+            TableDrivedEntityDTO targetEntity = bizTableDrivedEntity.GetTableDrivedEntity(MyProjectManager.GetMyProjectManager.GetRequester(), EntityID, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithoutRelationships);
             colColumnValueRange.ItemsSource = targetEntity.Columns.Where(x => x.ColumnValueRange != null);
             colColumnValueRange.DisplayMemberPath = "Alias";
             colColumnValueRange.SelectedValueMemberPath = "ID";
 
             colEnumTag.ItemsSource = Enum.GetValues(typeof(EnumColumnValueRangeTag));
 
-            colColumnValueRangeReset.ItemsSource = targetEntity.Columns.Where(x => x.ColumnValueRange != null);
-            colColumnValueRangeReset.DisplayMemberPath = "Alias";
-            colColumnValueRangeReset.SelectedValueMemberPath = "ID";
+            ///colColumnValueRangeReset.ItemsSource = targetEntity.Columns.Where(x => x.ColumnValueRange != null);
+            //colColumnValueRangeReset.DisplayMemberPath = "Alias";
+            //colColumnValueRangeReset.SelectedValueMemberPath = "ID";
 
         }
 
@@ -205,7 +205,7 @@ namespace MyProject_WPF
             dtgDetails.ItemsSource = Message.UIEnablityDetails;
             dtgColumnValue.ItemsSource = Message.UIColumnValue;
             dtgColumnValueRange.ItemsSource = Message.UIColumnValueRange;
-            dtgColumnValueRangeReset.ItemsSource = Message.UIColumnValueRangeReset;
+            //dtgColumnValueRangeReset.ItemsSource = Message.UIColumnValueRangeReset;
             if (Message.Type == Enum_ActionActivityType.ColumnValue)
             {
                 optColumnValue.IsChecked = true;
@@ -226,12 +226,12 @@ namespace MyProject_WPF
                 //cmbUIEnablityRelationshipTail.SelectedValue = Message.UIEnablity.EntityRelationshipTailID;
 
             }
-            if (Message.Type == Enum_ActionActivityType.ColumnValueRangeReset)
-            {
-                optUIColumnValueRangeReset.IsChecked = true;
-                //cmbUIEnablityRelationshipTail.SelectedValue = Message.UIEnablity.EntityRelationshipTailID;
+            //if (Message.Type == Enum_ActionActivityType.ColumnValueRangeReset)
+            //{
+            //    optUIColumnValueRangeReset.IsChecked = true;
+            //    //cmbUIEnablityRelationshipTail.SelectedValue = Message.UIEnablity.EntityRelationshipTailID;
 
-            }
+            //}
             //if (Message.Type == Enum_ActionActivityType.RelationshipEnablity)
             //{
             //    optRelationshipEnablity.IsChecked = true;
@@ -267,7 +267,7 @@ namespace MyProject_WPF
 
             tabUIEnablity.Visibility = Visibility.Collapsed;
             tabUIColumnValueRange.Visibility = Visibility.Collapsed;
-            tabUIColumnValueRangeReset.Visibility = Visibility.Collapsed;
+            //tabUIColumnValueRangeReset.Visibility = Visibility.Collapsed;
             //    tabRelationshipEnablity.Visibility = Visibility.Collapsed;
         }
 
@@ -316,7 +316,7 @@ namespace MyProject_WPF
             }
 
             if (optColumnValue.IsChecked == false && optUIEnablity.IsChecked == false
-                && optUIColumnValueRange.IsChecked == false && optUIColumnValueRangeReset.IsChecked == false)
+                && optUIColumnValueRange.IsChecked == false )
             {
                 MessageBox.Show("یکی از حالات شروط را انتخاب نمایید");
                 return;
@@ -342,10 +342,10 @@ namespace MyProject_WPF
             {
                 Message.Type = Enum_ActionActivityType.ColumnValueRange;
             }
-            else if (optUIColumnValueRangeReset.IsChecked == true)
-            {
-                Message.Type = Enum_ActionActivityType.ColumnValueRangeReset;
-            }
+            //else if (optUIColumnValueRangeReset.IsChecked == true)
+            //{
+            //    Message.Type = Enum_ActionActivityType.ColumnValueRangeReset;
+            //}
             Message.ID = bizActionActivity.UpdateActionActivitys(Message);
             if (ItemSaved != null)
                 ItemSaved(this, new SavedItemArg() { ID = Message.ID });
@@ -468,12 +468,19 @@ namespace MyProject_WPF
             //else
             targetEntity = bizTableDrivedEntity.GetTableDrivedEntity(MyProjectManager.GetMyProjectManager.GetRequester(), EntityID, EntityColumnInfoType.WithSimpleColumns, EntityRelationshipInfoType.WithRelationships);
 
+            var foreignRels = targetEntity.Relationships.Where(x => x.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary);
+            var listcolumns = new List<int>();
+            foreach (var fRel in foreignRels)
+            {
+                listcolumns.AddRange(fRel.RelationshipColumns.Select(x => x.FirstSideColumnID));
+            }
+            var columns = targetEntity.Columns.Where(x => !listcolumns.Contains(x.ID)).ToList();
 
-            colColumn.ItemsSource = targetEntity.Columns;
+            colColumn.ItemsSource = columns;
             colColumn.DisplayMemberPath = "Alias";
             colColumn.SelectedValueMemberPath = "ID";
 
-            colRelationship.ItemsSource = targetEntity.Relationships;
+            colRelationship.ItemsSource = targetEntity.Relationships.Where(x => x.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary).ToList();
             colRelationship.DisplayMemberPath = "Alias";
             colRelationship.SelectedValueMemberPath = "ID";
 
@@ -485,12 +492,12 @@ namespace MyProject_WPF
             colUIComposition.ItemsSource = uiCompositions;
         }
 
-        private void optUIColumnValueRangeReset_Checked(object sender, RoutedEventArgs e)
-        {
-            HideTabs();
-            tabUIColumnValueRangeReset.Visibility = Visibility.Visible;
-            tabUIColumnValueRangeReset.IsSelected = true;
-        }
+        //private void optUIColumnValueRangeReset_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    HideTabs();
+        //    //tabUIColumnValueRangeReset.Visibility = Visibility.Visible;
+        // //   tabUIColumnValueRangeReset.IsSelected = true;
+        //}
 
 
 

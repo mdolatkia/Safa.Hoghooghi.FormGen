@@ -22,7 +22,6 @@ namespace DataAccess
             this.SearchRepository = new HashSet<SearchRepository>();
             this.RelationshipSearchFilter = new HashSet<RelationshipSearchFilter>();
             this.RelationshipColumns = new HashSet<RelationshipColumns>();
-            this.UIEnablityDetails = new HashSet<UIEnablityDetails>();
         }
     
         public int ID { get; set; }
@@ -53,6 +52,5 @@ namespace DataAccess
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter { get; set; }
         public virtual ICollection<RelationshipColumns> RelationshipColumns { get; set; }
         public virtual RelationshipType RelationshipType { get; set; }
-        public virtual ICollection<UIEnablityDetails> UIEnablityDetails { get; set; }
     }
 }
