@@ -2547,8 +2547,8 @@ namespace ModelEntites
         public int TableDrivedEntityID { set; get; }
         public int FormulaID { set; get; }
         public FormulaDTO Formula { set; get; }
-        public int RelationshipIDTailID { set; get; }
-        public string RelationshipIDTail { set; get; }
+        public int RelationshipTailID { set; get; }
+        public EntityRelationshipTailDTO RelationshipTail { set; get; }
         public int ColumnID { set; get; }
         public Enum_EntityStateOperator EntityStateOperator { set; get; }
         public string Title { set; get; }

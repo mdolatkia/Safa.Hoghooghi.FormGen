@@ -73,7 +73,7 @@ namespace MyUILibrary.EntityArea
                 }
                 else if (entityState.ColumnID != 0)
                 {
-                    columns.Add(new Tuple<string, int>(entityState.RelationshipIDTail, entityState.ColumnID));
+                    columns.Add(new Tuple<string, int>(entityState.RelationshipTail.RelationshipIDPath, entityState.ColumnID));
                 }
                 if (columns.Any() || rels.Any())
                 {

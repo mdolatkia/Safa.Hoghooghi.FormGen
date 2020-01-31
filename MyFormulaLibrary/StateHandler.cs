@@ -21,16 +21,15 @@ namespace MyFormulaFunctionStateFunctionLibrary
             var state = bizStateFunction.GetEntityState(StateFunctionID, true);
             if (state.ColumnID != 0)
             {
-                var property = mainDataItem.GetProperty(state.ColumnID);
-                if (property != null)
+                DataitemRelatedColumnValueHandler dataitemRelatedColumnValueHandler = new MyFormulaFunctionStateFunctionLibrary.DataitemRelatedColumnValueHandler();
+                var value = dataitemRelatedColumnValueHandler.GetValueSomeHow(requester, mainDataItem, state.RelationshipTail, state.ColumnID);
+                if (state.Values.Any(x => x.Value == value))
                 {
-                    if (state.Values.Any(x => x.Value == property.Value))
-                    {
-                        result.Result = state.EntityStateOperator == Enum_EntityStateOperator.Equals;
-                    }
-                    else
-                        result.Result = state.EntityStateOperator == Enum_EntityStateOperator.NotEquals;
+                    result.Result = state.EntityStateOperator == Enum_EntityStateOperator.Equals;
                 }
+                else
+                    result.Result = state.EntityStateOperator == Enum_EntityStateOperator.NotEquals;
+
             }
             else if (state.FormulaID != 0)
             {

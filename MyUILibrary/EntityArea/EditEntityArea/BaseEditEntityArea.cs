@@ -2475,26 +2475,28 @@ namespace MyUILibrary.EntityArea
 
         public void ChangeRelatoinsipColumnVisiblity(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool visible, string title)
         {
+            ChildRelationshipInfo childRelationshipInfo = null;
             if (dataItem.ChildRelationshipInfos.Any(x => x.Relationship.ID == relationshipControl.Relationship.ID))
             {
-                var childRelationshipInfo = dataItem.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
+                childRelationshipInfo = dataItem.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
                 childRelationshipInfo.IsHidden = !visible;
-                if (childRelationshipInfo.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary)
-                {
-                    foreach(var relCol in childRelationshipInfo.Relationship.RelationshipColumns)
-                    {
-                        var fkProp = dataItem.GetProperty(relCol.FirstSideColumnID);
-                        fkProp.IsHidden = !visible;
-                    }
-                }
                 relationshipControl.ControlManager.Visiblity(dataItem, visible);
-            }
-            //اصلا معنی نداره
-            //else if (dataItem.ParantChildRelationshipInfo != null && dataItem.ParantChildRelationshipInfo.Relationship.ID == relationshipControl.Relationship.ID)
-            //{
-            //    childRelationshipInfo = dataItem.ParantChildRelationshipInfo;
-            //}
+                if (childRelationshipInfo.RelatedData.Any(x => x.IsDBRelationship))
+                    AgentUICoreMediator.GetAgentUICoreMediator.UIManager.ShowInfo("رابطه" + " " + relationshipControl.Relationship.Alias + " " + "با وجود داده مخفی شده است");
 
+            }
+            else if (dataItem.ParantChildRelationshipInfo != null && dataItem.ParantChildRelationshipInfo.Relationship.ID == relationshipControl.Relationship.ID)
+            {
+                childRelationshipInfo = dataItem.ParantChildRelationshipInfo;
+                dataItem.IsHidden = !visible;
+                relationshipControl.ControlManager.Visiblity(dataItem, visible);
+
+            }
+            foreach (var relCol in childRelationshipInfo.Relationship.RelationshipColumns)
+            {
+                var fkProp = dataItem.GetProperty(relCol.FirstSideColumnID);
+                fkProp.IsHidden = !visible;
+            }
 
         }
 

@@ -30,11 +30,11 @@ namespace DataAccess
         public Nullable<int> EntityRelationshipTailID { get; set; }
     
         public virtual Column Column { get; set; }
+        public virtual EntityRelationshipTail EntityRelationshipTail { get; set; }
         public virtual ICollection<EntityState_UIActionActivity> EntityState_UIActionActivity { get; set; }
         public virtual Formula Formula { get; set; }
         public virtual ICollection<FormulaItems> FormulaItems { get; set; }
         public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<TableDrivedEntityStateValues> TableDrivedEntityStateValues { get; set; }
-        public virtual EntityRelationshipTail EntityRelationshipTail { get; set; }
     }
 }

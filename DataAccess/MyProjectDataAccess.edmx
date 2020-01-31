@@ -6366,6 +6366,10 @@
             <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
             <End Role="RelationshipSearchFilter" EntitySet="RelationshipSearchFilter" />
           </AssociationSet>
+          <AssociationSet Name="FK_TableDrivedEntityState_EntityRelationshipTail" Association="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail">
+            <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
+            <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
+          </AssociationSet>
           <AssociationSet Name="FKEntityRela568378" Association="MyProjectModel.FKEntityRela568378">
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
             <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
@@ -6893,10 +6897,6 @@
           <AssociationSet Name="UniqueConstraint_Column" Association="MyProjectModel.UniqueConstraint_Column">
             <End Role="UniqueConstraint" EntitySet="UniqueConstraint" />
             <End Role="Column" EntitySet="Column" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TableDrivedEntityState_EntityRelationshipTail" Association="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail">
-            <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
-            <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ArchiveFolder">
@@ -7584,13 +7584,13 @@
           <NavigationProperty Name="EntityGroup_Relationship" Relationship="MyProjectModel.FK_EntityGroup_Relationship_EntityRelationshipTail" FromRole="EntityRelationshipTail" ToRole="EntityGroup_Relationship" />
           <NavigationProperty Name="LetterTemplateRelationshipField" Relationship="MyProjectModel.FK_LetterTemplateRelationshipField_EntityRelationshipTail" FromRole="EntityRelationshipTail" ToRole="LetterTemplateRelationshipField" />
           <NavigationProperty Name="RelationshipSearchFilter" Relationship="MyProjectModel.FK_RelationshipSearchFilter_EntityRelationshipTail" FromRole="EntityRelationshipTail" ToRole="RelationshipSearchFilter" />
+          <NavigationProperty Name="TableDrivedEntityState" Relationship="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail" FromRole="EntityRelationshipTail" ToRole="TableDrivedEntityState" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKEntityRela568378" FromRole="EntityRelationshipTail" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="TableDrivedEntity1" Relationship="MyProjectModel.FKEntityRela831147" FromRole="EntityRelationshipTail" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="EntitySearchColumns" Relationship="MyProjectModel.FKEntitySear748558" FromRole="EntityRelationshipTail" ToRole="EntitySearchColumns" />
           <NavigationProperty Name="EntitySecurityInDirect" Relationship="MyProjectModel.FKEntitySecu489951" FromRole="EntityRelationshipTail" ToRole="EntitySecurityInDirect" />
           <NavigationProperty Name="EntitySecurityCondition" Relationship="MyProjectModel.FKEntitySecu518173" FromRole="EntityRelationshipTail" ToRole="EntitySecurityCondition" />
           <NavigationProperty Name="RelationshipSearchFilter1" Relationship="MyProjectModel.FKRelationsh552099" FromRole="EntityRelationshipTail" ToRole="RelationshipSearchFilter" />
-          <NavigationProperty Name="TableDrivedEntityState" Relationship="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail" FromRole="EntityRelationshipTail" ToRole="TableDrivedEntityState" />
         </EntityType>
         <EntityType Name="EntityReport">
           <Key>
@@ -8275,14 +8275,14 @@
           <Property Name="ColumnID" Type="Int32" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="EntityStateOperator" Type="Int16" />
+          <Property Name="EntityRelationshipTailID" Type="Int32" />
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FKTableDrive277199" FromRole="TableDrivedEntityState" ToRole="Column" />
+          <NavigationProperty Name="EntityRelationshipTail" Relationship="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail" FromRole="TableDrivedEntityState" ToRole="EntityRelationshipTail" />
           <NavigationProperty Name="EntityState_UIActionActivity" Relationship="MyProjectModel.FKEntityStat936255" FromRole="TableDrivedEntityState" ToRole="EntityState_UIActionActivity" />
           <NavigationProperty Name="Formula" Relationship="MyProjectModel.FKTableDrive466458" FromRole="TableDrivedEntityState" ToRole="Formula" />
           <NavigationProperty Name="FormulaItems" Relationship="MyProjectModel.FK_FormulaItems_TableDrivedEntityState" FromRole="TableDrivedEntityState" ToRole="FormulaItems" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKTableDrive764829" FromRole="TableDrivedEntityState" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="TableDrivedEntityStateValues" Relationship="MyProjectModel.FK_TableDrivedEntityStateValues_TableDrivedEntityState" FromRole="TableDrivedEntityState" ToRole="TableDrivedEntityStateValues" />
-          <Property Name="EntityRelationshipTailID" Type="Int32" />
-          <NavigationProperty Name="EntityRelationshipTail" Relationship="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail" FromRole="TableDrivedEntityState" ToRole="EntityRelationshipTail" />
         </EntityType>
         <EntityType Name="TableDrivedEntityStateValues">
           <Key>
@@ -10310,6 +10310,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TableDrivedEntityState_EntityRelationshipTail">
+          <End Type="MyProjectModel.EntityRelationshipTail" Role="EntityRelationshipTail" Multiplicity="0..1" />
+          <End Type="MyProjectModel.TableDrivedEntityState" Role="TableDrivedEntityState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityRelationshipTail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntityState">
+              <PropertyRef Name="EntityRelationshipTailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKEntityRela568378">
           <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
           <End Type="MyProjectModel.EntityRelationshipTail" Role="EntityRelationshipTail" Multiplicity="*" />
@@ -11885,18 +11897,6 @@
         <Association Name="UniqueConstraint_Column">
           <End Type="MyProjectModel.UniqueConstraint" Role="UniqueConstraint" Multiplicity="*" />
           <End Type="MyProjectModel.Column" Role="Column" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_TableDrivedEntityState_EntityRelationshipTail">
-          <End Type="MyProjectModel.EntityRelationshipTail" Role="EntityRelationshipTail" Multiplicity="0..1" />
-          <End Type="MyProjectModel.TableDrivedEntityState" Role="TableDrivedEntityState" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EntityRelationshipTail">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TableDrivedEntityState">
-              <PropertyRef Name="EntityRelationshipTailID" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>

@@ -90,8 +90,10 @@ namespace MyModelManager
                 //result.ChildItems = new List<NavigationItemDTO>();
                 foreach (var citem in item.NavigationTree1)
                 {
-                    if (DataIsAccessable(requester, citem))
-                        ToNavigationTreeDTO(requester, treeItems, citem, result, true);
+
+
+                     if (DataIsAccessable(requester, citem))
+                         ToNavigationTreeDTO(requester, treeItems, citem, result, true);
                 }
             }
 

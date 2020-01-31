@@ -44,9 +44,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Telerik.Reporting, Version=12.1.18.620, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
-      <HintPath>C:\Program Files (x86)\Progress\Telerik Reporting R2 2018\bin\Telerik.Reporting.dll</HintPath>
-      <SpecificVersion>True</SpecificVersion>
+    <Reference Include="Telerik.Reporting">
+      <HintPath>..\Componenets\Telerik\Telerik.Reporting.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

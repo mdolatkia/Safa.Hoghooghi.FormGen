@@ -537,6 +537,8 @@ namespace ProxyLibrary
         public bool RelationshipIsRemoved { get; internal set; }
         public bool RelationshipIsAdded { get; internal set; }
         public bool IsEdited { get; set; }
+        public bool IsHidden { get; set; }
+
         List<ChangeMonitor> ChangeMonitorItems = new List<ChangeMonitor>();
 
 

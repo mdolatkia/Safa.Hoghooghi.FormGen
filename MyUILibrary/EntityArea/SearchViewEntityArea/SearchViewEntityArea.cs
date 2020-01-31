@@ -303,7 +303,7 @@ namespace MyUILibrary.EntityArea
                     {
                         foreach (var filter in RelationshipFilters)
                         {
-                            var value = AgentHelper.GetValueSomeHow(AreaInitializer.SourceEditArea.ChildRelationshipInfo.SourceData, filter.ValueRelationshipTail, filter.ValueColumnID);
+                            var value = AgentUICoreMediator.GetAgentUICoreMediator.formulaManager.GetValueSomeHow(AgentUICoreMediator.GetAgentUICoreMediator.GetRequester(), AreaInitializer.SourceEditArea.ChildRelationshipInfo.SourceData, filter.ValueRelationshipTail, filter.ValueColumnID);
                             if (!string.IsNullOrEmpty(value))
                             {
                                 CurrentValues.Add(new Tuple<int, string>(filter.ID, value));

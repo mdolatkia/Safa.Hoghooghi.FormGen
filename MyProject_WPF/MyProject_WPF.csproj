@@ -278,7 +278,7 @@
     <Compile Include="Entities\frmEntitySearchSelect.xaml.cs">
       <DependentUpon>frmEntitySearchSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Entities\frmUIActionActivitySelect.xaml.cs">
+    <Compile Include="EntityState\frmUIActionActivitySelect.xaml.cs">
       <DependentUpon>frmUIActionActivitySelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="GridView\frmEntityGridView.xaml.cs">
@@ -455,19 +455,19 @@
     <Compile Include="Relationship\frmRelationshipFilter.xaml.cs">
       <DependentUpon>frmRelationshipFilter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Entities\frmEntityStates.xaml.cs">
+    <Compile Include="EntityState\frmEntityStates.xaml.cs">
       <DependentUpon>frmEntityStates.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entities\frmBackendActionActivitySelect.xaml.cs">
       <DependentUpon>frmBackendActionActivitySelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Entities\frmUIActionActivity.xaml.cs">
+    <Compile Include="EntityState\frmUIActionActivity.xaml.cs">
       <DependentUpon>frmUIActionActivity.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entities\frmEntityValidations.xaml.cs">
       <DependentUpon>frmEntityValidations.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Entities\frmEntityStateSelect.xaml.cs">
+    <Compile Include="EntityState\frmEntityStateSelect.xaml.cs">
       <DependentUpon>frmEntityStateSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entities\frmEntityValidationSelect.xaml.cs">
@@ -653,7 +653,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Entities\frmUIActionActivitySelect.xaml">
+    <Page Include="EntityState\frmUIActionActivitySelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -797,7 +797,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Entities\frmEntityStates.xaml">
+    <Page Include="EntityState\frmEntityStates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -805,7 +805,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Entities\frmUIActionActivity.xaml">
+    <Page Include="EntityState\frmUIActionActivity.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -813,7 +813,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Entities\frmEntityStateSelect.xaml">
+    <Page Include="EntityState\frmEntityStateSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

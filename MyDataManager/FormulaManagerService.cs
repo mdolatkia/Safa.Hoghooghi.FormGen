@@ -26,5 +26,11 @@ namespace MyFormulaManagerService
             BizFormula bizFormula = new BizFormula();
             return bizFormula.GetFormula(formulaID,true);
         }
+
+        public string GetValueSomeHow(DR_Requester requester,DP_DataRepository sourceData, EntityRelationshipTailDTO valueRelationshipTail, int valueColumnID)
+        {
+            DataitemRelatedColumnValueHandler dataitemRelatedColumnValueHandler = new DataitemRelatedColumnValueHandler();
+            return dataitemRelatedColumnValueHandler.GetValueSomeHow(requester, sourceData, valueRelationshipTail, valueColumnID);
+        }
     }
 }

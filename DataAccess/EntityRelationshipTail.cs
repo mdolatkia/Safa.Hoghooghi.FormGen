@@ -27,11 +27,11 @@ namespace DataAccess
             this.EntityGroup_Relationship = new HashSet<EntityGroup_Relationship>();
             this.LetterTemplateRelationshipField = new HashSet<LetterTemplateRelationshipField>();
             this.RelationshipSearchFilter = new HashSet<RelationshipSearchFilter>();
+            this.TableDrivedEntityState = new HashSet<TableDrivedEntityState>();
             this.EntitySearchColumns = new HashSet<EntitySearchColumns>();
             this.EntitySecurityInDirect = new HashSet<EntitySecurityInDirect>();
             this.EntitySecurityCondition = new HashSet<EntitySecurityCondition>();
             this.RelationshipSearchFilter1 = new HashSet<RelationshipSearchFilter>();
-            this.TableDrivedEntityState = new HashSet<TableDrivedEntityState>();
         }
     
         public int ID { get; set; }
@@ -50,12 +50,12 @@ namespace DataAccess
         public virtual ICollection<EntityGroup_Relationship> EntityGroup_Relationship { get; set; }
         public virtual ICollection<LetterTemplateRelationshipField> LetterTemplateRelationshipField { get; set; }
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter { get; set; }
+        public virtual ICollection<TableDrivedEntityState> TableDrivedEntityState { get; set; }
         public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual TableDrivedEntity TableDrivedEntity1 { get; set; }
         public virtual ICollection<EntitySearchColumns> EntitySearchColumns { get; set; }
         public virtual ICollection<EntitySecurityInDirect> EntitySecurityInDirect { get; set; }
         public virtual ICollection<EntitySecurityCondition> EntitySecurityCondition { get; set; }
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter1 { get; set; }
-        public virtual ICollection<TableDrivedEntityState> TableDrivedEntityState { get; set; }
     }
 }

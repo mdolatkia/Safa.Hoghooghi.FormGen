@@ -161,7 +161,7 @@ namespace MyUILibrary.EntityArea
                                 {
                                     bool searchAndValueColumnsareEqual = false;
 
-                                    var value = AgentHelper.GetValueSomeHow(data, filter.ValueRelationshipTail, filter.ValueColumnID);
+                                    var value = AgentUICoreMediator.GetAgentUICoreMediator.formulaManager.GetValueSomeHow(AgentUICoreMediator.GetAgentUICoreMediator.GetRequester(), data, filter.ValueRelationshipTail, filter.ValueColumnID);
                                     foreach (var searchData in data.ChildRelationshipInfos.First(x => x.Relationship.ID == filter.RelationshipID && x.RelatedData.Any()).RelatedData)
                                     {
                                         var searchValue = searchData.GetProperty(filter.SearchColumnID);

@@ -48,6 +48,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataitemRelatedColumnValueHandler.cs" />
     <Compile Include="FormulaFunctionHandler.cs" />
     <Compile Include="FormulaDefinitionInstance.cs" />
     <Compile Include="FormulaHelper.cs" />
@@ -87,6 +88,10 @@
     <ProjectReference Include="..\MyModelManager\MyModelManager.csproj">
       <Project>{c85c5486-ca1a-4963-8594-c85e441cebc2}</Project>
       <Name>MyModelManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyRelationshipTailDataManager\MyRelationshipTailDataManager.csproj">
+      <Project>{EEC1267E-372F-46B9-A4D1-22E03743A8E3}</Project>
+      <Name>MyRelationshipTailDataManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyUILibraryInterfaces\MyUILibraryInterfaces.csproj">
       <Project>{5c85873c-c376-4899-8806-fe8544419b18}</Project>
