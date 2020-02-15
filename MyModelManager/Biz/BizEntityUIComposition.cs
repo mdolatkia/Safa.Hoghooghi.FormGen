@@ -594,6 +594,20 @@ namespace MyModelManager
             {
                 RemoveItem(cItem, projectContext);
             }
+            if(item.ColumnUISetting!=null)
+                projectContext.ColumnUISetting.Remove(item.ColumnUISetting);
+            if (item.RelationshipUISetting != null)
+                projectContext.RelationshipUISetting.Remove(item.RelationshipUISetting);
+            if (item.TabGroupUISetting != null)
+                projectContext.TabGroupUISetting.Remove(item.TabGroupUISetting);
+            if (item.EmptySpaceUISetting != null)
+                projectContext.EmptySpaceUISetting.Remove(item.EmptySpaceUISetting);
+            if (item.GroupUISetting != null)
+                projectContext.GroupUISetting.Remove(item.GroupUISetting);
+            if (item.TabPageUISetting != null)
+                projectContext.TabPageUISetting.Remove(item.TabPageUISetting);
+            if (item.EntityUISetting != null)
+                projectContext.EntityUISetting.Remove(item.EntityUISetting);
             projectContext.EntityUIComposition.Remove(item);
         }
     }

@@ -127,7 +127,7 @@ namespace MyUIGenerator.UIControlHelper
 
         public void SetBorderColor(InfoColor color)
         {
-            throw new NotImplementedException();
+         //   TextBlock.bo = UIManager.GetColorFromInfoColor(color);
         }
 
         public void SetBackgroundColor(InfoColor color)

@@ -493,6 +493,7 @@ namespace MyUILibrary.EntityArea
         }
         private void ValidateRelationshipColumn(DP_DataRepository dataItem, ChildRelationshipInfo childRelationshipInfo, RelationshipColumnControl relationshipControl)
         {
+            //اگر رابطه childRelationshipInfo مخفی بود چی؟
             if (relationshipControl.Relationship.IsOtherSideMandatory == true)
             {
                 //if (!childRelationshipInfo.RelatedData.Any(x => x.HasDirectData))

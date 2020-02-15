@@ -15,7 +15,7 @@ using System.Windows.Media;
 namespace MyUIGenerator.UIControlHelper
 {
 
-    public class RelationshipControlManagerForMultipleDataForm : BaseControlManager,  I_RelationshipControlManager
+    public class RelationshipControlManagerForMultipleDataForm : BaseControlManager, I_RelationshipControlManager
     {
         //private List<BaseMessageItem> ValidationItems = new List<BaseMessageItem>();
         private List<DataMessageItem> MessageItems = new List<DataMessageItem>();
@@ -25,7 +25,7 @@ namespace MyUIGenerator.UIControlHelper
 
         public I_TabPageContainer TabPageContainer
         {
-            set;get;
+            set; get;
         }
 
         public bool HasExpander
@@ -38,7 +38,7 @@ namespace MyUIGenerator.UIControlHelper
 
         public RelationshipControlManagerForMultipleDataForm(TemporaryLinkState temporaryLinkState, RelationshipUISettingDTO relationshipSetting) : base()
         {
-           // RelatedControl = new List<FrameworkElement>();
+            // RelatedControl = new List<FrameworkElement>();
             DataGridColumn = new UIControlHelper.DataGridViewColumn(temporaryLinkState, relationshipSetting);
             DataGridColumn.TemporaryViewRequested += DataGridColumn_TemporaryViewRequested;
             DataGridColumn.TemporaryViewLoaded += DataGridColumn_TemporaryViewLoaded;
@@ -69,11 +69,15 @@ namespace MyUIGenerator.UIControlHelper
             if (TemporaryViewRequested != null)
                 TemporaryViewRequested(sender, e);
         }
+        public void Visiblity(bool visible)
+        {
+            DataGridColumn.Visiblity(visible);
+        }
         public void Visiblity(object dataItem, bool visible)
         {
             DataGridColumn.Visiblity(dataItem, visible);
         }
-      //  public List<FrameworkElement> RelatedControl { set; get; }
+        //  public List<FrameworkElement> RelatedControl { set; get; }
 
         public event EventHandler<Arg_MultipleTemporaryDisplayViewRequested> TemporaryViewRequested;
         public event EventHandler<Arg_MultipleTemporaryDisplayLoaded> TemporaryViewLoaded;
@@ -87,6 +91,10 @@ namespace MyUIGenerator.UIControlHelper
         public void SetQuickSearchVisibility(object relatedData, bool visible)
         {
             DataGridColumn.SetQuickSearchVisibility(relatedData, visible);
+        }
+        public void EnableDisable( bool enable)
+        {
+            DataGridColumn.EnableDisable( enable);
         }
         public void EnableDisable(object dataItem, bool enable)
         {

@@ -44,7 +44,7 @@ namespace MyUILibrary.EntityArea
     }
     public interface I_View_EditEntityAreaDataView : I_View_GridContainer, I_View_DataContainer
     {
-
+       
     }
 
 
@@ -88,7 +88,7 @@ namespace MyUILibrary.EntityArea
         void SetBorderColor(InfoColor color);
         void SetBackgroundColor(InfoColor color);
         void SetForegroundColor(InfoColor color);
-
+        bool IsOpenedTemporary { get; set; }
         //event EventHandler<Arg_CommandExecuted> CommandExecuted;
         //void AddCommands(List<I_Command> Commands, TemplateEntityUISettings templateEntityUISettings);
 
@@ -101,7 +101,7 @@ namespace MyUILibrary.EntityArea
     }
     public interface I_View_DataContainer : I_View_Container, I_DataControlManager
     {
-       
+        
     }
     public interface I_View_MultipleDataContainer : I_View_DataContainer
     {
@@ -126,7 +126,8 @@ namespace MyUILibrary.EntityArea
         void SetSelectedData(List<object> dataItems);
 
         void RemoveDataContainer(object data);
-
+        void Visiblity(object dataItem, bool visible);
+        void EnableDisable(object dataItem, bool enable);
         //void RemoveSelectedDataContainers();
 
     }
@@ -140,7 +141,7 @@ namespace MyUILibrary.EntityArea
         //void AddValidation(DataMessageItem item);
         //void ClearValidation(DP_DataRepository item);
         //void ClearValidation();
-
+       
     }
 
     //public class Arg_DataDependentControlGeneration : EventArgs

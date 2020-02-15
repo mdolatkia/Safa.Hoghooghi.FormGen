@@ -34,64 +34,77 @@ namespace MyUILibrary.EntityArea
             if (FormulaColumns.Any())
             {
                 AddMenu();
-                EditArea.DataItemShown += EditArea_DataItemShown;
-                EditArea.DataItemUnShown += EditArea_DataItemUnShown;
+                EditArea.DataItemShown += EditArea_DataItemLoaded;
+                // EditArea.DataItemUnShown += EditArea_DataItemUnShown;
             }
         }
 
-        private void EditArea_DataItemUnShown(object sender, EditAreaDataItemArg e)
+        private void EditArea_DataItemLoaded(object sender, EditAreaDataItemLoadedArg e)
         {
-            foreach (var columnControl in FormulaColumns)
+            if (e.InEditMode)
             {
-                var fullFormula = AgentUICoreMediator.GetAgentUICoreMediator.formulaManager.GetFormula(columnControl.Column.CustomFormula.ID);
-                if (fullFormula.FormulaItems.Any(x => x.ItemType == FormuaItemType.Column || !string.IsNullOrEmpty(x.RelationshipIDTail)))
+                foreach (var columnControl in FormulaColumns)
                 {
-                    e.DataItem.RemoveChangeMonitorByGenaralKey("formulaColumn" + AgentHelper.GetUniqueDataPostfix(e.DataItem));
-                }
-            }
-        }
-
-        private void EditArea_DataItemShown(object sender, EditAreaDataItemArg e)
-        {
-            //برای ریمو شدن هم راهی در نظر گرفته شود که ایونتها درست شوند
-            foreach (var columnControl in FormulaColumns)
-            {
-
-                var fullFormula = AgentUICoreMediator.GetAgentUICoreMediator.formulaManager.GetFormula(columnControl.Column.CustomFormula.ID);
-                if (fullFormula.FormulaItems.Any(x => x.ItemType == FormuaItemType.Column || !string.IsNullOrEmpty(x.RelationshipIDTail)))
-                {
-                    e.DataItem.RelatedDataTailOrColumnChanged += (sender1, e1) => DataItem_RelatedDataTailOrColumnChanged(sender1, e1, columnControl);
-                }
-                var columnItems = fullFormula.FormulaItems.Where(x => x.ItemType == FormuaItemType.Column);
-                if (columnItems.Any())
-                {
-                    foreach (var item in columnItems)
+                    string generalKey = "formulaColumn" + AgentHelper.GetUniqueDataPostfix(e.DataItem);
+                    string usageKey = columnControl.Column.ID.ToString();
+                    if (e.DataItem.ChangeMonitorExists(generalKey, usageKey))
+                        return;
+                    var fullFormula = AgentUICoreMediator.GetAgentUICoreMediator.formulaManager.GetFormula(columnControl.Column.CustomFormula.ID);
+                    if (fullFormula.FormulaItems.Any(x => x.ItemType == FormuaItemType.Column || !string.IsNullOrEmpty(x.RelationshipIDTail)))
                     {
-                        e.DataItem.AddChangeMonitor("formulaColumn" + AgentHelper.GetUniqueDataPostfix(e.DataItem), columnControl.Column.ID.ToString(), item.RelationshipIDTail, item.ItemID);
+                        e.DataItem.RelatedDataTailOrColumnChanged += DataItem_RelatedDataTailOrColumnChanged;
                     }
-                }
-                var relationshipItems = fullFormula.FormulaItems.Where(x => !string.IsNullOrEmpty(x.RelationshipIDTail)).GroupBy(x => x.RelationshipIDTail);
-                if (relationshipItems.Any())
-                {
-                    foreach (var item in relationshipItems)
+                    var columnItems = fullFormula.FormulaItems.Where(x => x.ItemType == FormuaItemType.Column);
+                    if (columnItems.Any())
                     {
-                        e.DataItem.AddChangeMonitor("formulaColumn" + AgentHelper.GetUniqueDataPostfix(e.DataItem), columnControl.Column.ID.ToString(), item.Key, 0);
+                        foreach (var item in columnItems)
+                        {
+                            e.DataItem.AddChangeMonitor(generalKey, usageKey, item.RelationshipIDTail, item.ItemID);
+                        }
+                    }
+                    var relationshipItems = fullFormula.FormulaItems.Where(x => !string.IsNullOrEmpty(x.RelationshipIDTail)).GroupBy(x => x.RelationshipIDTail);
+                    if (relationshipItems.Any())
+                    {
+                        foreach (var item in relationshipItems)
+                        {
+                            e.DataItem.AddChangeMonitor(generalKey, usageKey, item.Key, 0);
+                        }
                     }
                 }
             }
         }
 
-        private void DataItem_RelatedDataTailOrColumnChanged(object sender, ChangeMonitor e, SimpleColumnControl columnControl)
+        //private void EditArea_DataItemUnShown(object sender, EditAreaDataItemArg e)
+        //{
+        //    foreach (var columnControl in FormulaColumns)
+        //    {
+        //        var fullFormula = AgentUICoreMediator.GetAgentUICoreMediator.formulaManager.GetFormula(columnControl.Column.CustomFormula.ID);
+        //        if (fullFormula.FormulaItems.Any(x => x.ItemType == FormuaItemType.Column || !string.IsNullOrEmpty(x.RelationshipIDTail)))
+        //        {
+        //            e.DataItem.RemoveChangeMonitorByGenaralKey("formulaColumn" + AgentHelper.GetUniqueDataPostfix(e.DataItem));
+        //        }
+        //    }
+        //}
+
+        //private void EditArea_DataItemShown(object sender, EditAreaDataItemArg e)
+        //{
+
+        //}
+
+        private void DataItem_RelatedDataTailOrColumnChanged(object sender, ChangeMonitor e)
         {
             if (e.GeneralKey.StartsWith("formulaColumn"))
             {
-                if (e.UsageKey == columnControl.Column.ID.ToString())
+                if (EditArea.DataItemIsInEditMode(e.DataToCall))
                 {
-                    var formulaColumn = FormulaColumns.First(x => x.Column.ID == columnControl.Column.ID).Column.CustomFormula;
-                    var dataProperty = e.DataToCall.GetProperty(columnControl.Column.ID);
-                    if (dataProperty != null)
+                    foreach (var columnControl in FormulaColumns.Where(x => x.Column.ID.ToString() == e.UsageKey))
                     {
-                        CalculateProperty(dataProperty, formulaColumn, e.DataToCall);
+                        var formulaColumn = FormulaColumns.First(x => x.Column.ID == columnControl.Column.ID).Column.CustomFormula;
+                        var dataProperty = e.DataToCall.GetProperty(columnControl.Column.ID);
+                        if (dataProperty != null)
+                        {
+                            CalculateProperty(dataProperty, formulaColumn, e.DataToCall);
+                        }
                     }
                 }
             }

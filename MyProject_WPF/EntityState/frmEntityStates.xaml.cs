@@ -1,5 +1,5 @@
 ﻿using ModelEntites;
-
+using MyCommonWPFControls;
 using MyFormulaFunctionStateFunctionLibrary;
 using MyInterfaces;
 using MyModelManager;
@@ -50,9 +50,22 @@ namespace MyProject_WPF
             ControlHelper.GenerateContextMenu(dtgColumnValue);
             ControlHelper.GenerateContextMenu(dtgFormulaValue);
             lokRelationshipTail.SelectionChanged += LokRelationshipTail_SelectionChanged;
+            lokRelationshipTail.EditItemClicked += LokRelationshipTail_EditItemClicked;
             cmbOperator.ItemsSource = Enum.GetValues(typeof(Enum_EntityStateOperator)).Cast<Enum_EntityStateOperator>();
         }
 
+        private void LokRelationshipTail_EditItemClicked(object sender, MyCommonWPFControls.EditItemClickEventArg e)
+        {
+            frmEntityRelationshipTail frm = null;
+            frm = new frmEntityRelationshipTail(EntityID);
+            MyProjectManager.GetMyProjectManager.ShowDialog(frm, "رابطه های مرتبط");
+            frm.ItemSelected += (sender1, e1) => Frm_TailSelected(sender1, e1, (sender as MyStaticLookup));
+        }
+        private void Frm_TailSelected(object sender1, EntityRelationshipTailSelectedArg e1, MyStaticLookup myStaticLookup)
+        {
+            SetRelationshipTails();
+            myStaticLookup.SelectedValue = e1.EntityRelationshipTailID;
+        }
         private void LokRelationshipTail_SelectionChanged(object sender, MyCommonWPFControls.SelectionChangedArg e)
         {
             SetColumns();
@@ -102,12 +115,12 @@ namespace MyProject_WPF
             cmbColumns.DisplayMemberPath = "Alias";
             cmbColumns.SelectedValuePath = "ID";
             cmbColumns.ItemsSource = columns;
-            if(StateDTO!=null &&StateDTO.ID!=0)
+            if (StateDTO != null && StateDTO.ID != 0)
             {
                 if (StateDTO.ColumnID != 0)
                     cmbColumns.SelectedValue = StateDTO.ColumnID;
             }
-    
+
         }
 
         private void GetEntityState(int entityStateID)
@@ -120,6 +133,7 @@ namespace MyProject_WPF
         {
             txtTitle.Text = StateDTO.Title;
             dtgActionActivities.ItemsSource = StateDTO.ActionActivities;
+            lokRelationshipTail.SelectedValue = StateDTO.RelationshipTailID;
             //if (StateDTO.Preserve)
             //    optPersist.IsChecked = true;
             //else
@@ -205,6 +219,10 @@ namespace MyProject_WPF
                     return;
                 }
             }
+            if (lokRelationshipTail.SelectedItem == null)
+                StateDTO.RelationshipTailID = 0;
+            else
+                StateDTO.RelationshipTailID = (int)lokRelationshipTail.SelectedValue;
 
             StateDTO.TableDrivedEntityID = EntityID;
             //if (cmbActionActivity.SelectedItem != null)
@@ -333,7 +351,7 @@ namespace MyProject_WPF
             {
                 frmUIActionActivity view = new frmUIActionActivity((source.DataContext as UIActionActivityDTO).ID, EntityID);
                 view.ItemSaved += View_ItemSavedEdit;
-                MyProjectManager.GetMyProjectManager.ShowDialog(view, "تعریف اقدامات",Enum_WindowSize.Big);
+                MyProjectManager.GetMyProjectManager.ShowDialog(view, "تعریف اقدامات", Enum_WindowSize.Big);
             }
         }
         private void View_ItemSavedEdit(object sender, SavedItemArg e)

@@ -221,8 +221,9 @@ namespace MyUILibrary.EntityArea
                     result = false;
                 }
             }
-
-            OnDataItemShown(new EditAreaDataItemArg() { DataItem = specificDate });
+            if (result)
+                OnDataItemShown(new EditAreaDataItemLoadedArg() { DataItem = specificDate, InEditMode = true });
+            //    OnDataItemLoaded(new EditAreaDataItemLoadedArg() { DataItem = specificDate, InEditMode = true });
             return result;
         }
         //باشد Direct صدا زده میشود ، اگر LoadTemplate یکبار در
@@ -378,7 +379,14 @@ namespace MyUILibrary.EntityArea
                 return base.DataView as I_View_EditEntityAreaMultiple;
             }
         }
-
+        public override void DataItemVisiblity(object dataItem, bool visible)
+        {
+            (DataView as I_View_EditEntityAreaMultiple).Visiblity(dataItem,visible);
+        }
+        public override void DataItemEnablity(object dataItem, bool visible)
+        {
+            (DataView as I_View_EditEntityAreaMultiple).EnableDisable(dataItem, visible);
+        }
         private I_SearchViewEntityArea GenerateSearchViewArea()
         {
             if (AreaInitializer.SourceRelation != null)

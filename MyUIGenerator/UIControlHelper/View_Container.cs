@@ -31,6 +31,7 @@ namespace MyUIGenerator.UIControlHelper
         {
             ControlArea.IsEnabled = enable;
         }
+        public bool IsOpenedTemporary { get; set; }
         //public View_Container(GridSetting gridSetting)
         //{
         //    GridSetting = gridSetting;

@@ -41,11 +41,7 @@ namespace MyUIGenerator.UIControlHelper
                 return MyControlHelper.IsVisible();
             }
         }
-
-        public void EnableDisable(object dataItem, bool enable)
-        {
-            MyControlHelper.EnableDisable(enable);
-        }
+     
 
         public CommonOperator GetOperator()
         {
@@ -157,6 +153,12 @@ namespace MyUIGenerator.UIControlHelper
         {
             MyControlHelper.RemoveButtonMenu(name);
         }
+        public void Visiblity(bool visible)
+        {
+            if (LabelControlManager != null)
+                LabelControlManager.Visiblity(visible);
+            MyControlHelper.Visiblity(visible);
+        }
         public void Visiblity(object dataItem, bool visible)
         {
             //foreach (var item in RelatedControl)
@@ -168,6 +170,13 @@ namespace MyUIGenerator.UIControlHelper
             if (LabelControlManager != null)
                 LabelControlManager.Visiblity(visible);
             MyControlHelper.Visiblity(visible);
+        }   public void EnableDisable(bool enable)
+        {
+            MyControlHelper.EnableDisable(enable);
+        }
+        public void EnableDisable(object dataItem, bool enable)
+        {
+            MyControlHelper.EnableDisable(enable);
         }
         public void SetColumnValueRange(List<ColumnValueRangeDetailsDTO> candidates)
         {
@@ -201,7 +210,7 @@ namespace MyUIGenerator.UIControlHelper
             MyControlHelper.SetForegroundColor(color);
         }
 
-     
+
     }
 
 

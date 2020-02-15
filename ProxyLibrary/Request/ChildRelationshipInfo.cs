@@ -26,8 +26,8 @@ namespace ProxyLibrary
             {
                 foreach (DP_DataRepository item in e.NewItems)
                 {
-                //    item.PropertyValueChanged += Item_PropertyValueChanged;
-                    foreach (var changeMonitor in ChangeMonitorItems.Where(x => !string.IsNullOrEmpty(x.RestTail)))
+                    //    item.PropertyValueChanged += Item_PropertyValueChanged;
+                    foreach (var changeMonitor in ChangeMonitorItems)//.Where(x => !string.IsNullOrEmpty(x.RestTail)))
                     {
                         item.AddChangeMonitor(changeMonitor.GeneralKey, changeMonitor.UsageKey, changeMonitor.RestTail, changeMonitor.columnID, changeMonitor.DataToCall);
                     }
@@ -35,14 +35,14 @@ namespace ProxyLibrary
 
             }
 
-            if (ChangeMonitorItems.Any(x => x.columnID == 0))
-            {
-                foreach (var item in ChangeMonitorItems.Where(x => x.columnID == 0))
+            //if (ChangeMonitorItems.Any(x => x.columnID == 0))
+            //{
+                foreach (var item in ChangeMonitorItems)//.Where(x => x.columnID == 0))
                 {
                     item.DataToCall.OnRelatedDataOrColumnChanged(item);
                 }
 
-            }
+            //}
 
 
         }
@@ -61,6 +61,7 @@ namespace ProxyLibrary
 
         public void AddDataToChildRelationshipInfo(DP_DataRepository dataItem, bool fromDB)
         {
+            dataItem.ParantChildRelationshipInfo = this;
             RelatedData.Add(dataItem);
             if (fromDB)
             {
@@ -193,15 +194,15 @@ namespace ProxyLibrary
 
             });
 
-            if (!string.IsNullOrEmpty(restTail))
-            {
+            //if (!string.IsNullOrEmpty(restTail))
+            //{
                 foreach (var relatedData in RelatedData)
                 {
                     relatedData.AddChangeMonitor(generalKey, usageKey, restTail, columnID, dataToCall);
                 }
-            }
+            //}
         }
-      
+
 
         internal void RemoveChangeMonitorByGenaralKey(string key)
         {
@@ -213,6 +214,15 @@ namespace ProxyLibrary
                     data.RemoveChangeMonitorByGenaralKey(key);
                 }
             }
+        }
+
+        public bool OriginalDataHasBecomeHidden(DP_DataRepository orginalRelationships)
+        {
+            var currentData = RelatedData.FirstOrDefault(z => z.IsNewItem == false && orginalRelationships.KeyProperties.All(x => z.KeyProperties.Any(u => x.ColumnID == u.ColumnID && x.Value == u.Value)));
+            if (currentData != null && currentData.IsHidden)
+                return true;
+            else
+                return false;
         }
         //   public bool RelationshipIsChanged { get; set; }
     }

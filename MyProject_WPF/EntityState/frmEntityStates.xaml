@@ -86,7 +86,7 @@
                             <ColumnDefinition ></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0" Text="رابطه"></TextBlock>
-                        <MyCommonWPFControls:MyStaticLookup Grid.Row="0" x:Name="lokRelationshipTail" Width="230" Grid.Column="1" />
+                        <MyCommonWPFControls:MyStaticLookup Grid.Row="0" NewItemEnabled="True" x:Name="lokRelationshipTail" Width="230" Grid.Column="1" />
                         <TextBlock Grid.Row="1" Text="ستون"></TextBlock>
                         <ComboBox Grid.Row="1" x:Name="cmbColumns" Width="230" Grid.Column="1"></ComboBox>
                         <TextBlock Grid.Row="2" Text="مقدار مورد انتظار"></TextBlock>

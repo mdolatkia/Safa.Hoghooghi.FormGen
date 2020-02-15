@@ -134,7 +134,7 @@ namespace ProxyLibrary
                 }
                 else
                 {
-                    throw (new Exception("asfxcv"));
+                    return "خطای داده بعدا بررسی شود";
                 }
 
 
@@ -330,7 +330,7 @@ namespace ProxyLibrary
         {
             if (changingRelationshipTail.Contains(','))
             {
-                var splt = changingRelationshipTail.Split(",".ToCharArray(), 1);
+                var splt = changingRelationshipTail.Split(",".ToCharArray(), 2);
                 firstRel = splt[0];
                 rest = splt[1];
             }
@@ -340,7 +340,10 @@ namespace ProxyLibrary
             }
         }
 
-
+        public bool ChangeMonitorExists(string generalKey, string usageKey)
+        {
+            return ChangeMonitorItems.Any(x => x.GeneralKey == generalKey && x.UsageKey == usageKey);
+        }
 
         public void AddChangeMonitor(string generalKey, string usageKey, string restTail, int columnID = 0, DP_DataRepository dataToCall = null)
         {
@@ -585,7 +588,7 @@ namespace ProxyLibrary
                             {
                                 if (ParantChildRelationshipInfo.Relationship.PairRelationshipID.ToString() == firstRel)
                                 {
-                                    ParantChildRelationshipInfo.AddChangeMonitor(item.GeneralKey, item.UsageKey, Rest, item.columnID, item.DataToCall);
+                                    ParantChildRelationshipInfo.SourceData.AddChangeMonitor(item.GeneralKey, item.UsageKey, Rest, item.columnID, item.DataToCall);
                                     ChangeMonitorItems.Remove(item);
                                     observerSet = true;
 

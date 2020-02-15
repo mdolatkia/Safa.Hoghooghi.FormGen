@@ -16,8 +16,8 @@ namespace MyUILibrary.EntityArea
     public interface I_EditEntityArea
     {
         event EventHandler<EditAreaGeneratedArg> RelationshipAreaGenerated;
-        event EventHandler<EditAreaDataItemArg> DataItemShown;
-        event EventHandler<EditAreaDataItemArg> DataItemUnShown;
+        //event EventHandler<EditAreaDataItemLoadedArg> DataItemLoaded;
+          event EventHandler<EditAreaDataItemLoadedArg> DataItemShown;
 
         event EventHandler DataViewGenerated;
         TableDrivedEntityDTO DataEntryEntity { get; }
@@ -32,6 +32,9 @@ namespace MyUILibrary.EntityArea
         bool ClearData(bool createDefaultData);
         bool AddData(DP_DataRepository data, bool showDataInDataView);
         bool ShowDataInDataView(DP_DataRepository dataItem);
+        void DataItemVisiblity(object dataItem, bool visible);
+        void DataItemEnablity(object dataItem, bool visible);
+
         EntityUICompositionCompositeDTO UICompositions { set; get; }
         ObservableCollection<ProxyLibrary.DP_DataRepository> GetDataList();
         I_View_DataContainer DataView { set; get; }
@@ -152,19 +155,22 @@ namespace MyUILibrary.EntityArea
         //I_View_Container DataView { set; get; }
         //List<DP_DataRepository> GetData(List<DP_DataRepository> dataList = null, DP_DataRepository pItem = null);
         List<I_Command> Commands { set; get; }
-        void SetColumnValueRange(SimpleColumnControl propertyControl, List<ColumnValueRangeDetailsDTO> details, DP_DataRepository data);
+
         List<EntityCommandDTO> EntityCommands { get; }
         List<UIActionActivityDTO> RunningActionActivities { get; set; }
 
         void SelectFromParent(DP_DataRepository parentDataItem, Dictionary<int, string> colAndValues);
         void CheckRedundantData(I_EditEntityArea editEntityArea);
         void SetColumnValueFromState(DP_DataRepository dataItem, List<UIColumnValueDTO> uIColumnValue, EntityStateDTO state);
-        void ResetColumnValueRange(SimpleColumnControl simpleColumn, DP_DataRepository dataItem);
-        void ChangeSimpleColumnVisiblity(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool hidden, string title);
-        void ChangeSimpleColumnReadonly(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool isReadonly, string title);
+        void SetColumnValueRangeFromState(SimpleColumnControl propertyControl, List<ColumnValueRangeDetailsDTO> details, DP_DataRepository data, EntityStateDTO state);
+        void ResetColumnValueRangeFromState(SimpleColumnControl simpleColumn, DP_DataRepository dataItem, EntityStateDTO state);
+        void ChangeSimpleColumnVisiblityFromState(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool hidden, string title, bool imposeInUI);
+        void ChangeSimpleColumnReadonlyFromState(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool isReadonly, string title);
 
-        void ChangeRelatoinsipColumnVisiblity(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool hidden, string title);
-        void ChangeRelatoinsipColumnReadonly(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool isReadonly, string title);
+        void ChangeRelatoinsipColumnVisiblityFromState(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool hidden, string title, bool imposeInUI);
+        void ChangeRelatoinsipColumnReadonlyFromState(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool isReadonly, string title);
+        bool DataItemIsInEditMode(DP_DataRepository sourceData);
+        bool DataItemIsInTempViewMode(DP_DataRepository dataItem);
 
 
 
@@ -627,6 +633,8 @@ namespace MyUILibrary.EntityArea
     {
         void EnableDisable(object dataItem, bool enable);
         void Visiblity(object dataItem, bool visible);
+        void EnableDisable(bool enable);
+        void Visiblity(bool visible);
 
         I_LabelControlManager LabelControlManager { set; get; }
     }
@@ -818,7 +826,7 @@ namespace MyUILibrary.EntityArea
             var tooltip = GetTooltip(LabelControlManagerMessageItems.ToList());
             ControlManager.LabelControlManager.SetTooltip(tooltip);
         }
-        public void RemoveLabelControlManagerMessage(DataMessageItem baseMessageItem)
+        public void RemoveLabelControlManagerMessage(BaseMessageItem baseMessageItem)
         {
             LabelControlManagerMessageItems.Remove(baseMessageItem);
             var tooltip = GetTooltip(LabelControlManagerMessageItems.ToList());
@@ -841,6 +849,11 @@ namespace MyUILibrary.EntityArea
         {
             foreach (var item in LabelControlManagerColorItems.Where(x => x.Key == key).ToList())
                 RemoveLabelControlManagerColor(item);
+        }
+        public void RemoveLabelControlManagerMessageByKey(string key)
+        {
+            foreach (var item in LabelControlManagerMessageItems.Where(x => x.Key == key).ToList())
+                RemoveLabelControlManagerMessage(item);
         }
         private void SetLabelControlManagerColor(List<BaseColorItem> list, ControlColorTarget colorTarget)
         {
@@ -1143,6 +1156,11 @@ namespace MyUILibrary.EntityArea
     }
     public class EditAreaDataItemArg : EventArgs
     {
+        public DP_DataRepository DataItem { set; get; }
+    }
+    public class EditAreaDataItemLoadedArg : EventArgs
+    {
+        public bool InEditMode { set; get; }
         public DP_DataRepository DataItem { set; get; }
     }
     public interface I_FormulaOptions

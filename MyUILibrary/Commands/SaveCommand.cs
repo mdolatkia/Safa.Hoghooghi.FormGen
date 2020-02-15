@@ -152,7 +152,7 @@ namespace MyUILibrary.EntityArea.Commands
             ObservableCollection<DP_DataRepository> result = new ObservableCollection<DP_DataRepository>();
             foreach (var item in sourceList)
             {
-                if (!item.ShouldBeSkipped)
+                if (!item.IsHidden && !item.ShouldBeSkipped)
                 {
                     //List<EntityInstanceProperty> properties = null;
                     //if (item.IsNewItem)
@@ -184,10 +184,12 @@ namespace MyUILibrary.EntityArea.Commands
                     newItem.IsFullData = item.IsFullData;
                     newItem.DataView = item.DataView;
                     //   newItem.HasDirectData = item.HasDirectData;
+                    newItem.IsHidden = item.IsHidden;
                     newItem.EntityListView = item.EntityListView;
                     newItem.IsNewItem = item.IsNewItem;
                     newItem.ParantChildRelationshipInfo = newParentChildRelationshipInfo;
                     result.Add(newItem);
+
                     foreach (var childItem in item.ChildRelationshipInfos)
                     {
 
@@ -199,7 +201,10 @@ namespace MyUILibrary.EntityArea.Commands
                             newChildItems.Relationship = childItem.Relationship;
 
                             foreach (var orginalRelationships in childItem.OriginalRelatedData)
-                                newChildItems.OriginalRelatedData.Add(orginalRelationships);
+                            {
+                                if (!childItem.OriginalDataHasBecomeHidden(orginalRelationships))
+                                    newChildItems.OriginalRelatedData.Add(orginalRelationships);
+                            }
 
                             newChildItems.RelationshipDeleteOption = childItem.RelationshipDeleteOption;
                             //foreach (var removedItem in childItem.RemovedItems)
@@ -215,6 +220,7 @@ namespace MyUILibrary.EntityArea.Commands
                             newItem.ChildRelationshipInfos.Add(newChildItems);
                         }
                     }
+
                     //}
                 }
             }
@@ -223,6 +229,8 @@ namespace MyUILibrary.EntityArea.Commands
             return result;
 
         }
+
+       
 
         //private List<EntityInstanceProperty> GetEditedProperties(DP_DataRepository item)
         //{
@@ -332,6 +340,16 @@ namespace MyUILibrary.EntityArea.Commands
                 foreach (var child in removeRels)
                 {
                     data.ChildRelationshipInfos.Remove(child);
+                    //این تیکه جدید اضافه شد
+                    if (child.Relationship.MastertTypeEnum==Enum_MasterRelationshipType.FromForeignToPrimary)
+                    {
+                        foreach(var relColumn in child.Relationship.RelationshipColumns )
+                        {
+                            var fkProp = data.GetProperty(relColumn.FirstSideColumnID);
+                            if (!fkProp.Column.PrimaryKey)
+                                data.Properties.Remove(fkProp);
+                        }
+                    }
                 }
             }
             foreach (var item in removeItems)

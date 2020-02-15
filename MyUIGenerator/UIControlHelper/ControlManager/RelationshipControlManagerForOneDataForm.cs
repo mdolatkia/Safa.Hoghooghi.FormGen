@@ -106,9 +106,15 @@ namespace MyUIGenerator.UIControlHelper
 
 
 
-
-
         public void Visiblity(object dataItem, bool visible)
+        {
+
+            if (LabelControlManager != null)
+                LabelControlManager.Visiblity(visible);
+            View.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public void Visiblity(bool visible)
         {
             //foreach (var item in RelatedControl)
             //{
@@ -120,6 +126,23 @@ namespace MyUIGenerator.UIControlHelper
             if (LabelControlManager != null)
                 LabelControlManager.Visiblity(visible);
             View.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        }
+        public void EnableDisable(bool enable)
+        {
+            MainControl.IsEnabled = enable;
+        }
+
+        public void EnableDisable(object dataItem, bool enable)
+        {
+            MainControl.IsEnabled = enable;
+        }
+
+        public void EnableDisable(object dataItem, TemporaryLinkType link, bool enable)
+        {
+            if (MainControl is IAG_View_TemporaryView)
+            {
+                (MainControl as IAG_View_TemporaryView).DisableEnable(link, enable);
+            }
         }
         //public void AddValidation(BaseMessageItem item)
         //{
@@ -252,19 +275,8 @@ namespace MyUIGenerator.UIControlHelper
         //}
 
 
-        public void EnableDisable(object dataItem, bool enable)
-        {
-            MainControl.IsEnabled = enable;
-        }
 
-        public void EnableDisable(object dataItem, TemporaryLinkType link, bool enable)
-        {
-            if (MainControl is IAG_View_TemporaryView)
-            {
-                (MainControl as IAG_View_TemporaryView).DisableEnable(link, enable);
-            }
-        }
-        
+
         public void SetQuickSearchVisibility(object parentData, bool v)
         {
             if (MainControl is IAG_View_TemporaryView)

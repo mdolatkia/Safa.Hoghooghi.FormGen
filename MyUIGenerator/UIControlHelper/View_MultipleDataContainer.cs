@@ -289,6 +289,15 @@ namespace MyUIGenerator.UIControlHelper
         {
             dataGridHelper.SetForegroundColor(dataItem, color);
         }
+
+        public void Visiblity(object dataItem, bool visible)
+        {
+            dataGridHelper.Visiblity(dataItem, visible);
+        }
+        public void EnableDisable(object dataItem, bool enable)
+        {
+            dataGridHelper.EnableDisable(dataItem, enable);
+        }
     }
 
 

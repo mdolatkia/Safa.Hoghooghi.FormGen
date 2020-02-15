@@ -18,97 +18,154 @@ namespace MyUILibrary.EntityArea
         public UIActionActivityManager(I_EditEntityArea editArea)
         {
             EditArea = editArea;
+            //EditArea.DataItemLoaded += EditArea_DataItemLoaded;
             EditArea.DataItemShown += EditArea_DataItemShown;
-            EditArea.DataItemUnShown += EditArea_DataItemUnShown;
+            //     EditArea.DataItemUnShown += EditArea_DataItemUnShown;
         }
-        private void EditArea_DataItemUnShown(object sender, EditAreaDataItemArg e)
-        {
-            e.DataItem.RemoveChangeMonitorByGenaralKey("stateWatch" + AgentHelper.GetUniqueDataPostfix(e.DataItem));
-            foreach (var item in ListDataAndStates.Where(x => x.DataItem == e.DataItem).ToList())
-                ListDataAndStates.Remove(item);
-        }
-        private void EditArea_DataItemShown(object sender, EditAreaDataItemArg e)
+
+        private void EditArea_DataItemShown(object sender, EditAreaDataItemLoadedArg e)
         {
             if ((sender as I_EditEntityArea).EntityStates == null || (sender as I_EditEntityArea).EntityStates.Count == 0)
                 return;
-            SetDataChangeEventsForDataItem(e.DataItem);
-
+            DataAndStates item = null;
             if (ListDataAndStates.Any(x => x.DataItem == e.DataItem))
-                ListDataAndStates.Remove(ListDataAndStates.First(x => x.DataItem == e.DataItem));
+                item = ListDataAndStates.First(x => x.DataItem == e.DataItem);
+            else
+            {
+                item = new EntityArea.DataAndStates(e.DataItem);
+                //  item.EntityStates.CollectionChanged += (sender1, e1) => EntityStates_CollectionChanged(sender1, e1, item);
+                ListDataAndStates.Add(item);
+                foreach (var state in EditArea.EntityStates)
+                {
+                    CheckDataItemChangeMonitors(e.DataItem, state);
+                }
+            }
 
-            DataAndStates item = new EntityArea.DataAndStates(e.DataItem);
-            ListDataAndStates.Add(item);
-            List<EntityStateDTO> trueStates = new List<EntityStateDTO>();
-
-            foreach (var state in EditArea.EntityStates)
+            ResetActionActivities(e.DataItem);
+            item.EntityStates.Clear();
+            //List<EntityStateDTO> trueStates = new List<EntityStateDTO>();
+            foreach (var state in GetAppliableStates(e.DataItem))
             {
                 if (CheckEntityState(e.DataItem, state))
                     item.EntityStates.Add(state);
             }
-            item.OnShow = true;
-        //    if (item.EntityStates.Any())
-                EntityStates_CollectionChanged(null, null, item);
-            item.EntityStates.CollectionChanged += (sender1, e1) => EntityStates_CollectionChanged(sender1, e1, item);
-            item.OnShow = false;
+            if (item.EntityStates.Any())
+                ImposetStates(item, false);
 
         }
 
+        //private void EditArea_DataItemLoaded(object sender, EditAreaDataItemLoadedArg e)
+        //{
 
 
-        private void SetDataChangeEventsForDataItem(DP_DataRepository dataItem)
+
+        //    //   item.OnShow = true;
+        //    //    if (item.EntityStates.Any())
+        //    //  EntityStates_CollectionChanged(null, null, item);
+        //    //     item.OnShow = false;
+        //}
+
+        private void CheckDataItemChangeMonitors(DP_DataRepository dataItem, EntityStateDTO entityState)
         {
-            foreach (var entityState in EditArea.EntityStates)
+            var generalKey = "stateWatch" + AgentHelper.GetUniqueDataPostfix(dataItem);
+            var usageKey = entityState.ID.ToString();
+
+            if (dataItem.ChangeMonitorExists(generalKey, usageKey))
+                return;
+
+            List<Tuple<string, int>> columns = new List<Tuple<string, int>>();
+            List<Tuple<string, int>> rels = new List<Tuple<string, int>>();
+            if (entityState.Formula != null)
             {
-                List<Tuple<string, int>> columns = new List<Tuple<string, int>>();
-                List<Tuple<string, int>> rels = new List<Tuple<string, int>>();
-                if (entityState.Formula != null)
+                foreach (var fItem in entityState.Formula.FormulaItems)
                 {
-                    foreach (var fItem in entityState.Formula.FormulaItems)
-                    {
-                        if (fItem.ItemType == FormuaItemType.Column)
-                            columns.Add(new Tuple<string, int>(fItem.RelationshipIDTail, fItem.ItemID));
-                        else if (!string.IsNullOrEmpty(fItem.RelationshipIDTail))
-                            rels.Add(new Tuple<string, int>(fItem.RelationshipIDTail, 0));
-                    }
+                    if (fItem.ItemType == FormuaItemType.Column)
+                        columns.Add(new Tuple<string, int>(fItem.RelationshipIDTail, fItem.ItemID));
+                    else if (!string.IsNullOrEmpty(fItem.RelationshipIDTail))
+                        rels.Add(new Tuple<string, int>(fItem.RelationshipIDTail, 0));
                 }
-                else if (entityState.ColumnID != 0)
-                {
-                    columns.Add(new Tuple<string, int>(entityState.RelationshipTail.RelationshipIDPath, entityState.ColumnID));
-                }
-                if (columns.Any() || rels.Any())
-                {
-                    dataItem.RelatedDataTailOrColumnChanged += (sender1, e1) => DataItem_RelatedDataTailOrColumnChanged(sender1, e1, entityState);
-                }
-                foreach (var item in columns)
-                    dataItem.AddChangeMonitor("stateWatch" + AgentHelper.GetUniqueDataPostfix(dataItem), entityState.ID.ToString(), item.Item1, item.Item2);
-                foreach (var item in rels)
-                    dataItem.AddChangeMonitor("stateWatch" + AgentHelper.GetUniqueDataPostfix(dataItem), entityState.ID.ToString(), item.Item1, 0);
             }
+            else if (entityState.ColumnID != 0)
+            {
+                columns.Add(new Tuple<string, int>(entityState.RelationshipTail?.RelationshipIDPath, entityState.ColumnID));
+            }
+            if (columns.Any() || rels.Any())
+            {
+                dataItem.RelatedDataTailOrColumnChanged += DataItem_RelatedDataTailOrColumnChanged;
+            }
+            foreach (var item in columns)
+                dataItem.AddChangeMonitor(generalKey, usageKey, item.Item1, item.Item2);
+            foreach (var item in rels)
+                dataItem.AddChangeMonitor(generalKey, usageKey, item.Item1, 0);
+
         }
 
-        private void DataItem_RelatedDataTailOrColumnChanged(object sender, ChangeMonitor e, EntityStateDTO entityState)
+
+
+
+        //private void EditArea_DataItemUnShown(object sender, EditAreaDataItemArg e)
+        //{
+        //    e.DataItem.RemoveChangeMonitorByGenaralKey("stateWatch" + AgentHelper.GetUniqueDataPostfix(e.DataItem));
+        //    foreach (var item in ListDataAndStates.Where(x => x.DataItem == e.DataItem).ToList())
+        //        ListDataAndStates.Remove(item);
+        //}
+
+
+        //private void SetDataChangeEventsForDataItem(DP_DataRepository dataItem)
+        //{
+
+        //}
+
+        private void DataItem_RelatedDataTailOrColumnChanged(object sender, ChangeMonitor e)
         {
             if (e.GeneralKey.StartsWith("stateWatch"))
             {
-                if (e.UsageKey == entityState.ID.ToString())
+                foreach (var entityState in GetAppliableStates(e.DataToCall).Where(x => x.ID.ToString() == e.UsageKey))
                 {
-                    var listItem = ListDataAndStates.First(x => x.DataItem == e.DataToCall);
-                    bool entityStateValue = CheckEntityState(e.DataToCall, entityState);
-                    if (entityStateValue)
+                    if (e.UsageKey == entityState.ID.ToString())
                     {
-                        if (!listItem.EntityStates.Any(x => x.ID == entityState.ID))
-                            listItem.EntityStates.Add(entityState);
-                    }
-                    else
-                    {
-                        if (listItem.EntityStates.Any(x => x.ID == entityState.ID))
-                            listItem.EntityStates.Remove(listItem.EntityStates.First(x => x.ID == entityState.ID));
+                        bool changed = false;
+                        var listItem = ListDataAndStates.FirstOrDefault(x => x.DataItem == e.DataToCall);
+                        if (listItem != null)
+                        {
+                            bool entityStateValue = CheckEntityState(e.DataToCall, entityState);
+                            if (entityStateValue)
+                            {
+                                if (!listItem.EntityStates.Any(x => x.ID == entityState.ID))
+                                {
+                                    listItem.EntityStates.Add(entityState);
+                                    changed = true;
+                                }
+                            }
+                            else
+                            {
+                                if (listItem.EntityStates.Any(x => x.ID == entityState.ID))
+                                {
+                                    listItem.EntityStates.Remove(listItem.EntityStates.First(x => x.ID == entityState.ID));
+                                    changed = true;
+                                }
+                            }
+                        }
+                        if (changed)
+                        {
+                            ImposetStates(listItem, true);
+                        }
+
                     }
                 }
             }
         }
-
-
+        private void ImposetStates(DataAndStates dataAndState, bool reset)
+        {
+            if (reset)
+                ResetActionActivities(dataAndState.DataItem);
+            DoStateActionActivity(dataAndState, dataAndState.EntityStates);
+        }
+        //private void EntityStates_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e, DataAndStates dataAndState)
+        //{
+        //    //var allActionActivities = dataAndState.EntityStates.SelectMany(x => x.ActionActivities);
+        //    ResetActionActivities(dataAndState.DataItem);
+        //}
 
         //private List<EntityStateDTO> GetEntityStates(DP_DataRepository dataItem)
         //{
@@ -130,10 +187,9 @@ namespace MyUILibrary.EntityArea
 
         }
 
-        private void ResetActionActivities(DataAndStates dataAndState)
+        private void ResetActionActivities(DP_DataRepository dataItem)
         {
-            DP_DataRepository dataItem = dataAndState.DataItem;
-            foreach (var state in EditArea.EntityStates)
+            foreach (var state in GetAppliableStates(dataItem))
             {
                 foreach (var actionActivity in state.ActionActivities)
                 {
@@ -145,9 +201,9 @@ namespace MyUILibrary.EntityArea
                             if (simpleColumn != null)
                             {
                                 if (detail.Hidden == true)
-                                    EditArea.ChangeSimpleColumnVisiblity(dataItem, simpleColumn, true, "");
+                                    EditArea.ChangeSimpleColumnVisiblityFromState(dataItem, simpleColumn, true, "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
                                 else if (detail.Readonly == true)
-                                    EditArea.ChangeSimpleColumnReadonly(dataItem, simpleColumn, false, "");
+                                    EditArea.ChangeSimpleColumnReadonlyFromState(dataItem, simpleColumn, false, "بر اساس وضعیت" + " " + state.Title);
                             }
                         }
                         else if (detail.RelationshipID != 0)
@@ -156,9 +212,9 @@ namespace MyUILibrary.EntityArea
                             if (relationshipControl != null)
                             {
                                 if (detail.Hidden == true)
-                                    EditArea.ChangeRelatoinsipColumnVisiblity(dataItem, relationshipControl, true, "");
+                                    EditArea.ChangeRelatoinsipColumnVisiblityFromState(dataItem, relationshipControl, true, "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
                                 else if (detail.Readonly == true)
-                                    EditArea.ChangeRelatoinsipColumnReadonly(dataItem, relationshipControl, false, "");
+                                    EditArea.ChangeRelatoinsipColumnReadonlyFromState(dataItem, relationshipControl, false, "بر اساس وضعیت" + " " + state.Title);
                             }
                         }
                         else if (detail.UICompositionID != 0)
@@ -180,7 +236,7 @@ namespace MyUILibrary.EntityArea
                                 var simpleColumn = EditArea.SimpleColumnControls.First(x => x.Column.ID == columnValueRange.Key);
                                 if (dataItem.ColumnKeyValueRanges.Any(x => x.Key == simpleColumn.Column.ID))
                                     dataItem.ColumnKeyValueRanges.Remove(simpleColumn.Column.ID);
-                                EditArea.ResetColumnValueRange(simpleColumn, dataItem);
+                                EditArea.ResetColumnValueRangeFromState(simpleColumn, dataItem, state);
                             }
                         }
                     }
@@ -189,18 +245,34 @@ namespace MyUILibrary.EntityArea
             //////item.EntityStates.Clear();
         }
 
+        private List<EntityStateDTO> GetAppliableStates(DP_DataRepository dataItem)
+        {
+            List<EntityStateDTO> result = new List<EntityStateDTO>();
+            foreach (var state in EditArea.EntityStates.Where(x => x.ActionActivities.Any()))
+            {
+                if (state.ActionActivities.Any(x => x.UIEnablityDetails.Any(y => EditArea.AreaInitializer.SourceRelation != null && y.RelationshipID == EditArea.AreaInitializer.SourceRelation.Relationship.PairRelationshipID)))
+                {
+                    bool dataIsInValidMode = EditArea.DataItemIsInEditMode(dataItem) || (EditArea is I_EditEntityAreaOneData && EditArea.DataItemIsInTempViewMode(dataItem));
+
+                    if (dataIsInValidMode)
+                        result.Add(state);
+                }
+                else
+                {
+                    if (EditArea.DataItemIsInEditMode(dataItem))
+                        result.Add(state);
+                }
+            }
+            return result;
+        }
+
 
         //private void ApplyState(I_EditEntityArea editArea, DP_DataRepository dataItem, EntityStateDTO state)
         //{
 
         //}
 
-        private void EntityStates_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e, DataAndStates dataAndState)
-        {
-            //var allActionActivities = dataAndState.EntityStates.SelectMany(x => x.ActionActivities);
-            ResetActionActivities(dataAndState);
-            DoStateActionActivity(dataAndState, dataAndState.EntityStates);
-        }
+
 
 
 
@@ -224,9 +296,9 @@ namespace MyUILibrary.EntityArea
                                 if (simpleColumn != null)
                                 {
                                     if (detail.Hidden == true)
-                                        EditArea.ChangeSimpleColumnVisiblity(dataItem, simpleColumn, false, "بر اساس وضعیت" + " " + state.Title);
+                                        EditArea.ChangeSimpleColumnVisiblityFromState(dataItem, simpleColumn, false, "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
                                     else if (detail.Readonly == true)
-                                        EditArea.ChangeSimpleColumnReadonly(dataItem, simpleColumn, true, "بر اساس وضعیت" + " " + state.Title);
+                                        EditArea.ChangeSimpleColumnReadonlyFromState(dataItem, simpleColumn, true, "بر اساس وضعیت" + " " + state.Title);
                                 }
                             }
                             else if (detail.RelationshipID != 0)
@@ -235,9 +307,9 @@ namespace MyUILibrary.EntityArea
                                 if (relationshipControl != null)
                                 {
                                     if (detail.Hidden == true)
-                                        EditArea.ChangeRelatoinsipColumnVisiblity(dataItem, relationshipControl, false, "بر اساس وضعیت" + " " + state.Title);
+                                        EditArea.ChangeRelatoinsipColumnVisiblityFromState(dataItem, relationshipControl, false, "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
                                     else if (detail.Readonly == true)
-                                        EditArea.ChangeRelatoinsipColumnReadonly(dataItem, relationshipControl, true, "بر اساس وضعیت" + " " + state.Title);
+                                        EditArea.ChangeRelatoinsipColumnReadonlyFromState(dataItem, relationshipControl, true, "بر اساس وضعیت" + " " + state.Title);
                                 }
                             }
                             else if (detail.UICompositionID != 0)
@@ -264,7 +336,7 @@ namespace MyUILibrary.EntityArea
                                     dataItem.ColumnKeyValueRanges[simpleColumn.Column.ID] = candidates;
                                 else
                                     dataItem.ColumnKeyValueRanges.Add(simpleColumn.Column.ID, candidates);
-                                EditArea.SetColumnValueRange(simpleColumn, candidates, dataItem);
+                                EditArea.SetColumnValueRangeFromState(simpleColumn, candidates, dataItem, state);
                             }
                         }
                     }
@@ -288,6 +360,36 @@ namespace MyUILibrary.EntityArea
                     }
                     EditArea.RunningActionActivities.Remove(item);
                 }
+            }
+        }
+
+        private bool ShouldImposeInUI(EntityStateDTO state, UIEnablityDetailsDTO detail)
+        {
+            if (state.FormulaID != 0)
+                return false;
+            else if (state.RelationshipTailID != 0)
+            {
+                if (detail.ColumnID != 0)
+                    return true;
+                else if (detail.RelationshipID != 0)
+                {
+                    if (state.RelationshipTail.RelationshipIDPath == detail.RelationshipID.ToString() || state.RelationshipTail.RelationshipIDPath.StartsWith(detail.RelationshipID.ToString() + ","))
+                        return false;
+                    else
+                        return true;
+                }
+                else
+                {
+                    return true;
+                    //فعلا
+                }
+            }
+            else
+            {
+                if (state.ColumnID == detail.ColumnID)
+                    return false;
+                else
+                    return true;
             }
         }
 
@@ -365,7 +467,7 @@ namespace MyUILibrary.EntityArea
                     control = (editEntityArea as I_EditEntityAreaOneData).RelationshipColumnControls.First(x => x.Relationship.ID == relationshipID);
 
                 }
-                else if (editEntityArea.AreaInitializer.SourceRelation != null && editEntityArea.AreaInitializer.SourceRelation.Relationship.ID == relationshipID)
+                else if (editEntityArea.AreaInitializer.SourceRelation != null && editEntityArea.AreaInitializer.SourceRelation.Relationship.PairRelationshipID == relationshipID)
                 {
                     control = editEntityArea.AreaInitializer.SourceRelation.SourceRelationshipColumnControl;
                 }
@@ -376,7 +478,7 @@ namespace MyUILibrary.EntityArea
                 {
                     control = (editEntityArea as I_EditEntityAreaMultipleData).RelationshipColumnControls.First(x => x.Relationship.ID == relationshipID);
                 }
-                else if (editEntityArea.AreaInitializer.SourceRelation != null && editEntityArea.AreaInitializer.SourceRelation.Relationship.ID == relationshipID)
+                else if (editEntityArea.AreaInitializer.SourceRelation != null && editEntityArea.AreaInitializer.SourceRelation.Relationship.PairRelationshipID == relationshipID)
                 {
                     control = editEntityArea.AreaInitializer.SourceRelation.SourceRelationshipColumnControl;
                 }

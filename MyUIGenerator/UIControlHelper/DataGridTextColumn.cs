@@ -111,7 +111,10 @@ namespace MyUIGenerator.UIControlHelper
                 }
             }));
         }
-
+        internal void EnableDisable( bool enable)
+        {
+            this.IsEnabled = enable;
+        }
         internal void EnableDisable(object dataItem, bool enable)
         {
             System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
@@ -128,6 +131,10 @@ namespace MyUIGenerator.UIControlHelper
                     }
                 }
             }));
+        }
+        internal void Visiblity( bool visible)
+        {
+            this.IsVisible = visible;
         }
         internal void Visiblity(object dataItem, bool visible)
         {

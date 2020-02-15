@@ -23,17 +23,25 @@ namespace MyUIGenerator.UIControlHelper
         public DataGridTextColumn DataGridColumn;
         public SimpleControlManagerForMultipleDataForm(ColumnDTO column, ColumnUISettingDTO columnUISettingDTO, bool hasRangeOfValues, bool valueIsTitleOrValue) : base()
         {
-          //  RelatedControl = new List<FrameworkElement>();
+            //  RelatedControl = new List<FrameworkElement>();
             DataGridColumn = new DataGridTextColumn(column, columnUISettingDTO, hasRangeOfValues, valueIsTitleOrValue);
         }
 
         //   public List<FrameworkElement> RelatedControl { set; get; }
 
 
-
+        public void EnableDisable(bool enable)
+        {
+            DataGridColumn.EnableDisable(enable);
+        }
         public void EnableDisable(object dataItem, bool enable)
         {
             DataGridColumn.EnableDisable(dataItem, enable);
+        }
+        public void Visiblity(bool visible)
+        {
+
+            DataGridColumn.Visiblity(visible);
         }
         public void Visiblity(object dataItem, bool visible)
         {
@@ -251,7 +259,7 @@ namespace MyUIGenerator.UIControlHelper
             DataGridColumn.SetForegroundColor(dataItem, color);
         }
 
-     
+
         //public void SetMandatoryState(bool isMandatory)
         //{
         //    foreach (var item in RelatedControl)

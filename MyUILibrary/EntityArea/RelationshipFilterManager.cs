@@ -17,25 +17,16 @@ namespace MyUILibrary.EntityArea
         public RelationshipFilterManager(I_EditEntityArea editArea)
         {
             EditArea = editArea;
-            editArea.DataItemShown += EditArea_DataItemShown;
+            //editArea.DataItemLoaded += EditArea_DataItemLoaded;
+
+            //shown استفاده شود
             if (editArea is I_EditEntityAreaMultipleData)
             {
                 (editArea as I_EditEntityAreaMultipleData).DataItemRemoved += UIActionActivityManager_DataItemRemoved;
             }
         }
 
-        private void UIActionActivityManager_DataItemRemoved(object sender, EditAreaDataItemArg e)
-        {
-            //foreach (var item in ListRelationshipsFilters.ToList())
-            //{
-            //    if (item.SourceEditArea == sender && e.DataItem == item.DataItem)
-            //        RemoveRelationshipsFilters(item);
-            //}
-
-        }
-
-
-        private void EditArea_DataItemShown(object sender, EditAreaDataItemArg e)
+        private void EditArea_DataItemLoaded(object sender, EditAreaDataItemLoadedArg e)
         {
             //////if (SearchInitialyAreas == null)
             //////    GetInitialySearchEditAreas();
@@ -97,6 +88,22 @@ namespace MyUILibrary.EntityArea
 
             //////    }
             //////}
+        }
+
+        private void UIActionActivityManager_DataItemRemoved(object sender, EditAreaDataItemArg e)
+        {
+            //foreach (var item in ListRelationshipsFilters.ToList())
+            //{
+            //    if (item.SourceEditArea == sender && e.DataItem == item.DataItem)
+            //        RemoveRelationshipsFilters(item);
+            //}
+
+        }
+
+
+        private void EditArea_DataItemShown(object sender, EditAreaDataItemArg e)
+        {
+           
         }
         List<Tuple<I_EditEntityArea, List<RelationshipFilterDTO>>> SearchInitialyAreas;
         private List<Tuple<I_EditEntityArea, List<RelationshipFilterDTO>>> GetInitialySearchEditAreas()

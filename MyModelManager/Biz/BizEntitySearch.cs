@@ -116,7 +116,7 @@ namespace MyModelManager
                 {
                     foreach (var column in columnGroup)
                     {
-                        if (!bizColumn.DataIsAccessable(requester, column.ColumnID))
+                        if (column.ColumnID != 0 && !bizColumn.DataIsAccessable(requester, column.ColumnID))
                             removeList.Add(column);
                     }
                 }

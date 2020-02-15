@@ -251,6 +251,14 @@ namespace MyUILibrary.EntityArea
 
 
         }
+        public override void DataItemVisiblity(object dataItem, bool visible)
+        {
+            (DataView as I_View_EditEntityAreaDataView).Visiblity(visible);
+        }
+        public override void DataItemEnablity(object dataItem, bool visible)
+        {
+            (DataView as I_View_EditEntityAreaDataView).Visiblity(visible);
+        }
         public I_View_EditEntityAreaDataView SpecializedDataView
         {
             get
@@ -383,7 +391,8 @@ namespace MyUILibrary.EntityArea
                 else
                     result = false;
             }
-            OnDataItemShown(new EditAreaDataItemArg() { DataItem = specificDate });
+            if (result)
+                OnDataItemShown(new EditAreaDataItemLoadedArg() { DataItem = specificDate, InEditMode = true });
             CheckRelationshipReadonlyEnablity();
             return result;
 

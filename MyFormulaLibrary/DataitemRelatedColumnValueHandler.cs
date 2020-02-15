@@ -12,7 +12,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
 {
     public class DataitemRelatedColumnValueHandler
     {
-        public  string GetValueSomeHow(DR_Requester requester, DP_DataRepository sentdata, EntityRelationshipTailDTO valueRelationshipTail, int valueColumnID)
+        public string GetValueSomeHow(DR_Requester requester, DP_DataRepository sentdata, EntityRelationshipTailDTO valueRelationshipTail, int valueColumnID)
         {
             if (valueRelationshipTail == null)
             {
@@ -30,15 +30,20 @@ namespace MyFormulaFunctionStateFunctionLibrary
                 else if (sentdata.ChildRelationshipInfos.Any(x => x.Relationship.ID == valueRelationshipTail.Relationship.ID))
                 {
                     var childInfo = sentdata.ChildRelationshipInfos.First(x => x.Relationship.ID == valueRelationshipTail.Relationship.ID);
-                    if (childInfo.RelatedData.Count != 1)
+                    if (childInfo.RelatedData.Count > 1)
                     {
                         throw new Exception("asav");
                     }
-                    else
+                    else if (childInfo.RelatedData.Count == 1)
                         relatedData = childInfo.RelatedData.First();
+                    else if (childInfo.RelatedData.Count == 0)
+                    {
+                        //یعنی یا داده مرتبطی وجود نداشته یا حذف شده
+                        return "";
+                    }
                 }
                 if (relatedData != null)
-                    return GetValueSomeHow(requester,relatedData, valueRelationshipTail.ChildTail, valueColumnID);
+                    return GetValueSomeHow(requester, relatedData, valueRelationshipTail.ChildTail, valueColumnID);
                 else
                 {
                     //var columnValues = sentdata.KeyProperties;
@@ -47,23 +52,32 @@ namespace MyFormulaFunctionStateFunctionLibrary
 
                     //سکوریتی داده اعمال میشود
                     //  var requester = AgentUICoreMediator.GetAgentUICoreMediator.GetRequester();
-                    var relationshipTailDataManager = new RelationshipTailDataManager();
-                    var searchDataTuple = relationshipTailDataManager.GetTargetSearchItemFromRelationshipTail(sentdata, valueRelationshipTail);
-                    DR_SearchFullDataRequest request = new DR_SearchFullDataRequest(requester, searchDataTuple);
-                    var searchResult =new SearchRequestManager().Process(request);
-                    if (searchResult.ResultDataItems.Count != 1)
+
+                    //این شرط منطقیه؟؟
+                    if (!sentdata.IsNewItem)
                     {
-                        throw new Exception("asdasd");
-                    }
-                    else
-                    {
-                        var foundDataItem = searchResult.ResultDataItems.First();
-                        var prop = foundDataItem.GetProperty(valueColumnID);
-                        if (prop != null)
-                            return prop.Value;
+                        var relationshipTailDataManager = new RelationshipTailDataManager();
+                        var searchDataTuple = relationshipTailDataManager.GetTargetSearchItemFromRelationshipTail(sentdata, valueRelationshipTail);
+                        DR_SearchFullDataRequest request = new DR_SearchFullDataRequest(requester, searchDataTuple);
+                        var searchResult = new SearchRequestManager().Process(request);
+                        if (searchResult.ResultDataItems.Count > 1)
+                        {
+                            throw new Exception("asdasd");
+                        }
+                        else if (searchResult.ResultDataItems.Count == 1)
+                        {
+                            var foundDataItem = searchResult.ResultDataItems.First();
+                            var prop = foundDataItem.GetProperty(valueColumnID);
+                            if (prop != null)
+                                return prop.Value;
+                            else
+                                return "";
+                        }
                         else
                             return "";
                     }
+                    else
+                        return "";
                 }
 
             }

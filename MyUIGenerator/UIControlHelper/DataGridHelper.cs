@@ -16,6 +16,7 @@ using Telerik.Windows.Controls;
 using MyUILibrary.Temp;
 using System.Windows;
 using Telerik.Windows.Controls.GridView;
+using System.Windows.Threading;
 
 namespace MyUIGenerator.UIControlHelper
 {
@@ -62,23 +63,29 @@ namespace MyUIGenerator.UIControlHelper
 
         internal void SetColor(object dataItem, InfoColor color)
         {
-            GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
-                                                  .ContainerFromItem(dataItem);
-            if (row != null)
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
             {
-                row.BorderBrush = UIManager.GetColorFromInfoColor(color);
-                row.BorderThickness = new Thickness(1);
-            }
+                GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
+                                                  .ContainerFromItem(dataItem);
+                if (row != null)
+                {
+                    row.BorderBrush = UIManager.GetColorFromInfoColor(color);
+                    row.BorderThickness = new Thickness(1);
+                }
+            }));
         }
         internal void ClearColor(object dataItem)
         {
-            GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
                                                   .ContainerFromItem(dataItem);
             if (row != null)
             {
                 row.BorderBrush = null;// new SolidColorBrush(UIManager.GetColorFromInfoColor(InfoColor.Black));
                 row.BorderThickness = new Thickness(1);
-            }
+                }
+            }));
         }
         //static void dataGrid_AddingNewDataItem(object sender, Telerik.Windows.Controls.GridView.GridViewAddingNewEventArgs e)
         //{
@@ -181,15 +188,20 @@ namespace MyUIGenerator.UIControlHelper
 
         internal void ClearTooltip(object dataItem)
         {
-            GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
                                                   .ContainerFromItem(dataItem);
             if (row != null)
                 ToolTipService.SetToolTip(row, null);
+            }));
         }
 
         internal void SetTooltip(object dataItem, string tooltip)
         {
-            GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
                                                     .ContainerFromItem(dataItem);
             if (row != null)
             {
@@ -198,35 +210,68 @@ namespace MyUIGenerator.UIControlHelper
                 else
                     ToolTipService.SetToolTip(row, null);
             }
-
+            }));
         }
         internal void SetBorderColor(object dataItem, InfoColor color)
         {
-            GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
                                                      .ContainerFromItem(dataItem);
             if (row != null)
             {
                 row.BorderBrush = UIManager.GetColorFromInfoColor(color);
                 row.BorderThickness = new Thickness(1);
-            }
+                }
+            }));
         }
         internal void SetBackgroundColor(object dataItem, InfoColor color)
         {
-            GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
                                                      .ContainerFromItem(dataItem);
             if (row != null)
             {
                 row.Background = UIManager.GetColorFromInfoColor(color);
             }
+            }));
         }
         internal void SetForegroundColor(object dataItem, InfoColor color)
         {
-            GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
                                                      .ContainerFromItem(dataItem);
             if (row != null)
             {
                 row.Foreground = UIManager.GetColorFromInfoColor(color);
             }
+            }));
+        }
+        internal void Visiblity(object dataItem, bool visible)
+        {
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
+                                                      .ContainerFromItem(dataItem);
+            if (row != null)
+            {
+                row.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }));
+        }
+        internal void EnableDisable(object dataItem, bool enable)
+        {
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                GridViewRow row = (GridViewRow)dataGrid.ItemContainerGenerator
+                                                      .ContainerFromItem(dataItem);
+            if (row != null)
+            {
+                row.IsEnabled = enable;
+                }
+            }));
         }
         internal List<object> RemoveDataContainers()
         {
@@ -264,7 +309,8 @@ namespace MyUIGenerator.UIControlHelper
             return result;
         }
 
-       
+
+
 
 
 

@@ -338,6 +338,10 @@ namespace MyUIGenerator.UIControlHelper
                 }
             }));
         }
+        public void EnableDisable( bool enable)
+        {
+            this.IsEnabled = enable;
+        }
         public void EnableDisable(object dataItem, bool enable)
         {
             System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
@@ -364,7 +368,10 @@ namespace MyUIGenerator.UIControlHelper
                 }
             }));
         }
-
+        internal void Visiblity(bool visible)
+        {
+            this.IsVisible = visible;
+        }
         internal void Visiblity(object dataItem, bool visible)
         {
             System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
@@ -388,7 +395,7 @@ namespace MyUIGenerator.UIControlHelper
                 if (cell != null && cell.Content != null)
                 {
                     if (cell.Content is IAG_View_TemporaryView)
-                        (cell.Content as IAG_View_TemporaryView).QuickSearchVisibility = visible ;
+                        (cell.Content as IAG_View_TemporaryView).QuickSearchVisibility = visible;
                 }
             }));
         }
