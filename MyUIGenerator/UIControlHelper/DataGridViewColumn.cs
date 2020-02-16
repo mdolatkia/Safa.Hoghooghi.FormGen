@@ -318,7 +318,7 @@ namespace MyUIGenerator.UIControlHelper
         //    throw new NotImplementedException();
         //}
 
-        public IAG_View_TemporaryView GenerateTemporaryView(object dataItem)
+        public I_View_TemporaryView GenerateTemporaryView(object dataItem)
         {
             UC_TemporaryDataSearchLink view = new UC_TemporaryDataSearchLink(TemporaryLinkState);
             if (TemporaryViewLoaded != null)
@@ -333,8 +333,8 @@ namespace MyUIGenerator.UIControlHelper
                 var cell = dataRow.GetCell(this);
                 if (cell != null && cell.Content != null)
                 {
-                    if (cell.Content is IAG_View_TemporaryView)
-                        (cell.Content as IAG_View_TemporaryView).SetLinkText(text);
+                    if (cell.Content is I_View_TemporaryView)
+                        (cell.Content as I_View_TemporaryView).SetLinkText(text);
                 }
             }));
         }
@@ -350,8 +350,8 @@ namespace MyUIGenerator.UIControlHelper
                 var cell = dataRow.GetCell(this);
                 if (cell != null && cell.Content != null)
                 {
-                    if (cell.Content is IAG_View_TemporaryView)
-                        (cell.Content as IAG_View_TemporaryView).DisableEnable(enable);
+                    if (cell.Content is I_View_TemporaryView)
+                        (cell.Content as I_View_TemporaryView).DisableEnable(enable);
                 }
             }));
         }
@@ -363,8 +363,8 @@ namespace MyUIGenerator.UIControlHelper
                 var cell = dataRow.GetCell(this);
                 if (cell != null && cell.Content != null)
                 {
-                    if (cell.Content is IAG_View_TemporaryView)
-                        (cell.Content as IAG_View_TemporaryView).DisableEnable(link, enable);
+                    if (cell.Content is I_View_TemporaryView)
+                        (cell.Content as I_View_TemporaryView).DisableEnable(link, enable);
                 }
             }));
         }
@@ -394,21 +394,21 @@ namespace MyUIGenerator.UIControlHelper
                 var cell = dataRow.GetCell(this);
                 if (cell != null && cell.Content != null)
                 {
-                    if (cell.Content is IAG_View_TemporaryView)
-                        (cell.Content as IAG_View_TemporaryView).QuickSearchVisibility = visible;
+                    if (cell.Content is I_View_TemporaryView)
+                        (cell.Content as I_View_TemporaryView).QuickSearchVisibility = visible;
                 }
             }));
         }
-        //public IAG_View_TemporaryView GetTemporaryView(object dataItem)
-        //{
-        //    var dataRow = this.DataControl.GetRowForItem(dataItem);
-        //    var cell = dataRow.GetCell(this);
-        //    if (cell != null && cell.Content != null)
-        //    {
-        //        return (cell.Content as IAG_View_TemporaryView);
-        //    }
-        //    return null;
-        //}
+        public I_View_TemporaryView GetTemporaryView(object dataItem)
+        {
+            var dataRow = this.DataControl.GetRowForItem(dataItem);
+            var cell = dataRow.GetCell(this);
+            if (cell != null && cell.Content != null)
+            {
+                return (cell.Content as I_View_TemporaryView);
+            }
+            return null;
+        }
 
         //public void OnTemporaryViewRequested(object sender, Arg_TemporaryDisplayViewRequested arg)
         //{

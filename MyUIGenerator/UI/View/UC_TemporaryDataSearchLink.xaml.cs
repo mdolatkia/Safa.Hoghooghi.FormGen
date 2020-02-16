@@ -18,13 +18,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ProxyLibrary;
 using System.Windows.Threading;
+using MyUILibrary.Temp;
 
 namespace MyUIGenerator.View
 {
     /// <summary>
     /// Interaction logic for UC_TemporaryViewLink.xaml
     /// </summary>
-    public partial class UC_TemporaryDataSearchLink : UserControl, IAG_View_TemporaryView
+    public partial class UC_TemporaryDataSearchLink : UserControl, I_View_TemporaryView
     {
         DispatcherTimer timer = new DispatcherTimer();
 
@@ -146,7 +147,29 @@ namespace MyUIGenerator.View
 
             }
         }
+        public void SetTooltip(object dataItem, string tooltip)
+        {
+            if (!string.IsNullOrEmpty(tooltip))
+                ToolTipService.SetToolTip(this, tooltip);
+            else
+                ToolTipService.SetToolTip(this, null);
+        }
 
+        public void SetBorderColor(object dataItem, InfoColor color)
+        {
+            this.BorderBrush = UIManager.GetColorFromInfoColor(color);
+            this.BorderThickness = new Thickness(1);
+        }
+
+        public void SetBackgroundColor(object dataItem, InfoColor color)
+        {
+            this.Background = UIManager.GetColorFromInfoColor(color);
+        }
+
+        public void SetForegroundColor(object dataItem, InfoColor color)
+        {
+            this.Foreground = UIManager.GetColorFromInfoColor(color);
+        }
         //public object SearchDataItem
         //{
         //    set;

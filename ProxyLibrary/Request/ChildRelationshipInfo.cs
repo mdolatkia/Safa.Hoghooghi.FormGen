@@ -92,11 +92,18 @@ namespace ProxyLibrary
 
             foreach (var deleted in OriginalRelatedData.Where(x => !x.KeyProperties.All(y => RelatedData.Any(z => z.IsNewItem == false && z.KeyProperties.Any(u => u.ColumnID == y.ColumnID && u.Value == y.Value)))))
             {
+                if(deleted.IsHidden)
+                {
+                    throw (new Exception("داده غیر فعال امکان حذف شدن را ندارد"));
+                }
                 deleted.RelationshipIsRemoved = true;
             }
             foreach (var added in RelatedData.Where(x => !x.KeyProperties.All(y => OriginalRelatedData.Any(z => z.KeyProperties.Any(u => u.ColumnID == y.ColumnID && u.Value == y.Value)))))
             {
                 added.RelationshipIsAdded = true;
+                {
+                    throw (new Exception("داده غیر فعال امکان اضافه شدن را ندارد"));
+                }
             }
         }
         public bool RelationshipIsChanged

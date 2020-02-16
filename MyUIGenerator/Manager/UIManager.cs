@@ -485,7 +485,7 @@ namespace MyUIGenerator
         {
             return new UC_WorkflowTransitionTargetSelection();
         }
-        public IAG_View_TemporaryView GenerateTemporaryLinkUI(TemporaryLinkState temporaryLinkState)
+        public I_View_TemporaryView GenerateTemporaryLinkUI(TemporaryLinkState temporaryLinkState)
         {
             var view = new UC_TemporaryDataSearchLink(temporaryLinkState);
             view.VerticalAlignment = VerticalAlignment.Center;

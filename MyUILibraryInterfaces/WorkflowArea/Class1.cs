@@ -93,7 +93,7 @@ namespace MyUILibrary.WorkflowArea
         event EventHandler CloseRequested;
         void ShowMessage(string message);
         List<OrganizationPostDTO> CreatorOrganizationPosts { set; }
-        IAG_View_TemporaryView SearchView { set; get; }
+        I_View_TemporaryView SearchView { set; get; }
         List<WFStateDTO> States { set; }
         ProcessDTO SelectedProcess { get; }
         DateTime? Date { get; set; }

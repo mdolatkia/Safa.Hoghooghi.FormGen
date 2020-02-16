@@ -494,15 +494,15 @@ namespace MyUILibrary.EntityArea
 
         void TemporaryDisplayView_TemporaryDisplayViewRequested(object sender, Arg_TemporaryDisplayViewRequested e)
         {
-            TemporaryViewActionRequestedInternal(sender as IAG_View_TemporaryView, e.LinkType);
+            TemporaryViewActionRequestedInternal(sender as I_View_TemporaryView, e.LinkType);
         }
         private void TemporaryDisplayView_FocusLost(object sender, EventArgs e)
         {
-            (sender as IAG_View_TemporaryView).PopupVisibility = false;
+            (sender as I_View_TemporaryView).PopupVisibility = false;
         }
         private void TemporaryDisplayView_TextChanged(object sender, Arg_TemporaryDisplaySerachText e)
         {
-            TemporaryViewSearchTextChanged(sender as IAG_View_TemporaryView, e);
+            TemporaryViewSearchTextChanged(sender as I_View_TemporaryView, e);
         }
 
 
@@ -878,16 +878,16 @@ namespace MyUILibrary.EntityArea
 
         private void ControlManager_FocusLost(object sender, EventArgs e)
         {
-            (sender as IAG_View_TemporaryView).PopupVisibility = false;
+            (sender as I_View_TemporaryView).PopupVisibility = false;
         }
         private void View_TemporaryViewSearchText(object sender, Arg_TemporaryDisplaySerachText e, I_EditEntityArea editEntityArea)
         {
             if (editEntityArea is I_EditEntityAreaOneData)
-                (editEntityArea as I_EditEntityAreaOneData).TemporaryViewSearchTextChanged(sender as IAG_View_TemporaryView, e);
+                (editEntityArea as I_EditEntityAreaOneData).TemporaryViewSearchTextChanged(sender as I_View_TemporaryView, e);
         }
         private void View_TemporaryViewRequested(object sender, Arg_MultipleTemporaryDisplayViewRequested e, I_EditEntityArea editEntityArea)
         {
-            editEntityArea.TemporaryViewActionRequestedFromMultipleEditor(sender as IAG_View_TemporaryView, e.LinkType, editEntityArea.AreaInitializer.SourceRelation.Relationship, e.DataItem as DP_DataRepository);
+            editEntityArea.TemporaryViewActionRequestedFromMultipleEditor(sender as I_View_TemporaryView, e.LinkType, editEntityArea.AreaInitializer.SourceRelation.Relationship, e.DataItem as DP_DataRepository);
         }
         private void View_TemporaryViewLoaded(object sender, Arg_MultipleTemporaryDisplayLoaded e, RelationshipColumnControl relationshipColumnControl)
         {
@@ -1558,7 +1558,7 @@ namespace MyUILibrary.EntityArea
         //SimpleColumnControl LastFormulaColumnControl1 { set; get; }
 
 
-        public void TemporaryViewActionRequestedFromMultipleEditor(IAG_View_TemporaryView TemporaryView, TemporaryLinkType linkType, RelationshipDTO relationship, DP_DataRepository parentData)
+        public void TemporaryViewActionRequestedFromMultipleEditor(I_View_TemporaryView TemporaryView, TemporaryLinkType linkType, RelationshipDTO relationship, DP_DataRepository parentData)
         {
             SetChildRelationshipInfo(parentData.ChildRelationshipInfos.First(x => x.Relationship == relationship));
             TemporaryViewActionRequestedInternal(TemporaryView, linkType);
@@ -1611,7 +1611,7 @@ namespace MyUILibrary.EntityArea
         //    //    rel.EditNdTypeArea.AreaInitializer.SecurityReadOnlyByParent = true;
         //    //}
         //}
-        public void TemporaryViewSearchTextChanged(IAG_View_TemporaryView view, Arg_TemporaryDisplaySerachText searchArg)
+        public void TemporaryViewSearchTextChanged(I_View_TemporaryView view, Arg_TemporaryDisplaySerachText searchArg)
         {
             if (!string.IsNullOrEmpty(searchArg.Text))
             {
@@ -1623,7 +1623,7 @@ namespace MyUILibrary.EntityArea
                 view.PopupVisibility = true;
             }
         }
-        public void TemporaryViewActionRequestedInternal(IAG_View_TemporaryView TemporaryView, TemporaryLinkType linkType)
+        public void TemporaryViewActionRequestedInternal(I_View_TemporaryView TemporaryView, TemporaryLinkType linkType)
         {
             if (LastTemporaryView != null)
             {
@@ -1683,6 +1683,9 @@ namespace MyUILibrary.EntityArea
         }
         public void ShowTemporaryDataView()
         {
+
+            باید رنگ و تولتی مثل تمپ ویو بشه
+           
             ObservableCollection<DP_DataRepository> existingData = GetDataList();
             //if (existingData == null)
             //    return;
@@ -1812,6 +1815,14 @@ namespace MyUILibrary.EntityArea
         public bool CheckRemoveData(List<DP_DataRepository> datas)
         {
             bool clearIsOk = true;
+            if(datas.Any(x=>x.IsDBRelationship))
+            {
+                if (datas.Where(x => x.IsDBRelationship).Any(x => x.IsHidden))
+                    return false;
+
+                if (datas.Where(x => x.IsDBRelationship).Any(x => x.ParantChildRelationshipInfo.IsHidden))
+                    return false;
+            }
 
             bool shouldDeleteFromDB = false;
             var existingdatas = datas.Where(x => x.IsDBRelationship);
@@ -2021,7 +2032,7 @@ namespace MyUILibrary.EntityArea
         //میتونه یه فنکشن کلی برای برسسی فعال بودن فرم بشه. مثلا وقتی وضعیتها هم بخوان دستکاری کنن فعال بودن فرم رو
 
 
-        public IAG_View_TemporaryView TemporaryDisplayView { set; get; }
+        public I_View_TemporaryView TemporaryDisplayView { set; get; }
         //public void OnDataItemLoaded(EditAreaDataItemLoadedArg arg)
         //{
         //    if (DataItemLoaded != null)
@@ -2029,7 +2040,7 @@ namespace MyUILibrary.EntityArea
         //}
 
 
-            //اصلاح و بهتر شود برای تمپ ویوها
+        //اصلاح و بهتر شود برای تمپ ویوها
         public void OnDataItemShown(EditAreaDataItemLoadedArg arg)
         {
             if (DataItemShown != null)
@@ -2120,7 +2131,7 @@ namespace MyUILibrary.EntityArea
                 }
             }
         }
-        public IAG_View_TemporaryView LastTemporaryView { set; get; }
+        public I_View_TemporaryView LastTemporaryView { set; get; }
 
         public void DataCollectionChanged(ObservableCollection<DP_DataRepository> dataList, NotifyCollectionChangedEventArgs e)
         {
@@ -2248,69 +2259,111 @@ namespace MyUILibrary.EntityArea
         }
         public void AddControlManagerMessage(DataMessageItem baseMessageItem)
         {
+            baseMessageItem.MultipleDataControlManager = GetControlDataManagers(baseMessageItem.CausingDataItem);
             ControlManagerMessageItems.Add(baseMessageItem);
-            var tooltip = GetTooltip(ControlManagerMessageItems.Where(x => x.CausingDataItem == baseMessageItem.CausingDataItem).ToList<BaseMessageItem>());
-            DataView.SetTooltip(baseMessageItem.CausingDataItem, tooltip);
-        }
-        public void RemoveControlManagerMessage(DataMessageItem baseMessageItem)
-        {
-            ControlManagerMessageItems.Remove(baseMessageItem);
-            var tooltip = GetTooltip(ControlManagerMessageItems.Where(x => x.CausingDataItem == baseMessageItem.CausingDataItem).ToList<BaseMessageItem>());
-            DataView.SetTooltip(baseMessageItem.CausingDataItem, tooltip);
+            SetControlManagerMessage(baseMessageItem);
         }
         public void RemoveControlManagerMessage(DP_DataRepository dataItem, string key)
         {
-            foreach (var item in ControlManagerMessageItems.Where(x => x.CausingDataItem == dataItem && x.Key == key).ToList())
-                RemoveControlManagerMessage(item);
+            foreach (var baseMessageItem in ControlManagerMessageItems.Where(x => x.CausingDataItem == dataItem && x.Key == key).ToList())
+            {
+                ControlManagerMessageItems.Remove(baseMessageItem);
+                SetControlManagerMessage(baseMessageItem);
+            }
         }
         public void RemoveControlManagerMessageByKey(string key)
         {
-            foreach (var item in ControlManagerMessageItems.Where(x => x.Key == key).ToList())
-                RemoveControlManagerMessage(item);
+            foreach (var baseMessageItem in ControlManagerMessageItems.Where(x => x.Key == key).ToList())
+            {
+                ControlManagerMessageItems.Remove(baseMessageItem);
+                SetControlManagerMessage(baseMessageItem);
+            }
         }
+        private void SetControlManagerMessage(DataMessageItem baseMessageItem)
+        {
+            var list = ControlManagerMessageItems.Where(x => x.CausingDataItem == baseMessageItem.CausingDataItem).ToList<BaseMessageItem>();
+            var tooltip = GetTooltip(list);
+            foreach (var view in baseMessageItem.MultipleDataControlManager)
+            {
+                view.SetTooltip(baseMessageItem.CausingDataItem, tooltip);
+            }
+        }
+
 
 
         private List<DataColorItem> ControlManagerColorItems = new List<DataColorItem>();
         public void AddControlManagerColor(DataColorItem baseColorItem)
         {
+            baseColorItem.MultipleDataControlManager = GetControlDataManagers(baseColorItem.CausingDataItem);
             ControlManagerColorItems.Add(baseColorItem);
-            SetControlManagerColor(ControlManagerColorItems.Where(x => x.CausingDataItem == baseColorItem.CausingDataItem && x.ColorTarget == baseColorItem.ColorTarget).ToList<BaseColorItem>(), baseColorItem.ColorTarget, baseColorItem.CausingDataItem);
+            SetControlManagerColor(baseColorItem);
         }
-        public void RemoveControlManagerColor(DataColorItem baseColorItem)
-        {
-            ControlManagerColorItems.Remove(baseColorItem);
-            SetControlManagerColor(ControlManagerColorItems.Where(x => x.CausingDataItem == baseColorItem.CausingDataItem && x.ColorTarget == baseColorItem.ColorTarget).ToList<BaseColorItem>(), baseColorItem.ColorTarget, baseColorItem.CausingDataItem);
-        }
+
         public void RemoveControlManagerColor(DP_DataRepository dataItem, string key)
         {
-            foreach (var item in ControlManagerColorItems.Where(x => x.CausingDataItem == dataItem && x.Key == key).ToList())
-                RemoveControlManagerColor(item);
+            foreach (var baseColorItem in ControlManagerColorItems.Where(x => x.CausingDataItem == dataItem && x.Key == key).ToList())
+            {
+                ControlManagerColorItems.Remove(baseColorItem);
+                SetControlManagerColor(baseColorItem);
+            }
         }
         public void RemoveControlManagerColorByKey(string key)
         {
-            foreach (var item in ControlManagerColorItems.Where(x => x.Key == key).ToList())
-                RemoveControlManagerColor(item);
+            foreach (var baseColorItem in ControlManagerColorItems.Where(x => x.Key == key).ToList())
+            {
+                ControlManagerColorItems.Remove(baseColorItem);
+                SetControlManagerColor(baseColorItem);
+            }
         }
-        private void SetControlManagerColor(List<BaseColorItem> list, ControlColorTarget colorTarget, object dataItem)
+        private void SetControlManagerColor(DataColorItem baseColorItem)
         {
+            var list = ControlManagerColorItems.Where(x => x.CausingDataItem == baseColorItem.CausingDataItem && x.ColorTarget == baseColorItem.ColorTarget).ToList<BaseColorItem>();
             var color = GetColor(list);
-           if(DataItemIsInEditMode(dataItem as DP_DataRepository))
-                DataView
-
-                TemporaryDisplayView گرفته شود
-            if (colorTarget == ControlColorTarget.Background)
+            foreach (var view in baseColorItem.MultipleDataControlManager)
             {
-                DataView.SetBackgroundColor(dataItem, color);
-            }
-            else if (colorTarget == ControlColorTarget.Foreground)
-            {
-                DataView.SetForegroundColor(dataItem, color);
-            }
-            if (colorTarget == ControlColorTarget.Border)
-            {
-                DataView.SetBorderColor(dataItem, color);
+                if (baseColorItem.ColorTarget == ControlColorTarget.Background)
+                {
+                    view.SetBackgroundColor(baseColorItem.CausingDataItem, color);
+                }
+                else if (baseColorItem.ColorTarget == ControlColorTarget.Foreground)
+                {
+                    view.SetForegroundColor(baseColorItem.CausingDataItem, color);
+                }
+                if (baseColorItem.ColorTarget == ControlColorTarget.Border)
+                {
+                    view.SetBorderColor(baseColorItem.CausingDataItem, color);
+                }
             }
         }
+        private List<I_DataControlManager> GetControlDataManagers(object dataItem)
+        {
+            List<I_DataControlManager> result = new List<I_DataControlManager>();
+
+            if (DataItemIsInEditMode(dataItem as DP_DataRepository))
+                result.Add(DataView);
+
+            if (DataItemIsInTempViewMode(dataItem as DP_DataRepository))
+            {
+                if (this is I_EditEntityAreaOneData)
+                    result.Add(GetTemporaryView(dataItem));
+            }
+            return result;
+        }
+        private I_View_TemporaryView GetTemporaryView(object dataItem)
+        {
+            if (AreaInitializer.SourceRelation == null || AreaInitializer.SourceRelation.SourceEditArea is I_EditEntityAreaOneData)
+            {
+
+                return TemporaryDisplayView;
+            }
+            else
+            {
+                var relationshipControl = (AreaInitializer.SourceRelation.SourceEditArea as I_EditEntityAreaMultipleData).RelationshipColumnControls.First(x => x.Relationship.ID == ChildRelationshipInfo.Relationship.ID);
+                return relationshipControl.RelationshipControlManager.GetTemporaryView(ChildRelationshipInfo.SourceData);
+            }
+        }
+
+
         private InfoColor GetColor(List<BaseColorItem> list)
         {
             var color = InfoColor.Null;

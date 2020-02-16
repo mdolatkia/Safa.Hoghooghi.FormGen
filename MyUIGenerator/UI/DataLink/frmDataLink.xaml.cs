@@ -117,7 +117,7 @@ namespace MyUIGenerator.View
         }
         UIElement FirstEntity;
         UIElement SecondEntity;
-        public void SetFirstSideEntityView(IAG_View_TemporaryView view,string title)
+        public void SetFirstSideEntityView(I_View_TemporaryView view,string title)
         {
             FirstEntity = view as UIElement;
             lblFirstSide.Text = title;
@@ -125,7 +125,7 @@ namespace MyUIGenerator.View
             grdSetting.Children.Add(FirstEntity);
         }
 
-        public void SetSecondSideEntityView(IAG_View_TemporaryView view, string title)
+        public void SetSecondSideEntityView(I_View_TemporaryView view, string title)
         {
             SecondEntity = view as UIElement;
             lblSecondSide.Text = title;

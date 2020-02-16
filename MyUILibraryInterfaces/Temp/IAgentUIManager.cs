@@ -141,7 +141,7 @@ namespace MyUILibrary
         //void ShowSearchViewPackageArea(I_View_SearchViewPackageArea view);
         //void CloseSearchViewPackageArea(I_View_SearchViewPackageArea view);
 
-        IAG_View_TemporaryView GenerateTemporaryLinkUI(TemporaryLinkState temporaryLinkState);
+        I_View_TemporaryView GenerateTemporaryLinkUI(TemporaryLinkState temporaryLinkState);
         I_View_GridViewArea GetViewOfGridViewArea();
 
         //I_View_SearchViewArea GenerateSearchViewArea();

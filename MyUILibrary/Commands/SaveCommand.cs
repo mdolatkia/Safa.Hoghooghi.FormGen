@@ -230,22 +230,17 @@ namespace MyUILibrary.EntityArea.Commands
 
         }
 
-       
-
-        //private List<EntityInstanceProperty> GetEditedProperties(DP_DataRepository item)
-        //{
-        //    List<EntityInstanceProperty> properties = new List<EntityInstanceProperty>();
-        //    foreach (var property in item.GetProperties())
-        //    {
-        //        if (item.PropertyIsChanged(property))
-        //            properties.Add(property);
-        //    }
-        //    return properties;
-        //}
-
         private void RemoveUnwantedItems(ObservableCollection<DP_DataRepository> result)
         {
+
             //  SetDataOrRelatedDataIsChangedToNull(result);
+            foreach (var data in result)
+            {
+                if (data.IsHidden)
+                {
+                    throw (new Exception("داده غیر فعال امکان حذف شدن را ندارد"));
+                }
+            }
             SetChangedProperties(result);
             SetDataOrRelatedDataIsChanged(result);
             RemoveRedundantData(result);
@@ -275,6 +270,7 @@ namespace MyUILibrary.EntityArea.Commands
         }
         void DataOrRelatedDataHasChanged(DP_DataRepository data)
         {
+            
             if (data.DataOrRelatedDataIsChanged == null)
             {
                 if (data.IsNewItem)

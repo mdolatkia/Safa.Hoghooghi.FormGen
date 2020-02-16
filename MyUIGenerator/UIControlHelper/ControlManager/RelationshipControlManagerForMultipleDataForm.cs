@@ -104,10 +104,10 @@ namespace MyUIGenerator.UIControlHelper
         {
             DataGridColumn.DisableEnable(dataItem, link, enable);
         }
-        //public IAG_View_TemporaryView GetTemporaryView(object dataItem)
-        //{
-        //    return DataGridColumn.GetTemporaryView(dataItem);
-        //}
+        public I_View_TemporaryView GetTemporaryView(object dataItem)
+        {
+            return DataGridColumn.GetTemporaryView(dataItem);
+        }
         //public void AddValidation(BaseMessageItem item)
         //{
         //    ValidationItems.Add(item);

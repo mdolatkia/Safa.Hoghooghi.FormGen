@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 namespace MyUILibrary.EntityArea
 {
-    public interface IAG_View_TemporaryView
+    public interface I_View_TemporaryView : I_DataControlManager
     {
         // ColumnDTO Column { set; get; }
         //DP_DataRepository ParentDataItem { set; get; }

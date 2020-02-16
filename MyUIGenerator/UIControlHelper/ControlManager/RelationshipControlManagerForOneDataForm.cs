@@ -139,9 +139,9 @@ namespace MyUIGenerator.UIControlHelper
 
         public void EnableDisable(object dataItem, TemporaryLinkType link, bool enable)
         {
-            if (MainControl is IAG_View_TemporaryView)
+            if (MainControl is I_View_TemporaryView)
             {
-                (MainControl as IAG_View_TemporaryView).DisableEnable(link, enable);
+                (MainControl as I_View_TemporaryView).DisableEnable(link, enable);
             }
         }
         //public void AddValidation(BaseMessageItem item)
@@ -264,8 +264,8 @@ namespace MyUIGenerator.UIControlHelper
 
         public void SetTemporaryViewText(object relatedData, string text)
         {
-            if (MainControl is IAG_View_TemporaryView)
-                (MainControl as IAG_View_TemporaryView).SetLinkText(text);
+            if (MainControl is I_View_TemporaryView)
+                (MainControl as I_View_TemporaryView).SetLinkText(text);
         }
         //public void ClearAllValidations()
         //{
@@ -279,10 +279,15 @@ namespace MyUIGenerator.UIControlHelper
 
         public void SetQuickSearchVisibility(object parentData, bool v)
         {
-            if (MainControl is IAG_View_TemporaryView)
+            if (MainControl is I_View_TemporaryView)
             {
-                (MainControl as IAG_View_TemporaryView).QuickSearchVisibility = v;
+                (MainControl as I_View_TemporaryView).QuickSearchVisibility = v;
             }
+        }
+
+        public I_View_TemporaryView GetTemporaryView(object dataItem)
+        {
+            throw new NotImplementedException();
         }
         //public void SetMandatoryState(bool isMandatory)
         //{

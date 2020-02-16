@@ -102,8 +102,8 @@ namespace MyUIGenerator.View
             MessageBox.Show(message);
         }
 
-        IAG_View_TemporaryView _SearchView;
-        public IAG_View_TemporaryView SearchView
+        I_View_TemporaryView _SearchView;
+        public I_View_TemporaryView SearchView
         {
             set
             {

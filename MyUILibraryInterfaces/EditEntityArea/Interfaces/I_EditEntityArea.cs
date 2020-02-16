@@ -58,7 +58,7 @@ namespace MyUILibrary.EntityArea
         event EventHandler<DisableEnableChangedArg> DisableEnableChanged;
         //event EventHandler<DisableEnableCommandByTypeChangedArg> DisableEnableCommandByTypeChanged;
         TemporaryLinkState TemporaryLinkState { get; }
-        IAG_View_TemporaryView TemporaryDisplayView { set; get; }
+        I_View_TemporaryView TemporaryDisplayView { set; get; }
         void SetTempText(ObservableCollection<DP_DataRepository> relatedData);
         List<EntityStateDTO> EntityStates { get; }
         //I_View_SearchEntityArea SearchView { set; get; }
@@ -113,7 +113,7 @@ namespace MyUILibrary.EntityArea
         //void CommandExecuted(I_EntityAreaCommand command);
 
         //List<DP_DataRepository> GetExistingData();
-        IAG_View_TemporaryView LastTemporaryView { set; get; }
+        I_View_TemporaryView LastTemporaryView { set; get; }
         //bool UpdateFromulas(List<DP_DataRepository> datalist);
         //void ShowAllData();
         //void ShowDataByRelation(List<DP_DataRepository> relationData);
@@ -150,7 +150,7 @@ namespace MyUILibrary.EntityArea
         //////IAG_View_TemporaryView ParentTemporaryView { get; set; }
 
         //DP_DataRepository ParentMultipleDataItem { set; get; }
-        void TemporaryViewActionRequestedFromMultipleEditor(IAG_View_TemporaryView TemporaryView, TemporaryLinkType linkType, RelationshipDTO relationship, DP_DataRepository parentData);
+        void TemporaryViewActionRequestedFromMultipleEditor(I_View_TemporaryView TemporaryView, TemporaryLinkType linkType, RelationshipDTO relationship, DP_DataRepository parentData);
         //void ShowValidationTips(UpdateValidationResult result);
         //I_View_Container DataView { set; get; }
         //List<DP_DataRepository> GetData(List<DP_DataRepository> dataList = null, DP_DataRepository pItem = null);
@@ -241,7 +241,7 @@ namespace MyUILibrary.EntityArea
 
 
         void CreateDefaultData();
-        void TemporaryViewSearchTextChanged(IAG_View_TemporaryView view, Arg_TemporaryDisplaySerachText searchArg);
+        void TemporaryViewSearchTextChanged(I_View_TemporaryView view, Arg_TemporaryDisplaySerachText searchArg);
         I_View_EditEntityAreaDataView SpecializedDataView { get; }
         void OnDataItemSelected(DP_DataRepository dP_DataRepository);
     }
@@ -675,7 +675,7 @@ namespace MyUILibrary.EntityArea
         event EventHandler FocusLost;
         void SetTemporaryViewText(object relatedData, string text);
         void EnableDisable(object dataItem, TemporaryLinkType link, bool enable);
-
+        I_View_TemporaryView GetTemporaryView(object dataItem);
         void SetQuickSearchVisibility(object parentData, bool v);
         //void AddMessage(BaseMessageItem baseMessageItem);
         //void RemoveMessage(BaseMessageItem baseMessageItem);
@@ -1055,9 +1055,7 @@ namespace MyUILibrary.EntityArea
         //public BaseColumnControl ColumnControl { set; get; }
 
         public DP_DataRepository CausingDataItem { set; get; }
-
-
-
+        public List<I_DataControlManager> MultipleDataControlManager { get; set; }
     }
     public class BaseColorItem
     {
@@ -1069,6 +1067,7 @@ namespace MyUILibrary.EntityArea
     public class DataColorItem : BaseColorItem
     {
         public DP_DataRepository CausingDataItem { set; get; }
+        public List<I_DataControlManager> MultipleDataControlManager { get; set; }
     }
     public enum ControlItemPriority
     {
