@@ -125,7 +125,7 @@ namespace MyUILibrary.EntityArea
             dataProperty.FormulaID = formula.ID;
             dataProperty.FormulaException = null;
             dataProperty.FormulaUsageParemeters = result.FormulaUsageParemeters;
-            EditArea.RemoveControlManagerMessage(dataItem, "formulaCalculated");
+            EditArea.RemoveDataItemMessage(dataItem, "formulaCalculated");
             DataMessageItem baseMessageItem = new DataMessageItem();
             baseMessageItem.CausingDataItem = dataItem;
             baseMessageItem.Key = "formulaCalculated";
@@ -143,7 +143,7 @@ namespace MyUILibrary.EntityArea
                 dataProperty.Value = "";
                 baseMessageItem.Message = "خطا در محاسبه فرمول" + " " + formula.Title + ":" + " " + dataProperty.FormulaException;
             }
-            EditArea.AddControlManagerMessage(baseMessageItem);
+            EditArea.AddDataItemMessage(baseMessageItem);
         }
 
         //private List<FormulaItemDTO> GetFlatList(List<FormulaItemDTO> treeFormulaItems, List<FormulaItemDTO> result = null)

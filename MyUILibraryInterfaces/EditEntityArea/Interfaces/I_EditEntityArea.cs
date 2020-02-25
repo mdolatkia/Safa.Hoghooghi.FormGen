@@ -17,7 +17,7 @@ namespace MyUILibrary.EntityArea
     {
         event EventHandler<EditAreaGeneratedArg> RelationshipAreaGenerated;
         //event EventHandler<EditAreaDataItemLoadedArg> DataItemLoaded;
-          event EventHandler<EditAreaDataItemLoadedArg> DataItemShown;
+        event EventHandler<EditAreaDataItemLoadedArg> DataItemShown;
 
         event EventHandler DataViewGenerated;
         TableDrivedEntityDTO DataEntryEntity { get; }
@@ -41,8 +41,8 @@ namespace MyUILibrary.EntityArea
         //void RemoveData(ProxyLibrary.DP_DataRepository data);
         ChildRelationshipInfo ChildRelationshipInfo { get; }
         //void DecideButtons();
-        void RemoveControlManagerMessageByKey(string v);
-        void RemoveControlManagerColorByKey(string v);
+        void RemoveDataItemMessageByKey(string v);
+        void RemoveDataItemColorByKey(string v);
         void SetChildRelationshipInfo(ChildRelationshipInfo value);
         //event EventHandler<DataUpdatedArg> Updated;
         TableDrivedEntityDTO FullEntity { get; }
@@ -612,14 +612,14 @@ namespace MyUILibrary.EntityArea
     //{
     //    public I_View_GridContainer Container { set; get; }
     //}
-    public interface I_LabelControlManager
+    public interface I_LabelControlManager : I_DataControlManager
     {
         string Text { set; get; }
         void Visiblity(bool visible);
-        void SetTooltip(string tooltip);
-        void SetBorderColor(InfoColor color);
-        void SetBackgroundColor(InfoColor color);
-        void SetForegroundColor(InfoColor color);
+        //void SetTooltip(string tooltip);
+        //void SetBorderColor(InfoColor color);
+        //void SetBackgroundColor(InfoColor color);
+        //void SetForegroundColor(InfoColor color);
 
     }
     public interface I_DataControlManager
@@ -759,126 +759,7 @@ namespace MyUILibrary.EntityArea
         public I_ControlManager ControlManager { get; set; }
         public SecurityAction Permission { get; set; }
 
-        private List<DataMessageItem> ControlManagerMessageItems = new List<DataMessageItem>();
-        private List<BaseMessageItem> LabelControlManagerMessageItems = new List<BaseMessageItem>();
-        private string GetTooltip(List<BaseMessageItem> MessageItems)
-        {
-            var tooltip = "";
-            foreach (var item in MessageItems.OrderBy(x => x.Priority))
-                tooltip += (tooltip == "" ? "" : Environment.NewLine) + item.Message;
-            return tooltip;
-        }
-        public void AddControlManagerMessage(DataMessageItem baseMessageItem)
-        {
-            ControlManagerMessageItems.Add(baseMessageItem);
-            var tooltip = GetTooltip(ControlManagerMessageItems.Where(x => x.CausingDataItem == baseMessageItem.CausingDataItem).ToList<BaseMessageItem>());
-            ControlManager.SetTooltip(baseMessageItem.CausingDataItem, tooltip);
-        }
-        private void RemoveControlManagerMessage(DataMessageItem baseMessageItem)
-        {
-            ControlManagerMessageItems.Remove(baseMessageItem);
-            var tooltip = GetTooltip(ControlManagerMessageItems.Where(x => x.CausingDataItem == baseMessageItem.CausingDataItem).ToList<BaseMessageItem>());
-            ControlManager.SetTooltip(baseMessageItem.CausingDataItem, tooltip);
-        }
-        public void RemoveControlManagerMessageByKey(string key)
-        {
-            foreach (var item in ControlManagerMessageItems.Where(x => x.Key == key).ToList())
-                RemoveControlManagerMessage(item);
-        }
 
-
-        private List<DataColorItem> ControlManagerColorItems = new List<DataColorItem>();
-        public void AddControlManagerColor(DataColorItem baseColorItem)
-        {
-            ControlManagerColorItems.Add(baseColorItem);
-            SetControlManagerColor(ControlManagerColorItems.Where(x => x.CausingDataItem == baseColorItem.CausingDataItem && x.ColorTarget == baseColorItem.ColorTarget).ToList<BaseColorItem>(), baseColorItem.ColorTarget, baseColorItem.CausingDataItem);
-        }
-        private void RemoveControlManagerColor(DataColorItem baseColorItem)
-        {
-            ControlManagerColorItems.Remove(baseColorItem);
-            SetControlManagerColor(ControlManagerColorItems.Where(x => x.CausingDataItem == baseColorItem.CausingDataItem && x.ColorTarget == baseColorItem.ColorTarget).ToList<BaseColorItem>(), baseColorItem.ColorTarget, baseColorItem.CausingDataItem);
-        }
-        public void RemoveControlManagerColorByKey(string key)
-        {
-            foreach (var item in ControlManagerColorItems.Where(x => x.Key == key).ToList())
-                RemoveControlManagerColor(item);
-        }
-        private void SetControlManagerColor(List<BaseColorItem> list, ControlColorTarget colorTarget, object dataItem)
-        {
-            var color = GetColor(list);
-            if (colorTarget == ControlColorTarget.Background)
-            {
-                ControlManager.SetBackgroundColor(dataItem, color);
-            }
-            else if (colorTarget == ControlColorTarget.Foreground)
-            {
-                ControlManager.SetForegroundColor(dataItem, color);
-            }
-            if (colorTarget == ControlColorTarget.Border)
-            {
-                ControlManager.SetBorderColor(dataItem, color);
-            }
-        }
-
-        public void AddLabelControlManagerMessage(BaseMessageItem baseMessageItem)
-        {
-            LabelControlManagerMessageItems.Add(baseMessageItem);
-            var tooltip = GetTooltip(LabelControlManagerMessageItems.ToList());
-            ControlManager.LabelControlManager.SetTooltip(tooltip);
-        }
-        public void RemoveLabelControlManagerMessage(BaseMessageItem baseMessageItem)
-        {
-            LabelControlManagerMessageItems.Remove(baseMessageItem);
-            var tooltip = GetTooltip(LabelControlManagerMessageItems.ToList());
-            ControlManager.LabelControlManager.SetTooltip(tooltip);
-        }
-
-
-        private List<BaseColorItem> LabelControlManagerColorItems = new List<BaseColorItem>();
-        public void AddLabelControlManagerColor(BaseColorItem baseColorItem)
-        {
-            LabelControlManagerColorItems.Add(baseColorItem);
-            SetLabelControlManagerColor(LabelControlManagerColorItems.Where(x => x.ColorTarget == baseColorItem.ColorTarget).ToList<BaseColorItem>(), baseColorItem.ColorTarget);
-        }
-        private void RemoveLabelControlManagerColor(BaseColorItem baseColorItem)
-        {
-            LabelControlManagerColorItems.Remove(baseColorItem);
-            SetLabelControlManagerColor(LabelControlManagerColorItems.Where(x => x.ColorTarget == baseColorItem.ColorTarget).ToList<BaseColorItem>(), baseColorItem.ColorTarget);
-        }
-        public void RemoveLabelControlManagerColorByKey(string key)
-        {
-            foreach (var item in LabelControlManagerColorItems.Where(x => x.Key == key).ToList())
-                RemoveLabelControlManagerColor(item);
-        }
-        public void RemoveLabelControlManagerMessageByKey(string key)
-        {
-            foreach (var item in LabelControlManagerMessageItems.Where(x => x.Key == key).ToList())
-                RemoveLabelControlManagerMessage(item);
-        }
-        private void SetLabelControlManagerColor(List<BaseColorItem> list, ControlColorTarget colorTarget)
-        {
-            var color = GetColor(list);
-            if (colorTarget == ControlColorTarget.Background)
-            {
-                ControlManager.LabelControlManager.SetBackgroundColor(color);
-            }
-            else if (colorTarget == ControlColorTarget.Foreground)
-            {
-                ControlManager.LabelControlManager.SetForegroundColor(color);
-            }
-            if (colorTarget == ControlColorTarget.Border)
-            {
-                ControlManager.LabelControlManager.SetBorderColor(color);
-            }
-        }
-
-        private InfoColor GetColor(List<BaseColorItem> list)
-        {
-            var color = InfoColor.Null;
-            foreach (var item in list.Where(x => x.Color != InfoColor.Null).OrderByDescending(x => x.Priority))
-                color = item.Color;
-            return color;
-        }
     }
     public class SimpleColumnControl : BaseColumnControl
     {
@@ -913,6 +794,7 @@ namespace MyUILibrary.EntityArea
     }
     public class RelationshipColumnControl : BaseColumnControl
     {
+        public event EventHandler<ChildRelationshipInfo> DataViewForTemporaryViewShown;
         public I_EditEntityArea EditNdTypeArea { set; get; }
         public RelationshipDTO Relationship { set; get; }
         public List<ColumnDTO> Columns { set; get; }
@@ -928,6 +810,12 @@ namespace MyUILibrary.EntityArea
         public RelationshipColumnControl()
         {
             Columns = new List<ColumnDTO>();
+        }
+
+        public void OnDataViewForTemporaryViewShown(ChildRelationshipInfo childRelationshipInfo)
+        {
+            if (DataViewForTemporaryViewShown != null)
+                DataViewForTemporaryViewShown(this, childRelationshipInfo);
         }
         //public List<ColumnDTO> Columns { set; get; }
 
@@ -1038,36 +926,65 @@ namespace MyUILibrary.EntityArea
     //    public bool OtherSideIsMandatory { set; get; }
 
     //}
-    public class BaseMessageItem
+
+    public class BaseControlManager
     {
         public String Key { get; set; }
-        //   public Temp.InfoColor Color { get; set; }
-        public String Message { get; set; }
-        public bool IsPermanentMessage { get; set; }
+     //   public List<I_DataControlManager> MultipleDataControlManager { get; set; }
+        public DP_DataRepository CausingDataItem { set; get; }
         public ControlItemPriority Priority { set; get; }
     }
 
+    public class BaseMessageItem : BaseControlManager
+    {
+        public String Message { get; set; }
+        public bool IsPermanentMessage { get; set; }
+    }
+    public class BaseColorItem : BaseControlManager
+    {
+        public ControlColorTarget ColorTarget { set; get; }
+        public Temp.InfoColor Color { get; set; }
+    }
     public class DataMessageItem : BaseMessageItem
     {
         public DataMessageItem()
         {
         }
-        //public BaseColumnControl ColumnControl { set; get; }
-
-        public DP_DataRepository CausingDataItem { set; get; }
-        public List<I_DataControlManager> MultipleDataControlManager { get; set; }
-    }
-    public class BaseColorItem
-    {
-        public String Key { get; set; }
-        public ControlItemPriority Priority { set; get; }
-        public ControlColorTarget ColorTarget { set; get; }
-        public Temp.InfoColor Color { get; set; }
     }
     public class DataColorItem : BaseColorItem
     {
-        public DP_DataRepository CausingDataItem { set; get; }
-        public List<I_DataControlManager> MultipleDataControlManager { get; set; }
+    }
+
+
+    public class ColumnControlMessageItem : BaseMessageItem
+    {
+        public ColumnControlMessageItem(BaseColumnControl columnControl, ControlOrLabelAsTarget controlOrLabel)
+        {
+            ColumnControl = columnControl;
+            ControlOrLabel = controlOrLabel;
+        }
+        public BaseColumnControl ColumnControl { set; get; }
+        public ControlOrLabelAsTarget ControlOrLabel { set; get; }
+
+    }
+
+    public class ColumnControlColorItem : BaseColorItem
+    {
+        public ColumnControlColorItem(BaseColumnControl columnControl, ControlOrLabelAsTarget controlOrLabel)
+        {
+            ColumnControl = columnControl;
+            ControlOrLabel = controlOrLabel;
+        }
+        public BaseColumnControl ColumnControl { set; get; }
+        public ControlOrLabelAsTarget ControlOrLabel { set; get; }
+
+
+    }
+    public enum ControlOrLabelAsTarget
+    {
+        Control,
+        Label
+
     }
     public enum ControlItemPriority
     {

@@ -117,7 +117,7 @@ namespace MyUIGenerator.UIControlHelper
             TextBlock.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public void SetTooltip(string tooltip)
+        public void SetTooltip(object dataItem, string tooltip)
         {
             if (!string.IsNullOrEmpty(tooltip))
                 ToolTipService.SetToolTip(TextBlock, tooltip);
@@ -125,17 +125,17 @@ namespace MyUIGenerator.UIControlHelper
                 ToolTipService.SetToolTip(TextBlock, null);
         }
 
-        public void SetBorderColor(InfoColor color)
+        public void SetBorderColor(object dataItem, InfoColor color)
         {
          //   TextBlock.bo = UIManager.GetColorFromInfoColor(color);
         }
 
-        public void SetBackgroundColor(InfoColor color)
+        public void SetBackgroundColor(object dataItem, InfoColor color)
         {
             TextBlock.Background = UIManager.GetColorFromInfoColor(color);
         }
 
-        public void SetForegroundColor(InfoColor color)
+        public void SetForegroundColor(object dataItem, InfoColor color)
         {
             TextBlock.Foreground = UIManager.GetColorFromInfoColor(color);
 
