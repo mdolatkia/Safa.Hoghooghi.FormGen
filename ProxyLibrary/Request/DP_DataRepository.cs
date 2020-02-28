@@ -534,7 +534,7 @@ namespace ProxyLibrary
         //}
         public bool IsDBRelationship { get; set; }
         public bool BusinessHidden { get; set; }
-        public bool BusinessReadonly { get; set; }
+        public bool IsReadonly { get; set; }
         public bool ShouldBeSkipped { get; set; }
         public bool? DataOrRelatedDataIsChanged { get; set; }
         public bool RelationshipIsRemoved { get; internal set; }

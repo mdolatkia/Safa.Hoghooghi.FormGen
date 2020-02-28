@@ -111,7 +111,7 @@ namespace MyUIGenerator.UIControlHelper
                 }
             }));
         }
-        internal void EnableDisable( bool enable)
+        internal void EnableDisable(bool enable)
         {
             this.IsEnabled = enable;
         }
@@ -132,7 +132,7 @@ namespace MyUIGenerator.UIControlHelper
                 }
             }));
         }
-        internal void Visiblity( bool visible)
+        internal void Visiblity(bool visible)
         {
             this.IsVisible = visible;
         }
@@ -312,18 +312,21 @@ namespace MyUIGenerator.UIControlHelper
 
         internal void SetTooltip(object dataItem, string tooltip)
         {
-            var dataRow = this.DataControl.GetRowForItem(dataItem);
-            var cell = dataRow.GetCell(this);
-            if (cell != null)
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
             {
-                if (cell.Content != null)
+                var dataRow = this.DataControl.GetRowForItem(dataItem);
+                var cell = dataRow.GetCell(this);
+                if (cell != null)
                 {
-                    if (!string.IsNullOrEmpty(tooltip))
-                        ToolTipService.SetToolTip(cell.Content as FrameworkElement, tooltip);
-                    else
-                        ToolTipService.SetToolTip(cell.Content as FrameworkElement, null);
+                    if (cell.Content != null)
+                    {
+                        if (!string.IsNullOrEmpty(tooltip))
+                            ToolTipService.SetToolTip(cell.Content as FrameworkElement, tooltip);
+                        else
+                            ToolTipService.SetToolTip(cell.Content as FrameworkElement, null);
+                    }
                 }
-            }
+            }));
         }
         //internal void ClearTooltip(object dataItem)
         //{
@@ -346,7 +349,9 @@ namespace MyUIGenerator.UIControlHelper
         }
         internal void SetBorderColor(object dataItem, InfoColor color)
         {
-            var dataRow = this.DataControl.GetRowForItem(dataItem);
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                var dataRow = this.DataControl.GetRowForItem(dataItem);
             var cell = dataRow.GetCell(this);
             if (cell != null)
             {
@@ -355,11 +360,14 @@ namespace MyUIGenerator.UIControlHelper
                     cell.BorderBrush = UIManager.GetColorFromInfoColor(color);
                     cell.BorderThickness = new Thickness(1);
                 }
-            }
+                }
+            }));
         }
         internal void SetBackgroundColor(object dataItem, InfoColor color)
         {
-            var dataRow = this.DataControl.GetRowForItem(dataItem);
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                var dataRow = this.DataControl.GetRowForItem(dataItem);
             var cell = dataRow.GetCell(this);
             if (cell != null)
             {
@@ -367,11 +375,14 @@ namespace MyUIGenerator.UIControlHelper
                 {
                     cell.Background = UIManager.GetColorFromInfoColor(color);
                 }
-            }
+                }
+            }));
         }
         internal void SetForegroundColor(object dataItem, InfoColor color)
         {
-            var dataRow = this.DataControl.GetRowForItem(dataItem);
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+            {
+                var dataRow = this.DataControl.GetRowForItem(dataItem);
             var cell = dataRow.GetCell(this);
             if (cell != null)
             {
@@ -379,7 +390,8 @@ namespace MyUIGenerator.UIControlHelper
                 {
                     cell.Foreground = UIManager.GetColorFromInfoColor(color);
                 }
-            }
+                }
+            }));
         }
         //internal void ClearColor(object dataItem)
         //{

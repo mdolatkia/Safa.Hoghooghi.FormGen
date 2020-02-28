@@ -37,10 +37,10 @@ namespace ProxyLibrary
 
             //if (ChangeMonitorItems.Any(x => x.columnID == 0))
             //{
-                foreach (var item in ChangeMonitorItems)//.Where(x => x.columnID == 0))
-                {
-                    item.DataToCall.OnRelatedDataOrColumnChanged(item);
-                }
+            foreach (var item in ChangeMonitorItems)//.Where(x => x.columnID == 0))
+            {
+                item.DataToCall.OnRelatedDataOrColumnChanged(item);
+            }
 
             //}
 
@@ -87,12 +87,12 @@ namespace ProxyLibrary
         //}
 
 
-        public void CheckAddedRemovedRelationships()
+        public void CheckAddedRemovedRelationships(bool checkHiddenData = true)
         {
 
             foreach (var deleted in OriginalRelatedData.Where(x => !x.KeyProperties.All(y => RelatedData.Any(z => z.IsNewItem == false && z.KeyProperties.Any(u => u.ColumnID == y.ColumnID && u.Value == y.Value)))))
             {
-                if(deleted.IsHidden)
+                if (checkHiddenData && deleted.IsHidden)
                 {
                     throw (new Exception("داده غیر فعال امکان حذف شدن را ندارد"));
                 }
@@ -101,6 +101,7 @@ namespace ProxyLibrary
             foreach (var added in RelatedData.Where(x => !x.KeyProperties.All(y => OriginalRelatedData.Any(z => z.KeyProperties.Any(u => u.ColumnID == y.ColumnID && u.Value == y.Value)))))
             {
                 added.RelationshipIsAdded = true;
+                if (checkHiddenData && added.IsHidden)
                 {
                     throw (new Exception("داده غیر فعال امکان اضافه شدن را ندارد"));
                 }
@@ -203,10 +204,10 @@ namespace ProxyLibrary
 
             //if (!string.IsNullOrEmpty(restTail))
             //{
-                foreach (var relatedData in RelatedData)
-                {
-                    relatedData.AddChangeMonitor(generalKey, usageKey, restTail, columnID, dataToCall);
-                }
+            foreach (var relatedData in RelatedData)
+            {
+                relatedData.AddChangeMonitor(generalKey, usageKey, restTail, columnID, dataToCall);
+            }
             //}
         }
 

@@ -201,9 +201,9 @@ namespace MyUILibrary.EntityArea
                             if (simpleColumn != null)
                             {
                                 if (detail.Hidden == true)
-                                    EditArea.ChangeSimpleColumnVisiblityFromState(dataItem, simpleColumn, true, "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
+                                    EditArea.ChangeSimpleColumnVisiblityFromState(dataItem, simpleColumn, true, "غیر فعال سازی ستون" + " " + "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
                                 else if (detail.Readonly == true)
-                                    EditArea.ChangeSimpleColumnReadonlyFromState(dataItem, simpleColumn, false, "بر اساس وضعیت" + " " + state.Title);
+                                    EditArea.ChangeSimpleColumnReadonlyFromState(dataItem, simpleColumn, false, "غیر فعال سازی رابطه" + " " + "بر اساس وضعیت" + " " + state.Title);
                             }
                         }
                         else if (detail.RelationshipID != 0)
@@ -212,9 +212,9 @@ namespace MyUILibrary.EntityArea
                             if (relationshipControl != null)
                             {
                                 if (detail.Hidden == true)
-                                    EditArea.ChangeRelatoinsipColumnVisiblityFromState(dataItem, relationshipControl, true, "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
+                                    EditArea.ChangeRelatoinsipColumnVisiblityFromState(dataItem, relationshipControl, true, "فقط خواندنی سازی ستون" + " " + "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
                                 else if (detail.Readonly == true)
-                                    EditArea.ChangeRelatoinsipColumnReadonlyFromState(dataItem, relationshipControl, false, "بر اساس وضعیت" + " " + state.Title);
+                                    EditArea.ChangeRelatoinsipColumnReadonlyFromState(dataItem, relationshipControl, false, "فقط خواندنی سازی رابطه" + " " + "بر اساس وضعیت" + " " + state.Title);
                             }
                         }
                         else if (detail.UICompositionID != 0)
@@ -252,8 +252,8 @@ namespace MyUILibrary.EntityArea
             {
                 if (state.ActionActivities.Any(x => x.UIEnablityDetails.Any(y => EditArea.AreaInitializer.SourceRelation != null && y.RelationshipID == EditArea.AreaInitializer.SourceRelation.Relationship.PairRelationshipID)))
                 {
-                    bool dataIsInValidMode = EditArea.DataItemIsInEditMode(dataItem) || (EditArea is I_EditEntityAreaOneData && EditArea.DataItemIsInTempViewMode(dataItem));
-
+                    //bool dataIsInValidMode = EditArea.DataItemIsInEditMode(dataItem) || (EditArea is I_EditEntityAreaOneData && EditArea.DataItemIsInTempViewMode(dataItem));
+                    bool dataIsInValidMode = EditArea.DataItemIsInEditMode(dataItem) ||  EditArea.DataItemIsInTempViewMode(dataItem);
                     if (dataIsInValidMode)
                         result.Add(state);
                 }
@@ -296,9 +296,9 @@ namespace MyUILibrary.EntityArea
                                 if (simpleColumn != null)
                                 {
                                     if (detail.Hidden == true)
-                                        EditArea.ChangeSimpleColumnVisiblityFromState(dataItem, simpleColumn, false, "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
+                                        EditArea.ChangeSimpleColumnVisiblityFromState(dataItem, simpleColumn, false, "غیر فعال سازی ستون" + " " + "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
                                     else if (detail.Readonly == true)
-                                        EditArea.ChangeSimpleColumnReadonlyFromState(dataItem, simpleColumn, true, "بر اساس وضعیت" + " " + state.Title);
+                                        EditArea.ChangeSimpleColumnReadonlyFromState(dataItem, simpleColumn, true, "غیر فعال سازی رابطه" + " " + "بر اساس وضعیت" + " " + state.Title);
                                 }
                             }
                             else if (detail.RelationshipID != 0)
@@ -307,9 +307,9 @@ namespace MyUILibrary.EntityArea
                                 if (relationshipControl != null)
                                 {
                                     if (detail.Hidden == true)
-                                        EditArea.ChangeRelatoinsipColumnVisiblityFromState(dataItem, relationshipControl, false, "بر اساس وضعیت" + " " + state.Title, ShouldImposeInUI(state, detail));
+                                        EditArea.ChangeRelatoinsipColumnVisiblityFromState(dataItem, relationshipControl, false, "فقط خواندنی سازی ستون" + " " + "بر اساس وضعیت" + " " + state.Title , ShouldImposeInUI(state, detail));
                                     else if (detail.Readonly == true)
-                                        EditArea.ChangeRelatoinsipColumnReadonlyFromState(dataItem, relationshipControl, true, "بر اساس وضعیت" + " " + state.Title);
+                                        EditArea.ChangeRelatoinsipColumnReadonlyFromState(dataItem, relationshipControl, true, "فقط خواندنی سازی رابطه" + " " + "بر اساس وضعیت" + " " + state.Title);
                                 }
                             }
                             else if (detail.UICompositionID != 0)

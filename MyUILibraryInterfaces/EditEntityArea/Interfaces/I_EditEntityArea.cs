@@ -171,6 +171,7 @@ namespace MyUILibrary.EntityArea
         void ChangeRelatoinsipColumnReadonlyFromState(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool isReadonly, string title);
         bool DataItemIsInEditMode(DP_DataRepository sourceData);
         bool DataItemIsInTempViewMode(DP_DataRepository dataItem);
+        void DecideButtonsReadonlityByState(bool isReadonly);
 
 
 
