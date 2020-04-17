@@ -27,6 +27,7 @@ namespace MyProject_WPF
         public frmSecuritySubjectSelect()
         {
             InitializeComponent();
+            SearchSecuritySubjects();
         }
         public void SearchSecuritySubjects()
         {

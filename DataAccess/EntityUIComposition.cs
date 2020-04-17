@@ -17,7 +17,6 @@ namespace DataAccess
         public EntityUIComposition()
         {
             this.EntityUIComposition1 = new HashSet<EntityUIComposition>();
-            this.UIEnablityDetails = new HashSet<UIEnablityDetails>();
         }
     
         public int ID { get; set; }
@@ -38,6 +37,5 @@ namespace DataAccess
         public virtual RelationshipUISetting RelationshipUISetting { get; set; }
         public virtual TabGroupUISetting TabGroupUISetting { get; set; }
         public virtual TabPageUISetting TabPageUISetting { get; set; }
-        public virtual ICollection<UIEnablityDetails> UIEnablityDetails { get; set; }
     }
 }

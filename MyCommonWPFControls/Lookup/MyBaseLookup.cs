@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -28,7 +29,7 @@ namespace MyCommonWPFControls
         public event EventHandler<SelectionChangedArg> SelectionChanged;
         public List<Dictionary<string, SimpleCondition>> EditFormConditions { set; get; }
         //public bool SearchConcurrent { set; get; }
-
+        public ObservableCollection<LookupColumn> Columns { set; get; }
         public bool IsEnabledLookup
         {
             set
@@ -41,7 +42,7 @@ namespace MyCommonWPFControls
                 return IsEnabled;
             }
         }
-     
+
 
         bool _NewItemEnabled;
         public bool NewItemEnabled
@@ -149,7 +150,8 @@ namespace MyCommonWPFControls
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 (this as IComponentConnector).InitializeComponent();
-
+                Columns = new ObservableCollection<MyCommonWPFControls.LookupColumn>();
+                Columns.CollectionChanged += Columns_CollectionChanged;
                 NewItemEnabled = false;
                 MainUserControl.LostFocus += MyLookup_LostFocus;
 
@@ -177,6 +179,9 @@ namespace MyCommonWPFControls
                 SearchTextbox.KeyUp += SearchTextbox_KeyUp;
             }
         }
+
+
+
         //public void InitializeBaseControl()
         //{
 
@@ -199,7 +204,7 @@ namespace MyCommonWPFControls
             set
             {
                 _SelectedValueMember = value;
-                AddColumn(value);
+                AddColumn(value, "شناسه");
             }
 
             get
@@ -214,7 +219,7 @@ namespace MyCommonWPFControls
             set
             {
                 _DisplayMember = value;
-                AddColumn(value);
+                AddColumn(value, "عنوان");
             }
             get
             {
@@ -278,25 +283,24 @@ namespace MyCommonWPFControls
         }
 
         public static List<object> GetFilteredItems(IList source, Dictionary<string, string> filters)
-        {//and , or درست شود
+        {
+            //and , or درست شود
             List<object> gridSource = new List<object>();
             if (source != null)
                 foreach (var item in source)
                 {
-                    //if (generalFilterValue != "")
-                    //{
-                    //    if (CheckFilter(item, DisplayMember, generalFilterValue))
-                    //        gridSource.Add(item);
-                    //    else if (CheckFilter(item, SelectedValueMember, generalFilterValue))
-                    //        gridSource.Add(item);
-                    //}
-                    //else
-                    //{
+                    bool isValid = false;
                     foreach (var filter in filters)
                     {
                         if (CheckFilter(item, filter.Key, filter.Value))
-                            gridSource.Add(item);
+                        {
+                            isValid = true;
+                            break;
+                        }
                     }
+                    if (isValid)
+                        gridSource.Add(item);
+
                     //}
 
                 }
@@ -451,29 +455,69 @@ namespace MyCommonWPFControls
             if (PopupControl.IsOpen)
                 GridView.Focus();
         }
-        public void AddColumn(string columnName, string header = "")
+        public void AddColumn(string columnName, string header)
         {
-            var column = GetColumn(columnName);
-            if (column == null)
+            if (!Columns.Any(x => x.ColumnName == columnName))
+                Columns.Add(new MyCommonWPFControls.LookupColumn() { ColumnName = columnName, Header = header });
+        }
+        private void Columns_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                column = new GridViewDataColumn();
-                column.DataMemberBinding = new Binding(columnName);
-                column.UniqueName = columnName;
-                if (header != "")
-                    column.Header = header;
-                GridView.Columns.Add(column);
+                foreach (LookupColumn item in e.NewItems)
+                {
+                    AddOrUpdateGridViewColumn(item);
+                }
+            }
+            else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            {
+                foreach (LookupColumn item in e.OldItems)
+                {
+                    RemoveGridViewColumn(item);
+                }
+            }
+            else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
+            {
+                GridView.Columns.Clear();
             }
         }
-        public GridViewDataColumn GetColumn(string columnName)
-        {
 
-            foreach (var column in GridView.Columns)
+        private void RemoveGridViewColumn(LookupColumn item)
+        {
+            if (GridView.Columns.Cast<GridViewDataColumn>().Any(x => x.UniqueName == item.ColumnName))
             {
-                if (column.UniqueName == columnName)
-                    return column as GridViewDataColumn;
+                var gridColumn = GridView.Columns.Cast<GridViewDataColumn>().First(x => x.UniqueName == item.ColumnName);
+                GridView.Columns.Remove(gridColumn);
             }
-            return null;
         }
+
+        private void AddOrUpdateGridViewColumn(LookupColumn item)
+        {
+            GridViewDataColumn gridColumn = null;
+            if (GridView.Columns.Cast<GridViewDataColumn>().Any(x => x.UniqueName == item.ColumnName))
+                gridColumn = GridView.Columns.Cast<GridViewDataColumn>().First(x => x.UniqueName == item.ColumnName);
+            else
+            {
+                gridColumn = new GridViewDataColumn();
+                gridColumn.DataMemberBinding = new Binding(item.ColumnName);
+                gridColumn.UniqueName = item.ColumnName;
+                GridView.Columns.Add(gridColumn);
+            }
+            gridColumn.Header = item.Header;
+        }
+
+
+
+        //public GridViewDataColumn GetColumn(string columnName)
+        //{
+
+        //    foreach (var column in GridView.Columns)
+        //    {
+        //        if (column.UniqueName == columnName)
+        //            return column as GridViewDataColumn;
+        //    }
+        //    return null;
+        //}
     }
 
     public class SearchFilterArg : EventArgs
@@ -489,7 +533,7 @@ namespace MyCommonWPFControls
         public IList ResultItemsSource { set; get; }
 
 
-        public Dictionary<string, string> Filters { get; internal set; }
+        //      public Dictionary<string, string> Filters { get; internal set; }
     }
     public class EditItemClickEventArg : EventArgs
     {//برای گرید
@@ -549,5 +593,11 @@ namespace MyCommonWPFControls
             }
             return VisualTreeHelper.GetParent(child);
         }
+    }
+    public class LookupColumn
+    {
+        public string ColumnName { set; get; }
+        public string Header { set; get; }
+        public bool UseInSearch { get; set; }
     }
 }

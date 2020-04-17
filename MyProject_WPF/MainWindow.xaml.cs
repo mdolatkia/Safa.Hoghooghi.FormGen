@@ -48,10 +48,10 @@ namespace MyProject_WPF
             //   SetGridViewColumns();
             //SetFormMode(FormMode.Initialize);
         }
-
+        RadTreeViewItem dbDataEntryNode;
         private void SetMenus()
         {
-            TreeViewItem rootNode = AddTreeItem(treeMenu.Items, "منوها", "../Images/folder.png");
+            RadTreeViewItem rootNode = AddTreeItem(treeMenu.Items, "منوها", "../Images/folder.png");
             if (MyProjectManager.GetMyProjectManager.UserInfo.OrganizationPosts.Any(x => x.IsSuperAdmin))
             {
                 var dbServerNode = AddTreeItem(rootNode.Items, "مدیریت سرور پایگاه داده", "../Images/server.png");
@@ -60,18 +60,9 @@ namespace MyProject_WPF
                 var dbConnectoinNode = AddTreeItem(rootNode.Items, "مدیریت پایگاه های داده", "../Images/database.png");
                 dbConnectoinNode.MouseLeftButtonUp += DbConnectoinNode_MouseLeftButtonUp;
 
-                var dbDataEntryNode = AddTreeItem(rootNode.Items, "فرمها و روابط", "../Images/folder.png");
+                dbDataEntryNode = AddTreeItem(rootNode.Items, "فرمها و روابط", "../Images/folder.png");
                 dbDataEntryNode.IsExpanded = true;
-                BizDatabase bizDatabase = new BizDatabase();
-                var databases = bizDatabase.GetDatabases();
-                foreach (var item in databases)
-                {
-                    var dbNode = AddTreeItem(dbDataEntryNode.Items, item.Title, "../Images/database.png", item);
-                    var contextMenu = GetContextMenu(dbNode, "استخراج منابع");
-                    contextMenu.ItemClick += (sender, e) => ContextMenu_ItemClick(sender, e, item);
-                    dbNode.Items.Add("Loading...");
-                    dbNode.Expanded += DbNode_Expanded;
-                }
+                SetDatabases(dbDataEntryNode);
                 var navigationTreeNode = AddTreeItem(rootNode.Items, "تعریف درخت منو", "../Images/navigationtree.png");
                 navigationTreeNode.MouseLeftButtonUp += NavigationTreeNode_MouseLeftButtonUp;
                 var letterNode = AddTreeItem(rootNode.Items, "تنظیمات نامه", "../Images/mail.png");
@@ -97,7 +88,7 @@ namespace MyProject_WPF
                 datasecurityindeirectNode.MouseLeftButtonUp += DatasecurityindeirectNode_MouseLeftButtonUp;
                 //var conditionalsecurityNode = AddTreeItem(securityNode.Items, "دسترسی های شرطی", "../Images/conditionalsecurity.png");
                 //conditionalsecurityNode.MouseLeftButtonUp += ConditionalsecurityNode_MouseLeftButtonUp;
-                securityNode.ExpandSubtree();
+                securityNode.IsExpanded=true;
                 rootNode.IsExpanded = true;
             }
             else if (MyProjectManager.GetMyProjectManager.UserInfo.OrganizationPosts.Any(x => x.IsAdmin))
@@ -107,22 +98,37 @@ namespace MyProject_WPF
                 adminuserNode.MouseLeftButtonUp += AdminuserNode_MouseLeftButtonUp;
                 var adminOrganizationNode = AddTreeItem(securityNode.Items, "سازمان و پستها", "../Images/organization.png");
                 adminOrganizationNode.MouseLeftButtonUp += AdminOrganizationNode_MouseLeftButtonUp;
-                rootNode.ExpandSubtree();
+                rootNode.IsExpanded = true;
+            }
+        }
+
+        private void SetDatabases(RadTreeViewItem dbDataEntryNode)
+        {
+            dbDataEntryNode.Items.Clear();
+            BizDatabase bizDatabase = new BizDatabase();
+            var databases = bizDatabase.GetDatabases();
+            foreach (var item in databases)
+            {
+                var dbNode = AddTreeItem(dbDataEntryNode.Items, item.Title, "../Images/database.png", item);
+                var contextMenu = GetContextMenu(dbNode, "استخراج منابع");
+                contextMenu.ItemClick += (sender, e) => ContextMenu_ItemClick(sender, e, item);
+                dbNode.Items.Add("Loading...");
+                dbNode.Expanded += DbNode_Expanded;
             }
         }
 
         private void ContextMenu_ItemClick(object sender, Telerik.Windows.RadRoutedEventArgs e, DatabaseDTO db)
         {
             var frm = new DatabaseImportWizard(db.ID);
-           MyProjectManager.GetMyProjectManager.ShowDialog(frm, "استخراج منابع" + " - " + db.Name,Enum_WindowSize.Maximized);
+            MyProjectManager.GetMyProjectManager.ShowDialog(frm, "استخراج منابع" + " - " + db.Name, Enum_WindowSize.Maximized);
 
             //AddPane(frm, "استخراج منابع" + " - " + db.Name);
             //var frm1 = new DatabaseImport(db.ID);
             //AddPane(frm1, "استخراج منابع" + " - " + db.Name);
-            
+
         }
 
-        private RadContextMenu GetContextMenu(TreeViewItem dbNode, string header)
+        private RadContextMenu GetContextMenu(RadTreeViewItem dbNode, string header)
         {
             var menu = RadContextMenu.GetContextMenu(dbNode);
 
@@ -208,7 +214,7 @@ namespace MyProject_WPF
 
         private void DbNode_Expanded(object sender, RoutedEventArgs e)
         {
-            var treeItem = e.Source as TreeViewItem;
+            var treeItem = e.Source as RadTreeViewItem;
             if (treeItem != null)
             {
                 if (treeItem.Tag != null)
@@ -285,12 +291,18 @@ namespace MyProject_WPF
         private void DbConnectoinNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             frmDatabase frm = new frmDatabase(0);
+            frm.DatabaseUpdated += Frm_DatabaseUpdated;
             AddPane(frm, "مدیریت پایگاه داده");
         }
 
-        private TreeViewItem AddTreeItem(ItemCollection items, string title, string iconPath, object tag = null)
+        private void Frm_DatabaseUpdated(object sender, DatabaseUpdatedArg e)
         {
-            TreeViewItem newNode = new TreeViewItem();
+            SetDatabases(dbDataEntryNode);
+        }
+
+        private RadTreeViewItem AddTreeItem(ItemCollection items, string title, string iconPath, object tag = null)
+        {
+            RadTreeViewItem newNode = new RadTreeViewItem();
             newNode.Header = GetNodeHeader(title, iconPath);
             if (tag != null)
                 newNode.Tag = tag;
@@ -931,15 +943,29 @@ namespace MyProject_WPF
 
         private void AddPane(UIElement frm, string title)
         {
-            RadPane pane = new RadPane();
-            pane.Content = frm;
-            pane.Header = title;
-            pane.IsDockable = false;
+            RadPane pane = null;
+            foreach (var item in pnlForms.Items)
+            {
+                if ((item as RadPane).Header.ToString() == title)
+                {
+                    pane = item as RadPane;
+                    break;
+                }
+            }
+            if (pane == null)
+            {
+                pane = new RadPane();
+                pane.Content = frm;
+                pane.Header = title;
+                pane.IsDockable = false;
 
-            pane.CanFloat = false;
-            pane.CanUserPin = false;
-            pnlForms.Items.Add(pane);
-            pane.CanUserClose = true;
+                pane.CanFloat = false;
+                pane.CanUserPin = false;
+                pnlForms.Items.Add(pane);
+                pane.CanUserClose = true;
+            }
+            else
+                pane.IsSelected = true;
         }
 
 

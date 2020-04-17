@@ -224,7 +224,7 @@ namespace ModelEntites
         public int RelationshipID { set; get; }
         public bool? Hidden { set; get; }
         public bool? Readonly { set; get; }
-        public int UICompositionID { set; get; }
+    //    public int UICompositionID { set; get; }
 
 
     }
@@ -256,7 +256,7 @@ namespace ModelEntites
         public string Name { set; get; }
         public string Title { set; get; }
         public string IPAddress { set; get; }
-        public enum_DBType ServerType { set; get; }
+    
         public List<LinkedServerDTO> LinkedServers { set; get; }
     }
 
@@ -281,9 +281,9 @@ namespace ModelEntites
         public string Title { set; get; }
         public int DBServerID { set; get; }
         public string DBServerName { set; get; }
+        public string DBServerTitle { set; get; }
         public string ConnectionString { set; get; }
-        public enum_DBType ServerType { set; get; }
-
+        public enum_DBType DBType { set; get; }
         public bool DBHasData { get; set; }
     }
     public enum enum_DBType
@@ -2392,7 +2392,8 @@ namespace ModelEntites
         DatabaseFunction,
         UIEnablity,
         ColumnValueRange,
-       // ColumnValueRangeResetOld,
+        EntityReadonly,
+        // ColumnValueRangeResetOld,
         ColumnValue
     }
 

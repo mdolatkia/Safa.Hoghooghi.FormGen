@@ -17,13 +17,13 @@ namespace MyModelManager
             var context = new MyProjectEntities();
             var list = context.SecuritySubject as IQueryable<SecuritySubject>;
             if (name != "")
-                list = list.Where(x => (x.RoleType != null && x.RoleType.Name.Contains(name)) || 
+                list = list.Where(x => (x.RoleType != null && x.RoleType.Name.Contains(name)) ||
                 (x.OrganizationPost != null && x.OrganizationPost.Name.Contains(name)) ||
-                (x.OrganizationType_RoleType != null && x.OrganizationType_RoleType.RoleType.Name.Contains(name))||
+                (x.OrganizationType_RoleType != null && x.OrganizationType_RoleType.RoleType.Name.Contains(name)) ||
                    (x.Organization != null && x.Organization.Name.Contains(name)) ||
-                      (x.OrganizationType != null && x.OrganizationType.Name.Contains(name)) 
+                      (x.OrganizationType != null && x.OrganizationType.Name.Contains(name))
                 );
-            foreach (var item in list)
+            foreach (var item in list.Take(100))
             {
                 result.Add(ToSecuritySubjectDTO(item));
             }
@@ -31,19 +31,19 @@ namespace MyModelManager
         }
         public SecuritySubjectDTO GetSecuritySubject(int ID)
         {
-          
+
             var context = new MyProjectEntities();
-            var item = context.SecuritySubject.First(x=>x.ID==ID);
-          
-             return ToSecuritySubjectDTO(item);
-            
+            var item = context.SecuritySubject.First(x => x.ID == ID);
+
+            return ToSecuritySubjectDTO(item);
+
         }
         public SecuritySubjectDTO ToSecuritySubjectDTO(SecuritySubject item)
         {
             SecuritySubjectDTO result = new SecuritySubjectDTO();
             result.ID = item.ID;
             result.Type = (SecuritySubjectType)item.Type;
-            if (result.Type==SecuritySubjectType.OrganizationPost)
+            if (result.Type == SecuritySubjectType.OrganizationPost)
             {
                 result.Name = item.OrganizationPost.Name;
             }

@@ -205,6 +205,9 @@
     <Compile Include="DBConnect\frmLinekedServer.xaml.cs">
       <DependentUpon>frmLinekedServer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DBConnect\frmSQLConnectionString.xaml.cs">
+      <DependentUpon>frmSQLConnectionString.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DrivedEntities\SelectDrivedEntites.xaml.cs">
       <DependentUpon>SelectDrivedEntites.xaml</DependentUpon>
     </Compile>
@@ -544,6 +547,10 @@
     <Page Include="DBConnect\frmLinekedServer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DBConnect\frmSQLConnectionString.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DrivedEntities\SelectDrivedEntites.xaml">
       <SubType>Designer</SubType>
@@ -1148,7 +1155,7 @@
     <Resource Include="Images\formula.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\relationship1.png" />
+    <Resource Include="Images\return.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\function1.png" />
@@ -1318,6 +1325,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\tabpage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\confirm.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

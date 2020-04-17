@@ -16,7 +16,7 @@ namespace MyTargetDatabaseManager
         {
             BizDatabase bizDatabase = new BizDatabase();
             var database = bizDatabase.GetDatabaseByEntityID(entityID);
-            if (database.ServerType == enum_DBType.SQLServer)
+            if (database.DBType == enum_DBType.SQLServer)
             {
                 return InsertFromQueryToTargetSQLDB(database, targetTableName, selectQuery);
             }

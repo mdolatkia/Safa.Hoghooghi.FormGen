@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MyProject_WPF"
              mc:Ignorable="d" 
            Background="WhiteSmoke" FlowDirection="RightToLeft">
-    <Grid Width="480" Margin="5" HorizontalAlignment="Left" Height="150" VerticalAlignment="Top">
+    <Grid Width="480" Margin="5" HorizontalAlignment="Left" Height="120" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" ></RowDefinition>
             <RowDefinition Height="30" ></RowDefinition>
@@ -24,14 +24,12 @@
                 <RowDefinition Height="auto" ></RowDefinition>
             </Grid.RowDefinitions>
             <TextBlock Text="نام سرور :" Grid.Row="0"  VerticalAlignment="Center"></TextBlock>
-            <TextBlock Text="نوع :" Grid.Row="1"  VerticalAlignment="Center"></TextBlock>
             <TextBlock Text="عنوان:" Grid.Row="2"   VerticalAlignment="Center"></TextBlock>
 
             <TextBlock Text="IP Address:" Grid.Row="3"   VerticalAlignment="Center"></TextBlock>
-            <TextBox x:Name="txtServer" HorizontalAlignment="Stretch" Grid.Column="1" />
-            <ComboBox x:Name="cmbType" HorizontalAlignment="Left"  Grid.Row="1"  Grid.Column="1" Width="180" ></ComboBox>
-            <TextBox x:Name="txtTitle"   Grid.Row="2"  HorizontalAlignment="Stretch"  Grid.Column="1"  ></TextBox>
-            <TextBox x:Name="txtIPAddress"  Grid.Row="3"  HorizontalAlignment="Stretch"  Grid.Column="1"    ></TextBox>
+            <TextBox x:Name="txtServer" Width="200" HorizontalAlignment="Left" Grid.Column="1" />
+            <TextBox x:Name="txtTitle"   Grid.Row="2"  Width="200" HorizontalAlignment="Left"  Grid.Column="1"  ></TextBox>
+            <TextBox x:Name="txtIPAddress"  Grid.Row="3"  Width="200" HorizontalAlignment="Left"  Grid.Column="1"    ></TextBox>
 
 
         </Grid>

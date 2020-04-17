@@ -15,14 +15,14 @@ namespace DataAccess
     public partial class UIEnablityDetails
     {
         public int ID { get; set; }
-        public Nullable<int> EntityUICompositionID { get; set; }
         public Nullable<int> ColumnID { get; set; }
         public Nullable<bool> Hidden { get; set; }
         public Nullable<bool> Readonly { get; set; }
         public Nullable<int> UIActionActivityID { get; set; }
+        public Nullable<int> RelationshipID { get; set; }
     
         public virtual Column Column { get; set; }
-        public virtual EntityUIComposition EntityUIComposition { get; set; }
+        public virtual Relationship Relationship { get; set; }
         public virtual UIActionActivity UIActionActivity { get; set; }
     }
 }

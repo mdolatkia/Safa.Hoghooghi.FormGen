@@ -54,14 +54,14 @@ namespace MyProject_WPF
             {
                 AddDBObjectsToTree(item, root.Items);
             }
-            treeSubSystems.SelectedItemChanged += TreeSubSystems_SelectedItemChanged;
+            treeSubSystems.SelectionChanged += TreeSubSystems_SelectionChanged;
         }
 
-        private void TreeSubSystems_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void TreeSubSystems_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (treeSubSystems.SelectedItem != null)
             {
-                var ObjectDTO = (treeSubSystems.SelectedItem as TreeViewItem).DataContext as ObjectDTO;
+                var ObjectDTO = (treeSubSystems.SelectedItem as RadTreeViewItem).DataContext as ObjectDTO;
                 if (ObjectDTO != null && ObjectDTO.ObjectIdentity != 0)
                 {
                     Object = ObjectDTO;
@@ -72,9 +72,11 @@ namespace MyProject_WPF
             }
         }
 
-        private TreeViewItem AddDBObjectsToTree(ObjectDTO item, ItemCollection collection)
+      
+
+        private RadTreeViewItem AddDBObjectsToTree(ObjectDTO item, ItemCollection collection)
         {
-            var treeItem = new TreeViewItem();
+            var treeItem = new RadTreeViewItem();
             treeItem.Header = GetNodeHeader(item.Title, item.ObjectCategory);
             treeItem.DataContext = item;
             collection.Add(treeItem);
@@ -218,7 +220,7 @@ namespace MyProject_WPF
 
         //private void SetActionCheckbox(SecurityActoinTreeItem action, bool check, ItemCollection items)
         //{
-        //    foreach (TreeViewItem item in items)
+        //    foreach (RadTreeViewItem item in items)
         //    {
         //        if (item.DataContext != null)
         //        {

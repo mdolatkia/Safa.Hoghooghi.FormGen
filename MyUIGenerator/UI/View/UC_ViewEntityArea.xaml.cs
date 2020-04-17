@@ -43,6 +43,7 @@ namespace MyUIGenerator.View
 
             // grdArea.Children.Add(dataGridHelper.dataGrid);
         }
+
         //public void DisableEnable(bool enable)
         //{
         //    this.IsEnabled = enable;

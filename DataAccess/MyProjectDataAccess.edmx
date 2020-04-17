@@ -278,6 +278,7 @@
           <Property Name="Name" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="ConnectionString" Type="varchar" MaxLength="1024" Nullable="false" />
           <Property Name="DBHasDate" Type="bit" Nullable="false" />
+          <Property Name="DBType" Type="varchar" MaxLength="64" />
         </EntityType>
         <EntityType Name="DatabaseUISetting">
           <Key>
@@ -369,7 +370,6 @@
           <Property Name="Title" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="IPAddress" Type="varchar" MaxLength="128" />
-          <Property Name="ServerType" Type="varchar" MaxLength="64" />
         </EntityType>
         <EntityType Name="EmptySpaceUISetting">
           <Key>
@@ -1041,11 +1041,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="EntityUICompositionID" Type="int" />
           <Property Name="ColumnID" Type="int" />
           <Property Name="Hidden" Type="bit" />
           <Property Name="Readonly" Type="bit" />
           <Property Name="UIActionActivityID" Type="int" />
+          <Property Name="RelationshipID" Type="int" />
         </EntityType>
         <EntityType Name="UnionRelationshipType">
           <Key>
@@ -2095,6 +2095,18 @@
             </Principal>
             <Dependent Role="TableDrivedEntityStateValues">
               <PropertyRef Name="TableDrivedEntityStateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UIEnablityDetails_Relationship">
+          <End Role="Relationship" Type="Self.Relationship" Multiplicity="0..1" />
+          <End Role="UIEnablityDetails" Type="Self.UIEnablityDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Relationship">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UIEnablityDetails">
+              <PropertyRef Name="RelationshipID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4414,18 +4426,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKUIEnablity905716">
-          <End Role="EntityUIComposition" Type="Self.EntityUIComposition" Multiplicity="0..1" />
-          <End Role="UIEnablityDetails" Type="Self.UIEnablityDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EntityUIComposition">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UIEnablityDetails">
-              <PropertyRef Name="EntityUICompositionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKUnionToSub14902">
           <End Role="RelationshipType" Type="Self.RelationshipType" Multiplicity="1" />
           <End Role="UnionToSubUnionRelationshipType" Type="Self.UnionToSubUnionRelationshipType" Multiplicity="0..1" />
@@ -4899,6 +4899,10 @@
           <AssociationSet Name="FK_TableDrivedEntityStateValues_TableDrivedEntityState" Association="Self.FK_TableDrivedEntityStateValues_TableDrivedEntityState">
             <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
             <End Role="TableDrivedEntityStateValues" EntitySet="TableDrivedEntityStateValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UIEnablityDetails_Relationship" Association="Self.FK_UIEnablityDetails_Relationship">
+            <End Role="Relationship" EntitySet="Relationship" />
+            <End Role="UIEnablityDetails" EntitySet="UIEnablityDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_UIEnablityDetails_UIActionActivity" Association="Self.FK_UIEnablityDetails_UIActionActivity">
             <End Role="UIActionActivity" EntitySet="UIActionActivity" />
@@ -5672,10 +5676,6 @@
             <End Role="Column" EntitySet="Column" />
             <End Role="UIEnablityDetails" EntitySet="UIEnablityDetails" />
           </AssociationSet>
-          <AssociationSet Name="FKUIEnablity905716" Association="Self.FKUIEnablity905716">
-            <End Role="EntityUIComposition" EntitySet="EntityUIComposition" />
-            <End Role="UIEnablityDetails" EntitySet="UIEnablityDetails" />
-          </AssociationSet>
           <AssociationSet Name="FKUnionToSub14902" Association="Self.FKUnionToSub14902">
             <End Role="RelationshipType" EntitySet="RelationshipType" />
             <End Role="UnionToSubUnionRelationshipType" EntitySet="UnionToSubUnionRelationshipType" />
@@ -5748,7 +5748,6 @@
           <EntitySet Name="DataViewSetting" EntityType="MyProjectModel.DataViewSetting" />
           <EntitySet Name="DateColumnType" EntityType="MyProjectModel.DateColumnType" />
           <EntitySet Name="DBSchema" EntityType="MyProjectModel.DBSchema" />
-          <EntitySet Name="DBServer" EntityType="MyProjectModel.DBServer" />
           <EntitySet Name="EmptySpaceUISetting" EntityType="MyProjectModel.EmptySpaceUISetting" />
           <EntitySet Name="EntityChartReport" EntityType="MyProjectModel.EntityChartReport" />
           <EntitySet Name="EntityCommand" EntityType="MyProjectModel.EntityCommand" />
@@ -6146,10 +6145,6 @@
             <End Role="DatabaseFunctionParameter" EntitySet="DatabaseFunctionParameter" />
             <End Role="DatabaseFunction_TableDrivedEntity_Columns" EntitySet="DatabaseFunction_TableDrivedEntity_Columns" />
           </AssociationSet>
-          <AssociationSet Name="FKDatabaseIn186668" Association="MyProjectModel.FKDatabaseIn186668">
-            <End Role="DBServer" EntitySet="DBServer" />
-            <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
-          </AssociationSet>
           <AssociationSet Name="FKDatabaseIn674957" Association="MyProjectModel.FKDatabaseIn674957">
             <End Role="SecurityObject" EntitySet="SecurityObject" />
             <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
@@ -6229,14 +6224,6 @@
           <AssociationSet Name="FKTable824924" Association="MyProjectModel.FKTable824924">
             <End Role="DBSchema" EntitySet="DBSchema" />
             <End Role="Table" EntitySet="Table" />
-          </AssociationSet>
-          <AssociationSet Name="FKLinkedServ770687" Association="MyProjectModel.FKLinkedServ770687">
-            <End Role="DBServer" EntitySet="DBServer" />
-            <End Role="LinkedServer" EntitySet="LinkedServer" />
-          </AssociationSet>
-          <AssociationSet Name="FKLinkedServ812468" Association="MyProjectModel.FKLinkedServ812468">
-            <End Role="DBServer" EntitySet="DBServer" />
-            <End Role="LinkedServer" EntitySet="LinkedServer" />
           </AssociationSet>
           <AssociationSet Name="FK_EmptySpaceUISetting_EntityUIComposition" Association="MyProjectModel.FK_EmptySpaceUISetting_EntityUIComposition">
             <End Role="EntityUIComposition" EntitySet="EntityUIComposition" />
@@ -6462,10 +6449,6 @@
             <End Role="EntityUIComposition" EntitySet="EntityUIComposition" />
             <End Role="TabPageUISetting" EntitySet="TabPageUISetting" />
           </AssociationSet>
-          <AssociationSet Name="FKUIEnablity905716" Association="MyProjectModel.FKUIEnablity905716">
-            <End Role="EntityUIComposition" EntitySet="EntityUIComposition" />
-            <End Role="UIEnablityDetails" EntitySet="UIEnablityDetails" />
-          </AssociationSet>
           <AssociationSet Name="FKEntityVali365073" Association="MyProjectModel.FKEntityVali365073">
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
             <End Role="EntityValidation" EntitySet="EntityValidation" />
@@ -6613,6 +6596,10 @@
           <AssociationSet Name="FK_SearchRepository_Relationship" Association="MyProjectModel.FK_SearchRepository_Relationship">
             <End Role="Relationship" EntitySet="Relationship" />
             <End Role="SearchRepository" EntitySet="SearchRepository" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UIEnablityDetails_Relationship" Association="MyProjectModel.FK_UIEnablityDetails_Relationship">
+            <End Role="Relationship" EntitySet="Relationship" />
+            <End Role="UIEnablityDetails" EntitySet="UIEnablityDetails" />
           </AssociationSet>
           <AssociationSet Name="FKRelationsh250123" Association="MyProjectModel.FKRelationsh250123">
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
@@ -6897,6 +6884,19 @@
           <AssociationSet Name="UniqueConstraint_Column" Association="MyProjectModel.UniqueConstraint_Column">
             <End Role="UniqueConstraint" EntitySet="UniqueConstraint" />
             <End Role="Column" EntitySet="Column" />
+          </AssociationSet>
+          <EntitySet Name="DBServer" EntityType="MyProjectModel.DBServer" />
+          <AssociationSet Name="FKDatabaseIn186668" Association="MyProjectModel.FKDatabaseIn186668">
+            <End Role="DBServer" EntitySet="DBServer" />
+            <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
+          </AssociationSet>
+          <AssociationSet Name="FKLinkedServ770687" Association="MyProjectModel.FKLinkedServ770687">
+            <End Role="DBServer" EntitySet="DBServer" />
+            <End Role="LinkedServer" EntitySet="LinkedServer" />
+          </AssociationSet>
+          <AssociationSet Name="FKLinkedServ812468" Association="MyProjectModel.FKLinkedServ812468">
+            <End Role="DBServer" EntitySet="DBServer" />
+            <End Role="LinkedServer" EntitySet="LinkedServer" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ArchiveFolder">
@@ -7262,10 +7262,11 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="ConnectionString" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="false" />
           <Property Name="DBHasDate" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="DBServer" Relationship="MyProjectModel.FKDatabaseIn186668" FromRole="DatabaseInformation" ToRole="DBServer" />
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKDatabaseIn674957" FromRole="DatabaseInformation" ToRole="SecurityObject" />
           <NavigationProperty Name="DatabaseUISetting" Relationship="MyProjectModel.FKDatabaseUI703615" FromRole="DatabaseInformation" ToRole="DatabaseUISetting" />
           <NavigationProperty Name="DBSchema" Relationship="MyProjectModel.FKDBSchema138241" FromRole="DatabaseInformation" ToRole="DBSchema" />
+          <Property Name="DBType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DBServer" Relationship="MyProjectModel.FKDatabaseIn186668" FromRole="DatabaseInformation" ToRole="DBServer" />
         </EntityType>
         <EntityType Name="DatabaseUISetting">
           <Key>
@@ -7373,19 +7374,6 @@
           <NavigationProperty Name="DatabaseInformation" Relationship="MyProjectModel.FKDBSchema138241" FromRole="DBSchema" ToRole="DatabaseInformation" />
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKDBSchema227092" FromRole="DBSchema" ToRole="SecurityObject" />
           <NavigationProperty Name="Table" Relationship="MyProjectModel.FKTable824924" FromRole="DBSchema" ToRole="Table" />
-        </EntityType>
-        <EntityType Name="DBServer">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="IPAddress" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="ServerType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DatabaseInformation" Relationship="MyProjectModel.FKDatabaseIn186668" FromRole="DBServer" ToRole="DatabaseInformation" />
-          <NavigationProperty Name="LinkedServer" Relationship="MyProjectModel.FKLinkedServ770687" FromRole="DBServer" ToRole="LinkedServer" />
-          <NavigationProperty Name="LinkedServer1" Relationship="MyProjectModel.FKLinkedServ812468" FromRole="DBServer" ToRole="LinkedServer" />
         </EntityType>
         <EntityType Name="EmptySpaceUISetting">
           <Key>
@@ -7682,7 +7670,6 @@
           <NavigationProperty Name="RelationshipUISetting" Relationship="MyProjectModel.FKRelationsh12338" FromRole="EntityUIComposition" ToRole="RelationshipUISetting" />
           <NavigationProperty Name="TabGroupUISetting" Relationship="MyProjectModel.FKTabGroupUI128258" FromRole="EntityUIComposition" ToRole="TabGroupUISetting" />
           <NavigationProperty Name="TabPageUISetting" Relationship="MyProjectModel.FKTabPageUIS719811" FromRole="EntityUIComposition" ToRole="TabPageUISetting" />
-          <NavigationProperty Name="UIEnablityDetails" Relationship="MyProjectModel.FKUIEnablity905716" FromRole="EntityUIComposition" ToRole="UIEnablityDetails" />
         </EntityType>
         <EntityType Name="EntityUISetting">
           <Key>
@@ -8005,6 +7992,7 @@
           <NavigationProperty Name="Relationship2" Relationship="MyProjectModel.FK_Relationship_Relationship" FromRole="Relationship1" ToRole="Relationship" />
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FK_Relationship_SecurityObject" FromRole="Relationship" ToRole="SecurityObject" />
           <NavigationProperty Name="SearchRepository" Relationship="MyProjectModel.FK_SearchRepository_Relationship" FromRole="Relationship" ToRole="SearchRepository" />
+          <NavigationProperty Name="UIEnablityDetails" Relationship="MyProjectModel.FK_UIEnablityDetails_Relationship" FromRole="Relationship" ToRole="UIEnablityDetails" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKRelationsh250123" FromRole="Relationship" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="TableDrivedEntity1" Relationship="MyProjectModel.FKRelationsh250124" FromRole="Relationship" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="RelationshipSearchFilter" Relationship="MyProjectModel.FKRelationsh283976" FromRole="Relationship" ToRole="RelationshipSearchFilter" />
@@ -8343,13 +8331,13 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EntityUICompositionID" Type="Int32" />
           <Property Name="ColumnID" Type="Int32" />
           <Property Name="Hidden" Type="Boolean" />
           <Property Name="Readonly" Type="Boolean" />
           <Property Name="UIActionActivityID" Type="Int32" />
+          <Property Name="RelationshipID" Type="Int32" />
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FKUIEnablity310255" FromRole="UIEnablityDetails" ToRole="Column" />
-          <NavigationProperty Name="EntityUIComposition" Relationship="MyProjectModel.FKUIEnablity905716" FromRole="UIEnablityDetails" ToRole="EntityUIComposition" />
+          <NavigationProperty Name="Relationship" Relationship="MyProjectModel.FK_UIEnablityDetails_Relationship" FromRole="UIEnablityDetails" ToRole="Relationship" />
           <NavigationProperty Name="UIActionActivity" Relationship="MyProjectModel.FK_UIEnablityDetails_UIActionActivity" FromRole="UIEnablityDetails" ToRole="UIActionActivity" />
         </EntityType>
         <EntityType Name="UnionRelationshipType">
@@ -9650,18 +9638,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKDatabaseIn186668">
-          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
-          <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DBServer">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DatabaseInformation">
-              <PropertyRef Name="DBServerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKDatabaseIn674957">
           <End Type="MyProjectModel.SecurityObject" Role="SecurityObject" Multiplicity="1" />
           <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="0..1" />
@@ -9899,30 +9875,6 @@
             </Principal>
             <Dependent Role="Table">
               <PropertyRef Name="DBSchemaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKLinkedServ770687">
-          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
-          <End Type="MyProjectModel.LinkedServer" Role="LinkedServer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DBServer">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LinkedServer">
-              <PropertyRef Name="SourceDBServerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKLinkedServ812468">
-          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
-          <End Type="MyProjectModel.LinkedServer" Role="LinkedServer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DBServer">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LinkedServer">
-              <PropertyRef Name="TargetDBServerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10598,18 +10550,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKUIEnablity905716">
-          <End Type="MyProjectModel.EntityUIComposition" Role="EntityUIComposition" Multiplicity="0..1" />
-          <End Type="MyProjectModel.UIEnablityDetails" Role="UIEnablityDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EntityUIComposition">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UIEnablityDetails">
-              <PropertyRef Name="EntityUICompositionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKEntityVali365073">
           <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
           <End Type="MyProjectModel.EntityValidation" Role="EntityValidation" Multiplicity="*" />
@@ -11051,6 +10991,18 @@
             </Principal>
             <Dependent Role="SearchRepository">
               <PropertyRef Name="SourceRelationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UIEnablityDetails_Relationship">
+          <End Type="MyProjectModel.Relationship" Role="Relationship" Multiplicity="0..1" />
+          <End Type="MyProjectModel.UIEnablityDetails" Role="UIEnablityDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Relationship">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UIEnablityDetails">
+              <PropertyRef Name="RelationshipID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11898,6 +11850,54 @@
           <End Type="MyProjectModel.UniqueConstraint" Role="UniqueConstraint" Multiplicity="*" />
           <End Type="MyProjectModel.Column" Role="Column" Multiplicity="*" />
         </Association>
+        <EntityType Name="DBServer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="IPAddress" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DatabaseInformation" Relationship="MyProjectModel.FKDatabaseIn186668" FromRole="DBServer" ToRole="DatabaseInformation" />
+          <NavigationProperty Name="LinkedServer" Relationship="MyProjectModel.FKLinkedServ770687" FromRole="DBServer" ToRole="LinkedServer" />
+          <NavigationProperty Name="LinkedServer1" Relationship="MyProjectModel.FKLinkedServ812468" FromRole="DBServer" ToRole="LinkedServer" />
+        </EntityType>
+        <Association Name="FKDatabaseIn186668">
+          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
+          <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DBServer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DatabaseInformation">
+              <PropertyRef Name="DBServerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLinkedServ770687">
+          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
+          <End Type="MyProjectModel.LinkedServer" Role="LinkedServer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DBServer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LinkedServer">
+              <PropertyRef Name="SourceDBServerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLinkedServ812468">
+          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
+          <End Type="MyProjectModel.LinkedServer" Role="LinkedServer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DBServer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LinkedServer">
+              <PropertyRef Name="TargetDBServerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12196,6 +12196,7 @@
           <EntitySetMapping Name="DatabaseInformation">
             <EntityTypeMapping TypeName="MyProjectModel.DatabaseInformation">
               <MappingFragment StoreEntitySet="DatabaseInformation">
+                <ScalarProperty Name="DBType" ColumnName="DBType" />
                 <ScalarProperty Name="DBHasDate" ColumnName="DBHasDate" />
                 <ScalarProperty Name="ConnectionString" ColumnName="ConnectionString" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -12293,17 +12294,6 @@
               <MappingFragment StoreEntitySet="DBSchema">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DatabaseInformationID" ColumnName="DatabaseInformationID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DBServer">
-            <EntityTypeMapping TypeName="MyProjectModel.DBServer">
-              <MappingFragment StoreEntitySet="DBServer">
-                <ScalarProperty Name="ServerType" ColumnName="ServerType" />
-                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -13044,11 +13034,11 @@
           <EntitySetMapping Name="UIEnablityDetails">
             <EntityTypeMapping TypeName="MyProjectModel.UIEnablityDetails">
               <MappingFragment StoreEntitySet="UIEnablityDetails">
+                <ScalarProperty Name="RelationshipID" ColumnName="RelationshipID" />
                 <ScalarProperty Name="UIActionActivityID" ColumnName="UIActionActivityID" />
                 <ScalarProperty Name="Readonly" ColumnName="Readonly" />
                 <ScalarProperty Name="Hidden" ColumnName="Hidden" />
                 <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
-                <ScalarProperty Name="EntityUICompositionID" ColumnName="EntityUICompositionID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -13402,6 +13392,16 @@
               <ScalarProperty Name="ID" ColumnName="UniqueConstraintID" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="DBServer">
+            <EntityTypeMapping TypeName="MyProjectModel.DBServer">
+              <MappingFragment StoreEntitySet="DBServer">
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

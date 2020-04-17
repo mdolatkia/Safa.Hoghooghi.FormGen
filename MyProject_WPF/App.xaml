@@ -63,6 +63,12 @@
             <Setter Property="FontFamily" Value="B Yekan" />
             <Setter Property="Margin" Value="2" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <!--برای اینکه تیک چک باکس هم چپه نشه--> 
+            <Style.Resources>
+                <Style TargetType="Path">
+                    <Setter Property="FlowDirection" Value="LeftToRight" />
+                </Style>
+            </Style.Resources>
         </Style>
         <Style  TargetType="{x:Type Button}">
             <Setter Property="FontFamily" Value="B Yekan" />

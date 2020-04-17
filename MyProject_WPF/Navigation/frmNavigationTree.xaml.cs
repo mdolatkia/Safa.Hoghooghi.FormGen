@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Telerik.Windows;
+using Telerik.Windows.Controls;
+
 namespace MyProject_WPF
 {
     /// <summary>
@@ -52,6 +54,8 @@ namespace MyProject_WPF
             //bizDatabaseToObject.IgnoreAlreadyInNavigationTree = true;
 
             this.Loaded += FrmNavigationTree_Loaded;
+
+            btnExtract.Visibility = Visibility.Collapsed;
         }
         public frmNavigationTree(DatabaseDTO database, bool ignoreNotIndependentOrAlreadyInNavigationTree) : this()
         {
@@ -93,7 +97,7 @@ namespace MyProject_WPF
             {
                 ShowTreeItem(navigationTree.TreeItems, parentNode.Items, item);
             }
-            parentNode.ExpandSubtree();
+            parentNode.ExpandAll();
         }
         private async void SetImportedInfo()
         {
@@ -115,9 +119,6 @@ namespace MyProject_WPF
                     if (dbObject.ChildObjects.Any())
                     {
                         AddDBObjectsToTree(new List<ObjectDTO>() { dbObject }, treeDBObjects.Items);
-
-
-
                     }
                     else
                     {
@@ -131,7 +132,7 @@ namespace MyProject_WPF
             }
             finally
             {
-                if (treeDBObjects.Items.Count > 0 && (treeDBObjects.Items[0] as TreeViewItem).Items.Count > 0)
+                if (treeDBObjects.Items.Count > 0 && (treeDBObjects.Items[0] as RadTreeViewItem).Items.Count > 0)
                 {
                     if (FormIsFree != null)
                         FormIsFree(this, null);
@@ -197,10 +198,10 @@ namespace MyProject_WPF
                 }
             }
         }
-        private TreeViewItem AddDBObjectsToTree(ObjectDTO item, ItemCollection collection)
+        private RadTreeViewItem AddDBObjectsToTree(ObjectDTO item, ItemCollection collection)
         {
 
-            var treeItem = new TreeViewItem();
+            var treeItem = new RadTreeViewItem();
             //if (!ExceptColumns || item.ObjectCategory != DatabaseObjectCategory.Entity)
             //{
             //treeItem.Items.Add("Loading...");
@@ -247,17 +248,17 @@ namespace MyProject_WPF
             foreach (var citem in treeItems.Where(x => x.ParentItem == item))
                 ShowTreeItem(treeItems, node.Items, citem);
         }
-        //private TreeViewItem FindTreeItemByObjectID(ItemCollection collection, int objectID)
+        //private RadTreeViewItem FindTreeItemByObjectID(ItemCollection collection, int objectID)
         //{
 
         //    foreach (var item in collection)
         //    {
-        //        if ((item is TreeViewItem))
-        //            if (((item as TreeViewItem).DataContext as NavigationItemDTO).ID == objectID)
-        //                return (item as TreeViewItem);
+        //        if ((item is RadTreeViewItem))
+        //            if (((item as RadTreeViewItem).DataContext as NavigationItemDTO).ID == objectID)
+        //                return (item as RadTreeViewItem);
         //            else
         //            {
-        //                var result = FindTreeItemByObjectID((item as TreeViewItem).Items, objectID);
+        //                var result = FindTreeItemByObjectID((item as RadTreeViewItem).Items, objectID);
         //                if (result != null)
         //                    return result;
         //            }
@@ -266,11 +267,11 @@ namespace MyProject_WPF
         //    return null;
         //}
 
-        private TreeViewItem GetNavigationRootNode()
+        private RadTreeViewItem GetNavigationRootNode()
         {
             if (treeNavigation.Items.Count > 0)
             {
-                return treeNavigation.Items[0] as TreeViewItem;
+                return treeNavigation.Items[0] as RadTreeViewItem;
             }
             else
             {
@@ -278,11 +279,11 @@ namespace MyProject_WPF
                 return rootNode;
             }
         }
-        private TreeViewItem AddNavigationNode(ItemCollection collection, NavigationItemDTO item)
+        private RadTreeViewItem AddNavigationNode(ItemCollection collection, NavigationItemDTO item)
         {
             if (InfoUpdated != null)
                 InfoUpdated(this, new ItemImportingStartedArg() { ItemName = "Fetching menu item " + item.Title });
-            var node = new TreeViewItem();
+            var node = new RadTreeViewItem();
             node.DataContext = item;
             node.Header = GetNodeHeader(item.Title, item.ObjectCategory);
             //   node.Selected += node_Selected;
@@ -290,11 +291,11 @@ namespace MyProject_WPF
             return node;
         }
 
-        private TreeViewItem CreateNavigationNode(ItemCollection collection, DatabaseObjectCategory objectCategory, int objectIdentity, string title, string name, int entitiyID)
+        private RadTreeViewItem CreateNavigationNode(ItemCollection collection, DatabaseObjectCategory objectCategory, int objectIdentity, string title, string name, int entitiyID)
         {
             if (InfoUpdated != null)
                 InfoUpdated(this, new ItemImportingStartedArg() { ItemName = "Fetching menu item " + title });
-            var node = new TreeViewItem();
+            var node = new RadTreeViewItem();
             var context = new NavigationItemDTO();
             //context.ID = id;
             context.ObjectCategory = objectCategory;
@@ -388,7 +389,7 @@ namespace MyProject_WPF
 
         void treeNavigation_DragOver(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeViewItem)))
+            if (e.Data.GetDataPresent(typeof(RadTreeViewItem)))
             {
                 e.Effects = DragDropEffects.Copy;
             }
@@ -399,14 +400,14 @@ namespace MyProject_WPF
         }
         void treeNavigation_Drop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(TreeViewItem)))
+            if (e.Data.GetDataPresent(typeof(RadTreeViewItem)))
             {
-                var sourceNode = (TreeViewItem)e.Data.GetData(typeof(TreeViewItem));
+                var sourceNode = (RadTreeViewItem)e.Data.GetData(typeof(RadTreeViewItem));
                 var target = e.Source as DependencyObject;
-                while (target != null && !(target is TreeViewItem))
+                while (target != null && !(target is RadTreeViewItem))
                     target = VisualTreeHelper.GetParent(target);
 
-                var targetNode = target as TreeViewItem;
+                var targetNode = target as RadTreeViewItem;
                 if (sourceNode != null && targetNode != null)
                 {
                     CloneTreeNode(sourceNode, targetNode);
@@ -416,7 +417,7 @@ namespace MyProject_WPF
             }
         }
 
-        private void CloneTreeNode(TreeViewItem sourceNode, TreeViewItem targetNode)
+        private void CloneTreeNode(RadTreeViewItem sourceNode, RadTreeViewItem targetNode)
         {
             if ((targetNode.DataContext as NavigationItemDTO).ObjectCategory != DatabaseObjectCategory.Folder)
                 return;
@@ -438,7 +439,7 @@ namespace MyProject_WPF
                 }
                 var newNode = CreateNavigationNode(targetNode.Items, objectCategory, objectDTO.ObjectIdentity, objectDTO.Title, objectDTO.Name, objectDTO.TableDrivedEntityID);
                 foreach (var tsNode in sourceNode.Items)
-                    CloneTreeNode(tsNode as TreeViewItem, newNode);
+                    CloneTreeNode(tsNode as RadTreeViewItem, newNode);
 
             }
 
@@ -453,7 +454,7 @@ namespace MyProject_WPF
 
         //private void SetNavigationTreeIcons(ItemCollection treeNodeCollection)
         //{
-        //    foreach (TreeViewItem node in treeNodeCollection)
+        //    foreach (RadTreeViewItem node in treeNodeCollection)
         //    {
         //        SetNodeImage(node);
         //        SetNavigationTreeIcons(node.Nodes);
@@ -462,12 +463,12 @@ namespace MyProject_WPF
 
         private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
         {
-            var node = treeNavigation.SelectedItem as TreeViewItem;
+            var node = treeNavigation.SelectedItem as RadTreeViewItem;
             if (node != null)
             {
                 if (node != treeNavigation.Items[0])
                 {
-                    (node.Parent as TreeViewItem).Items.Remove(node);
+                    (node.Parent as RadTreeViewItem).Items.Remove(node);
 
                 }
             }
@@ -475,7 +476,7 @@ namespace MyProject_WPF
 
         private void MenuItemAdd_Click(object sender, RoutedEventArgs e)
         {
-            var node = treeNavigation.SelectedItem as TreeViewItem;
+            var node = treeNavigation.SelectedItem as RadTreeViewItem;
             if (node != null)
             {
                 var context = node.DataContext as NavigationItemDTO;
@@ -492,15 +493,15 @@ namespace MyProject_WPF
         {
             if (txtName.IsEnabled == true)
             {
-                var item = treeNavigation.SelectedItem as TreeViewItem;
+                var item = treeNavigation.SelectedItem as RadTreeViewItem;
                 if (item != null && item != treeNavigation.Items[0] && item == treeNavigation.SelectedItem)
                 {
-                    var context = (item as TreeViewItem).DataContext as NavigationItemDTO;
+                    var context = (item as RadTreeViewItem).DataContext as NavigationItemDTO;
                     //if (context.Category == "Folder")
                     //{
                     context.Title = txtName.Text;
 
-                    (item as TreeViewItem).Header = GetNodeHeader(context.Title, context.ObjectCategory);
+                    (item as RadTreeViewItem).Header = GetNodeHeader(context.Title, context.ObjectCategory);
                     //}
                 }
             }
@@ -509,15 +510,15 @@ namespace MyProject_WPF
         {
             if (txtTooltip.IsEnabled == true)
             {
-                var item = treeNavigation.SelectedItem as TreeViewItem;
+                var item = treeNavigation.SelectedItem as RadTreeViewItem;
                 if (item != null && item != treeNavigation.Items[0] && item == treeNavigation.SelectedItem)
                 {
-                    var context = (item as TreeViewItem).DataContext as NavigationItemDTO;
+                    var context = (item as RadTreeViewItem).DataContext as NavigationItemDTO;
                     //if (context.Category == "Folder")
                     //{
                     context.Tooltip = txtTooltip.Text;
 
-                    //   (item as TreeViewItem).Header = GetNodeHeader(context.Title, context.ObjectCategory);
+                    //   (item as RadTreeViewItem).Header = GetNodeHeader(context.Title, context.ObjectCategory);
                     //}
                 }
             }
@@ -525,7 +526,7 @@ namespace MyProject_WPF
         //void node_Selected(object sender, RoutedEventArgs e)
         //{
         //    e.Handled = true;
-        //    var item = e.Source as TreeViewItem;
+        //    var item = e.Source as RadTreeViewItem;
         //    if ((item !=null) && item.DataContext is NavigationItemDTO)
         //    {
         //        var navigationItem = item.DataContext as NavigationItemDTO;
@@ -537,50 +538,30 @@ namespace MyProject_WPF
         //        }
         //    }
         //}
-        private void treeNavigation_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            txtName.IsEnabled = false;
-            txtName.Text = "";
-            txtTooltip.IsEnabled = false;
-            txtTooltip.Text = "";
-            var item = treeNavigation.SelectedItem as TreeViewItem;
-            if (item != null && item != treeNavigation.Items[0])
-            {
-                var context = (item as TreeViewItem).DataContext as NavigationItemDTO;
-                //if (context.Category == "Folder")
-                //{
-                txtName.IsEnabled = true;
-                txtName.Text = context.Title;
-
-                txtTooltip.IsEnabled = true;
-                txtTooltip.Text = context.Tooltip;
-                //}
-            }
-
-        }
+     
         private void treeNavigation_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var source = e.OriginalSource as DependencyObject;
-            while (source != null && !(source is TreeViewItem))
+            while (source != null && !(source is RadTreeViewItem))
                 source = VisualTreeHelper.GetParent(source);
             if (source != null)
             {
-                (source as TreeViewItem).Focus();
+                treeNavigation.SelectedItem = (source as RadTreeViewItem);
+                (source as RadTreeViewItem).Focus();
                 e.Handled = true;
             }
         }
-
         //private void btnSave_Click(object sender, RoutedEventArgs e)
         //{
 
         //}
 
-        private void CollectNavigationTreeItems(List<NavigationItemDTO> items, TreeViewItem parentNode)
+        private void CollectNavigationTreeItems(List<NavigationItemDTO> items, RadTreeViewItem parentNode)
         {
             NavigationItemDTO parentContext = null;
             if (parentNode != treeNavigation.Items[0])
                 parentContext = parentNode.DataContext as NavigationItemDTO;
-            foreach (TreeViewItem node in parentNode.Items)
+            foreach (RadTreeViewItem node in parentNode.Items)
             {
                 var context = node.DataContext as NavigationItemDTO;
                 context.ParentItem = parentContext;
@@ -606,7 +587,7 @@ namespace MyProject_WPF
                 if (FormIsBusy != null)
                     FormIsBusy(this, null);
                 List<NavigationItemDTO> items = new List<NavigationItemDTO>();
-                CollectNavigationTreeItems(items, (treeNavigation.Items[0] as TreeViewItem));
+                CollectNavigationTreeItems(items, (treeNavigation.Items[0] as RadTreeViewItem));
                 bizNavigationTree.Save(items);
                 updated = true;
                 MessageBox.Show("انتقال اطلاعات انجام شد");
@@ -626,6 +607,27 @@ namespace MyProject_WPF
                         SetImportedInfo();
                     //SetNavigationTree();
                 }
+            }
+        }
+
+        private void treeNavigation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            txtName.IsEnabled = false;
+            txtName.Text = "";
+            txtTooltip.IsEnabled = false;
+            txtTooltip.Text = "";
+            var item = treeNavigation.SelectedItem as RadTreeViewItem;
+            if (item != null && item != treeNavigation.Items[0])
+            {
+                var context = (item as RadTreeViewItem).DataContext as NavigationItemDTO;
+                //if (context.Category == "Folder")
+                //{
+                txtName.IsEnabled = true;
+                txtName.Text = context.Title;
+
+                txtTooltip.IsEnabled = true;
+                txtTooltip.Text = context.Tooltip;
+                //}
             }
         }
 

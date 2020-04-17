@@ -15,6 +15,7 @@ namespace MyUILibrary.EntityArea
 {
     public interface I_EditEntityArea
     {
+        //ObservableCollection<DP_DataRepository> GetData();
         event EventHandler<EditAreaGeneratedArg> RelationshipAreaGenerated;
         //event EventHandler<EditAreaDataItemLoadedArg> DataItemLoaded;
         event EventHandler<EditAreaDataItemLoadedArg> DataItemShown;
@@ -32,6 +33,7 @@ namespace MyUILibrary.EntityArea
         bool ClearData(bool createDefaultData);
         bool AddData(DP_DataRepository data, bool showDataInDataView);
         bool ShowDataInDataView(DP_DataRepository dataItem);
+
         void DataItemVisiblity(object dataItem, bool visible);
         void DataItemEnablity(object dataItem, bool visible);
 
@@ -79,6 +81,7 @@ namespace MyUILibrary.EntityArea
         //}
         //////void ImposeTemporaryViewSecurity();
         //////void ImposeDataViewSecurity();
+        void GenerateUIComposition(List<EntityUICompositionDTO> UICompositions);
 
         void DecideDataRelatedButtons();
 
@@ -160,18 +163,26 @@ namespace MyUILibrary.EntityArea
         List<UIActionActivityDTO> RunningActionActivities { get; set; }
 
         void SelectFromParent(DP_DataRepository parentDataItem, Dictionary<int, string> colAndValues);
-        void CheckRedundantData(I_EditEntityArea editEntityArea);
+        void CheckEmptyOneDirectData(I_EditEntityArea editEntityArea);
         void SetColumnValueFromState(DP_DataRepository dataItem, List<UIColumnValueDTO> uIColumnValue, EntityStateDTO state);
         void SetColumnValueRangeFromState(SimpleColumnControl propertyControl, List<ColumnValueRangeDetailsDTO> details, DP_DataRepository data, EntityStateDTO state);
         void ResetColumnValueRangeFromState(SimpleColumnControl simpleColumn, DP_DataRepository dataItem, EntityStateDTO state);
-        void ChangeSimpleColumnVisiblityFromState(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool hidden, string title, bool imposeInUI);
-        void ChangeSimpleColumnReadonlyFromState(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool isReadonly, string title);
+        void ChangeSimpleColumnVisiblityFromState(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool hidden, string message, string key);//, ImposeControlState hiddenControlState);
+        void ChangeSimpleColumnReadonlyFromState(DP_DataRepository dataItem, SimpleColumnControl simpleColumn, bool isReadonly, string message, string key);//, ImposeControlState hiddenControlState);
 
-        void ChangeRelatoinsipColumnVisiblityFromState(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool hidden, string title, bool imposeInUI);
-        void ChangeRelatoinsipColumnReadonlyFromState(DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool isReadonly, string title);
+        void ChangeRelatoinsipColumnVisiblityFromState(ChildRelationshipInfo childRelationshipInfo, DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool hidden, string message, string key, ImposeControlState hiddenControlState);
+        void ChangeDataItemVisiblityFromState( DP_DataRepository dataItem,string message, string key, bool skipUICheck);
+        void ChangeClearDataItemVisiblityFromState(DP_DataRepository dataItem, string key, bool skipUICheck);
+
+        void ChangeRelatoinsipColumnReadonlyFromState(ChildRelationshipInfo childRelationshipInfo, DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, bool isReadonly,  string message, string key, ImposeControlState hiddenControlState);
+        //void ChangeRelatoinsipColumnUnReadonlyFromState(ChildRelationshipInfo childRelationshipInfo, DP_DataRepository dataItem, RelationshipColumnControl relationshipControl, string message, string key);
+        void ChangeDataItemReadonlyFromState( DP_DataRepository dataItem, string message, string key, bool skipUICheck);
+        void ChangeClearDataItemReadonlyFromState(DP_DataRepository dataItem, string key, bool skipUICheck);
         bool DataItemIsInEditMode(DP_DataRepository sourceData);
         bool DataItemIsInTempViewMode(DP_DataRepository dataItem);
         void DecideButtonsReadonlityByState(bool isReadonly);
+        void ApplyStatesBeforeUpdate(bool shouldCheckChilds, ChildRelationshipInfo parentChildRelInfo);
+        //       bool DataItemIsDBRelationshipAndRemoved(DP_DataRepository dataItem);
 
 
 
@@ -185,6 +196,12 @@ namespace MyUILibrary.EntityArea
         //  void RemoveMessagesItems(DP_DataRepository dataItem, string key);
 
     }
+    public enum ImposeControlState
+    {
+        Impose,
+        AddMessageColor,
+        Both
+    }
     public class UpdateResult
     {
         public bool IsValid { set; get; }
@@ -193,6 +210,16 @@ namespace MyUILibrary.EntityArea
     public interface I_UIActionActivityManager
     {
         //void DoStateActionActivity(I_EditEntityAreaOneData editEntityAreaOneData, DP_DataRepository dataItem, EntityStateDTO state);
+        //   void ApplyStatesBeforeUpdate();
+
+        //void ResetActionActivities(DP_DataRepository dataItem);
+        void CheckAndImposeEntityStates(DP_DataRepository data, bool skipUICheck, ActionActivitySource actionActivitySource);
+    }
+    public enum ActionActivitySource
+    {
+        OnShowData,
+        TailOrPropertyChange,
+        BeforeUpdate
     }
     public interface I_UIFomulaManager
     {
@@ -202,7 +229,7 @@ namespace MyUILibrary.EntityArea
     }
     public interface I_UIValidationManager
     {
-        bool ValidateData();
+        bool ValidateData(bool fromUpdate);
     }
     public interface I_FormulaDataTree
     {
@@ -234,9 +261,10 @@ namespace MyUILibrary.EntityArea
     }
     public interface I_EditEntityAreaOneData : I_EditEntityArea
     {
-        void GenerateUIComposition(UIControlPackageTree parentUIControlPackage, List<EntityUICompositionDTO> UICompositions);
+        void CheckContainersVisiblity(List<BaseColumnControl> hiddenControls);
+
         event EventHandler<EditAreaDataItemArg> DataItemSelected;
-        List<UIControlPackageTree> UICompositionContainers { set; get; }
+        List<UIControlPackageTree> UIControlPackageTree { set; get; }
         //bool ShowDataInDataView(DP_DataRepository relatedData);
         void ShowDataFromExternalSource(DP_DataView dataRepository = null);
 
@@ -245,10 +273,11 @@ namespace MyUILibrary.EntityArea
         void TemporaryViewSearchTextChanged(I_View_TemporaryView view, Arg_TemporaryDisplaySerachText searchArg);
         I_View_EditEntityAreaDataView SpecializedDataView { get; }
         void OnDataItemSelected(DP_DataRepository dP_DataRepository);
+        void CheckContainerVisiblity(UIControlPackageTree container);
     }
     public interface I_EditEntityAreaMultipleData : I_EditEntityArea
     {
-        void GenerateUIComposition(List<EntityUICompositionDTO> UICompositions);
+        //void GenerateUIComposition(List<EntityUICompositionDTO> UICompositions);
         event EventHandler<EditAreaDataItemArg> DataItemRemoved;
         void RemoveDataContainers();
         void RemoveData(List<DP_DataRepository> datas, bool fromDataView);
@@ -427,16 +456,20 @@ namespace MyUILibrary.EntityArea
     //}
     public interface I_TabGroupContainer
     {
+        object UIMainControl { get; }
+        UIControlPackageTree UIControlPackageTreeItem { get; set; }
+
         void SetVisibility(bool visible);
         void AddTabPage(I_TabPageContainer groupItem, string title, TabPageUISettingDTO tabpageSetting, bool skipTitle);
     }
     public interface I_TabPageContainer : I_View_GridContainer
     {
         bool HasHeader { get; }
+        object UIMainControl { get; }
     }
     public interface I_UICompositionContainer : I_View_GridContainer
     {
-
+        object UIMainControl { get; }
     }
     //public interface I_ControlManager
     //{
@@ -636,6 +669,8 @@ namespace MyUILibrary.EntityArea
         void Visiblity(object dataItem, bool visible);
         void EnableDisable(bool enable);
         void Visiblity(bool visible);
+        object GetUIControl(object dataItem);
+
 
         I_LabelControlManager LabelControlManager { set; get; }
     }
@@ -660,6 +695,8 @@ namespace MyUILibrary.EntityArea
         void SetColumnValueRange(List<ColumnValueRangeDetailsDTO> details, object data);
         //void AddMessage(BaseMessageItem baseMessageItem);
         //void RemoveMessage(BaseMessageItem baseMessageItem);
+
+
     }
     public interface I_Expander
     {
@@ -759,7 +796,7 @@ namespace MyUILibrary.EntityArea
         public string Alias { set; get; }
         public I_ControlManager ControlManager { get; set; }
         public SecurityAction Permission { get; set; }
-
+        public UIControlPackageTree UIControlPackageTreeItem { set; get; }
 
     }
     public class SimpleColumnControl : BaseColumnControl
@@ -850,8 +887,9 @@ namespace MyUILibrary.EntityArea
         {
             ChildItems = new List<UIControlPackageTree>();
         }
-        public I_View_GridContainer Container { set; get; }
+        public object Container { set; get; }
         public object Item { set; get; }
+        public object UIItem { set; get; }
         public EntityUICompositionDTO UIComposition { set; get; }
         public List<UIControlPackageTree> ChildItems { set; get; }
         public UIControlPackageTree ParentItem { set; get; }
@@ -931,7 +969,7 @@ namespace MyUILibrary.EntityArea
     public class BaseControlManager
     {
         public String Key { get; set; }
-     //   public List<I_DataControlManager> MultipleDataControlManager { get; set; }
+        //   public List<I_DataControlManager> MultipleDataControlManager { get; set; }
         public DP_DataRepository CausingDataItem { set; get; }
         public ControlItemPriority Priority { set; get; }
     }

@@ -21,6 +21,15 @@ namespace MyUIGenerator.UIControlHelper
         public GroupBox GroupBox { set; get; }
         public FrameworkElement MainControl { set; get; }
         public GroupUISettingDTO GroupUISettingDTO { set; get; }
+
+        public object UIMainControl
+        {
+            get
+            {
+                return MainControl;
+            }
+        }
+
         public LocalContainerManager(GroupUISettingDTO groupUISettingDTO, int columnsCount) : base(columnsCount)
         {
 
@@ -50,14 +59,25 @@ namespace MyUIGenerator.UIControlHelper
 
         public void SetVisibility(bool visible)
         {
-
+            MainControl.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         }
     }
     public class TabGroupContainerManager : I_TabGroupContainer
     {
+        public UIControlPackageTree UIControlPackageTreeItem { get; set; }
+
         public TabGroupUISettingDTO TabGroupSetting { get; internal set; }
         public TabControl TabControl;
-        public FrameworkElement MainControl;
+        public FrameworkElement MainControl { get; }
+
+        public object UIMainControl
+        {
+            get
+            {
+                return MainControl;
+            }
+        }
+
         public Expander Expander;
         public TabGroupContainerManager(TabGroupUISettingDTO groupUISettingDTO)
         {
@@ -97,7 +117,7 @@ namespace MyUIGenerator.UIControlHelper
         }
         public void SetVisibility(bool visible)
         {
-
+            MainControl.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 
@@ -105,6 +125,7 @@ namespace MyUIGenerator.UIControlHelper
 
     public class TabPageContainerManager : View_GridContainer, I_TabPageContainer
     {
+
         public TabItem TabItem { set; get; }
         public TabPageUISettingDTO TabPageUISettingDTO { set; get; }
 
@@ -112,9 +133,17 @@ namespace MyUIGenerator.UIControlHelper
         {
             get
             {
-               return TabItem.Header != null;
+                return TabItem.Header != null;
             }
 
+        }
+
+        public object UIMainControl
+        {
+            get
+            {
+                return TabItem;
+            }
         }
 
         public TabPageContainerManager(TabPageUISettingDTO tabpageUISettingDTO, int columnsCount) : base(columnsCount)
@@ -125,7 +154,7 @@ namespace MyUIGenerator.UIControlHelper
         }
         public void SetVisibility(bool visible)
         {
-
+            TabItem.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

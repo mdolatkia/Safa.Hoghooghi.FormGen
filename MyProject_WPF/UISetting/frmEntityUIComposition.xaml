@@ -34,7 +34,7 @@
                     </Button>
                 </StackPanel>
 
-                <telerik:RadTreeView Grid.Row="1" BorderThickness="1" BorderBrush="Gray" VerticalAlignment="Stretch"  AllowDrop="True"  MouseRightButtonDown="treeEntityUIComposition_MouseRightButtonDown" IsLineEnabled="True"  SelectionChanged="treeEntityUIComposition_SelectionChanged"  x:Name="treeEntityUIComposition"  >
+                <telerik:RadTreeView  IsLineEnabled="True" Grid.Row="1" BorderThickness="1" BorderBrush="Gray" VerticalAlignment="Stretch"  AllowDrop="True"  MouseRightButtonDown="treeEntityUIComposition_MouseRightButtonDown"   SelectionChanged="treeEntityUIComposition_SelectionChanged"  x:Name="treeEntityUIComposition"  >
                     <telerik:RadTreeView.ContextMenu>
                         <ContextMenu x:Name="menuNavigation" Opened="menuNavigation_Opened">
                             <MenuItem x:Name="mnuEmptySpace" Header="افزودن فضای خالی" Click="mnuEmptySpace_Click"></MenuItem>

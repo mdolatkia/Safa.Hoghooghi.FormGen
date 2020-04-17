@@ -200,17 +200,17 @@ namespace MyUIGenerator.UIControlHelper
             FrameworkElement labelElement = null;
             if (localRelationshipControlManager.Expander != null)
             {
-                if(localRelationshipControlManager.View is UC_EditEntityArea)
+                if (localRelationshipControlManager.View is UC_EditEntityArea)
                 {
                     Grid grid = new Grid();
-                    Binding bnd = new Binding("ActualWidth") ;
+                    Binding bnd = new Binding("ActualWidth");
                     bnd.Mode = BindingMode.OneWay;
                     bnd.Converter = new WidthConverter();
                     bnd.Source = localRelationshipControlManager.Expander;
                     grid.SetBinding(Grid.WidthProperty, bnd);
-                //    grid.Background = new SolidColorBrush(Colors.Aqua);
+                    //    grid.Background = new SolidColorBrush(Colors.Aqua);
                     grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-                    grid.ColumnDefinitions.Add(new ColumnDefinition() );
+                    grid.ColumnDefinitions.Add(new ColumnDefinition());
                     grid.Children.Add(localLabelControlManager.WholeControl);
                     var toolbar = (localRelationshipControlManager.View as UC_EditEntityArea).Toolbar;
                     (toolbar.Parent as Grid).Children.Remove(toolbar);
@@ -219,7 +219,7 @@ namespace MyUIGenerator.UIControlHelper
                     localRelationshipControlManager.Expander.Header = grid;
                 }
                 else
-                localRelationshipControlManager.Expander.Header = localLabelControlManager.WholeControl;
+                    localRelationshipControlManager.Expander.Header = localLabelControlManager.WholeControl;
             }
             else
             {
@@ -483,7 +483,7 @@ namespace MyUIGenerator.UIControlHelper
 
     public class WidthConverter : IValueConverter
     {
-        
+
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -498,7 +498,7 @@ namespace MyUIGenerator.UIControlHelper
             throw new NotImplementedException();
         }
 
-      
+
     }
 
 

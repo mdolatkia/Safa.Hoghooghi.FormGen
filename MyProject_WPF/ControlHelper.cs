@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Telerik.Windows.Controls;
 
 
@@ -12,7 +13,11 @@ namespace MyProject_WPF
 {
     public static class ControlHelper
     {
-        public static GridViewBoundColumnBase GenerateGridviewColumn(string fieldName, string header, bool readOnly, int width, GridViewColumnType columnType, IEnumerable itemsSource =null)
+        public static GridViewBoundColumnBase GenerateGridviewColumn(string fieldName, string header)
+        {
+            return GenerateGridviewColumn(fieldName, header, false, null, GridViewColumnType.Text);
+        }
+        public static GridViewBoundColumnBase GenerateGridviewColumn(string fieldName, string header, bool readOnly, int? width, GridViewColumnType columnType, IEnumerable itemsSource = null)
         {
             var columnw = new GridViewHyperlinkColumn();
 
@@ -53,10 +58,23 @@ namespace MyProject_WPF
             column.DataMemberBinding = new System.Windows.Data.Binding(fieldName);
             column.Header = header;
             column.IsReadOnly = readOnly;
-            column.Width = width;
+            if (width != null)
+                column.Width = width.Value;
             return column;
         }
 
+        internal static SelectorGrid SetSelectorGrid(RadGridView dtgItems, Dictionary<string, string> dictionary)
+        {
+            dtgItems.AutoGenerateColumns = false;
+            dtgItems.IsReadOnly = true;
+            dtgItems.ShowGroupPanel = false;
+            foreach (var item in dictionary)
+            {
+                dtgItems.Columns.Add(GenerateGridviewColumn(item.Key, item.Value));
+            }
+            SelectorGrid selectorGrid = new MyProject_WPF.SelectorGrid(dtgItems);
+            return selectorGrid;
+        }
 
         public static RadContextMenu GenerateContextMenu(RadGridView gridView)
         {
@@ -73,6 +91,47 @@ namespace MyProject_WPF
         {
             gridView.BeginInsert();
         }
+
+        public static TextBlock GetTooltip(string tooltip, bool rtlDirection)
+        {
+            if (!string.IsNullOrEmpty(tooltip))
+            {
+                TextBlock text = new TextBlock();
+                if (rtlDirection)
+                    text.FlowDirection = System.Windows.FlowDirection.RightToLeft;
+                else
+                    text.FlowDirection = System.Windows.FlowDirection.LeftToRight;
+                text.Text = tooltip;
+                return text;
+            }
+            else return null;
+        }
     }
 
+    public class SelectorGrid
+    {
+        RadGridView GridView;
+        public SelectorGrid(RadGridView gridView)
+        {
+            GridView = gridView;
+            GridView.MouseDoubleClick += GridView_MouseDoubleClick;
+        }
+
+        private void GridView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (GridView.SelectedItem != null)
+            {
+                if (DataItemSelected != null)
+                    DataItemSelected(this, GridView.SelectedItem);
+            }
+        }
+        public object GetSelectedItem
+        {
+            get
+            {
+                return GridView.SelectedItem;
+            }
+        }
+        public event EventHandler<object> DataItemSelected;
+    }
 }

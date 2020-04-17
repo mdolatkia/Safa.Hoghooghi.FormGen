@@ -35,10 +35,10 @@ namespace MyProject_WPF
             ImportHelper.ItemImportingStarted += ImportHelper_ItemImportingStarted;
             bizTableDrivedEntity.ItemImportingStarted += ImportHelper_ItemImportingStarted;
             dtgNewTables.RowLoaded += DtgNewTables_RowLoaded;
-            dtgEditTables.RowLoaded += DtgNewTables_RowLoaded;
-            dtgExistingTables.RowLoaded += DtgNewTables_RowLoaded;
-            dtgDeletedTables.RowLoaded += DtgNewTables_RowLoaded;
-            dtgExceptionTables.RowLoaded += DtgNewTables_RowLoaded;
+            dtgEditTables.RowLoaded += Dtg_RowLoaded;
+            dtgExistingTables.RowLoaded += Dtg_RowLoaded;
+            dtgDeletedTables.RowLoaded += Dtg_RowLoaded;
+            dtgExceptionTables.RowLoaded += Dtg_RowLoaded;
             this.Loaded += FrmImportTables_Loaded;
             // colDataCountLimit.Header = "تعداد داده کمتر از" + " " + DataCountLimit + " " + "مورد است";
         }
@@ -54,10 +54,22 @@ namespace MyProject_WPF
             {
                 var item = e.DataElement as TableImportItem;
                 if (!string.IsNullOrEmpty(item.Tooltip))
-                    ToolTipService.SetToolTip(e.Row, item.Tooltip);
+                {
+                    ToolTipService.SetToolTip(e.Row, ControlHelper.GetTooltip(item.Tooltip,false));
+                }
             }
         }
-
+        private void Dtg_RowLoaded(object sender, Telerik.Windows.Controls.GridView.RowLoadedEventArgs e)
+        {
+            if (e.DataElement is TableImportItem)
+            {
+                var item = e.DataElement as TableImportItem;
+                if (!string.IsNullOrEmpty(item.Tooltip))
+                {
+                    ToolTipService.SetToolTip(e.Row, ControlHelper.GetTooltip(item.Tooltip,true));
+                }
+            }
+        }
         I_DatabaseImportHelper ImportHelper { set; get; }
         //public event EventHandler<ItemImportingStartedArg> InfoUpdated;
         List<TableImportItem> listNew = new List<TableImportItem>();
@@ -122,14 +134,16 @@ namespace MyProject_WPF
                 }
                 if (listNew.Any())
                 {
+                    var columnTags = WizardHelper.GetColumnsAliasAndDescriptions(listNew.SelectMany(x => x.Entity.Columns).ToList());
                     var tags = WizardHelper.GetTablesAliasAndDescriptions(listNew.Select(x => x.Entity).ToList());
                     foreach (var item in listNew)
                     {
                         if (!string.IsNullOrEmpty(tags.Item1) || !string.IsNullOrEmpty(tags.Item2))
                             WizardHelper.SetEntityAliasAndDescription(item, tags.Item1, tags.Item2);
+                        foreach (var column in item.Entity.Columns)
+                            WizardHelper.SetColumnAliasAnadDescription(column, columnTags.Item1, columnTags.Item2);
+                        item.Tooltip = GetNewItemTooltip(item);
                     }
-
-
                 }
                 if (listEdited.Any(x => x.Entity.Columns.Any(y => y.ColumnsAdded)))
                 {
@@ -198,6 +212,18 @@ namespace MyProject_WPF
                 FormIsFree(this, null);
             }
 
+        }
+
+        private string GetNewItemTooltip(TableImportItem item)
+        {
+            string tooltip = item.Entity.Name + ((!string.IsNullOrEmpty(item.Entity.Alias) && item.Entity.Name != item.Entity.Alias) ? " As " + "'" + item.Entity.Alias + "'" : "");
+            tooltip += Environment.NewLine + "Columns : ";
+            foreach (var column in item.Entity.Columns)
+            {
+                tooltip += Environment.NewLine +  column.Name + ((!string.IsNullOrEmpty(column.Alias) && column.Name != column.Alias) ? " As " + "'" + column.Alias + "'" : "")
+                    + "  " + column.DataType;
+            }
+            return tooltip;
         }
 
 

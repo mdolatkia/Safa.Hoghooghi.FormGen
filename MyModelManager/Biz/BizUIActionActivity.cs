@@ -130,22 +130,25 @@ namespace MyModelManager
             var cItem = new UIEnablityDetailsDTO();
             if (dbitem.ColumnID != null)
             {
-                short relType = (short)Enum_MasterRelationshipType.FromForeignToPrimary;
-                if (dbitem.Column.RelationshipColumns.Any(x => x.Relationship.MasterTypeEnum == relType))
-                {
-                    var relID = dbitem.Column.RelationshipColumns.First(x => x.Relationship.MasterTypeEnum == relType).Relationship.ID;
-                    if (!list.Any(x => x.RelationshipID == relID))
-                        cItem.RelationshipID = relID;
-                }
-                else
+                //short relType = (short)Enum_MasterRelationshipType.FromForeignToPrimary;
+                //if (dbitem.Column.RelationshipColumns.Any(x => x.Relationship.MasterTypeEnum == relType))
+                //{
+                //    var relID = dbitem.Column.RelationshipColumns.First(x => x.Relationship.MasterTypeEnum == relType).Relationship.ID;
+                //    if (!list.Any(x => x.RelationshipID == relID))
+                //        cItem.RelationshipID = relID;
+                //}
+                //else
+
                     cItem.ColumnID = dbitem.ColumnID.Value;
+                
 
             }
-            //if (dbitem.RelationshipID != null)
-            //    cItem.RelationshipID = dbitem.RelationshipID.Value;
+            cItem.ID = dbitem.ID;
+            if (dbitem.RelationshipID != null)
+                cItem.RelationshipID = dbitem.RelationshipID.Value;
 
-            if (dbitem.EntityUICompositionID != null)
-                cItem.UICompositionID = dbitem.EntityUICompositionID.Value;
+            //if (dbitem.EntityUICompositionID != null)
+            //    cItem.UICompositionID = dbitem.EntityUICompositionID.Value;
             cItem.Hidden = dbitem.Hidden;
             cItem.Readonly = dbitem.Readonly;
             return cItem;
@@ -186,45 +189,48 @@ namespace MyModelManager
                     projectContext.UIEnablityDetails.Remove(dbActionActivity.UIEnablityDetails.First());
                 foreach (var item in UIActionActivity.UIEnablityDetails)
                 {
-                    if (item.RelationshipID != 0)
-                    {
-                        var relationship = projectContext.Relationship.First(x => x.ID == item.RelationshipID);
-                        if (relationship.MasterTypeEnum == (short)Enum_MasterRelationshipType.FromPrimartyToForeign)
-                        {
-                            throw new Exception("امکان تععین وضعیت برای رابطه" + " " + relationship.ID + " " + "میسر نمی باشد");
-                        }
-                        else
-                        {
-                            foreach (var relCol in relationship.RelationshipColumns)
-                            {
-                                UIEnablityDetails dbItem = new UIEnablityDetails();
-                                dbItem.Hidden = item.Hidden;
-                                dbItem.Readonly = item.Readonly;
-                                dbItem.ColumnID = relCol.FirstSideColumnID;
-                                dbActionActivity.UIEnablityDetails.Add(dbItem);
-                            }
-                        }
-                    }
+                    //if (item.RelationshipID != 0)
+                    //{
+                    //    var relationship = projectContext.Relationship.First(x => x.ID == item.RelationshipID);
+                    //    if (relationship.MasterTypeEnum == (short)Enum_MasterRelationshipType.FromPrimartyToForeign)
+                    //    {
+                    //        throw new Exception("امکان تععین وضعیت برای رابطه" + " " + relationship.ID + " " + "میسر نمی باشد");
+                    //    }
+                    //    else
+                    //    {
+                    //        foreach (var relCol in relationship.RelationshipColumns)
+                    //        {
+                    //            UIEnablityDetails dbItem = new UIEnablityDetails();
+                    //            dbItem.Hidden = item.Hidden;
+                    //            dbItem.Readonly = item.Readonly;
+                    //            dbItem.ColumnID = relCol.FirstSideColumnID;
+                    //            dbActionActivity.UIEnablityDetails.Add(dbItem);
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+
+                    UIEnablityDetails dbItem = new UIEnablityDetails();
+                    dbItem.Hidden = item.Hidden;
+                    dbItem.Readonly = item.Readonly;
+
+
+                    if (item.ColumnID != 0)
+                        dbItem.ColumnID = item.ColumnID;
                     else
-                    {
+                        dbItem.ColumnID = null;
+                    if (item.RelationshipID != 0)
+                        dbItem.RelationshipID = item.RelationshipID;
+                    else
+                        dbItem.RelationshipID = null;
+                    //if (item.UICompositionID != 0)
+                    //    dbItem.EntityUICompositionID = item.UICompositionID;
+                    //else
+                    //    dbItem.EntityUICompositionID = null;
 
-                        UIEnablityDetails dbItem = new UIEnablityDetails();
-                        dbItem.Hidden = item.Hidden;
-                        dbItem.Readonly = item.Readonly;
-
-
-                        if (item.ColumnID != 0)
-                            dbItem.ColumnID = item.ColumnID;
-                        else
-                            dbItem.ColumnID = null;
-
-                        if (item.UICompositionID != 0)
-                            dbItem.EntityUICompositionID = item.UICompositionID;
-                        else
-                            dbItem.EntityUICompositionID = null;
-
-                        dbActionActivity.UIEnablityDetails.Add(dbItem);
-                    }
+                    dbActionActivity.UIEnablityDetails.Add(dbItem);
+                    //}
                 }
 
 

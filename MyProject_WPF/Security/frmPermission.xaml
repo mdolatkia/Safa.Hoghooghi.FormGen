@@ -17,7 +17,6 @@
             <telerik:RadSplitContainer Orientation="Vertical"  Width="300" InitialPosition="DockedLeft" >
                 <telerik:RadPaneGroup x:Name="pnlObjectList">
                     <telerik:RadPane Header="لیست منابع" CanUserClose="False">
-
                         <TabControl>
                             <TabControl.Items>
                                 <TabItem Header="وابسته به پایگاه داده">
@@ -43,9 +42,9 @@
                                 </TabItem>
                                 <TabItem Header="دسترسی های کلی">
                                     <Grid x:Name="grdSubSystemTree">
-                                        <TreeView x:Name="treeSubSystems">
+                                        <telerik:RadTreeView IsLineEnabled="True" x:Name="treeSubSystems">
 
-                                        </TreeView>
+                                        </telerik:RadTreeView>
                                     </Grid>
                                 </TabItem>
                             </TabControl.Items>
@@ -55,7 +54,7 @@
                 </telerik:RadPaneGroup>
             </telerik:RadSplitContainer>
 
-            <telerik:RadSplitContainer   Orientation="Vertical" Width="500" InitialPosition="DockedLeft" >
+            <telerik:RadSplitContainer   Orientation="Vertical" Width="400" InitialPosition="DockedLeft" >
                 <telerik:RadPaneGroup x:Name="pnlSubjectList">
 
                 </telerik:RadPaneGroup>

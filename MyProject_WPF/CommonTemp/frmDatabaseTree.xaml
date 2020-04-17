@@ -6,7 +6,7 @@
              mc:Ignorable="d"   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <telerik:RadTreeView x:Name="treeDBObjects" IsLineEnabled="True" >
+        <telerik:RadTreeView  IsLineEnabled="True" x:Name="treeDBObjects" >
 
         </telerik:RadTreeView>
     </Grid>

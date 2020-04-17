@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 
 namespace MyProject_WPF
 {
@@ -36,8 +37,8 @@ namespace MyProject_WPF
         {
             get { return treeEntity.SelectedItem as ObjectDTO; }
         }
-        List<TreeViewItem> _AllItems = new List<TreeViewItem>();
-        public List<TreeViewItem> GetAllTreeItems
+        List<RadTreeViewItem> _AllItems = new List<RadTreeViewItem>();
+        public List<RadTreeViewItem> GetAllTreeItems
         {
             get { return _AllItems; }
         }
@@ -76,11 +77,11 @@ namespace MyProject_WPF
             }
 
         }
-        private TreeViewItem GetNavigationRootNode()
+        private RadTreeViewItem GetNavigationRootNode()
         {
             if (treeEntity.Items.Count > 0)
             {
-                return treeEntity.Items[0] as TreeViewItem;
+                return treeEntity.Items[0] as RadTreeViewItem;
             }
             else
             {
@@ -88,9 +89,9 @@ namespace MyProject_WPF
                 return rootNode;
             }
         }
-        private TreeViewItem AddEntityObjectNode(ItemCollection collection, DatabaseObjectCategory objectCategory, int objectIdentity, string title, string tooltip = null)
+        private RadTreeViewItem AddEntityObjectNode(ItemCollection collection, DatabaseObjectCategory objectCategory, int objectIdentity, string title, string tooltip = null)
         {
-            var node = new TreeViewItem();
+            var node = new RadTreeViewItem();
             var context = new ObjectDTO();
             context.ObjectCategory = objectCategory;
             context.Title = title;
@@ -108,19 +109,19 @@ namespace MyProject_WPF
 
 
 
-        //private TreeViewItem FindTreeDBObject(ItemCollection collection, string objectIdentity, string objectCategory)
+        //private RadTreeViewItem FindTreeDBObject(ItemCollection collection, string objectIdentity, string objectCategory)
         //{
 
         //    foreach (var item in collection)
         //    {
-        //        if ((item is TreeViewItem))
+        //        if ((item is RadTreeViewItem))
         //        {
-        //            var objectDTO = (item as TreeViewItem).DataContext as ObjectDTO;
+        //            var objectDTO = (item as RadTreeViewItem).DataContext as ObjectDTO;
         //            if (objectDTO.ObjectIdentity == objectIdentity && objectDTO.ObjectCategory == objectCategory)
-        //                return (item as TreeViewItem);
+        //                return (item as RadTreeViewItem);
         //            else
         //            {
-        //                var result = FindTreeDBObject((item as TreeViewItem).Items, objectIdentity, objectCategory);
+        //                var result = FindTreeDBObject((item as RadTreeViewItem).Items, objectIdentity, objectCategory);
         //                if (result != null)
         //                    return result;
         //            }

@@ -108,6 +108,10 @@ namespace MyUIGenerator.UIControlHelper
         {
             return DataGridColumn.GetTemporaryView(dataItem);
         }
+        public object GetUIControl(object dataItem)
+        {
+            return DataGridColumn.GetTemporaryView(dataItem);
+        }
         //public void AddValidation(BaseMessageItem item)
         //{
         //    ValidationItems.Add(item);

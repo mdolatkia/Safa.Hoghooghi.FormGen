@@ -25,7 +25,6 @@ namespace DataAccess
         public string Title { get; set; }
         public string Name { get; set; }
         public string IPAddress { get; set; }
-        public string ServerType { get; set; }
     
         public virtual ICollection<DatabaseInformation> DatabaseInformation { get; set; }
         public virtual ICollection<LinkedServer> LinkedServer { get; set; }

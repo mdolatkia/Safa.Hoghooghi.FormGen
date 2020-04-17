@@ -214,15 +214,21 @@ namespace MyProject_WPF
                 //txtColumnValue.Text = Message.ColumnValue.ExactValue;
                 //ValidValues = Message.ColumnValue.ValidValues;
             }
-            if (Message.Type == Enum_ActionActivityType.UIEnablity)
+         else   if (Message.Type == Enum_ActionActivityType.UIEnablity)
             {
                 optUIEnablity.IsChecked = true;
                 //cmbUIEnablityRelationshipTail.SelectedValue = Message.UIEnablity.EntityRelationshipTailID;
 
             }
-            if (Message.Type == Enum_ActionActivityType.ColumnValueRange)
+            else if (Message.Type == Enum_ActionActivityType.ColumnValueRange)
             {
                 optUIColumnValueRange.IsChecked = true;
+                //cmbUIEnablityRelationshipTail.SelectedValue = Message.UIEnablity.EntityRelationshipTailID;
+
+            }
+            else if (Message.Type == Enum_ActionActivityType.EntityReadonly)
+            {
+                optEntityReadonly.IsChecked = true;
                 //cmbUIEnablityRelationshipTail.SelectedValue = Message.UIEnablity.EntityRelationshipTailID;
 
             }
@@ -262,9 +268,7 @@ namespace MyProject_WPF
 
         private void HideTabs()
         {
-
             tabColumnValue.Visibility = Visibility.Collapsed;
-
             tabUIEnablity.Visibility = Visibility.Collapsed;
             tabUIColumnValueRange.Visibility = Visibility.Collapsed;
             //tabUIColumnValueRangeReset.Visibility = Visibility.Collapsed;
@@ -285,6 +289,11 @@ namespace MyProject_WPF
             HideTabs();
             tabColumnValue.Visibility = Visibility.Visible;
             tabColumnValue.IsSelected = true;
+        }
+        private void optEntityReadonly_Checked(object sender, RoutedEventArgs e)
+        {
+            HideTabs();
+
         }
         private void optUIEnablity_Checked(object sender, RoutedEventArgs e)
         {
@@ -315,7 +324,7 @@ namespace MyProject_WPF
                 return;
             }
 
-            if (optColumnValue.IsChecked == false && optUIEnablity.IsChecked == false
+            if (optEntityReadonly.IsChecked == false && optColumnValue.IsChecked == false && optUIEnablity.IsChecked == false
                 && optUIColumnValueRange.IsChecked == false )
             {
                 MessageBox.Show("یکی از حالات شروط را انتخاب نمایید");
@@ -341,6 +350,10 @@ namespace MyProject_WPF
             else if (optUIColumnValueRange.IsChecked == true)
             {
                 Message.Type = Enum_ActionActivityType.ColumnValueRange;
+            }
+            else if (optEntityReadonly.IsChecked == true)
+            {
+                Message.Type = Enum_ActionActivityType.EntityReadonly;
             }
             //else if (optUIColumnValueRangeReset.IsChecked == true)
             //{
@@ -468,29 +481,31 @@ namespace MyProject_WPF
             //else
             targetEntity = bizTableDrivedEntity.GetTableDrivedEntity(MyProjectManager.GetMyProjectManager.GetRequester(), EntityID, EntityColumnInfoType.WithSimpleColumns, EntityRelationshipInfoType.WithRelationships);
 
-            var foreignRels = targetEntity.Relationships.Where(x => x.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary);
-            var listcolumns = new List<int>();
-            foreach (var fRel in foreignRels)
-            {
-                listcolumns.AddRange(fRel.RelationshipColumns.Select(x => x.FirstSideColumnID));
-            }
-            var columns = targetEntity.Columns.Where(x => !listcolumns.Contains(x.ID)).ToList();
+            //var foreignRels = targetEntity.Relationships.Where(x => x.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary);
+            //var listcolumns = new List<int>();
+            //foreach (var fRel in foreignRels)
+            //{
+            //    listcolumns.AddRange(fRel.RelationshipColumns.Select(x => x.FirstSideColumnID));
+            //}
+            var columns = targetEntity.Columns.Where(x=>!x.ForeignKey && !x.PrimaryKey).ToList();
 
             colColumn.ItemsSource = columns;
             colColumn.DisplayMemberPath = "Alias";
             colColumn.SelectedValueMemberPath = "ID";
 
-            colRelationship.ItemsSource = targetEntity.Relationships.Where(x => x.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary).ToList();
+            colRelationship.ItemsSource = targetEntity.Relationships.ToList();//.Where(x => x.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary).ToList();
             colRelationship.DisplayMemberPath = "Alias";
             colRelationship.SelectedValueMemberPath = "ID";
 
-            BizEntityUIComposition bizEntityUIComposition = new BizEntityUIComposition();
-            var uiCompositions = bizEntityUIComposition.GetListEntityUIComposition(targetEntity.ID);
+            //BizEntityUIComposition bizEntityUIComposition = new BizEntityUIComposition();
+            //var uiCompositions = bizEntityUIComposition.GetListEntityUIComposition(targetEntity.ID);
 
-            colUIComposition.DisplayMemberPath = "Title";
-            colUIComposition.SelectedValueMemberPath = "ID";
-            colUIComposition.ItemsSource = uiCompositions;
+            //colUIComposition.DisplayMemberPath = "Title";
+            //colUIComposition.SelectedValueMemberPath = "ID";
+            //colUIComposition.ItemsSource = uiCompositions;
         }
+
+      
 
         //private void optUIColumnValueRangeReset_Checked(object sender, RoutedEventArgs e)
         //{

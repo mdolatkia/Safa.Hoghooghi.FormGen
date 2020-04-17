@@ -111,7 +111,7 @@ namespace MyProject_WPF
                 entityID = item.TargetEntityID;
             }
             var entity = biz.GetTableDrivedEntity(MyProjectManager.GetMyProjectManager.GetRequester(), entityID, EntityColumnInfoType.WithSimpleColumns, EntityRelationshipInfoType.WithoutRelationships);
-            var columns = entity.Columns;
+            var columns = entity.Columns.Where(x => x.ForeignKey == false).ToList();
             cmbColumns.DisplayMemberPath = "Alias";
             cmbColumns.SelectedValuePath = "ID";
             cmbColumns.ItemsSource = columns;
@@ -242,8 +242,16 @@ namespace MyProject_WPF
                 StateDTO.FormulaID = 0;
                 StateDTO.ColumnID = (int)cmbColumns.SelectedValue;
             }
-            bizEntityState.UpdateEntityStates(StateDTO);
-            MessageBox.Show("اطلاعات ثبت شد");
+            try
+            {
+                bizEntityState.UpdateEntityStates(StateDTO);
+                MessageBox.Show("اطلاعات ثبت شد");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void btnReturn_Click(object sender, RoutedEventArgs e)

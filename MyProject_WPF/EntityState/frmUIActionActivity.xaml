@@ -38,6 +38,7 @@
                 <TextBlock VerticalAlignment="Center" Text="شروط" HorizontalAlignment="Left"></TextBlock>
                 <RadioButton x:Name="optColumnValue" Margin="10,0,10,0" Checked="optColumnValue_Checked">مقداردهی پیش فرض ستون</RadioButton>
                 <RadioButton x:Name="optUIEnablity" Margin="10,0,10,0" Checked="optUIEnablity_Checked">فعالسازی کنترلها</RadioButton>
+                <RadioButton x:Name="optEntityReadonly" Margin="10,0,10,0" Checked="optEntityReadonly_Checked">فقط خواندنی سازی موجودیت</RadioButton>
                 <RadioButton x:Name="optUIColumnValueRange" Margin="10,0,10,0" Checked="optUIColumnValueRange_Checked">فیلتر بازه داده</RadioButton>
             </StackPanel>
             <TabControl Grid.Row="1">
@@ -97,7 +98,7 @@
                             <telerik:RadGridView.Columns>
                                 <telerik:GridViewComboBoxColumn x:Name="colColumn" Header="انتخاب ستون" DataMemberBinding="{Binding ColumnID}" />
                                 <telerik:GridViewComboBoxColumn x:Name="colRelationship" Header="انتخاب رابطه" DataMemberBinding="{Binding RelationshipID}" />
-                                <telerik:GridViewComboBoxColumn x:Name="colUIComposition" Header="انتخاب پنل" DataMemberBinding="{Binding UICompositionID}" />
+                                <!--<telerik:GridViewComboBoxColumn x:Name="colUIComposition" Header="انتخاب پنل" DataMemberBinding="{Binding UICompositionID}" />-->
                                 <telerik:GridViewCheckBoxColumn Header="مخفی/معمولی" DataMemberBinding="{Binding Hidden}"></telerik:GridViewCheckBoxColumn>
                                 <telerik:GridViewCheckBoxColumn Header="فقط خواندنی/معمولی" DataMemberBinding="{Binding Readonly}"></telerik:GridViewCheckBoxColumn>
 

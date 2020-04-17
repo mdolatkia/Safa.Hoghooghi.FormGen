@@ -294,7 +294,7 @@ namespace MyUILibrary.EntityArea
             //}
         }
 
-        public void GenerateUIComposition(List<EntityUICompositionDTO> UICompositions)
+        public override void GenerateUIComposition(List<EntityUICompositionDTO> UICompositions)
         {
 
             foreach (var uiCompositionItem in UICompositions.OrderBy(x => x.Position))

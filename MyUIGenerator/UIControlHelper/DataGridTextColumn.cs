@@ -80,6 +80,22 @@ namespace MyUIGenerator.UIControlHelper
             return MyControlHelper.WholeControl;
         }
 
+        internal object GetUIControl(object dataItem)
+        {
+            var dataRow = this.DataControl.GetRowForItem(dataItem);
+
+            if (dataRow != null)
+            {
+                var cell = dataRow.GetCell(this);
+
+                if (cell != null)
+                {
+                    return (cell.Tag as I_ControlHelper).MainControl;
+                }
+            }
+            return null;
+        }
+
         private void Item_MenuClicked(object sender, ConrolPackageMenuArg e, ConrolPackageMenu mainMenu, object dataItem)
         {
             e.data = dataItem;
@@ -104,9 +120,7 @@ namespace MyUIGenerator.UIControlHelper
 
                     if (cell != null)
                     {
-
                         (cell.Tag as I_ControlHelper).SetReadonly(isreadonly);
-
                     }
                 }
             }));
@@ -352,14 +366,14 @@ namespace MyUIGenerator.UIControlHelper
             System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
             {
                 var dataRow = this.DataControl.GetRowForItem(dataItem);
-            var cell = dataRow.GetCell(this);
-            if (cell != null)
-            {
-                if (cell.Content != null)
+                var cell = dataRow.GetCell(this);
+                if (cell != null)
                 {
-                    cell.BorderBrush = UIManager.GetColorFromInfoColor(color);
-                    cell.BorderThickness = new Thickness(1);
-                }
+                    if (cell.Content != null)
+                    {
+                        cell.BorderBrush = UIManager.GetColorFromInfoColor(color);
+                        cell.BorderThickness = new Thickness(1);
+                    }
                 }
             }));
         }
@@ -368,13 +382,13 @@ namespace MyUIGenerator.UIControlHelper
             System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
             {
                 var dataRow = this.DataControl.GetRowForItem(dataItem);
-            var cell = dataRow.GetCell(this);
-            if (cell != null)
-            {
-                if (cell.Content != null)
+                var cell = dataRow.GetCell(this);
+                if (cell != null)
                 {
-                    cell.Background = UIManager.GetColorFromInfoColor(color);
-                }
+                    if (cell.Content != null)
+                    {
+                        cell.Background = UIManager.GetColorFromInfoColor(color);
+                    }
                 }
             }));
         }
@@ -383,13 +397,13 @@ namespace MyUIGenerator.UIControlHelper
             System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
             {
                 var dataRow = this.DataControl.GetRowForItem(dataItem);
-            var cell = dataRow.GetCell(this);
-            if (cell != null)
-            {
-                if (cell.Content != null)
+                var cell = dataRow.GetCell(this);
+                if (cell != null)
                 {
-                    cell.Foreground = UIManager.GetColorFromInfoColor(color);
-                }
+                    if (cell.Content != null)
+                    {
+                        cell.Foreground = UIManager.GetColorFromInfoColor(color);
+                    }
                 }
             }));
         }

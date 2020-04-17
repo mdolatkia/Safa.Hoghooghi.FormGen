@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Background="WhiteSmoke">
     <Grid>
-        <telerik:RadTreeView IsLineEnabled="True" x:Name="treeItems">
+        <telerik:RadTreeView   IsLineEnabled="True" x:Name="treeItems">
 
         </telerik:RadTreeView>
     </Grid>

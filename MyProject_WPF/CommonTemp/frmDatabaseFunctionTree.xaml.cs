@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 
 namespace MyProject_WPF
 {
@@ -30,22 +31,24 @@ namespace MyProject_WPF
             DatabaseID = databaseID;
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                 PopulateTree();
-            treeItems.SelectedItemChanged += TreeItems_SelectedItemChanged;
+            treeItems.SelectionChanged += TreeItems_SelectionChanged;
         }
-        private void TreeItems_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+
+        private void TreeItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             e.Handled = true;
             if (treeItems.SelectedItem != treeItems.Items[0])
             {
                 if (ItemSelected != null)
-                    ItemSelected(this, new TreeDatabaseFunctionSelectedArg() { Function = (treeItems.SelectedItem as TreeViewItem).DataContext as DatabaseFunctionDTO });
+                    ItemSelected(this, new TreeDatabaseFunctionSelectedArg() { Function = (treeItems.SelectedItem as RadTreeViewItem).DataContext as DatabaseFunctionDTO });
             }
         }
 
+       
         BizDatabaseFunction bizDatabaseFunction = new BizDatabaseFunction();
         private void PopulateTree()
         {
-            var rootNode = new TreeViewItem();
+            var rootNode = new RadTreeViewItem();
             rootNode.Header = GetNodeHeader("لیست فانکشن ها", "Folder");
             treeItems.Items.Add(rootNode);
             PopulateTreeItems(rootNode.Items);
@@ -62,9 +65,9 @@ namespace MyProject_WPF
             }
         }
 
-        private TreeViewItem AddNode(ItemCollection collection, DatabaseFunctionDTO DatabaseFunction)
+        private RadTreeViewItem AddNode(ItemCollection collection, DatabaseFunctionDTO DatabaseFunction)
         {
-            var node = new TreeViewItem();
+            var node = new RadTreeViewItem();
             node.DataContext = DatabaseFunction;
             node.Header = GetNodeHeader(string.IsNullOrEmpty(DatabaseFunction.Title) ? DatabaseFunction.FunctionName : DatabaseFunction.Title, "function");
             node.ToolTip = DatabaseFunction.Title;

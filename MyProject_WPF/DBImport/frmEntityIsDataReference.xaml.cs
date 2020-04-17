@@ -256,7 +256,7 @@ namespace MyProject_WPF
             if (entity.Relationships.Any(x => x.TypeEnum == Enum_RelationshipType.OneToMany))
             {
                 var columns = entity.Columns.Where(x => string.IsNullOrEmpty(x.DefaultValue) && x.IsDBCalculatedColumn == false && x.IsIdentity == false && x.PrimaryKey == false && !entity.Relationships.Any(y => y.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && y.RelationshipColumns.Any(z => z.FirstSideColumnID == x.ID)));
-                if (columns.Count() > 0 && columns.Count() <= 4)
+                if (columns.Count() >= 0 && columns.Count() <= 4)
                 {
                     if (!entity.Relationships.Any(x => x.TypeEnum == Enum_RelationshipType.SubToSuper)
                     && !entity.Relationships.Any(x => x.TypeEnum == Enum_RelationshipType.SuperToSub)
@@ -265,7 +265,6 @@ namespace MyProject_WPF
                        && !entity.Relationships.Any(x => x.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
                            && !entity.Relationships.Any(x => x.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys))
                     {
-
                         return true;
                     }
                 }

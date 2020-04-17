@@ -66,7 +66,10 @@ namespace MyUIGenerator.UIControlHelper
         {
             DataGridColumn.SetReadonly(isreadonly);
         }
-
+        public object GetUIControl(object dataItem)
+        {
+            return DataGridColumn.GetUIControl(dataItem);
+        }
         public void SetReadonly(object dataItem, bool isreadonly)
         {
             DataGridColumn.SetReadonly(dataItem, isreadonly);

@@ -68,13 +68,10 @@ namespace MyUIGenerator.View
             : base(columnsCount)
         {
             InitializeComponent();
-        
+
             //if (AgentHelper.GetAppMode() != AppMode.Paper)
-                FlowDirection = System.Windows.FlowDirection.RightToLeft;
+            FlowDirection = System.Windows.FlowDirection.RightToLeft;
             grdArea.Children.Add(ContentScrollViewer as UIElement);
-
-
-
         }
         public override Grid ControlArea
         {

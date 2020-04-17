@@ -25,7 +25,7 @@
                 <Button Width="120" x:Name="btnExtract" Margin="2" Click="btnExtract_Click">
                     <StackPanel Orientation="Horizontal">
                         <Image Width="20" Source="..\Images\view.png"  />
-                        <TextBlock Text="استخراج نماها"></TextBlock>
+                        <TextBlock Text="استخراج موجودیتهای مستقل"></TextBlock>
                     </StackPanel>
                 </Button>
                 <Button Width="120" x:Name="btnInsert" Margin="2" Click="btnInsert_Click">

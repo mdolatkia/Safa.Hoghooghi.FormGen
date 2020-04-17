@@ -20,12 +20,20 @@ namespace MyUILibrary.EntityArea
         {
             EditArea = editArea;
         }
-        public bool ValidateData()
+        public bool ValidateData(bool fromUpdate)
         {
-            var datas = EditArea.GetDataList();
-            if (datas == null)
-                return true;
-            var dataList = EditArea.GetDataList().Where(x => x.ShouldBeSkipped == false).ToList();
+            //var datas = EditArea.GetDataList();
+            //if (datas == null)
+            //    return true;
+
+            //اگر از دکمه آپدیت اومده باشه چک میشه حتی اگر داده مخفی باشد زیرا اونموقع یعنی برای یک تمپ هستش که در فرم پدرش ممکنه
+            //وضعیتش تغییر کنه و از حالت هیدن خارج بشه
+            //اما برای کنترل داده های چایلد مستقیم هم خود داده باید ولید باشه وهم دادهی های چایلد غیر فعال نباشند
+            List<ProxyLibrary.DP_DataRepository> dataList = null;
+            if (fromUpdate)
+                dataList = EditArea.GetDataList().ToList();
+            else
+                dataList = EditArea.GetDataList().Where(x => x.ShoudBeCounted).ToList();
             bool result = true;
             RemoveValidationMessages();
             foreach (var data in dataList)
@@ -33,19 +41,26 @@ namespace MyUILibrary.EntityArea
                 bool resultData = ValidateData(data);
                 if (!resultData)
                     result = false;
-            }
-
-            foreach (var relationshipControl in EditArea.RelationshipColumnControls)
-            {
-                if (relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateDirect
-                   || relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateSelectDirect)
+                if (resultData)
                 {
-                    if (!relationshipControl.EditNdTypeArea.AreaInitializer.UIValidationManager.ValidateData())
-                        result = false;
-                }
-                else
-                {
+                    foreach (var relationshipControl in EditArea.RelationshipColumnControls)
+                    {
+                        if (relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateDirect
+                                 || relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateSelectDirect)
+                        {
+                            var childRelInfo = data.ChildRelationshipInfos.First(x => x.Relationship == relationshipControl.Relationship);
+                            if (!childRelInfo.IsHidden)
+                            {
+                                relationshipControl.EditNdTypeArea.SetChildRelationshipInfo(childRelInfo);
 
+                                if (fromUpdate && EditArea.AreaInitializer.SourceRelation == null)
+                                {
+                                    if (!relationshipControl.EditNdTypeArea.AreaInitializer.UIValidationManager.ValidateData(false))
+                                        result = false;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -76,6 +91,7 @@ namespace MyUILibrary.EntityArea
             bool result = true;
             data.ISValid = true;
 
+            //اگر داده جدید باشد ستونها و رابطی که اجباری باشند اما در فرم ورود اطلاعات وجود نداشته باشند را چک میکند
             CheckAccessValidation(data);
 
             foreach (var simplePropertyControl in EditArea.SimpleColumnControls)
@@ -143,44 +159,7 @@ namespace MyUILibrary.EntityArea
             }
         }
 
-        private void ValidateRelationshipFilters(DP_DataRepository data)
-        {
-            foreach (var relControl in EditArea.RelationshipColumnControls)
-            {
-                if (relControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateSelectDirect
-                    || relControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateSelectInDirect
-                    || relControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.Select)
-                {
-                    if (relControl.EditNdTypeArea.SearchViewEntityArea != null)
-                    {
-                        if (relControl.EditNdTypeArea.SearchViewEntityArea.RelationshipFilters.Any())
-                        {
-                            foreach (var filter in relControl.EditNdTypeArea.SearchViewEntityArea.RelationshipFilters)
-                            {
-                                if (data.ChildRelationshipInfos.Any(x => x.Relationship.ID == filter.RelationshipID && x.RelatedData.Any()))
-                                {
-                                    bool searchAndValueColumnsareEqual = false;
 
-                                    var value = AgentUICoreMediator.GetAgentUICoreMediator.formulaManager.GetValueSomeHow(AgentUICoreMediator.GetAgentUICoreMediator.GetRequester(), data, filter.ValueRelationshipTail, filter.ValueColumnID);
-                                    foreach (var searchData in data.ChildRelationshipInfos.First(x => x.Relationship.ID == filter.RelationshipID && x.RelatedData.Any()).RelatedData)
-                                    {
-                                        var searchValue = searchData.GetProperty(filter.SearchColumnID);
-                                        if (searchValue != null)
-                                            if (searchValue.Value == value)
-                                                searchAndValueColumnsareEqual = true;
-                                    }
-                                    if (!searchAndValueColumnsareEqual)
-                                    {
-                                        var message = "فیلتر رابطه برای رابطه به نام" + " " + relControl.Relationship.Alias + " " + "رعایت نشده است";
-                                        AddColumnControlValidationMessage(relControl, message, data);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
         private void ValidateEntityValidations(DP_DataRepository data)
         {
             foreach (var validation in EditArea.EntityValidations)
@@ -209,52 +188,56 @@ namespace MyUILibrary.EntityArea
             //ایزه ریلیشنهای ساب به سوپر
             foreach (var relationshipControl in EditArea.RelationshipColumnControls)
             {
-                if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.SubToSuper)
+                var childRel = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
+                if (!childRel.IsHidden)
                 {
-                    var isaRelationship = (relationshipControl.Relationship as SubToSuperRelationshipDTO).ISARelationship;
-
-                    if (isaRelationship.IsDisjoint)
+                    if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.SubToSuper)
                     {
-                        var superDataItem = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID).RelatedData.FirstOrDefault();
-                        if (superDataItem != null)
-                        {//اگر فول باشد در خود فرمش بررسی خواهد شد
-                            if (!superDataItem.IsFullData)
-                            {
-                                var superEntity = AgentUICoreMediator.GetAgentUICoreMediator.tableDrivedEntityManagerService.GetFullEntity(AgentUICoreMediator.GetAgentUICoreMediator.GetRequester(), relationshipControl.EditNdTypeArea.AreaInitializer.EntityID);
-                                var otherSuperToSubRelationships = superEntity.Relationships.Where(x => x is SuperToSubRelationshipDTO && (x as SuperToSubRelationshipDTO).ISARelationship.ID == isaRelationship.ID
-                                && (x as SuperToSubRelationshipDTO).ID != relationshipControl.Relationship.PairRelationshipID);
-                                bool moreThanOneData = false;
-                                foreach (var otherSuperToSubRelationship in otherSuperToSubRelationships)
-                                {
-                                    var requester = AgentUICoreMediator.GetAgentUICoreMediator.GetRequester();
-                                    requester.SkipSecurity = true;
-                                    DR_SearchViewRequest request = new DR_SearchViewRequest(requester, AgentUICoreMediator.GetAgentUICoreMediator.RelationshipDataManager.GetSecondSideSearchDataItemByRelationship(superDataItem, otherSuperToSubRelationship.ID));
+                        var isaRelationship = (relationshipControl.Relationship as SubToSuperRelationshipDTO).ISARelationship;
 
-                                    var otherSideData = AgentUICoreMediator.GetAgentUICoreMediator.requestRegistration.SendSearchViewRequest(request).ResultDataItems;
-                                    if (otherSideData.Any())
-                                    {
-                                        moreThanOneData = true;
-                                        break;
-                                    }
-                                }
-                                if (moreThanOneData)
+                        if (isaRelationship.IsDisjoint)
+                        {
+                            var superDataItem = childRel.RealData.FirstOrDefault();
+                            if (superDataItem != null)
+                            {//اگر فول باشد در خود فرمش بررسی خواهد شد
+                                if (!superDataItem.IsFullData)
                                 {
-                                    string relationshipNames = relationshipControl.Relationship.Entity1;
+                                    var superEntity = AgentUICoreMediator.GetAgentUICoreMediator.tableDrivedEntityManagerService.GetFullEntity(AgentUICoreMediator.GetAgentUICoreMediator.GetRequester(), relationshipControl.EditNdTypeArea.AreaInitializer.EntityID);
+                                    var otherSuperToSubRelationships = superEntity.Relationships.Where(x => x is SuperToSubRelationshipDTO && (x as SuperToSubRelationshipDTO).ISARelationship.ID == isaRelationship.ID
+                                    && (x as SuperToSubRelationshipDTO).ID != relationshipControl.Relationship.PairRelationshipID);
+                                    bool moreThanOneData = false;
                                     foreach (var otherSuperToSubRelationship in otherSuperToSubRelationships)
                                     {
-                                        relationshipNames += (relationshipNames == "" ? "" : ",") + otherSuperToSubRelationship.Entity2;
-                                    }
-                                    string message = "تنها یکی از";
-                                    message += " " + (otherSuperToSubRelationships.Count() + 1) + " " + "رابطه" + " " + relationshipNames + " " + "با" + " " + relationshipControl.Relationship.Entity2 + " " + "ورود اطلاعات شود";
+                                        var requester = AgentUICoreMediator.GetAgentUICoreMediator.GetRequester();
+                                        requester.SkipSecurity = true;
+                                        DR_SearchViewRequest request = new DR_SearchViewRequest(requester, AgentUICoreMediator.GetAgentUICoreMediator.RelationshipDataManager.GetSecondSideSearchDataItemByRelationship(superDataItem, otherSuperToSubRelationship.ID));
 
-                                    AddColumnControlValidationMessage(relationshipControl, message, data);
+                                        var otherSideData = AgentUICoreMediator.GetAgentUICoreMediator.requestRegistration.SendSearchViewRequest(request).ResultDataItems;
+                                        if (otherSideData.Any())
+                                        {
+                                            moreThanOneData = true;
+                                            break;
+                                        }
+                                    }
+                                    if (moreThanOneData)
+                                    {
+                                        string relationshipNames = relationshipControl.Relationship.Entity1;
+                                        foreach (var otherSuperToSubRelationship in otherSuperToSubRelationships)
+                                        {
+                                            relationshipNames += (relationshipNames == "" ? "" : ",") + otherSuperToSubRelationship.Entity2;
+                                        }
+                                        string message = "تنها یکی از";
+                                        message += " " + (otherSuperToSubRelationships.Count() + 1) + " " + "رابطه" + " " + relationshipNames + " " + "با" + " " + relationshipControl.Relationship.Entity2 + " " + "ورود اطلاعات شود";
+
+                                        AddColumnControlValidationMessage(relationshipControl, message, data);
+
+                                    }
 
                                 }
-
                             }
                         }
-                    }
 
+                    }
                 }
             }
 
@@ -273,19 +256,23 @@ namespace MyUILibrary.EntityArea
             List<Tuple<ISARelationshipDTO, List<RelationshipColumnControl>>> isaRelationships = new List<Tuple<ISARelationshipDTO, List<RelationshipColumnControl>>>();
             foreach (var relationshipControl in EditArea.RelationshipColumnControls)
             {
-                if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.SuperToSub)
+                var childRel = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
+                if (!childRel.IsHidden)
                 {
-                    var isaID = (relationshipControl.Relationship as SuperToSubRelationshipDTO).ISARelationship.ID;
-                    Tuple<ISARelationshipDTO, List<RelationshipColumnControl>> isaRelationship = null;
-                    if (!isaRelationships.Any(x => x.Item1.ID == isaID))
+                    if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.SuperToSub)
                     {
-                        isaRelationship = new Tuple<ISARelationshipDTO, List<RelationshipColumnControl>>((relationshipControl.Relationship as SuperToSubRelationshipDTO).ISARelationship, new List<RelationshipColumnControl>());
-                        isaRelationships.Add(isaRelationship);
+                        var isaID = (relationshipControl.Relationship as SuperToSubRelationshipDTO).ISARelationship.ID;
+                        Tuple<ISARelationshipDTO, List<RelationshipColumnControl>> isaRelationship = null;
+                        if (!isaRelationships.Any(x => x.Item1.ID == isaID))
+                        {
+                            isaRelationship = new Tuple<ISARelationshipDTO, List<RelationshipColumnControl>>((relationshipControl.Relationship as SuperToSubRelationshipDTO).ISARelationship, new List<RelationshipColumnControl>());
+                            isaRelationships.Add(isaRelationship);
+                        }
+                        else
+                            isaRelationship = isaRelationships.First(x => x.Item1.ID == isaID);
+                        isaRelationship.Item2.Add(relationshipControl);
+                        //}
                     }
-                    else
-                        isaRelationship = isaRelationships.First(x => x.Item1.ID == isaID);
-                    isaRelationship.Item2.Add(relationshipControl);
-                    //}
                 }
             }
 
@@ -301,7 +288,7 @@ namespace MyUILibrary.EntityArea
                         {
                             var childRelationshipInfo = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
                             //این بود بررسی شود  if (childRelationshipInfo.RelatedData.Any(x => x.HasDirectData))
-                            if (childRelationshipInfo.RelatedData.Any())
+                            if (childRelationshipInfo.RealData.Any())
                                 hasData = true;
                         }
                         if (!hasData)
@@ -334,14 +321,13 @@ namespace MyUILibrary.EntityArea
                     foreach (var relationshipControl in isaRelationship.Item2)
                     {
                         var childRelationshipInfo = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
-                        if (childRelationshipInfo.RelatedData.Any(x => !x.ShouldBeSkipped))
-                            if (childRelationshipInfo.RelatedData.Any())
-                            {
-                                if (!hasData)
-                                    hasData = true;
-                                else
-                                    moreThanOneData = true;
-                            }
+                        if (childRelationshipInfo.RealData.Any())
+                        {
+                            if (!hasData)
+                                hasData = true;
+                            else
+                                moreThanOneData = true;
+                        }
                     }
                     if (moreThanOneData)
                     {
@@ -365,50 +351,52 @@ namespace MyUILibrary.EntityArea
 
         private void ValidateUnionRelationships(DP_DataRepository data)
         {
-
             foreach (var relationshipControl in EditArea.RelationshipColumnControls)
             {
                 if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
                 {
-
-                    var unionRelationship = (relationshipControl.Relationship as SubUnionToSuperUnionRelationshipDTO).UnionRelationship;
-                    //چک کردن دیسجوینت بودن
-                    var superDataItem = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID).RelatedData.FirstOrDefault();
-                    if (superDataItem != null)
+                    var childRel = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
+                    if (!childRel.IsHidden)
                     {
-                        if (!superDataItem.IsFullData)
+                        var unionRelationship = (relationshipControl.Relationship as SubUnionToSuperUnionRelationshipDTO).UnionRelationship;
+                        //چک کردن دیسجوینت بودن
+                        var superDataItem = childRel.RealData.FirstOrDefault();
+                        if (superDataItem != null)
                         {
-                            var superEntity = AgentUICoreMediator.GetAgentUICoreMediator.tableDrivedEntityManagerService.GetFullEntity(AgentUICoreMediator.GetAgentUICoreMediator.GetRequester(), relationshipControl.EditNdTypeArea.AreaInitializer.EntityID);
-                            var otherSuperToSubRelationships = superEntity.Relationships.Where(x => x is SuperToSubRelationshipDTO && (x as SuperToSubRelationshipDTO).ISARelationship.ID == unionRelationship.ID
-                            && (x as SuperToSubRelationshipDTO).ID != relationshipControl.Relationship.PairRelationshipID);
-                            bool moreThanOneData = false;
-                            foreach (var otherSuperToSubRelationship in otherSuperToSubRelationships)
+                            if (!superDataItem.IsFullData)
                             {
-                                var requester = AgentUICoreMediator.GetAgentUICoreMediator.GetRequester();
-                                requester.SkipSecurity = true;
-                                DR_SearchViewRequest request = new DR_SearchViewRequest(requester, AgentUICoreMediator.GetAgentUICoreMediator.RelationshipDataManager.GetSecondSideSearchDataItemByRelationship(superDataItem, otherSuperToSubRelationship.ID));
-
-                                var otherSideData = AgentUICoreMediator.GetAgentUICoreMediator.requestRegistration.SendSearchViewRequest(request).ResultDataItems;
-                                if (otherSideData.Any())
-                                {
-                                    moreThanOneData = true;
-                                    break;
-                                }
-                            }
-
-                            if (moreThanOneData)
-                            {
-                                string relationshipNames = relationshipControl.Relationship.Entity1;
+                                var superEntity = AgentUICoreMediator.GetAgentUICoreMediator.tableDrivedEntityManagerService.GetFullEntity(AgentUICoreMediator.GetAgentUICoreMediator.GetRequester(), relationshipControl.EditNdTypeArea.AreaInitializer.EntityID);
+                                var otherSuperToSubRelationships = superEntity.Relationships.Where(x => x is SuperToSubRelationshipDTO && (x as SuperToSubRelationshipDTO).ISARelationship.ID == unionRelationship.ID
+                                && (x as SuperToSubRelationshipDTO).ID != relationshipControl.Relationship.PairRelationshipID);
+                                bool moreThanOneData = false;
                                 foreach (var otherSuperToSubRelationship in otherSuperToSubRelationships)
                                 {
-                                    relationshipNames += (relationshipNames == "" ? "" : ",") + otherSuperToSubRelationship.Entity2;
+                                    var requester = AgentUICoreMediator.GetAgentUICoreMediator.GetRequester();
+                                    requester.SkipSecurity = true;
+                                    DR_SearchViewRequest request = new DR_SearchViewRequest(requester, AgentUICoreMediator.GetAgentUICoreMediator.RelationshipDataManager.GetSecondSideSearchDataItemByRelationship(superDataItem, otherSuperToSubRelationship.ID));
+
+                                    var otherSideData = AgentUICoreMediator.GetAgentUICoreMediator.requestRegistration.SendSearchViewRequest(request).ResultDataItems;
+                                    if (otherSideData.Any())
+                                    {
+                                        moreThanOneData = true;
+                                        break;
+                                    }
                                 }
-                                string message = "تنها یکی از";
-                                message += " " + (otherSuperToSubRelationships.Count() + 1) + " " + "رابطه" + " " + relationshipNames + " " + "با" + " " + relationshipControl.Relationship.Entity2 + " " + "ورود اطلاعات شود";
 
-                                AddColumnControlValidationMessage(relationshipControl, message, data);
+                                if (moreThanOneData)
+                                {
+                                    string relationshipNames = relationshipControl.Relationship.Entity1;
+                                    foreach (var otherSuperToSubRelationship in otherSuperToSubRelationships)
+                                    {
+                                        relationshipNames += (relationshipNames == "" ? "" : ",") + otherSuperToSubRelationship.Entity2;
+                                    }
+                                    string message = "تنها یکی از";
+                                    message += " " + (otherSuperToSubRelationships.Count() + 1) + " " + "رابطه" + " " + relationshipNames + " " + "با" + " " + relationshipControl.Relationship.Entity2 + " " + "ورود اطلاعات شود";
+
+                                    AddColumnControlValidationMessage(relationshipControl, message, data);
+                                }
+
                             }
-
                         }
                     }
                 }
@@ -427,19 +415,23 @@ namespace MyUILibrary.EntityArea
             List<Tuple<UnionRelationshipDTO, List<RelationshipColumnControl>>> unionRelationships = new List<Tuple<UnionRelationshipDTO, List<RelationshipColumnControl>>>();
             foreach (var relationshipControl in EditArea.RelationshipColumnControls)
             {
-                if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                var childRel = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
+                if (!childRel.IsHidden)
                 {
-                    var unionID = (relationshipControl.Relationship as SuperUnionToSubUnionRelationshipDTO).UnionRelationship.ID;
-                    Tuple<UnionRelationshipDTO, List<RelationshipColumnControl>> unionRelationship = null;
-                    if (!unionRelationships.Any(x => x.Item1.ID == unionID))
+                    if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
                     {
-                        unionRelationship = new Tuple<UnionRelationshipDTO, List<RelationshipColumnControl>>((relationshipControl.Relationship as SuperUnionToSubUnionRelationshipDTO).UnionRelationship, new List<RelationshipColumnControl>());
-                        unionRelationships.Add(unionRelationship);
+                        var unionID = (relationshipControl.Relationship as SuperUnionToSubUnionRelationshipDTO).UnionRelationship.ID;
+                        Tuple<UnionRelationshipDTO, List<RelationshipColumnControl>> unionRelationship = null;
+                        if (!unionRelationships.Any(x => x.Item1.ID == unionID))
+                        {
+                            unionRelationship = new Tuple<UnionRelationshipDTO, List<RelationshipColumnControl>>((relationshipControl.Relationship as SuperUnionToSubUnionRelationshipDTO).UnionRelationship, new List<RelationshipColumnControl>());
+                            unionRelationships.Add(unionRelationship);
+                        }
+                        else
+                            unionRelationship = unionRelationships.First(x => x.Item1.ID == unionID);
+                        unionRelationship.Item2.Add(relationshipControl);
+                        //}
                     }
-                    else
-                        unionRelationship = unionRelationships.First(x => x.Item1.ID == unionID);
-                    unionRelationship.Item2.Add(relationshipControl);
-                    //}
                 }
             }
 
@@ -457,7 +449,7 @@ namespace MyUILibrary.EntityArea
                     var childRelationshipInfo = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
 
                     //if (childRelationshipInfo.RelatedData.Any(x => x.HasDirectData))
-                    if (childRelationshipInfo.RelatedData.Any())
+                    if (childRelationshipInfo.RealData.Any())
                     {
                         if (!hasData)
                             hasData = true;
@@ -493,21 +485,65 @@ namespace MyUILibrary.EntityArea
         }
         private void ValidateRelationshipColumn(DP_DataRepository dataItem, ChildRelationshipInfo childRelationshipInfo, RelationshipColumnControl relationshipControl)
         {
-            //اگر رابطه childRelationshipInfo مخفی بود چی؟
-            if (relationshipControl.Relationship.IsOtherSideMandatory == true)
+            if (!childRelationshipInfo.IsHidden)
             {
-                //if (!childRelationshipInfo.RelatedData.Any(x => x.HasDirectData))
-                //باید اونایی که shouldbecounted
-                //بعداد بررسی شود در سایر ولیدیشن ها هم
-                if (!childRelationshipInfo.RelatedData.Any())
+                if (relationshipControl.Relationship.IsOtherSideMandatory == true)
                 {
-                    AddColumnControlValidationMessage(relationshipControl, "مقدار دهی این رابطه اجباری می باشد", dataItem);
+                    if (!childRelationshipInfo.RealData.Any())
+                    {
+                        AddColumnControlValidationMessage(relationshipControl, "مقدار دهی این رابطه اجباری می باشد", dataItem);
+                    }
                 }
             }
             //یک ولیدشن دیگه انجام شود.اینکه اگر رابطه فیلتر داشت و یک بار جستجو با داده انتخاب شده وفیلتر انجام شود تا جلوی رکوردهای غیر مجاز گرفته شود.مثل اداره مربوطه در تشکیل پرونده که آیتم سورس آنها تغییر میکند
         }
+        private void ValidateRelationshipFilters(DP_DataRepository data)
+        {
+            //اینجا هم بحث realdata یا relateddata چک بشه
+            //
+            foreach (var relationshipControl in EditArea.RelationshipColumnControls)
+            {
+                var childRel = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
+                if (!childRel.IsHidden)
+                {
+                    if (relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateSelectDirect
+                    || relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateSelectInDirect
+                    || relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.Select)
+                    {
+                        if (relationshipControl.EditNdTypeArea.SearchViewEntityArea != null)
+                        {
+                            if (relationshipControl.EditNdTypeArea.SearchViewEntityArea.RelationshipFilters.Any())
+                            {
+                                foreach (var filter in relationshipControl.EditNdTypeArea.SearchViewEntityArea.RelationshipFilters)
+                                {
+                                    if (data.ChildRelationshipInfos.Any(x => x.Relationship.ID == filter.RelationshipID && x.RelatedData.Any()))
+                                    {
+                                        bool searchAndValueColumnsareEqual = false;
+
+                                        var value = AgentUICoreMediator.GetAgentUICoreMediator.formulaManager.GetValueSomeHow(AgentUICoreMediator.GetAgentUICoreMediator.GetRequester(), data, filter.ValueRelationshipTail, filter.ValueColumnID);
+                                        foreach (var searchData in data.ChildRelationshipInfos.First(x => x.Relationship.ID == filter.RelationshipID && x.RelatedData.Any()).RelatedData)
+                                        {
+                                            var searchValue = searchData.GetProperty(filter.SearchColumnID);
+                                            if (searchValue != null)
+                                                if (searchValue.Value == value)
+                                                    searchAndValueColumnsareEqual = true;
+                                        }
+                                        if (!searchAndValueColumnsareEqual)
+                                        {
+                                            var message = "فیلتر رابطه برای رابطه به نام" + " " + relationshipControl.Relationship.Alias + " " + "رعایت نشده است";
+                                            AddColumnControlValidationMessage(relationshipControl, message, data);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         private void ValidateTailDataValidation(DP_DataRepository data)
         {
+            //برای فرمهایی که از کارتابل باز میشود اینکه داده ها حتما با داده مرجع در ارتباط باشند
             //تست شود
             var foundItems = AgentHelper.GetRelatedDataItemsSomeHow(data, EditArea.AreaInitializer.TailDataValidation.Item2);
             bool found = false;
@@ -619,7 +655,7 @@ namespace MyUILibrary.EntityArea
         public void AddColumnControlValidationMessage(BaseColumnControl baseColumnControl, string message, DP_DataRepository causingData)
         {
             causingData.ISValid = false;
-            ColumnControlMessageItem baseMessageItem = new ColumnControlMessageItem(baseColumnControl,ControlOrLabelAsTarget.Control);
+            ColumnControlMessageItem baseMessageItem = new ColumnControlMessageItem(baseColumnControl, ControlOrLabelAsTarget.Control);
             baseMessageItem.CausingDataItem = causingData;
             baseMessageItem.Key = "validation";
             baseMessageItem.Message = message;

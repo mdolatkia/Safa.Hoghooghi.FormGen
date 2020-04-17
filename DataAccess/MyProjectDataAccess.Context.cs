@@ -63,7 +63,6 @@ namespace DataAccess
         public virtual DbSet<DataViewSetting> DataViewSetting { get; set; }
         public virtual DbSet<DateColumnType> DateColumnType { get; set; }
         public virtual DbSet<DBSchema> DBSchema { get; set; }
-        public virtual DbSet<DBServer> DBServer { get; set; }
         public virtual DbSet<EmptySpaceUISetting> EmptySpaceUISetting { get; set; }
         public virtual DbSet<EntityChartReport> EntityChartReport { get; set; }
         public virtual DbSet<EntityCommand> EntityCommand { get; set; }
@@ -169,5 +168,6 @@ namespace DataAccess
         public virtual DbSet<TransitionAction_Formula> TransitionAction_Formula { get; set; }
         public virtual DbSet<TransitionActionTarget> TransitionActionTarget { get; set; }
         public virtual DbSet<TransitionActivity> TransitionActivity { get; set; }
+        public virtual DbSet<DBServer> DBServer { get; set; }
     }
 }

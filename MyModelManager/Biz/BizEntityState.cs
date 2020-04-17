@@ -170,6 +170,49 @@ namespace MyModelManager
         {
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
+                //if (EntityState.RelationshipTailID != 0)
+
+                //{
+                //    var stateTail = projectContext.EntityRelationshipTail.First(x => x.ID == EntityState.RelationshipTailID);
+                //    foreach (var actionActivity in EntityState.ActionActivities)
+                //    {
+                //        var actionActivityEntity = projectContext.UIActionActivity.First(x => x.ID == actionActivity.ID);
+                //        if (actionActivityEntity.UIEnablityDetails.Any(x => stateTail.RelationshipPath == x.RelationshipID.ToString() ||
+                //             stateTail.RelationshipPath.StartsWith(x.RelationshipID.ToString())))
+                //        {
+                //            var actionItem = actionActivityEntity.UIEnablityDetails.First(x => stateTail.RelationshipPath == x.RelationshipID.ToString() ||
+                //                 stateTail.RelationshipPath.StartsWith(x.RelationshipID.ToString()));
+                //            var relationshipAlias = actionItem.Relationship.Alias;
+                //            throw new Exception("امکان استفاده از رابطه" + " " + relationshipAlias + " " + "در اقدام" + " "
+                //                + actionItem.UIActionActivity.Title + " " + "به علت وجود اشتراک با رشته رابطه وضعیت وجود ندارد");
+
+                //            //زیرا تناقض است. از طرفی رشته رابطه جزو خصوصیات موجودیت برای تعیین وضعیت هست و از طرفی میخواهیم فقط خواندنی و یا مخفی کنیم
+                //            //اگر در لود شدن فرمهای ورود اطلاعات فرض کنیم رشته رابطه پرنت و خود موجودیت فرم چایلد باشد منطقی است اما اگر 
+                //            // فرض کنیم که رشته رابطه چایلد باشد و موجودیت اصلی خود این موجودیات باشد آنوقت برای تغییر رابطه باید به صورت مصنوعی رشته رابطه را تغییر دهیم تا رابطه قابل اصلاح شود
+                //            // آنوقت با تغییر رابطه دیگر تغییراتی که در رشته رابطه یا وضعیت داده ایم هیچوقت ثبت نخواهد شد چون ریموو شده اند
+                //            // پس بهتر است اشتراکی وجود نداشته باشد و وضعیت آزادانه تغییر کند
+
+                //        }
+                //    }
+                //}
+                if (EntityState.RelationshipTailID == 0 && EntityState.ColumnID != 0)
+                {
+                    foreach (var actionActivity in EntityState.ActionActivities)
+                    {
+                        var actionActivityEntity = projectContext.UIActionActivity.First(x => x.ID == actionActivity.ID);
+                        if (actionActivityEntity.UIEnablityDetails.Any(x => x.ColumnID == EntityState.ColumnID))
+                        {
+                            var actionItem = actionActivityEntity.UIEnablityDetails.First(x => x.ColumnID == EntityState.ColumnID);
+                            var columnAlias = actionItem.Column.Alias;
+                            throw new Exception("امکان استفاده از ستون" + " " + columnAlias + " " + "در اقدام" + " "
+                                + actionItem.UIActionActivity.Title + " " + "به علت همسان بودن با ستون تعیین وضعیت وجود ندارد");
+                            //ستون تعیین وضعیت نمیتواند خود مخفی یا فقط خواندنی باشد زیرا دیگر نمی تواند مقدار بگیرد
+                            // باید دسترسی مخصوص در صورت نیاز برای این ستون تعریف شود
+                        }
+                    }
+                }
+
+
                 var dbEntityState = projectContext.TableDrivedEntityState.FirstOrDefault(x => x.ID == EntityState.ID);
                 if (dbEntityState == null)
                     dbEntityState = new DataAccess.TableDrivedEntityState();

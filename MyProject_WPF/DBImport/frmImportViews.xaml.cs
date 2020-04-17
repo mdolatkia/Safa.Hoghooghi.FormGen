@@ -116,11 +116,15 @@ namespace MyProject_WPF
 
                 if (listNew.Any())
                 {
+                    var columnTags = WizardHelper.GetColumnsAliasAndDescriptions(listNew.SelectMany(x => x.Entity.Columns).ToList());
                     var tags = WizardHelper.GetTablesAliasAndDescriptions(listNew.Select(x => x.Entity).ToList());
                     foreach (var item in listNew)
                     {
                         if (!string.IsNullOrEmpty(tags.Item1) || !string.IsNullOrEmpty(tags.Item2))
                             WizardHelper.SetEntityAliasAndDescription(item, tags.Item1, tags.Item2);
+                        foreach (var column in item.Entity.Columns)
+                            WizardHelper.SetColumnAliasAnadDescription(column, columnTags.Item1, columnTags.Item2);
+                        item.Tooltip = GetNewItemTooltip(item);
                     }
 
 
@@ -189,6 +193,16 @@ namespace MyProject_WPF
             {
                 FormIsFree(this, null);
             }
+        }
+        private string GetNewItemTooltip(TableImportItem item)
+        {
+            string tooltip = item.Entity.Name + ((!string.IsNullOrEmpty(item.Entity.Alias) && item.Entity.Name != item.Entity.Alias) ? " As " + "'" + item.Entity.Alias + "'" : "");
+            tooltip += Environment.NewLine + "Columns : ";
+            foreach (var column in item.Entity.Columns)
+            {
+                tooltip += Environment.NewLine + column.Name + ((!string.IsNullOrEmpty(column.Alias) && column.Name != column.Alias) ? " As " + "'" + column.Alias + "'" : "");
+            }
+            return tooltip;
         }
         public Task<List<TableImportItem>> GetViewsInfo()
         {

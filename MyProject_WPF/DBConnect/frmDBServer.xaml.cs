@@ -38,7 +38,6 @@ namespace MyProject_WPF
             {
                 GetDBServer(serverID);
             }
-            cmbType.ItemsSource = Enum.GetValues(typeof(enum_DBType)).Cast<object>();
 
         }
         private void GetDBServer(int serverID)
@@ -51,7 +50,6 @@ namespace MyProject_WPF
             txtServer.Text = Message.Name;
             txtTitle.Text = Message.Title;
             txtIPAddress.Text = Message.IPAddress;
-            cmbType.SelectedItem = Message.ServerType;
 
         }
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -60,7 +58,6 @@ namespace MyProject_WPF
             Message.Name = txtServer.Text;
             Message.Title = txtTitle.Text;
             Message.IPAddress = txtIPAddress.Text;
-            Message.ServerType = (enum_DBType)cmbType.SelectedItem;
 
             Message.ID = bizDatabase.SaveServer(Message);
 
@@ -77,7 +74,7 @@ namespace MyProject_WPF
         {
             frmDBServerSelect frmSelect = new frmDBServerSelect();
             frmSelect.DBServerSelected += FrmSelect_DBServerSelected;
-            MyProjectManager.GetMyProjectManager.ShowDialog(frmSelect, "انتخاب سرور");
+            MyProjectManager.GetMyProjectManager.ShowDialog(frmSelect, "انتخاب سرور",Enum_WindowSize.Big);
         }
 
         private void FrmSelect_DBServerSelected(object sender, DBServerSelectedArg e)

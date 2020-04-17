@@ -24,11 +24,10 @@ namespace MyUILibrary.EntityArea
     {
 
         //StateHelper stateHelper = new StateHelper();
-        public List<UIControlPackageTree> UICompositionContainers { set; get; }
         public event EventHandler<EditAreaDataItemArg> DataItemSelected;
         public EditEntityAreaOneData(TableDrivedEntityDTO simpleEntity) : base(simpleEntity)
         {
-            UICompositionContainers = new List<UIControlPackageTree>();
+            UIControlPackageTree = new List<UIControlPackageTree>();
             //SimpleColumnControls = new List<SimpleColumnControl>();
             //RelationshipColumnControls = new List<RelationshipColumnControl>();
         }
@@ -107,39 +106,45 @@ namespace MyUILibrary.EntityArea
                     CreateDefaultData();
             }
         }
-
-        public void GenerateUIComposition(UIControlPackageTree parentUIControlPackage, List<EntityUICompositionDTO> UICompositions)
+        public override void GenerateUIComposition(List<EntityUICompositionDTO> UICompositions)
         {
-            List<UIControlPackageTree> parentList = null;
-            I_View_GridContainer container;
-            if (parentUIControlPackage == null)
-            {
-                container = SpecializedDataView;
-                parentList = UICompositionContainers;
-            }
-            else
-            {
-                parentList = parentUIControlPackage.ChildItems;
-                container = parentUIControlPackage.Item as I_View_GridContainer;
-            }
+            List<UIControlPackageTree> parentList = UIControlPackageTree;
+            I_View_GridContainer container = SpecializedDataView;
+            GenerateUIComposition(UICompositions, container, null, parentList);
+        }
+        public void GenerateUIComposition(List<EntityUICompositionDTO> UICompositions, object container, UIControlPackageTree parentUIControlPackage, List<UIControlPackageTree> parentList)
+        {
+            //I_View_GridContainer container;
+            //if (parentUIControlPackage == null)
+            //{
+            //    container = SpecializedDataView;
+            //    parentList = UIControlPackageTree;
+            //}
+            //else
+            //{
+            //    parentList = parentUIControlPackage.ChildItems;
+            //    container = parentUIControlPackage.Item as I_View_GridContainer;
+            //}
 
             foreach (var uiCompositionItem in UICompositions.OrderBy(x => x.Position))
             {
                 UIControlPackageTree item = new UIControlPackageTree();
+                item.ParentItem = parentUIControlPackage;
+                item.Container = container;
                 //if (parentUIControlPackage == null)
                 //{
                 //    item.UIComposition = uiCompositionItem;
                 //    item.Container = DataView;
 
                 //}+
-                if (uiCompositionItem.ObjectCategory == DatabaseObjectCategory.Entity)
-                {
-                    item.Item = DataView;
-                    parentList.Add(item);
-                    GenerateUIComposition(item, uiCompositionItem.ChildItems);
+                //if (uiCompositionItem.ObjectCategory == DatabaseObjectCategory.Entity)
+                //{
+                //    item.Item = DataView;
+                //    parentList.Add(item);
+                //    GenerateUIComposition(uiCompositionItem.ChildItems, DataView, item, item.ChildItems);
 
-                }
-                else if (uiCompositionItem.ObjectCategory == DatabaseObjectCategory.Group)
+                //}
+                if (uiCompositionItem.ObjectCategory == DatabaseObjectCategory.Group)
                 {
                     var groupSetting = uiCompositionItem.GroupUISetting;
                     if (groupSetting == null)
@@ -151,10 +156,14 @@ namespace MyUILibrary.EntityArea
                     }
                     var groupItem = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateGroup(groupSetting);
                     item.Item = groupItem;
-                    GenerateUIComposition(item, uiCompositionItem.ChildItems);
+                    item.UIItem = groupItem.UIMainControl;
+
+                    groupItem.UIControlPackageTreeItem = item;
+                    GenerateUIComposition(uiCompositionItem.ChildItems, groupItem, item, item.ChildItems);
+
                     if (item.ChildItems.Count != 0)
                     {
-                        container.AddGroup(groupItem, uiCompositionItem.Title, groupSetting);
+                        (container as I_View_GridContainer).AddGroup(groupItem, uiCompositionItem.Title, groupSetting);
                         parentList.Add(item);
                     }
 
@@ -169,11 +178,14 @@ namespace MyUILibrary.EntityArea
                         tabgroupSetting.UIColumnsType = Enum_UIColumnsType.Full;
                     }
                     var tabGroupContainer = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateTabGroup(tabgroupSetting);
+                    tabGroupContainer.UIControlPackageTreeItem = item;
                     item.Item = tabGroupContainer;
-                    GenerateUIComposition(item, uiCompositionItem.ChildItems);
+                    item.UIItem = tabGroupContainer.UIMainControl;
+
+                    GenerateUIComposition(uiCompositionItem.ChildItems, tabGroupContainer, item, item.ChildItems);
                     if (item.ChildItems.Count != 0)
                     {
-                        container.AddTabGroup(tabGroupContainer, uiCompositionItem.Title, tabgroupSetting);
+                        (container as I_View_GridContainer).AddTabGroup(tabGroupContainer, uiCompositionItem.Title, tabgroupSetting);
                         parentList.Add(item);
                     }
 
@@ -186,13 +198,15 @@ namespace MyUILibrary.EntityArea
                         tabpageSetting = new TabPageUISettingDTO();
                         tabpageSetting.InternalColumnsCount = GetEntityUISetting().UIColumnsCount;
                     }
-                    var groupItem = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateTabPage(tabpageSetting);
-                    item.Item = groupItem;
-                    GenerateUIComposition(item, uiCompositionItem.ChildItems);
+                    var tabPage = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateTabPage(tabpageSetting);
+                    item.Item = tabPage;
+                    item.UIItem = tabPage.UIMainControl;
+                    tabPage.UIControlPackageTreeItem = item;
+                    GenerateUIComposition(uiCompositionItem.ChildItems, tabPage, item, item.ChildItems);
                     if (item.ChildItems.Count != 0)
                     {
                         var parentTabGroupContainer = parentUIControlPackage.Item as I_TabGroupContainer;
-                        parentTabGroupContainer.AddTabPage(groupItem, uiCompositionItem.Title, tabpageSetting, groupItem.HasHeader);
+                        parentTabGroupContainer.AddTabPage(tabPage, uiCompositionItem.Title, tabpageSetting, tabPage.HasHeader);
                         parentList.Add(item);
 
 
@@ -203,8 +217,10 @@ namespace MyUILibrary.EntityArea
                     var columnControl = SimpleColumnControls.FirstOrDefault(x => x.Column.ID == Convert.ToInt32(uiCompositionItem.ObjectIdentity));
                     if (columnControl != null)
                     {
+                        columnControl.UIControlPackageTreeItem = item;
                         item.Item = columnControl.ControlManager;
-                        container.AddUIControlPackage(columnControl.SimpleControlManager, columnControl.ControlManager.LabelControlManager);
+                        item.UIItem = columnControl.ControlManager.GetUIControl(null);
+                        (container as I_View_GridContainer).AddUIControlPackage(columnControl.SimpleControlManager, columnControl.ControlManager.LabelControlManager);
                         parentList.Add(item);
                         columnControl.Visited = true;
                     }
@@ -214,12 +230,14 @@ namespace MyUILibrary.EntityArea
                     var columnControl = RelationshipColumnControls.FirstOrDefault(x => x.Relationship != null && x.Relationship.ID == Convert.ToInt32(uiCompositionItem.ObjectIdentity));
                     if (columnControl != null)
                     {
+                        columnControl.UIControlPackageTreeItem = item;
                         if (UICompositions.Count == 1 && parentUIControlPackage.Item is I_TabPageContainer)
                         {
                             (columnControl.ControlManager as I_RelationshipControlManager).TabPageContainer = parentUIControlPackage.Item as I_TabPageContainer;
                         }
                         item.Item = columnControl.ControlManager;
-                        container.AddView(columnControl.ControlManager, columnControl.ControlManager.LabelControlManager);
+                        item.UIItem = columnControl.ControlManager.GetUIControl(null);
+                        (container as I_View_GridContainer).AddView(columnControl.ControlManager, columnControl.ControlManager.LabelControlManager);
                         parentList.Add(item);
                         columnControl.Visited = true;
                     }
@@ -235,7 +253,7 @@ namespace MyUILibrary.EntityArea
                     }
                     //var emptyItem = SpecializedDataView.GenerateEmptySpace(setting);
                     //item.Item = emptyItem;
-                    container.AddEmptySpace(setting);
+                     (container as I_View_GridContainer).AddEmptySpace(setting);
                     parentList.Add(item);
                 }
                 //حالت تب اضافه شود
@@ -250,6 +268,40 @@ namespace MyUILibrary.EntityArea
 
 
 
+        }
+        public void CheckContainersVisiblity(List<BaseColumnControl> changedControls)
+        {
+            if (this is I_EditEntityAreaOneData)
+            {
+                List<UIControlPackageTree> parentAsContainers = new List<UIControlPackageTree>();
+                foreach (var item in changedControls)
+                {
+                    if (item.UIControlPackageTreeItem != null && item.UIControlPackageTreeItem.Container != null
+                        && item.UIControlPackageTreeItem.ParentItem != null)
+                    {
+                        if (!parentAsContainers.Any(x => x == item.UIControlPackageTreeItem.ParentItem))
+                            parentAsContainers.Add(item.UIControlPackageTreeItem.ParentItem);
+                    }
+                }
+                if (parentAsContainers.Any())
+                {
+                    foreach (var container in parentAsContainers)
+                    {
+                        CheckContainerVisiblity(container);
+                    }
+                }
+            }
+        }
+        public void CheckContainerVisiblity(UIControlPackageTree container)
+        {
+            if (container.ChildItems.Any(x => x.UIItem != null && AgentUICoreMediator.GetAgentUICoreMediator.UIManager.ControlIsVisible(x.UIItem)))
+            {
+                AgentUICoreMediator.GetAgentUICoreMediator.UIManager.SetContaierVisiblity(container.UIItem, true);
+            }
+            else
+                AgentUICoreMediator.GetAgentUICoreMediator.UIManager.SetContaierVisiblity(container.UIItem, false);
+            if (container.ParentItem != null)
+                CheckContainerVisiblity(container.ParentItem);
         }
         public override void DataItemVisiblity(object dataItem, bool visible)
         {
@@ -392,7 +444,7 @@ namespace MyUILibrary.EntityArea
                     result = false;
             }
             if (result)
-                OnDataItemShown(new EditAreaDataItemLoadedArg() { DataItem = specificDate, InEditMode = true });
+                OnDataItemShown(new EditAreaDataItemLoadedArg() { DataItem = specificDate, InEditMode = false });
             CheckRelationshipReadonlyEnablity();
             return result;
 
@@ -420,6 +472,7 @@ namespace MyUILibrary.EntityArea
         {
             typePropertyControl.SimpleControlManager.SetBinding(dataItem, property);
         }
+
 
     }
 

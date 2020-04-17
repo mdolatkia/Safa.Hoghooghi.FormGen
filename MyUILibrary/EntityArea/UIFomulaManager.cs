@@ -275,7 +275,7 @@ namespace MyUILibrary.EntityArea
         //}
         public void UpdateFromulas(List<CalculatedPropertyTree> result, RelationshipDTO relationship = null)
         {
-            var datalist = EditArea.GetDataList().Where(x => x.ShouldBeSkipped == false).ToList();
+            var datalist = EditArea.GetDataList().Where(x => x.ShoudBeCounted).ToList();
             foreach (var data in datalist)
             {
                 //اینم دیگه بیخوده چوم فقط محاسبه فرمول برای هر پراپرتی رو میخوایمcalculatedPropertyTree
@@ -300,11 +300,15 @@ namespace MyUILibrary.EntityArea
                 }
                 foreach (var relationshipControl in EditArea.RelationshipColumnControls)
                 {
-                    relationshipControl.EditNdTypeArea.SetChildRelationshipInfo(data.ChildRelationshipInfos.First(x => x.Relationship == relationshipControl.Relationship));
-                    if (relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateDirect
-                       || relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateSelectDirect)
+                    var childRelInfo = data.ChildRelationshipInfos.First(x => x.Relationship == relationshipControl.Relationship);
+                    if (!childRelInfo.IsHidden)
                     {
-                        relationshipControl.EditNdTypeArea.AreaInitializer.UIFomulaManager.UpdateFromulas(calculatedPropertyTree.ChildItems, relationshipControl.Relationship);
+                        relationshipControl.EditNdTypeArea.SetChildRelationshipInfo(childRelInfo);
+                        if (relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateDirect
+                           || relationshipControl.EditNdTypeArea.AreaInitializer.IntracionMode == IntracionMode.CreateSelectDirect)
+                        {
+                            relationshipControl.EditNdTypeArea.AreaInitializer.UIFomulaManager.UpdateFromulas(calculatedPropertyTree.ChildItems, relationshipControl.Relationship);
+                        }
                     }
                 }
             }

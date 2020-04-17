@@ -44,7 +44,7 @@ namespace MyUILibrary.EntityArea
     }
     public interface I_View_EditEntityAreaDataView : I_View_GridContainer, I_View_DataContainer
     {
-       
+
     }
 
 
@@ -70,7 +70,7 @@ namespace MyUILibrary.EntityArea
 
     public interface I_View_Area
     {
-
+    //    object UIElement { get; }
         void DeHighlightCommands();
         void AddCommand(I_CommandManager command, bool indirect = false);
         void SetBackgroundColor(string color);
@@ -91,6 +91,7 @@ namespace MyUILibrary.EntityArea
         bool IsOpenedTemporary { get; set; }
         //event EventHandler<Arg_CommandExecuted> CommandExecuted;
         //void AddCommands(List<I_Command> Commands, TemplateEntityUISettings templateEntityUISettings);
+        UIControlPackageTree UIControlPackageTreeItem { get; set; }
 
         //bool AllowExpand { set; get; }
         //void SetExpanderInfo(object header);
@@ -101,7 +102,7 @@ namespace MyUILibrary.EntityArea
     }
     public interface I_View_DataContainer : I_View_Container, I_DataControlManager
     {
-        
+
     }
     public interface I_View_MultipleDataContainer : I_View_DataContainer
     {
@@ -141,7 +142,7 @@ namespace MyUILibrary.EntityArea
         //void AddValidation(DataMessageItem item);
         //void ClearValidation(DP_DataRepository item);
         //void ClearValidation();
-       
+
     }
 
     //public class Arg_DataDependentControlGeneration : EventArgs

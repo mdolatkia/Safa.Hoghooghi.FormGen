@@ -63,8 +63,23 @@ namespace MyDataEditManagerBusiness
                     if (!string.IsNullOrEmpty(logResult))
                         result.Details.Add(ToResultDetail("خطا در ثبت لاگ", "", logResult));
 
-                    foreach (var item in editQueryResults)
-                        result.UpdatedItems.Add(item.QueryItem.DataItem);
+                    foreach (var item in request.EditPackages)
+                    {
+                        var baseData = new DP_BaseData(item.TargetEntityID, item.TargetEntityAlias);
+                        var listKeyProperties = new List<EntityInstanceProperty>();
+                        if (item.IsNewItem && item.KeyProperties.Any(x => x.IsIdentity))
+                        {
+                            var dataItem = editQueryResults.First(x => x.QueryItem.DataItem == item).QueryItem.DataItem;
+                            foreach (var key in dataItem.KeyProperties)
+                                baseData.Properties.Add(key);
+                        }
+                        else
+                        {
+                            foreach (var key in item.KeyProperties)
+                                baseData.Properties.Add(key);
+                        }
+                        result.UpdatedItems.Add(baseData);
+                    }
 
                     if (editQueryResults.Any(x => x.AfterSaveActionActivitiesResult == Enum_DR_SimpleResultType.ExceptionThrown))
                     {
@@ -135,7 +150,7 @@ namespace MyDataEditManagerBusiness
                             permission = false;
                             result.Details.Add(ToResultDetail("عدم دسترسی", "عدم دسترسی به ستون" + " " + column.Column.Alias, ""));
                         }
-                        else if (column.IsChanged && (bizColumn.DataIsReadonly(requester, column.ColumnID)||column.IsReadonly))
+                        else if (column.ValueIsChanged && (bizColumn.DataIsReadonly(requester, column.ColumnID) || column.IsReadonly))
                         {
                             permission = false;
                             result.Details.Add(ToResultDetail("عدم دسترسی", "عدم دسترسی ثبت به ستون" + " " + column.Column.Alias, ""));

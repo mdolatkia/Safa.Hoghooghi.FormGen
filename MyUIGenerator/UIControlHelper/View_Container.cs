@@ -19,6 +19,7 @@ namespace MyUIGenerator.UIControlHelper
 {
     public abstract class View_Container : UserControl, I_View_Container
     {
+
         public abstract void AddView(object view, I_LabelControlManager labelControlManager);
         public abstract void AddUIControlPackage(I_SimpleControlManager controlManager, I_LabelControlManager labelControlManager);
         public abstract void ClearControls();
@@ -31,6 +32,8 @@ namespace MyUIGenerator.UIControlHelper
         {
             ControlArea.IsEnabled = enable;
         }
+        public UIControlPackageTree UIControlPackageTreeItem { get; set; }
+
         public bool IsOpenedTemporary { get; set; }
         //public View_Container(GridSetting gridSetting)
         //{

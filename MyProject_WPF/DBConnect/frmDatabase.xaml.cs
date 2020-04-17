@@ -27,11 +27,12 @@ namespace MyProject_WPF
         public frmDatabase(int databaseID)
         {
             InitializeComponent();
-
+            cmbType.ItemsSource = Enum.GetValues(typeof(enum_DBType)).Cast<object>();
             SetServerLookup();
             if (databaseID == 0)
             {
                 Message = new DatabaseDTO();
+                CheckConnectionStrinButton();
             }
             else
             {
@@ -50,8 +51,10 @@ namespace MyProject_WPF
             lokServer.SelectedValue = Message.DBServerID;
             txtDBName.Text = Message.Name;
             txtTitle.Text = Message.Title;
+            cmbType.SelectedItem = Message.DBType;
             txtConnectionString.Text = Message.ConnectionString;
             chkDBHasData.IsChecked = Message.DBHasData;
+            CheckConnectionStrinButton();
         }
 
         BizDatabase bizDatabase = new BizDatabase();
@@ -100,13 +103,14 @@ namespace MyProject_WPF
             {
                 return;
             }
+            Message.DBType = (enum_DBType)cmbType.SelectedItem;
             Message.DBServerID = (int)lokServer.SelectedValue;
             Message.Name = txtDBName.Text;
             Message.Title = txtTitle.Text;
             Message.ConnectionString = txtConnectionString.Text;
             Message.DBHasData = chkDBHasData.IsChecked == true;
             Message.ID = bizDatabase.SaveDatabase(Message);
-        
+            MessageBox.Show("عملیات انجام شد");
             if (DatabaseUpdated != null)
                 DatabaseUpdated(this, new MyProject_WPF.DatabaseUpdatedArg() { DatabaseID = Message.ID });
         }
@@ -118,7 +122,7 @@ namespace MyProject_WPF
 
         private void btnNew_Click(object sender, RoutedEventArgs e)
         {
-            Message = new  DatabaseDTO();
+            Message = new DatabaseDTO();
             ShowMessage();
         }
 
@@ -126,13 +130,53 @@ namespace MyProject_WPF
         {
             frmDatabaseSelect frmOrganizationSelect = new frmDatabaseSelect();
             frmOrganizationSelect.DatabaseSelected += FrmOrganizationSelect_DatabaseSelected;
-            MyProjectManager.GetMyProjectManager.ShowDialog(frmOrganizationSelect, "انتخاب پایگاه داده");
+            MyProjectManager.GetMyProjectManager.ShowDialog(frmOrganizationSelect, "انتخاب پایگاه داده", Enum_WindowSize.Big);
         }
 
         private void FrmOrganizationSelect_DatabaseSelected(object sender, DatabaseSelectedArg e)
         {
             MyProjectManager.GetMyProjectManager.CloseDialog(sender);
             GetDatabase(e.DatabaseID);
+        }
+
+        private void btnConnectionString_Click(object sender, RoutedEventArgs e)
+        {
+            string serverName = "";
+            if (lokServer.SelectedItem != null)
+            {
+                serverName = (lokServer.SelectedItem as DbServerDTO).Name;
+            }
+            if (!string.IsNullOrEmpty(serverName))
+            {
+                frmSQLConnectionString frm = new MyProject_WPF.frmSQLConnectionString(serverName, txtDBName.Text, txtConnectionString.Text);
+                frm.ConnectionStringConfirmed += Frm_ConnectionStringConfirmed;
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("نام سرور مشخص نمی باشد");
+            }
+        }
+
+        private void Frm_ConnectionStringConfirmed(object sender, MyConnectionString e)
+        {
+            txtConnectionString.Text = e.ConnectionString;
+          //  txtDBName.Text = e.DatabaseName;
+          //بعدا ولیدیشن بشود که نام دیتابیس و کانکشن برابر باشد؟؟
+            (sender as frmSQLConnectionString).Close();
+        }
+
+        private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CheckConnectionStrinButton();
+        }
+
+        private void CheckConnectionStrinButton()
+        {
+            if (cmbType.SelectedItem != null && (enum_DBType)cmbType.SelectedItem == enum_DBType.SQLServer)
+                btnConnectionString.Visibility = Visibility.Visible;
+            else
+                btnConnectionString.Visibility = Visibility.Collapsed;
         }
     }
     public class DatabaseUpdatedArg : EventArgs

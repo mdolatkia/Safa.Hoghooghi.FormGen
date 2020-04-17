@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telerik.Windows.Controls;
 
 namespace MyProject_WPF
 {
@@ -39,7 +40,7 @@ namespace MyProject_WPF
 
         private void AddTreeNode(SecurityActionTreeItem item, ItemCollection items)
         {
-            TreeViewItem node = new TreeViewItem();
+            RadTreeViewItem node = new RadTreeViewItem();
             node.DataContext = item;
             CheckBox checkbox = new CheckBox();
             checkbox.Checked += (sender, e) => NodeChecked(sender, e, node);
@@ -55,7 +56,7 @@ namespace MyProject_WPF
 
         }
 
-        private void NodeChecked(object sender, RoutedEventArgs e, TreeViewItem node)
+        private void NodeChecked(object sender, RoutedEventArgs e, RadTreeViewItem node)
         {
             if ((sender as CheckBox).IsChecked == true)
             {
@@ -64,19 +65,19 @@ namespace MyProject_WPF
             }
         }
 
-        private void UncheckNodeParent(TreeViewItem node)
+        private void UncheckNodeParent(RadTreeViewItem node)
         {
-            if (node.Parent != null && node.Parent is TreeViewItem)
+            if (node.Parent != null && node.Parent is RadTreeViewItem)
             {
-                var checkbox = (node.Parent as TreeViewItem).Header as CheckBox;
+                var checkbox = (node.Parent as RadTreeViewItem).Header as CheckBox;
                 checkbox.IsChecked = false;
-                UncheckNodeParent(node.Parent as TreeViewItem);
+                UncheckNodeParent(node.Parent as RadTreeViewItem);
             }
         }
 
         private void UncheckNodeChilds(ItemCollection items)
         {
-            foreach (TreeViewItem node in items)
+            foreach (RadTreeViewItem node in items)
             {
                 var checkbox = node.Header as CheckBox;
                 checkbox.IsChecked = false;
@@ -89,7 +90,7 @@ namespace MyProject_WPF
         {
             if (items == null)
                 items = treeActions.Items;
-            foreach (TreeViewItem item in items)
+            foreach (RadTreeViewItem item in items)
             {
                 (item.Header as CheckBox).IsChecked = false;
                 ClearData(item.Items);
@@ -109,7 +110,7 @@ namespace MyProject_WPF
         }
         private CheckBox GetActionCheckBox(SecurityAction action, ItemCollection items)
         {
-            foreach (TreeViewItem item in items)
+            foreach (RadTreeViewItem item in items)
             {
                 if (item.DataContext != null)
                 {
@@ -131,7 +132,7 @@ namespace MyProject_WPF
                 result = new List<SecurityAction>();
             if (items == null)
                 items = treeActions.Items;
-            foreach (TreeViewItem item in items)
+            foreach (RadTreeViewItem item in items)
             {
                 if (item.DataContext != null)
                 {

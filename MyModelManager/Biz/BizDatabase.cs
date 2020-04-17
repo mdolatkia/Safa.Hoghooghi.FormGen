@@ -124,8 +124,6 @@ namespace MyModelManager
                 dbServer.Name = message.Name;
                 dbServer.Title = message.Title;
                 dbServer.IPAddress = message.IPAddress;
-                dbServer.ServerType = message.ServerType.ToString();
-
                 if (dbServer.ID == 0)
                     projectContext.DBServer.Add(dbServer);
                 projectContext.SaveChanges();
@@ -170,7 +168,6 @@ namespace MyModelManager
             result.Name = dbServer.Name;
             result.Title = dbServer.Title;
             result.IPAddress = dbServer.IPAddress;
-            result.ServerType = (enum_DBType)Enum.Parse(typeof(enum_DBType), dbServer.ServerType, true);
 
             foreach (var linked in dbServer.LinkedServer)
             {
@@ -229,7 +226,8 @@ namespace MyModelManager
             result.Title = item.Title;
             result.DBServerID = item.DBServerID;
             result.DBServerName = item.DBServer.Name;
-            result.ServerType = (enum_DBType)Enum.Parse(typeof(enum_DBType), item.DBServer.ServerType, true);
+            result.DBServerTitle = item.DBServer.Title;
+            result.DBType = (enum_DBType)Enum.Parse(typeof(enum_DBType), item.DBType, true);
             result.DBHasData = item.DBHasDate;
             result.ConnectionString = item.ConnectionString;
 
@@ -255,7 +253,7 @@ namespace MyModelManager
                 dbDatabase.Title = message.Title;
                 dbDatabase.DBHasDate = message.DBHasData;
                 dbDatabase.ConnectionString = message.ConnectionString;
-
+                dbDatabase.DBType = message.DBType.ToString();
                 if (dbDatabase.ID == 0)
                     projectContext.DatabaseInformation.Add(dbDatabase);
                 projectContext.SaveChanges();

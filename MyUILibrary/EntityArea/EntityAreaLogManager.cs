@@ -142,11 +142,7 @@ namespace MyUILibrary.EntityArea
         private EditAreaDataActionLog ToDataLog(DP_DataRepository item)
         {
             EditAreaDataActionLog log = new EditAreaDataActionLog();
-            if (item.RelationshipIsRemoved)
-            {
-                log.ActionType = LogAction.RemoveRelationship;
-            }
-            else if (item.RelationshipIsAdded)
+            if (item.ParantChildRelationshipInfo != null && item.ParantChildRelationshipInfo.DataItemIsAdded(item))
             {
                 if (item.IsNewItem)
                     log.ActionType = LogAction.AddedToRelationshipNewData;
@@ -179,7 +175,7 @@ namespace MyUILibrary.EntityArea
             if (item.IsNewItem)
                 changedPropeties = item.GetProperties();
             else
-                changedPropeties = item.GetProperties().Where(x => x.IsChanged).ToList();
+                changedPropeties = item.GetProperties().Where(x => x.ValueIsChanged).ToList();
             foreach (var property in changedPropeties)
             {
                 var actionLogProperty = new ActionLogProperty();
@@ -223,12 +219,23 @@ namespace MyUILibrary.EntityArea
                 {
                     relatedLog.RelatedActions.Add(ToDataLog(childData));
                 }
-                foreach (var childData in child.OriginalRelatedData.Where(X => X.RelationshipIsRemoved))
+                foreach (var childData in child.RemovedDataForUpdate)
                 {
-                    relatedLog.RelatedActions.Add(ToDataLog(childData));
+                    relatedLog.RelatedActions.Add(ToRemovedDataLog(childData));
                 }
                 log.RelatedLog.Add(relatedLog);
             }
+            return log;
+        }
+
+        private EditAreaDataActionLog ToRemovedDataLog(DP_DataRepository originalData)
+        {
+            EditAreaDataActionLog log = new EditAreaDataActionLog();
+            log.ActionType = LogAction.RemoveRelationship;
+            log.EntityID = originalData.TargetEntityID;
+            //log.EntityName = item.;
+            log.DataInfo = originalData.ViewInfo;
+            log.KeyProperties = originalData.KeyProperties;
             return log;
         }
     }

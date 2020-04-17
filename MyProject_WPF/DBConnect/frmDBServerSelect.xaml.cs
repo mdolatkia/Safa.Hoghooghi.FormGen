@@ -24,11 +24,24 @@ namespace MyProject_WPF
     public partial class frmDBServerSelect : UserControl
     {
         public event EventHandler<DBServerSelectedArg> DBServerSelected;
+        SelectorGrid SelectorGrid = null;
         public frmDBServerSelect()
         {
             InitializeComponent();
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                 ShowDBServers();
+
+            var listColumns = new Dictionary<string, string>();
+            listColumns.Add("Name", "نام");
+            listColumns.Add("Title", "عنوان");
+            listColumns.Add("IPAddress", "IP Address");
+            SelectorGrid = ControlHelper.SetSelectorGrid(dtgItems, listColumns);
+            SelectorGrid.DataItemSelected += SelectorGrid_DataItemSelected;
+        }
+
+        private void SelectorGrid_DataItemSelected(object sender, object e)
+        {
+            CheckSelectedItem(e);
         }
 
         public void ShowDBServers()
@@ -37,13 +50,16 @@ namespace MyProject_WPF
             var DBServerList = bizDBServer.GetDBServers();
             dtgItems.ItemsSource = DBServerList;
         }
-
-
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
-            if (dtgItems.SelectedItem != null)
+            CheckSelectedItem(dtgItems.SelectedItem);
+        }
+
+        private void CheckSelectedItem(object item)
+        {
+            if (item != null)
             {
-                var DBServerDTO = dtgItems.SelectedItem as DbServerDTO;
+                var DBServerDTO = item as DbServerDTO;
                 if (DBServerDTO != null)
                 {
                     DBServerSelectedArg arg = new DBServerSelectedArg();

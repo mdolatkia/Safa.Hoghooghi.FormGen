@@ -126,7 +126,7 @@ namespace MyModelManager
                 if (existingIds.Count > 0)
                 {
                     var removeList = projectContext.NavigationTree.Where(x => !existingIds.Contains(x.ID));
-                    foreach (var item in removeList)
+                    foreach (var item in removeList.ToList())
                         RemoveItem(item, projectContext);
                 }
                 CheckAddItems(items, null, null, projectContext);
@@ -174,7 +174,7 @@ namespace MyModelManager
 
         private void RemoveItem(DataAccess.NavigationTree item, DataAccess.MyProjectEntities projectContext)
         {
-            foreach (var cItem in item.NavigationTree1)
+            foreach (var cItem in item.NavigationTree1.ToList())
             {
                 RemoveItem(cItem, projectContext);
             }

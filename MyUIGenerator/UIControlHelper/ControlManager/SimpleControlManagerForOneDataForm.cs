@@ -41,7 +41,7 @@ namespace MyUIGenerator.UIControlHelper
                 return MyControlHelper.IsVisible();
             }
         }
-     
+
 
         public CommonOperator GetOperator()
         {
@@ -73,6 +73,7 @@ namespace MyUIGenerator.UIControlHelper
         {
             return MyControlHelper.SetOperator(searchOperator);
         }
+
         //public void ClearAllValidations()
         //{
         //    ValidationItems.Clear();
@@ -170,7 +171,8 @@ namespace MyUIGenerator.UIControlHelper
             if (LabelControlManager != null)
                 LabelControlManager.Visiblity(visible);
             MyControlHelper.Visiblity(visible);
-        }   public void EnableDisable(bool enable)
+        }
+        public void EnableDisable(bool enable)
         {
             MyControlHelper.EnableDisable(enable);
         }
@@ -210,7 +212,10 @@ namespace MyUIGenerator.UIControlHelper
             MyControlHelper.SetForegroundColor(color);
         }
 
-
+        public object GetUIControl(object dataItem)
+        {
+            return MyControlHelper.MainControl;
+        }
     }
 
 

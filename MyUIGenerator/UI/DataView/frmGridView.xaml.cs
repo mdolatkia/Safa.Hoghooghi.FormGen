@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using ProxyLibrary;
 using MyUIGenerator.UIControlHelper;
 using MyUILibraryInterfaces.DataViewArea;
+using MyUILibrary.EntityArea;
 
 namespace MyUIGenerator.View
 {
@@ -36,14 +37,14 @@ namespace MyUIGenerator.View
             cmbOrderColumns.SelectionChanged += CmbOrderColumns_SelectionChanged;
             cmbSort.SelectionChanged += CmbSort_SelectionChanged;
         }
-
+        public object UIElement { get { return this; } }
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if((sender as RadGridView).SelectedItem!=null)
+            if ((sender as RadGridView).SelectedItem != null)
             {
-                if(InfoClicked!=null)
+                if (InfoClicked != null)
                 {
-                    InfoClicked(this, new DataGridSelectedArg() { DataView = (sender as RadGridView).SelectedItem,UIElement= (sender as RadGridView).GetRowForItem((sender as RadGridView).SelectedItem) });
+                    InfoClicked(this, new DataGridSelectedArg() { DataView = (sender as RadGridView).SelectedItem, UIElement = (sender as RadGridView).GetRowForItem((sender as RadGridView).SelectedItem) });
                 }
             }
         }
@@ -79,9 +80,9 @@ namespace MyUIGenerator.View
             }
         }
 
-     
 
-       
+
+
 
         //public string Title
         //{
@@ -132,7 +133,7 @@ namespace MyUIGenerator.View
 
         public void AddGridViewItems(List<DP_DataView> items)
         {
-        
+
         }
 
         public void SetEntityListViews(List<EntityListViewDTO> entitiyListViews, int defaultEntityListViewID)
@@ -143,9 +144,9 @@ namespace MyUIGenerator.View
             cmbListViews.SelectedValue = defaultEntityListViewID;
         }
 
-   
 
-      
+
+
         private void imgSearch_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (SearchCommandRequested != null)
@@ -154,11 +155,11 @@ namespace MyUIGenerator.View
 
         private void imgReferesh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-           
+
         }
 
-    
-    
+
+
 
         public void SetOrderColumns(List<Tuple<int, string>> columns)
         {

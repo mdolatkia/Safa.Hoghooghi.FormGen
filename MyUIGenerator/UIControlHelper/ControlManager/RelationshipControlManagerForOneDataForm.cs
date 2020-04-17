@@ -144,6 +144,10 @@ namespace MyUIGenerator.UIControlHelper
                 (MainControl as I_View_TemporaryView).DisableEnable(link, enable);
             }
         }
+        public object GetUIControl(object dataItem)
+        {
+            return MainControl;
+        }
         //public void AddValidation(BaseMessageItem item)
         //{
         //    ValidationItems.Add(item);

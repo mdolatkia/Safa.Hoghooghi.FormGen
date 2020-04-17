@@ -94,7 +94,7 @@ namespace MyCommonWPFControls
             {
                 var filterArg = new MyCommonWPFControls.SearchFilterArg();
                 filterArg.SingleFilterValue = generalFilterValue;
-                filterArg.Filters = filters;
+             //   filterArg.Filters = filters;
                 SearchFilterChanged(this, filterArg);
                 ItemsSource = filterArg.ResultItemsSource;
                 Popup(true);

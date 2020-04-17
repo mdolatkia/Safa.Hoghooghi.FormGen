@@ -52,15 +52,15 @@ namespace MyProject_WPF
                 PopulateTreeItems(rootNode, entity);
             }
         }
-        private TreeViewItem AddRootNode(ItemCollection collection, string title)
+        private RadTreeViewItem AddRootNode(ItemCollection collection, string title)
         {
-            var node = new TreeViewItem();
+            var node = new RadTreeViewItem();
             node.Header = GetNodeHeader(title, "Folder");
             collection.Add(node);
             return node;
         }
 
-        private void PopulateTreeItems(TreeViewItem parentNode, TableDrivedEntityDTO entity)
+        private void PopulateTreeItems(RadTreeViewItem parentNode, TableDrivedEntityDTO entity)
         {
 
 
@@ -91,9 +91,9 @@ namespace MyProject_WPF
             //RadContextMenu.SetContextMenu(functionNode, GetFunctionsContextMenu(entityID, functionNode));
 
         }
-        private TreeViewItem AddRelationshipNode(ItemCollection collection, RelationshipDTO relationship)
+        private RadTreeViewItem AddRelationshipNode(ItemCollection collection, RelationshipDTO relationship)
         {
-            var node = new TreeViewItem();
+            var node = new RadTreeViewItem();
             node.DataContext = relationship;
             node.Header = GetNodeHeader(relationship.Entity2, "Relationship");
             node.ToolTip = relationship.ID + (string.IsNullOrEmpty(relationship.Alias) ? "" : Environment.NewLine + relationship.Alias) + (string.IsNullOrEmpty(relationship.Name) ? "" : Environment.NewLine + relationship.Name);
@@ -102,7 +102,7 @@ namespace MyProject_WPF
         }
         private void Node_Expanded(object sender, RoutedEventArgs e)
         {
-            var treeItem = e.Source as TreeViewItem;
+            var treeItem = e.Source as RadTreeViewItem;
             if (treeItem != null)
             {
                 bool firstTime = false;
@@ -202,9 +202,9 @@ namespace MyProject_WPF
                 collection = treeItems.Items;
             foreach (var item in collection)
             {
-                if (item is TreeViewItem)
+                if (item is RadTreeViewItem)
                 {
-                    var node = (item as TreeViewItem);
+                    var node = (item as RadTreeViewItem);
                     if (node.Header is StackPanel)
                     {
                         foreach (var control in (node.Header as StackPanel).Children)

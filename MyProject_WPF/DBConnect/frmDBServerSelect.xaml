@@ -9,7 +9,9 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <telerik:RadGridView ShowGroupPanel="False" x:Name="dtgItems" Grid.Row="1" ></telerik:RadGridView>
+        <telerik:RadGridView   x:Name="dtgItems" Grid.Row="1" >
+           
+        </telerik:RadGridView>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="انتخاب" x:Name="btnSelect" Click="btnSelect_Click"></Button>
             <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="بازگشت" x:Name="btnClose" Click="btnClose_Click"></Button>

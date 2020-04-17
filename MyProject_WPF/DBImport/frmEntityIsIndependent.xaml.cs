@@ -162,7 +162,7 @@ namespace MyProject_WPF
                     foreach (var entity in listAllEntitis.Where(x => !x.IsDisabled && x.IndependentDataEntry == null))
                     {
                         var relationships = new List<RelationshipDTO>();
-                        foreach (var rel in listAllEnabledRelationships.Where(x =>  x.EntityID2 == entity.ID))
+                        foreach (var rel in listAllEnabledRelationships.Where(x => x.EntityID2 == entity.ID))
                         {
                             //  var oneSideEntity = listAllEntitis.First(x => x.ID == rel.EntityID1);
                             //    if (oneSideEntity.IndependentDataEntry == true)
@@ -440,7 +440,8 @@ namespace MyProject_WPF
                 {
                     foreach (var item in entity.Relationships.Where(x => x.TypeEnum == Enum_RelationshipType.ManyToOne && x.RelationshipColumns.Any(y => y.FirstSideColumn.PrimaryKey)))
                     {
-                        isIndependant = false;
+                        if (!entity.Relationships.Any(x => x.ID != item.ID && x.TypeEnum == Enum_RelationshipType.ManyToOne && x.RelationshipColumns.Any(y => y.FirstSideColumn.PrimaryKey)))
+                            isIndependant = false;
                     }
                     //if (entity.Relationships.Any(x => x.IsOtherSideMandatory && x.TypeEnum == Enum_RelationshipType.ManyToOne && !IsBaseTable(x.EntityID2)))
                     //{

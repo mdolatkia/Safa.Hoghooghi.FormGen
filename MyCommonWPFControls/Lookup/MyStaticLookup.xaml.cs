@@ -82,19 +82,18 @@ namespace MyCommonWPFControls
 
         public override void SearchFunction()
         {
-            var generalFilterValue = "";
             Dictionary<string, string> filters = new Dictionary<string, string>();
-            if (txtCombo.Text != "")
-                generalFilterValue = txtCombo.Text;
-
-            if (generalFilterValue != "" && DisplayMember != null)
+            var generalFilterValue = txtCombo.Text;
+            if (generalFilterValue != "")
             {
-                filters.Add(DisplayMember, generalFilterValue);
-                //باید or هم اضافه شود
-                //filters.Add(SelectedValueMember, generalFilterValue);
-            }
-            //بقیه فیلترها
+                foreach (var item in Columns.Where(x => x.UseInSearch))
+                    filters.Add(item.ColumnName, generalFilterValue);
 
+                if (!filters.Any(x => x.Key == DisplayMember))
+                    filters.Add(DisplayMember, generalFilterValue);
+                if (!filters.Any(x => x.Key == SelectedValueMember))
+                    filters.Add(SelectedValueMember, generalFilterValue);
+            }
             if (filters.Count > 0)
             {
                 var gridSource = GetFilteredItems(_BaseItemsSource as IList, filters);

@@ -1233,7 +1233,16 @@ namespace MyUIGenerator
                 Application.Current.Shutdown();
         }
 
-      
+        public bool ControlIsVisible(object control)
+        {
+          
+            return (control as UIElement).Visibility == Visibility.Visible;
+        }
+
+        public void SetContaierVisiblity(object control, bool visible)
+        {
+            (control as UIElement).Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 
 }

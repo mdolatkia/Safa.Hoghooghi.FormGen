@@ -20,6 +20,7 @@ namespace DataAccess
             this.FormulaItems = new HashSet<FormulaItems>();
             this.Relationship1 = new HashSet<Relationship>();
             this.SearchRepository = new HashSet<SearchRepository>();
+            this.UIEnablityDetails = new HashSet<UIEnablityDetails>();
             this.RelationshipSearchFilter = new HashSet<RelationshipSearchFilter>();
             this.RelationshipColumns = new HashSet<RelationshipColumns>();
         }
@@ -47,6 +48,7 @@ namespace DataAccess
         public virtual Relationship Relationship2 { get; set; }
         public virtual SecurityObject SecurityObject { get; set; }
         public virtual ICollection<SearchRepository> SearchRepository { get; set; }
+        public virtual ICollection<UIEnablityDetails> UIEnablityDetails { get; set; }
         public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual TableDrivedEntity TableDrivedEntity1 { get; set; }
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter { get; set; }

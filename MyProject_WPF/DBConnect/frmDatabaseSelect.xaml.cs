@@ -23,14 +23,42 @@ namespace MyProject_WPF
     /// </summary>
     public partial class frmDatabaseSelect : UserControl
     {
+        SelectorGrid SelectorGrid = null;
         public event EventHandler<DatabaseSelectedArg> DatabaseSelected;
         public frmDatabaseSelect()
         {
             InitializeComponent();
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
                 ShowDatabases();
-        }
 
+            var listColumns = new Dictionary<string, string>();
+            listColumns.Add("Name", "نام");
+            listColumns.Add("Title", "عنوان");
+            listColumns.Add("DBServerTitle", "عنوان سرور");
+            listColumns.Add("DBServerName", "نام سرور");
+            listColumns.Add("DBType", "نوع");
+
+            SelectorGrid = ControlHelper.SetSelectorGrid(dtgItems, listColumns);
+            SelectorGrid.DataItemSelected += SelectorGrid_DataItemSelected;
+        }
+        private void SelectorGrid_DataItemSelected(object sender, object e)
+        {
+            CheckSelectedItem(e);
+        }
+        private void CheckSelectedItem(object item)
+        {
+            if (item != null)
+            {
+                var databaseDTO = item as DatabaseDTO;
+                if (databaseDTO != null)
+                {
+                    DatabaseSelectedArg arg = new DatabaseSelectedArg();
+                    arg.DatabaseID = databaseDTO.ID;
+                    if (DatabaseSelected != null)
+                        DatabaseSelected(this, arg);
+                }
+            }
+        }
         public void ShowDatabases()
         {
             BizDatabase bizDatabase = new BizDatabase();
@@ -41,17 +69,7 @@ namespace MyProject_WPF
 
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
-            if (dtgItems.SelectedItem != null)
-            {
-                var databaseDTO = dtgItems.SelectedItem as DatabaseDTO;
-                if (databaseDTO != null)
-                {
-                    DatabaseSelectedArg arg = new DatabaseSelectedArg();
-                    arg.DatabaseID = databaseDTO.ID;
-                    if (DatabaseSelected != null)
-                        DatabaseSelected(this, arg);
-                }
-            }
+            CheckSelectedItem(dtgItems.SelectedItem);
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

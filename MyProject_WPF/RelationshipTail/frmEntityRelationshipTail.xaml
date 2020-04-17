@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-           
+           xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
              Height="600" Width="300">
     <Grid>
@@ -11,9 +11,9 @@
             <RowDefinition></RowDefinition>
             <RowDefinition  Height="30"></RowDefinition>
         </Grid.RowDefinitions>
-        <TreeView  x:Name="treeItems">
+        <telerik:RadTreeView IsLineEnabled="True"  x:Name="treeItems">
 
-        </TreeView>
+        </telerik:RadTreeView>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Margin="2" Width="110" Content="بازگشت" x:Name="btnClose" Click="btnClose_Click"></Button>
             <Button Margin="2" Width="110" Content="ثبت" Click="btnSave_Click" x:Name="btnSave"></Button>

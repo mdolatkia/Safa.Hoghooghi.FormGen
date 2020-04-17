@@ -207,6 +207,8 @@ namespace MyUILibrary
         I_View_WorkflowReport GetWorkflowReportForm();
         void ClearNavigationTree();
         void ClearSearchNavigationTree();
+        bool ControlIsVisible(object control);
+        void SetContaierVisiblity(object control,bool visible);
         //void ShowDatabaseList(DP_ResultDatabaseList result);
     }
     public interface I_MainFormMenu

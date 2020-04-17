@@ -391,10 +391,15 @@ namespace ProxyLibrary
             Properties.Add(property);
             OriginalProperties.Add(CopyProperty(property));
         }
-        public bool PropertyIsChanged(EntityInstanceProperty property)
+        public bool PropertyValueIsChanged(EntityInstanceProperty property)
         {
-            var orgProperty = OriginalProperties.First(x => x.ColumnID == property.ColumnID);
-            return property.Value != orgProperty.Value;
+            if (property.IsReadonly)
+                return false;
+            else
+            {
+                var orgProperty = OriginalProperties.First(x => x.ColumnID == property.ColumnID);
+                return property.Value != orgProperty.Value;
+            }
         }
         public EntityInstanceProperty AddCopyProperty(EntityInstanceProperty currrentProperty)
         {
@@ -409,7 +414,8 @@ namespace ProxyLibrary
             //property.Name = currrentProperty.Name;
             property.Value = currrentProperty.Value;
             property.IsHidden = currrentProperty.IsHidden;
-            property.IsReadonly = currrentProperty.IsReadonly;
+            property.ISFK = currrentProperty.ISFK;
+            property.IsReadonlyFromState = currrentProperty.IsReadonlyFromState;
             property.PropertyValueChanged += Property_PropertyValueChanged;
             property.FormulaID = currrentProperty.FormulaID;
             property.FormulaException = currrentProperty.FormulaException;
@@ -493,6 +499,8 @@ namespace ProxyLibrary
             get
             {
                 string info = "";
+                if (!string.IsNullOrEmpty(TargetEntityAlias))
+                    info += TargetEntityAlias + ", ";
                 foreach (var item in Properties)
                 {
                     info += (info == "" ? "" : Environment.NewLine) + item.Name + " : " + item.Value;
@@ -534,13 +542,53 @@ namespace ProxyLibrary
         //}
         public bool IsDBRelationship { get; set; }
         public bool BusinessHidden { get; set; }
-        public bool IsReadonly { get; set; }
-        public bool ShouldBeSkipped { get; set; }
+        public bool IsEmptyOneDirectData { get; set; }
         public bool? DataOrRelatedDataIsChanged { get; set; }
-        public bool RelationshipIsRemoved { get; internal set; }
-        public bool RelationshipIsAdded { get; internal set; }
+        //public bool RelationshipIsRemoved { get
+
+        //    {
+
+        //    }
+        //}
+        //public bool RelationshipIsAdded { get;  }
         public bool IsEdited { get; set; }
-        public bool IsHidden { get; set; }
+
+        public bool IsReadonlyBecauseOfCreatorRelationshipOnState { get; set; }
+        public bool IsReadonlyBecauseOfCreatorRelationshipOnShow { set; get; }
+
+        public bool IsReadonlyBecauseOfCreatorRelationship
+        {
+            get
+            {
+                return IsReadonlyBecauseOfCreatorRelationshipOnState || IsReadonlyBecauseOfCreatorRelationshipOnShow;
+            }
+        }
+
+        public bool IsHiddenBecauseOfCreatorRelationshipOnState { set; get; }
+        public bool ShoudBeCounted {
+
+            get
+            {
+                if (IsEmptyOneDirectData)
+                    return false;
+                else if (IsHiddenBecauseOfCreatorRelationshipOnState)
+                    return false;
+                else if (ParantChildRelationshipInfo!=null && ParantChildRelationshipInfo.IsReadonly && ParantChildRelationshipInfo.DataItemIsAdded(this))
+                    return false;
+                else if (IsReadonlyBecauseOfCreatorRelationship && ParantChildRelationshipInfo.DataItemIsAdded(this))
+                    return false;
+                return true;
+            }
+        }
+
+        //public bool IsHiddenBecauseOfCreatorRelationshipOnShow { set; get; }
+        //public bool IsHidden
+        //{
+        //    get
+        //    {
+        //        return IsHiddenBecauseOfCreatorRelationshipOnState || IsHiddenBecauseOfCreatorRelationshipOnShow;
+        //    }
+        //}
 
         List<ChangeMonitor> ChangeMonitorItems = new List<ChangeMonitor>();
 
@@ -775,13 +823,23 @@ namespace ProxyLibrary
         public List<FormulaUsageParemetersDTO> FormulaUsageParemeters { set; get; }
         public string FormulaException { set; get; }
         public int FormulaID { get; set; }
-        public bool IsChanged { get; set; }
+        public bool ValueIsChanged { get; set; }
 
         public int ListViewColumnID { set; get; }
         public string RelationshipIDTailPath { get; set; }
         public bool HasForeignKeyData { get; set; }
         public bool IsHidden { get; set; }
-        public bool IsReadonly { get; set; }
+
+        public bool IsReadonlyFromState { set; get; }
+
+        public bool IsReadonly
+        {
+            get
+            {
+                return Column.IsReadonly || IsReadonlyFromState;
+            }
+        }
+        public bool ISFK { get; set; }
         //public int EntityListViewColumnsID { get; set; }
     }
 
