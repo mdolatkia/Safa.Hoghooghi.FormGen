@@ -565,8 +565,8 @@ namespace ProxyLibrary
         }
 
         public bool IsHiddenBecauseOfCreatorRelationshipOnState { set; get; }
-        public bool ShoudBeCounted {
-
+        public bool ShoudBeCounted
+        {
             get
             {
                 if (IsEmptyOneDirectData)

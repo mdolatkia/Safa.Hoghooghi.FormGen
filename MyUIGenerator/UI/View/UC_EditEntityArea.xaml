@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600" FlowDirection="RightToLeft" Background="#FFF7F7F7" >
     <!--<Expander x:Name="expander">-->
-        <!--<Expander.Header >
+    <!--<Expander.Header >
             <Grid HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -18,18 +18,17 @@
 
             </Grid>
         </Expander.Header>-->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid x:Name="grdTool" Background="LightGray">
-                <!--<ToolBar x:Name="toolbar"/>-->
-            </Grid>
-            <Grid Grid.Row="1" x:Name="grdArea" >
-
-
-            </Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid x:Name="grdTool" Background="LightGray">
+            <!--<ToolBar x:Name="toolbar"/>-->
         </Grid>
+        <Grid Grid.Row="2" x:Name="grdArea" >
+        </Grid>
+    </Grid>
     <!--</Expander>-->
 </base:View_GridContainer>

@@ -387,20 +387,20 @@ namespace MyUILibrary.EntityArea
         {
             (DataView as I_View_EditEntityAreaMultiple).EnableDisable(dataItem, visible);
         }
-        private I_SearchViewEntityArea GenerateSearchViewArea()
-        {
-            if (AreaInitializer.SourceRelation != null)
-                throw new Exception("asdasd");
-            var searchViewEntityArea = new SearchViewEntityArea();
-            var searchViewInit = new SearchViewAreaInitializer();
-            searchViewInit.SourceEditArea = this;
-            // searchViewInit.TempEntity = FullEntity;
-            searchViewInit.EntityID = AreaInitializer.EntityID;
-            searchViewInit.MultipleSelection = true;
-            searchViewEntityArea.SetAreaInitializer(searchViewInit);
-            searchViewEntityArea.DataSelected += SearchViewEntityArea_DataSelected;
-            return searchViewEntityArea;
-        }
+        //private I_SearchViewEntityArea GenerateSearchViewArea()
+        //{
+        //    if (AreaInitializer.SourceRelation != null)
+        //        throw new Exception("asdasd");
+        //    var searchViewEntityArea = new SearchViewEntityArea();
+        //    var searchViewInit = new SearchViewAreaInitializer();
+        //    searchViewInit.SourceEditArea = this;
+        //    // searchViewInit.TempEntity = FullEntity;
+        //    searchViewInit.EntityID = AreaInitializer.EntityID;
+        //    searchViewInit.MultipleSelection = true;
+        //    searchViewEntityArea.SetAreaInitializer(searchViewInit);
+        //    searchViewEntityArea.DataSelected += SearchViewEntityArea_DataSelected;
+        //    return searchViewEntityArea;
+        //}
 
         public List<DP_DataRepository> GetSelectedData()
         {

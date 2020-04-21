@@ -318,16 +318,24 @@ namespace MyModelManager
             }
             else
             {
-                if (column.StringColumnType.MaxLength <= 64)
-                    childItem.ColumnUISetting.UIColumnsType = Enum_UIColumnsType.Normal;
-                else if (column.StringColumnType.MaxLength > 64 && column.StringColumnType.MaxLength <= 512)
-                    childItem.ColumnUISetting.UIColumnsType = Enum_UIColumnsType.Half;
-                else if (column.StringColumnType.MaxLength > 512 && column.StringColumnType.MaxLength <= 1024)
-                    childItem.ColumnUISetting.UIColumnsType = Enum_UIColumnsType.Full;
-                else if (column.StringColumnType.MaxLength > 1024)
+                if (column.StringColumnType.MaxLength == -1)
                 {
                     childItem.ColumnUISetting.UIColumnsType = Enum_UIColumnsType.Full;
-                    childItem.ColumnUISetting.UIRowsCount = 2;
+                    childItem.ColumnUISetting.UIRowsCount = 3;
+                }
+                else
+                {
+                    if (column.StringColumnType.MaxLength <= 64)
+                        childItem.ColumnUISetting.UIColumnsType = Enum_UIColumnsType.Normal;
+                    else if (column.StringColumnType.MaxLength > 64 && column.StringColumnType.MaxLength <= 512)
+                        childItem.ColumnUISetting.UIColumnsType = Enum_UIColumnsType.Half;
+                    else if (column.StringColumnType.MaxLength > 512 && column.StringColumnType.MaxLength <= 1024)
+                        childItem.ColumnUISetting.UIColumnsType = Enum_UIColumnsType.Full;
+                    else if (column.StringColumnType.MaxLength > 1024)
+                    {
+                        childItem.ColumnUISetting.UIColumnsType = Enum_UIColumnsType.Full;
+                        childItem.ColumnUISetting.UIRowsCount = 2;
+                    }
                 }
             }
             result.Add(childItem);
@@ -336,7 +344,7 @@ namespace MyModelManager
         public void UpdateUIComposition(DR_Requester requester, int entityID)
         {
             BizTableDrivedEntity bizTableDrivedEntity = new BizTableDrivedEntity();
-            var entity = bizTableDrivedEntity.GetTableDrivedEntity( requester, entityID, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithRelationships);
+            var entity = bizTableDrivedEntity.GetTableDrivedEntity(requester, entityID, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithRelationships);
             //اینجا کش شدن روابط توجه شود
             List<EntityUICompositionDTO> generetedUIComposition = null;
 
@@ -367,7 +375,7 @@ namespace MyModelManager
                 {
                     using (var projectContext = new DataAccess.MyProjectEntities())
                     {
-                        foreach (var parentGroup in generetedUIComposition.Where(x => x.ParentItem.ID!=0).GroupBy(x=>x.ParentItem))
+                        foreach (var parentGroup in generetedUIComposition.Where(x => x.ParentItem.ID != 0).GroupBy(x => x.ParentItem))
                         {
                             var parentDBItem = projectContext.EntityUIComposition.First(x => x.ID == parentGroup.Key.ID);
                             CheckAddItems(entityID, generetedUIComposition, parentGroup.Key, parentDBItem, projectContext);
@@ -594,7 +602,7 @@ namespace MyModelManager
             {
                 RemoveItem(cItem, projectContext);
             }
-            if(item.ColumnUISetting!=null)
+            if (item.ColumnUISetting != null)
                 projectContext.ColumnUISetting.Remove(item.ColumnUISetting);
             if (item.RelationshipUISetting != null)
                 projectContext.RelationshipUISetting.Remove(item.RelationshipUISetting);

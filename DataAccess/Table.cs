@@ -17,8 +17,8 @@ namespace DataAccess
         public Table()
         {
             this.Column = new HashSet<Column>();
-            this.TableDrivedEntity = new HashSet<TableDrivedEntity>();
             this.UniqueConstraint = new HashSet<UniqueConstraint>();
+            this.TableDrivedEntity = new HashSet<TableDrivedEntity>();
         }
     
         public int ID { get; set; }
@@ -27,7 +27,7 @@ namespace DataAccess
     
         public virtual ICollection<Column> Column { get; set; }
         public virtual DBSchema DBSchema { get; set; }
-        public virtual ICollection<TableDrivedEntity> TableDrivedEntity { get; set; }
         public virtual ICollection<UniqueConstraint> UniqueConstraint { get; set; }
+        public virtual ICollection<TableDrivedEntity> TableDrivedEntity { get; set; }
     }
 }

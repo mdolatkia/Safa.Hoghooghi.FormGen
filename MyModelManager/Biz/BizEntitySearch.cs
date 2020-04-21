@@ -278,13 +278,18 @@ namespace MyModelManager
                         if (!reviewedRels.Any(x => x.ID == newrelationship.ID))
                         {
                             reviewedRels.Add(newrelationship);
-
-
                             if (newrelationship.TypeEnum == Enum_RelationshipType.SubToSuper)
                             {
-                                if (!newrelationship.AllForeignKeysArePrimaryKey)
+                                foreach (var relCol in newrelationship.RelationshipColumns)
                                 {
-                                    foreach (var relCol in newrelationship.RelationshipColumns)
+                                    bool fkIsValid = false;
+                                    if (sententity == null)
+                                        fkIsValid = true;
+                                    else
+                                    {     //چون برای انتیتی اصلی پرایمری ها قبلا اضافه شده اند
+                                        fkIsValid = !relCol.FirstSideColumn.PrimaryKey;
+                                    }
+                                    if (fkIsValid)
                                     {
                                         var resultColumn = new EntitySearchColumnsDTO();
                                         resultColumn.ColumnID = relCol.FirstSideColumnID;
@@ -293,6 +298,7 @@ namespace MyModelManager
                                         list.Add(resultColumn);
                                     }
                                 }
+
                                 GenereateDefaultSearchColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), list);
                             }
                             else if (relationship == null)

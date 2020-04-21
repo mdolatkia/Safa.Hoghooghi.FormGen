@@ -103,7 +103,7 @@ namespace MyUILibrary.EntityArea
 
         private void EditArea_DataItemShown(object sender, EditAreaDataItemArg e)
         {
-           
+
         }
         List<Tuple<I_EditEntityArea, List<RelationshipFilterDTO>>> SearchInitialyAreas;
         private List<Tuple<I_EditEntityArea, List<RelationshipFilterDTO>>> GetInitialySearchEditAreas()
@@ -124,7 +124,7 @@ namespace MyUILibrary.EntityArea
                 }
                 foreach (var item in relationships.ToList())
                 {
-                    if (item.EditNdTypeArea.SimpleEntity.SearchInitially|| (item.EditNdTypeArea.AreaInitializer.SourceRelation != null && item.EditNdTypeArea.AreaInitializer.SourceRelation.Relationship.SearchInitially))
+                    if (item.EditNdTypeArea.SimpleEntity.SearchInitially == true || (item.EditNdTypeArea.AreaInitializer.SourceRelation != null && item.EditNdTypeArea.AreaInitializer.SourceRelation.Relationship.SearchInitially))
                     {
                         var relFilters = AgentUICoreMediator.GetAgentUICoreMediator.relationshipFilterManagerService.GetRelationshipFilters(AgentUICoreMediator.GetAgentUICoreMediator.GetRequester(), item.Relationship.ID);
                         //if (relFilters.Any())
@@ -180,18 +180,18 @@ namespace MyUILibrary.EntityArea
 
         //////private void RemoveRelationshipsFilters(RelationshipFilterSource item)
         //////{
-            //تنها آیتمهایی که مطمئن هستیم دیتا شو نمیشوند
-            //////ListRelationshipsFilters.Remove(item);
-            //////List<Tuple<string, int>> relColumns = GetDependentColumns();
-            //////foreach (var column in relColumns)
-            //////{
-            //////    item.DataItem.RemoveDataObserverForColumn("relfilter", column.Item1, item.DataItem);
-            //////    item.UnRegisterEvent();
-            //////    item.RelatedDataChanged -= DataItem_RelatedDataChanged;
+        //تنها آیتمهایی که مطمئن هستیم دیتا شو نمیشوند
+        //////ListRelationshipsFilters.Remove(item);
+        //////List<Tuple<string, int>> relColumns = GetDependentColumns();
+        //////foreach (var column in relColumns)
+        //////{
+        //////    item.DataItem.RemoveDataObserverForColumn("relfilter", column.Item1, item.DataItem);
+        //////    item.UnRegisterEvent();
+        //////    item.RelatedDataChanged -= DataItem_RelatedDataChanged;
 
 
-            //////}
-            //item.DataItem.OnObserverColumnChanged(new ObserverData(), null);
+        //////}
+        //item.DataItem.OnObserverColumnChanged(new ObserverData(), null);
         //////}
 
         //private List<FormulaItemDTO> GetAllFormulaItems(List<FormulaItemDTO> treeFormulaItems, List<FormulaItemDTO> allFormulaItems = null)
@@ -225,8 +225,8 @@ namespace MyUILibrary.EntityArea
         //}
 
 
-   
-        
+
+
     }
     //public class RelationshipFilterSource
     //{

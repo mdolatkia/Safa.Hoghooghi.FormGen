@@ -18,7 +18,7 @@ namespace DataAccess
         public int TableDrivedEntityID { get; set; }
         public int EntityRelationshipTailID { get; set; }
     
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual EntityRelationshipTail EntityRelationshipTail { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

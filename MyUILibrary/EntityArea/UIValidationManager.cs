@@ -578,12 +578,15 @@ namespace MyUILibrary.EntityArea
             {
                 if (simplePropertyControl.Column.StringColumnType != null)
                 {
-                    if (simplePropertyControl.Column.StringColumnType.MaxLength != 0)
+                    if (simplePropertyControl.Column.StringColumnType.MaxLength != 0
+                        && simplePropertyControl.Column.StringColumnType.MaxLength != -1)
+                    {
                         if (dataColumn.Value.Length > simplePropertyControl.Column.StringColumnType.MaxLength)
                         {
                             string message = "حداکثر طول این خصوصیت" + " " + simplePropertyControl.Column.StringColumnType.MaxLength + " " + "کاراکتر می باشد";
                             AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
                         }
+                    }
                 }
 
                 if (simplePropertyControl.Column.NumericColumnType != null)

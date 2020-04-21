@@ -18,7 +18,7 @@ namespace DataAccess
         public byte[] IconContent { get; set; }
         public Nullable<int> EntityListViewID { get; set; }
     
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual EntityListView EntityListView { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

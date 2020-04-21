@@ -181,7 +181,7 @@ namespace MyUILibrary.EntityArea.Commands
             ObservableCollection<DP_DataRepository> result = new ObservableCollection<DP_DataRepository>();
             foreach (var item in sourceList)
             {
-                if (!item.ShoudBeCounted)
+                if (item.ShoudBeCounted)
                     result.Add(GetData(item));
             }
             //if (parentChildRelationshipInfo == null)

@@ -179,7 +179,7 @@ namespace MyModelManager
                     foreach (var column in columnGroup)
                     {
                         if (!bizColumn.DataIsAccessable(requester, column.ColumnID))
-                        removeList.Add(column);
+                            removeList.Add(column);
                     }
                 }
             }
@@ -263,10 +263,14 @@ namespace MyModelManager
             result.EntityListViewAllColumns = GenereateDefaultListViewColumns(entity, null, allEntities);
             return result;
         }
-        private List<EntityListViewColumnsDTO> GenereateDefaultListViewColumns(TableDrivedEntityDTO sententity, RelationshipDTO relationship, List<TableDrivedEntityDTO> allEntities, string relationshipPath = "", List<EntityListViewColumnsDTO> list = null)
+        private List<EntityListViewColumnsDTO> GenereateDefaultListViewColumns(TableDrivedEntityDTO sententity, RelationshipDTO relationship, List<TableDrivedEntityDTO> allEntities, string relationshipPath = "", List<RelationshipDTO> relationships = null, List<EntityListViewColumnsDTO> list = null)
         {
             if (list == null)
                 list = new List<EntityListViewColumnsDTO>();
+            if (relationships == null)
+                relationships = new List<RelationshipDTO>();
+            if (relationship != null)
+                relationships.Add(relationship);
             TableDrivedEntityDTO entity = null;
             List<ColumnDTO> simplecollumns = null;
             if (sententity != null)
@@ -296,7 +300,7 @@ namespace MyModelManager
                     resultColumn.ColumnID = column.ID;
                     resultColumn.Column = column;
                     resultColumn.CreateRelationshipTailPath = relationshipPath;
-                    resultColumn.SubToSuperRelationship = (relationship != null && relationship.TypeEnum == Enum_RelationshipType.SubToSuper);
+                    resultColumn.AllRelationshipsAreSubTuSuper = relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper);
                     resultColumn.Alias = (relationship == null ? "" : entity.Alias + ".") + column.Alias;
                     list.Add(resultColumn);
                 }
@@ -309,12 +313,24 @@ namespace MyModelManager
                         {
                             reviewedRels.Add(newrelationship);
                             if (relationship != null)
+                            {
                                 if (newrelationship.TypeEnum != Enum_RelationshipType.SubToSuper)
                                     continue;
-                            if (!newrelationship.AllForeignKeysArePrimaryKey)
+                                //دو لول بالا نمیرود مگر اینکه ارث بری باشد
+                            }
+                            foreach (var relCol in newrelationship.RelationshipColumns)
                             {
-                                foreach (var relCol in newrelationship.RelationshipColumns)
+                                bool fkIsValid = false;
+                                if (sententity == null)
+                                    fkIsValid = true;
+                                else
                                 {
+                                    //چون برای انتیتی اصلی پرایمری ها قبلا اضافه شده اند
+                                    fkIsValid = !relCol.FirstSideColumn.PrimaryKey;
+                                }
+                                if (fkIsValid)
+                                {
+                                    //چون کلید اصلی ها بالا اضافه شدند
                                     var resultColumn = new EntityListViewColumnsDTO();
                                     resultColumn.Column = relCol.FirstSideColumn;
                                     resultColumn.ColumnID = relCol.FirstSideColumnID;
@@ -323,7 +339,8 @@ namespace MyModelManager
                                     list.Add(resultColumn);
                                 }
                             }
-                            GenereateDefaultListViewColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), list);
+
+                            GenereateDefaultListViewColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationships, list);
                         }
                     }
                 }
@@ -375,7 +392,7 @@ namespace MyModelManager
             }
             else
             {
-                if (item.SubToSuperRelationship)
+                if (item.AllRelationshipsAreSubTuSuper)
                 {
                     return CheckDescriptiveColumnName(item.Column.Name);
                 }

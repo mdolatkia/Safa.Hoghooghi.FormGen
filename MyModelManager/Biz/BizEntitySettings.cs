@@ -10,6 +10,7 @@ namespace MyModelManager
 {
     public class BizEntitySettings
     {
+        BizTableDrivedEntity bizTableDrivedEntity = new BizTableDrivedEntity();
         BizEntityListView bizEntityListView = new BizEntityListView();
         BizEntitySearch bizEntitySearch = new BizEntitySearch();
         BizEntityUIComposition bizEntityUIComposition = new BizEntityUIComposition();
@@ -30,7 +31,7 @@ namespace MyModelManager
             }
             var allEntities = bizTableDrivedEntity.GetOrginalEntities(listEntities.First().DatabaseID, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithRelationships, false);
 
-            UpdateDefaultSettingsInModel(listEntities, listEntities, listEntities, allEntities);
+            UpdateDefaultSettingsInModel(listEntities, listEntities, listEntities, listEntities, allEntities);
         }
         public void UpdateDefaultSettingsInModel(int databaseID)
         {
@@ -46,14 +47,15 @@ namespace MyModelManager
 
             var searchEntities = allEntities.Where(x => x.EntitySearchID == 0).ToList();
 
-            UpdateDefaultSettingsInModel(uiCompositionEntities, listViewEntities, searchEntities, allEntities);
+            var initialSearchEntities = allEntities.Where(x => x.SearchInitially == null).ToList();
+
+            UpdateDefaultSettingsInModel(uiCompositionEntities, listViewEntities, searchEntities, initialSearchEntities, allEntities);
 
 
 
         }
-        public void UpdateDefaultSettingsInModel(List<TableDrivedEntityDTO> uiCompositionEntities, List<TableDrivedEntityDTO> listViewEntities, List<TableDrivedEntityDTO> searchEntities, List<TableDrivedEntityDTO> allEntities)
+        public void UpdateDefaultSettingsInModel(List<TableDrivedEntityDTO> uiCompositionEntities, List<TableDrivedEntityDTO> listViewEntities, List<TableDrivedEntityDTO> searchEntities, List<TableDrivedEntityDTO> initialSearchEntities, List<TableDrivedEntityDTO> allEntities)
         {
-
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
                 List<Tuple<TableDrivedEntityDTO, List<EntityUICompositionDTO>>> listEntityUIComposition = new List<Tuple<TableDrivedEntityDTO, List<EntityUICompositionDTO>>>();
@@ -72,9 +74,6 @@ namespace MyModelManager
                         ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = "Setting UI for entity" + " " + item.Item1.Name, TotalProgressCount = listEntityUIComposition.Count(), CurrentProgress = listEntityUIComposition.IndexOf(item) + 1 });
                     bizEntityUIComposition.SaveItem(projectContext, item.Item1.ID, item.Item2);
                 }
-
-
-
 
                 List<Tuple<TableDrivedEntityDTO, EntityListViewDTO>> listEntityAndView = new List<Tuple<TableDrivedEntityDTO, EntityListViewDTO>>();
                 foreach (var entity in listViewEntities)
@@ -114,6 +113,22 @@ namespace MyModelManager
                 }
 
 
+                List<Tuple<TableDrivedEntityDTO, bool>> listEntityAndInitialSearch = new List<Tuple<TableDrivedEntityDTO, bool>>();
+                foreach (var entity in initialSearchEntities)
+                {
+                    if (ItemImportingStarted != null)
+                        ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = "Fetching entity" + " " + entity.Name, TotalProgressCount = searchEntities.Count(), CurrentProgress = initialSearchEntities.IndexOf(entity) + 1 });
+                    bool initiallySearched = bizTableDrivedEntity.DecideEntityIsInitialySearched(entity, allEntities);
+                    listEntityAndInitialSearch.Add(new Tuple<TableDrivedEntityDTO, bool>(entity, initiallySearched));
+                }
+                foreach (var item in listEntityAndInitialSearch)
+                {
+                    if (ItemImportingStarted != null)
+                        ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = "Setting initially searched entity" + " " + item.Item1.Name, TotalProgressCount = listEntityAndInitialSearch.Count(), CurrentProgress = listEntityAndInitialSearch.IndexOf(item) + 1 });
+                    bizTableDrivedEntity.UpdateEntityInitiallySearch(projectContext, item.Item1.ID, item.Item2);
+                }
+
+
                 if (ItemImportingStarted != null)
                     ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = "Saving changes" });
                 projectContext.SaveChanges();
@@ -126,7 +141,7 @@ namespace MyModelManager
             {
                 return projectContext.TableDrivedEntity.Any(x =>
                 x.IsOrginal == true && x.IsView == false && x.IsDisabled == false && x.Table.DBSchema.DatabaseInformationID == databaseID
-                && (x.EntitySearchID == null || x.EntityListViewID == null || !x.EntityUIComposition.Any()));
+                && (x.EntitySearchID == null || x.EntityListViewID == null || !x.EntityUIComposition.Any() || x.SearchInitially == null));
             }
         }
 

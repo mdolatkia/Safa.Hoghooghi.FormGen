@@ -240,21 +240,21 @@ namespace MyProject_WPF
                 return result;
             });
         }
-        private void SetInitialSearch(TableDrivedEntityDTO entity)
-        {
-            if (Database.DBHasData)
-            {
-                if (entity.IndependentDataEntry == true)
-                {
-                    var dataHelper = new ModelDataHelper();
-                    var count = dataHelper.GetDataCount(entity);
-                    if (count != 0 && count <= DataCountLimit)
-                    {
-                        entity.SearchInitially = true;
-                    }
-                }
-            }
-        }
+        //private void SetInitialSearch(TableDrivedEntityDTO entity)
+        //{
+        //    if (Database.DBHasData)
+        //    {
+        //        if (entity.IndependentDataEntry == true)
+        //        {
+        //            var dataHelper = new ModelDataHelper();
+        //            var count = dataHelper.GetDataCount(entity);
+        //            if (count != 0 && count <= DataCountLimit)
+        //            {
+        //                entity.SearchInitially = true;
+        //            }
+        //        }
+        //    }
+        //}
         //private bool IsSuspicious(TableDrivedEntityDTO entity)
         //{
 
@@ -617,11 +617,11 @@ namespace MyProject_WPF
 
                     if (finalList.All(x => x.IsValid))
                     {
-                        foreach (var item in finalList)
-                        {
-                            if (item.Entity.IndependentDataEntry == true)
-                                SetInitialSearch(item.Entity);
-                        }
+                        //foreach (var item in finalList)
+                        //{
+                        //    if (item.Entity.IndependentDataEntry == true)
+                        //        SetInitialSearch(item.Entity);
+                        //}
                         await UpdateModel(Database.ID, finalList);
                         if (DataUpdated != null)
                             DataUpdated(this, null);

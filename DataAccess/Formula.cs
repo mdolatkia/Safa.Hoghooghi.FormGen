@@ -38,12 +38,12 @@ namespace DataAccess
         public virtual ICollection<Column> Column { get; set; }
         public virtual ICollection<EntityValidation> EntityValidation { get; set; }
         public virtual ICollection<ConditionalPermission> ConditionalPermission { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<FormulaItems> FormulaItems { get; set; }
         public virtual ICollection<FormulaItems> FormulaItems1 { get; set; }
         public virtual ICollection<LetterTemplatePlainField> LetterTemplatePlainField { get; set; }
         public virtual ICollection<State_Formula> State_Formula { get; set; }
         public virtual ICollection<TableDrivedEntityState> TableDrivedEntityState { get; set; }
         public virtual ICollection<TransitionAction_Formula> TransitionAction_Formula { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

@@ -413,7 +413,7 @@ namespace ModelEntites
         public RelationshipDeleteOption DeleteOption { get; set; }
 
         public RelationInfo RelationInfo { set; get; }
-        public bool AllForeignKeysArePrimaryKey { get; set; }
+        public bool FKSidePKColumnsAreFkColumns { get; set; }
         public bool AnyForeignKeyIsPrimaryKey { get; set; }
         public bool FKCoumnIsNullable { get; set; }
 
@@ -455,7 +455,7 @@ namespace ModelEntites
         OneToMany,
         OneToOne,
         SuperToSub,
-        SuperUnionToSubUnion
+        SubUnionToUnion
     }
     public enum Enum_RelationshipType
     {
@@ -897,7 +897,7 @@ namespace ModelEntites
 
         public bool IsStructurReferencee { set; get; }
         public bool IsAssociative { set; get; }
-        public bool SearchInitially { set; get; }
+        public bool? SearchInitially { set; get; }
 
         public List<RelationshipDTO> Relationships
         {
@@ -1223,7 +1223,7 @@ namespace ModelEntites
 
         public string CreateRelationshipTailPath { get; set; }
         public bool IsDescriptive { get; set; }
-        public bool SubToSuperRelationship { get; set; }
+        public bool AllRelationshipsAreSubTuSuper { get; set; }
 
         //public int CreateRelationshipID { get; set; }
         //public int CreateRelationshipTailTargetEntityID { get; set; }

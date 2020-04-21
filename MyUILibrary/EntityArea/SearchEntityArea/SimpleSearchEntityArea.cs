@@ -108,7 +108,7 @@ namespace MyUILibrary.EntityArea
                 return _EntitySearch;
             }
         }
-       
+
         //AssignedPermissionDTO _Permission;
         //public AssignedPermissionDTO Permission
         //{
@@ -243,7 +243,8 @@ namespace MyUILibrary.EntityArea
                         }
                         RelationshipColumnControls.Add(propertyControl);
 
-                        if (propertyControl.EditNdTypeArea.SimpleEntity.SearchInitially)
+                        //اینجا چیه بررسی شود چرا اینجا؟
+                        if (propertyControl.EditNdTypeArea.SimpleEntity.SearchInitially == true)
                             propertyControl.EditNdTypeArea.SearchViewEntityArea.SearchInitialy();
 
                     }
@@ -269,13 +270,13 @@ namespace MyUILibrary.EntityArea
                 {
                     if (searchcolumn.RelationshipTail != null)
                     {
-                        var relControl = RelationshipColumnControls.First(x => x.EntitySearchColumn == searchcolumn );
+                        var relControl = RelationshipColumnControls.First(x => x.EntitySearchColumn == searchcolumn);
                         SimpleSearchView.AddView(relControl.ControlManager, relControl.ControlManager.LabelControlManager);
                     }
                 }
                 else
                 {
-                    var simpleControl = SimpleColumnControls.First(x => x.EntitySearchColumn == searchcolumn );
+                    var simpleControl = SimpleColumnControls.First(x => x.EntitySearchColumn == searchcolumn);
                     SimpleSearchView.AddUIControlPackage(simpleControl.ControlManager, simpleControl.ControlManager.LabelControlManager);
                 }
             }

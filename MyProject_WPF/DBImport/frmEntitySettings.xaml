@@ -38,10 +38,12 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <CheckBox FontSize="16" IsEnabled="False" x:Name="chkUiComposition">تولید ظاهر فرمها</CheckBox>
                 <CheckBox FontSize="16" IsEnabled="False" x:Name="chkListView" Grid.Row="1">تولید لیست نمایش پیش فرض هر موجودیت</CheckBox>
                 <CheckBox FontSize="16" IsEnabled="False" x:Name="chkListSearch"  Grid.Row="2">تولید لیست جستجوی پیش فرض هر موجودیت</CheckBox>
+                <CheckBox FontSize="16" IsEnabled="False" x:Name="chkInitialSearch"  Grid.Row="3">جستجوی پیش فرض</CheckBox>
             </Grid>
         </Grid>
       

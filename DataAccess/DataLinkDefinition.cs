@@ -25,9 +25,9 @@ namespace DataAccess
         public int FirstSideEntityID { get; set; }
         public int SecondSideEntityID { get; set; }
     
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity1 { get; set; }
         public virtual ICollection<DataLinkDefinition_EntityRelationshipTail> DataLinkDefinition_EntityRelationshipTail { get; set; }
         public virtual ICollection<EntityDataLinkReport> EntityDataLinkReport { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity1 { get; set; }
     }
 }

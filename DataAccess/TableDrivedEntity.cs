@@ -64,7 +64,7 @@ namespace DataAccess
         public Nullable<int> EntitySearchID { get; set; }
         public bool IsDisabled { get; set; }
         public bool IsReadonly { get; set; }
-        public bool SearchInitially { get; set; }
+        public Nullable<bool> SearchInitially { get; set; }
         public bool LoadArchiveRelatedItems { get; set; }
         public string Color { get; set; }
         public bool LoadLetterRelatedItems { get; set; }

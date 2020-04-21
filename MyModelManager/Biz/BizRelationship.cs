@@ -719,7 +719,7 @@ namespace MyModelManager
                 }
             }
             //List<Tuple<string, List<RelationshipDTO>>> reverseFromSuperToSub = new List<Tuple<string, List<RelationshipDTO>>>();
-            var unionGroups = listNew.Where(x => x.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperUnionToSubUnion).GroupBy(x => x.OrginalRelationshipGroup).ToList();
+            var unionGroups = listNew.Where(x => x.OrginalTypeEnum == Enum_OrginalRelationshipType.SubUnionToUnion).GroupBy(x => x.OrginalRelationshipGroup).ToList();
             foreach (var relationshipGroup in unionGroups)
             {
                 if (ItemImportingStarted != null)
@@ -1572,7 +1572,7 @@ namespace MyModelManager
                 var rColumn = ToRelationshipColumn(result.MastertTypeEnum, relcolumn);
                 result.RelationshipColumns.Add(rColumn);
             }
-            result.AllForeignKeysArePrimaryKey = RelatesOnPrimaryKeys(item);
+            result.FKSidePKColumnsAreFkColumns = FKSidePKColumnsAreFkColumns(item);
             // result.RelatesOnPrimaryKeys = RelatesOnPrimaryKeys(item);
             if (result.MastertTypeEnum == Enum_MasterRelationshipType.FromPrimartyToForeign)
             {
@@ -1621,7 +1621,7 @@ namespace MyModelManager
             return result;
         }
 
-        public bool RelatesOnPrimaryKeys(Relationship relationship)
+        public bool FKSidePKColumnsAreFkColumns(Relationship relationship)
         {
             TableDrivedEntity fkEntity = null;
             if ((Enum_MasterRelationshipType)relationship.MasterTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary)

@@ -59,7 +59,6 @@ namespace MyProject_WPF
         private void FrmEntitySettings_Loaded(object sender, RoutedEventArgs e)
         {
             CheckFromState();
-
         }
 
       
@@ -82,7 +81,8 @@ namespace MyProject_WPF
                 chkListView.Foreground = new SolidColorBrush(Colors.Black);
                 chkListSearch.IsChecked = false;
                 chkListSearch.Foreground = new SolidColorBrush(Colors.Black);
-                
+                chkInitialSearch.IsChecked = false;
+                chkInitialSearch.Foreground = new SolidColorBrush(Colors.Black);
                 await UpdateDefaultSettingsInModel();
                 MessageBox.Show("انتقال اطلاعات انجام شد");
                 chkUiComposition.IsChecked = true;
@@ -91,8 +91,9 @@ namespace MyProject_WPF
                 chkListView.Foreground = new SolidColorBrush(Colors.Green);
                 chkListSearch.IsChecked = true;
                 chkListSearch.Foreground = new SolidColorBrush(Colors.Green);
+                chkInitialSearch.IsChecked = true;
+                chkInitialSearch.Foreground = new SolidColorBrush(Colors.Green);
 
-               
             }
             catch (Exception ex)
             {

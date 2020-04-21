@@ -31,11 +31,11 @@ namespace DataAccess
         public virtual EmptySpaceUISetting EmptySpaceUISetting { get; set; }
         public virtual ICollection<EntityUIComposition> EntityUIComposition1 { get; set; }
         public virtual EntityUIComposition EntityUIComposition2 { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual EntityUISetting EntityUISetting { get; set; }
         public virtual GroupUISetting GroupUISetting { get; set; }
         public virtual RelationshipUISetting RelationshipUISetting { get; set; }
         public virtual TabGroupUISetting TabGroupUISetting { get; set; }
         public virtual TabPageUISetting TabPageUISetting { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

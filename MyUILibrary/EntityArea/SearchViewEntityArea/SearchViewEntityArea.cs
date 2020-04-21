@@ -34,6 +34,8 @@ namespace MyUILibrary.EntityArea
             View = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateViewOfSearchViewEntityArea();
             View.AddSearchAreaView(SearchEntityArea.SearchView);
             View.AddViewAreaView(ViewEntityArea.ViewView);
+
+            CheckSearchInitially();
         }
         private SearchEntityArea GenereateSearchArea()
         {
@@ -250,17 +252,7 @@ namespace MyUILibrary.EntityArea
             //    searchInitialyDone = false;
             //    ViewEntityArea.AddData(new List<DP_DataView>(), true);
             //}
-            bool? sarchInitially = null;
-            //if (AreaInitializer.SourceEditArea.AreaInitializer.SourceRelation != null)
-            //{
-            //    sarchInitially = AreaInitializer.SourceEditArea.AreaInitializer.SourceRelation.Relationship.SearchInitially;
-            //}
-            //if (AreaInitializer.SourceEditArea.SimpleEntity.SearchInitially)
-            //    sarchInitially = true;
-            if (AreaInitializer.SourceEditArea.SimpleEntity.SearchInitially || (AreaInitializer.SourceEditArea.AreaInitializer.SourceRelation != null && AreaInitializer.SourceEditArea.AreaInitializer.SourceRelation.Relationship.SearchInitially))
-            {
-                sarchInitially = AreaInitializer.SourceEditArea.SimpleEntity.SearchInitially;
-            }
+
 
             //if (searchInitialyDone)
             //    sarchInitially = false;
@@ -273,14 +265,24 @@ namespace MyUILibrary.EntityArea
             //    }
             //}
 
-            if (sarchInitially == true && SearchInitialyDone == false)
-            {
-                SearchInitialy();
-            }
             View.RemoveViewAreaView(ViewEntityArea.ViewView);
             if (!View.HaseViewAreaView)
                 View.AddViewAreaView(ViewEntityArea.ViewView);
             AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GetDialogWindow().ShowDialog(View, AreaInitializer.SourceEditArea.SimpleEntity.Alias, Enum_WindowSize.Big);
+        }
+
+        public void CheckSearchInitially()
+        {
+            if (SearchInitialyDone == false)
+            {
+                bool? sarchInitially = null;
+                if (AreaInitializer.SourceEditArea.SimpleEntity.SearchInitially == true || (AreaInitializer.SourceEditArea.AreaInitializer.SourceRelation != null && AreaInitializer.SourceEditArea.AreaInitializer.SourceRelation.Relationship.SearchInitially))
+                    sarchInitially = AreaInitializer.SourceEditArea.SimpleEntity.SearchInitially;
+                if (sarchInitially == true)
+                {
+                    SearchInitialy();
+                }
+            }
         }
 
         public void SearchInitialy()

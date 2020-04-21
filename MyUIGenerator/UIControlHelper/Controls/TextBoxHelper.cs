@@ -18,7 +18,7 @@ namespace MyUIGenerator.UIControlHelper
 {
     public class TextBoxHelper : BaseControlHelper, I_ControlHelper
     {
-        
+
         TextBox textBox;
         ComboBox cmbOperators;
         public FrameworkElement MainControl { get { return textBox; } }
@@ -35,6 +35,11 @@ namespace MyUIGenerator.UIControlHelper
             textBox.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
             theGrid.Children.Add(textBox);
 
+            if (columnSetting != null && columnSetting.UIRowsCount > 1)
+            {
+                textBox.AcceptsReturn = true;
+                textBox.TextWrapping = TextWrapping.Wrap;
+            }
             if (operators != null && operators.Count > 0)
             {
 
@@ -128,7 +133,7 @@ namespace MyUIGenerator.UIControlHelper
             binding.Source = property;
             textBox.SetBinding(TextBox.TextProperty, binding);
         }
-    
+
         //private void MenuButton_Click(object sender, RoutedEventArgs e, ConrolPackageMenu menu)
         //{
         //    ConrolPackageMenuArg arg = new ConrolPackageMenuArg();

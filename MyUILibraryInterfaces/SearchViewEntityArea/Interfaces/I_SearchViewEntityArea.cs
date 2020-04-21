@@ -17,6 +17,7 @@ namespace MyUILibrary.EntityArea
         //    get;
         //    set;
         //}
+        void CheckSearchInitially();
         List<RelationshipFilterDTO> RelationshipFilters { set; get; }
         SearchViewAreaInitializer AreaInitializer { set; get; }
         void SetAreaInitializer(SearchViewAreaInitializer initParam);

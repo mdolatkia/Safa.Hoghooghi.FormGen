@@ -224,6 +224,17 @@ namespace MyModelManager
             return listEntity;
         }
 
+        internal void UpdateEntityInitiallySearch(MyProjectEntities projectContext, int entityID, bool item2)
+        {
+            var dbEntity = projectContext.TableDrivedEntity.First(x => x.ID == entityID);
+            dbEntity.SearchInitially = item2;
+        }
+
+        internal bool DecideEntityIsInitialySearched(TableDrivedEntityDTO entity, List<TableDrivedEntityDTO> allEntities)
+        {
+            return entity.IsDataReference == true;
+        }
+
         public TableDrivedEntityDTO GetDataEntryEntity(DR_Requester requester, int entityID)
         {
             var entity = GetTableDrivedEntity(requester, entityID, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithRelationships);
@@ -431,7 +442,7 @@ namespace MyModelManager
                 {
                     var dbEntity = projectContext.TableDrivedEntity.First(x => x.ID == item.Entity.ID);
                     dbEntity.IndependentDataEntry = item.Entity.IndependentDataEntry;
-                    dbEntity.SearchInitially = item.Entity.SearchInitially;
+                    //dbEntity.SearchInitially = item.Entity.SearchInitially;
                     if (dbEntity.IndependentDataEntry == false)
                     {
                         foreach (var rel in item.Relationships)
@@ -1247,9 +1258,6 @@ namespace MyModelManager
                         }
                         projectContext.SaveChanges();
 
-
-
-
                         BizEntityUIComposition bizEntityUIComposition = new BizEntityUIComposition();
                         if (createdEntities.Any())
                         {
@@ -1258,8 +1266,6 @@ namespace MyModelManager
                             BizEntitySettings bizEntitySettings = new MyModelManager.BizEntitySettings();
                             bizEntitySettings.UpdateDefaultSettingsInModel(requester, createdEntities.Select(x => x.ID).ToList());
                         }
-
-
 
                     }
                     else

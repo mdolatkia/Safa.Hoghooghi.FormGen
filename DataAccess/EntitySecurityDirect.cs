@@ -25,8 +25,8 @@ namespace DataAccess
         public short Mode { get; set; }
         public bool IgnoreSecurity { get; set; }
     
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<EntitySecurityCondition> EntitySecurityCondition { get; set; }
         public virtual SecuritySubject SecuritySubject { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

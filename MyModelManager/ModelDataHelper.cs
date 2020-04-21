@@ -552,9 +552,9 @@ namespace MyModelManager
                                       + "=" + "fk." + column.SecondSideColumn.Name;
                     condition += (condition == "" ? "" : " and ") + columnEqual1;
                 }
-                var subTypeBaseSelectFromQuery = GetSingleEntityBaseSelectFromQuery(fkEntity, "", "fk");
+                var subTypeBaseSelectFromQuery = GetSingleEntityBaseSelectFromQuery(fkEntity, "fk", "");
                 var whereClaus = "not exists (" + subTypeBaseSelectFromQuery + (subTypeBaseSelectFromQuery.Contains(" where ") ? " and " : " where ") + condition + ")";
-                var pkBaseSelectFromQuery = GetSingleEntityBaseSelectFromQuery(pkEntity, "", "pk");
+                var pkBaseSelectFromQuery = GetSingleEntityBaseSelectFromQuery(pkEntity, "pk", "");
                 var query = pkBaseSelectFromQuery + (pkBaseSelectFromQuery.Contains(" where ") ? " and " : " where ") + whereClaus;
                 var resCheckExists = dbHelper.ExecuteScalar(query);
                 if (Convert.ToInt32(resCheckExists) > 0)

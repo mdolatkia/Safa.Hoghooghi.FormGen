@@ -471,8 +471,8 @@ namespace MyUILibrary.EntityArea
             {
                 TemporaryLinkState.searchView = true;
                 TemporaryLinkState.popup = true;
-                if (!SimpleEntity.SearchInitially && !(AreaInitializer.SourceRelation != null && AreaInitializer.SourceRelation.Relationship.SearchInitially))
-                    TemporaryLinkState.quickSearch = true;
+                //if (!SimpleEntity.SearchInitially == true && !(AreaInitializer.SourceRelation != null && AreaInitializer.SourceRelation.Relationship.SearchInitially))
+                TemporaryLinkState.quickSearch = true;
             }
             if (AreaInitializer.IntracionMode == IntracionMode.CreateInDirect || AreaInitializer.IntracionMode == IntracionMode.CreateSelectInDirect)
             {
@@ -485,7 +485,7 @@ namespace MyUILibrary.EntityArea
                 {
                     TemporaryDisplayView.SearchTextChanged += TemporaryDisplayView_TextChanged;
                 }
-                if (TemporaryLinkState.quickSearch)
+                if (TemporaryLinkState.popup)
                     TemporaryDisplayView.FocusLost += TemporaryDisplayView_FocusLost;
                 TemporaryDisplayView.TemporaryDisplayViewRequested += TemporaryDisplayView_TemporaryDisplayViewRequested;
 
@@ -1376,7 +1376,7 @@ namespace MyUILibrary.EntityArea
             return result;
         }
 
-    
+
         public void ApplyStatesBeforeUpdate(bool shouldCheckChilds = true, ChildRelationshipInfo parentChildRelInfo = null)
         {
             var dataList = GetDataList().ToList();
@@ -1820,6 +1820,7 @@ namespace MyUILibrary.EntityArea
             //  searchViewInit.TempEntity = FullEntity;
             searchViewInit.EntityID = AreaInitializer.EntityID;
             searchViewEntityArea.SetAreaInitializer(searchViewInit);
+
             searchViewEntityArea.DataSelected += SearchViewEntityArea_DataSelected;
             return searchViewEntityArea;
         }

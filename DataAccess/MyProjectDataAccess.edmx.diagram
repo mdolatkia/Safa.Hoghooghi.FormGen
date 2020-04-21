@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="84bc6a464cdf489191fdd2ec5ce7d5f4" Name="Diagram1" ZoomLevel="74">
+      <Diagram DiagramId="84bc6a464cdf489191fdd2ec5ce7d5f4" Name="Diagram1" ZoomLevel="106">
         <EntityTypeShape EntityType="MyProjectModel.ArchiveFolder" Width="1.5" PointX="19.5" PointY="106.375" />
         <EntityTypeShape EntityType="MyProjectModel.ArchiveTag" Width="1.5" PointX="19.5" PointY="137.875" />
         <EntityTypeShape EntityType="MyProjectModel.EntityArchiveRelationshipTails" Width="1.5" PointX="21.75" PointY="187" />
@@ -104,7 +104,6 @@
         <EntityTypeShape EntityType="MyProjectModel.SuperToSubRelationshipType" Width="1.5" PointX="30" PointY="158.125" />
         <EntityTypeShape EntityType="MyProjectModel.TabGroupUISetting" Width="1.5" PointX="21.75" PointY="208.375" />
         <EntityTypeShape EntityType="MyProjectModel.Table" Width="1.5" PointX="7.5" PointY="132.125" />
-        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntity" Width="1.5" PointX="17.25" PointY="139.125" />
         <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntity_Columns" Width="1.5" PointX="19.5" PointY="142.125" />
         <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntity_EntityCommand" Width="1.5" PointX="19.5" PointY="145.125" />
         <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntityState" Width="1.5" PointX="27.75" PointY="168.5" />
@@ -148,18 +147,12 @@
         <EntityTypeShape EntityType="MyProjectModel.TransitionAction_Formula" Width="1.5" PointX="21.75" PointY="123" />
         <EntityTypeShape EntityType="MyProjectModel.TransitionActionTarget" Width="1.5" PointX="32.25" PointY="178.25" />
         <EntityTypeShape EntityType="MyProjectModel.TransitionActivity" Width="1.5" PointX="27" PointY="176.875" />
-        <AssociationConnector Association="MyProjectModel.FKArchiveFol695820" />
-        <AssociationConnector Association="MyProjectModel.FK_ArchiveTag_EntityArchive" />
-        <AssociationConnector Association="MyProjectModel.FKEntityArch437336" />
         <AssociationConnector Association="MyProjectModel.FKEntityArch748908" />
         <AssociationConnector Association="MyProjectModel.FKEntityLett6931" />
-        <AssociationConnector Association="MyProjectModel.FKEntityLett778414" />
         <AssociationConnector Association="MyProjectModel.FKArcRelatio252133" />
-        <AssociationConnector Association="MyProjectModel.FKArcRelatio319969" />
         <AssociationConnector Association="MyProjectModel.FKArcRelatio150451" />
         <AssociationConnector Association="MyProjectModel.FK_BackendActionActivity_CodeFunction" />
         <AssociationConnector Association="MyProjectModel.FK_BackendActionActivity_DatabaseFunction" />
-        <AssociationConnector Association="MyProjectModel.FK_BackendActionActivity_TableDrivedEntity" />
         <AssociationConnector Association="MyProjectModel.FK_CharetReportCategories_EntityListViewColumns" />
         <AssociationConnector Association="MyProjectModel.FKCharetRepo749275" />
         <AssociationConnector Association="MyProjectModel.FK_CharetReportSeries_EntityListViewColumns" />
@@ -176,14 +169,12 @@
         <AssociationConnector Association="MyProjectModel.FKLetterSett527204" />
         <AssociationConnector Association="MyProjectModel.FKLetterSett828755" />
         <AssociationConnector Association="MyProjectModel.FKCodeFuncti154169" />
-        <AssociationConnector Association="MyProjectModel.FKCodeFuncti589884" />
         <AssociationConnector Association="MyProjectModel.FKCodeFuncti70133" />
         <AssociationConnector Association="MyProjectModel.FKCodeFuncti901395" />
         <AssociationConnector Association="MyProjectModel.FK_Column_Formula" />
         <AssociationConnector Association="MyProjectModel.FK_ColumnValueRange_Column" />
         <AssociationConnector Association="MyProjectModel.FK_RelationshipSearchFilter_Column" />
         <AssociationConnector Association="MyProjectModel.FK_RelationshipSearchFilter_Column1" />
-        <AssociationConnector Association="MyProjectModel.FK_TableDrivedEntity_Column" />
         <AssociationConnector Association="MyProjectModel.FKColumn659222" />
         <AssociationConnector Association="MyProjectModel.FKColumn689451" />
         <AssociationConnector Association="MyProjectModel.FKColumnPhra124715" />
@@ -219,13 +210,10 @@
         <AssociationConnector Association="MyProjectModel.FKEntitySecu936972" />
         <AssociationConnector Association="MyProjectModel.FKFormulaIte911451" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseFu222628" />
-        <AssociationConnector Association="MyProjectModel.FKDatabaseFu423707" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseFu935636" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseIn674957" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseUI703615" />
         <AssociationConnector Association="MyProjectModel.FKDBSchema138241" />
-        <AssociationConnector Association="MyProjectModel.FKDataLinkDe305355" />
-        <AssociationConnector Association="MyProjectModel.FKDataLinkDe790101" />
         <AssociationConnector Association="MyProjectModel.FKDataLinkDe961681" />
         <AssociationConnector Association="MyProjectModel.FKEntityData66102" />
         <AssociationConnector Association="MyProjectModel.FKDataLinkDe804570" />
@@ -236,8 +224,6 @@
         <AssociationConnector Association="MyProjectModel.FK_DataMenuReportRelationship_DataMenuSetting" />
         <AssociationConnector Association="MyProjectModel.FK_EntityReportDataMenuRelationships_EntityRelationshipTail" />
         <AssociationConnector Association="MyProjectModel.FK_EntityReportDataMenuRelationships_EntityReport" />
-        <AssociationConnector Association="MyProjectModel.FK_DataMenuSetting_TableDrivedEntity" />
-        <AssociationConnector Association="MyProjectModel.FK_EntityDataView_TableDrivedEntity" />
         <AssociationConnector Association="MyProjectModel.FKEntityData149283" />
         <AssociationConnector Association="MyProjectModel.FKDBSchema227092" />
         <AssociationConnector Association="MyProjectModel.FKTable824924" />
@@ -249,7 +235,6 @@
         <AssociationConnector Association="MyProjectModel.FK_EntityCrosstabReport_EntityListView" />
         <AssociationConnector Association="MyProjectModel.FK_EntityCrosstabReport_EntityListView1" />
         <AssociationConnector Association="MyProjectModel.FK_EntityDataViewReport_EntitySearchableReport" />
-        <AssociationConnector Association="MyProjectModel.FK_EntityDeterminer_TableDrivedEntity" />
         <AssociationConnector Association="MyProjectModel.FK_EntityDataExternalReport_SecurityObject" />
         <AssociationConnector Association="MyProjectModel.FK_EntityExternalReport_EntitySearchableReport" />
         <AssociationConnector Association="MyProjectModel.FK_EntityGridViewReport_EntitySearchableReport" />
@@ -265,8 +250,6 @@
         <AssociationConnector Association="MyProjectModel.FK_EntityGridView_EntityListView" />
         <AssociationConnector Association="MyProjectModel.FK_LetterTemplate_EntityListView" />
         <AssociationConnector Association="MyProjectModel.FKEntityList123966" />
-        <AssociationConnector Association="MyProjectModel.FKEntityList697639" />
-        <AssociationConnector Association="MyProjectModel.FKTableDrive842411" />
         <AssociationConnector Association="MyProjectModel.FK_LetterTemplatePlainField_LetterTemplatePlainField" />
         <AssociationConnector Association="MyProjectModel.FKEntityList705975" />
         <AssociationConnector Association="MyProjectModel.FKReportGrou631678" />
@@ -274,34 +257,26 @@
         <AssociationConnector Association="MyProjectModel.FK_LetterTemplateRelationshipField_EntityRelationshipTail" />
         <AssociationConnector Association="MyProjectModel.FK_RelationshipSearchFilter_EntityRelationshipTail" />
         <AssociationConnector Association="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail" />
-        <AssociationConnector Association="MyProjectModel.FKEntityRela568378" />
-        <AssociationConnector Association="MyProjectModel.FKEntityRela831147" />
         <AssociationConnector Association="MyProjectModel.FKEntitySear748558" />
         <AssociationConnector Association="MyProjectModel.FKEntitySecu489951" />
         <AssociationConnector Association="MyProjectModel.FKEntitySecu518173" />
         <AssociationConnector Association="MyProjectModel.FKRelationsh552099" />
         <AssociationConnector Association="MyProjectModel.FK_EntitySearchableReport_EntityReport" />
-        <AssociationConnector Association="MyProjectModel.FKEntityRepo82108" />
         <AssociationConnector Association="MyProjectModel.FKEntityRepo965698" />
         <AssociationConnector Association="MyProjectModel.FK_SearchRepository_EntitySearch" />
-        <AssociationConnector Association="MyProjectModel.FK_TableDrivedEntity_EntitySearch" />
-        <AssociationConnector Association="MyProjectModel.FKEntitySear266828" />
         <AssociationConnector Association="MyProjectModel.FKEntitySear726002" />
         <AssociationConnector Association="MyProjectModel.FK_EntitySearchableReport_SearchRepository" />
         <AssociationConnector Association="MyProjectModel.FKEntityStat608686" />
         <AssociationConnector Association="MyProjectModel.FKEntityStat936255" />
         <AssociationConnector Association="MyProjectModel.FKEntityUICo258285" />
-        <AssociationConnector Association="MyProjectModel.FKEntityUICo461879" />
         <AssociationConnector Association="MyProjectModel.FKEntityUISe186333" />
         <AssociationConnector Association="MyProjectModel.FKGroupUISet752341" />
         <AssociationConnector Association="MyProjectModel.FKRelationsh12338" />
         <AssociationConnector Association="MyProjectModel.FKTabGroupUI128258" />
         <AssociationConnector Association="MyProjectModel.FKTabPageUIS719811" />
-        <AssociationConnector Association="MyProjectModel.FKEntityVali365073" />
         <AssociationConnector Association="MyProjectModel.FKEntityVali933297" />
         <AssociationConnector Association="MyProjectModel.FKExplicitOn408720" />
         <AssociationConnector Association="MyProjectModel.FKConditiona702385" />
-        <AssociationConnector Association="MyProjectModel.FKFormula967405" />
         <AssociationConnector Association="MyProjectModel.FKFormulaIte505844" />
         <AssociationConnector Association="MyProjectModel.FKFormulaIte540022" />
         <AssociationConnector Association="MyProjectModel.FKLetterTemp586744" />
@@ -310,24 +285,19 @@
         <AssociationConnector Association="MyProjectModel.FKTransition813783" />
         <AssociationConnector Association="MyProjectModel.FK_FormulaItems_TableDrivedEntityState" />
         <AssociationConnector Association="MyProjectModel.FKFormulaIte675108" />
-        <AssociationConnector Association="MyProjectModel.FKEntityGrid247991" />
         <AssociationConnector Association="MyProjectModel.FKImplicitOn720517" />
         <AssociationConnector Association="MyProjectModel.FKSubToSuper88193" />
         <AssociationConnector Association="MyProjectModel.FKSuperToSub515953" />
-        <AssociationConnector Association="MyProjectModel.FKLetterEnab821210" />
         <AssociationConnector Association="MyProjectModel.FKExternalLe444510" />
         <AssociationConnector Association="MyProjectModel.FKInternalLe245880" />
-        <AssociationConnector Association="MyProjectModel.FKLetterTemp289474" />
         <AssociationConnector Association="MyProjectModel.FKLetterTemp311790" />
         <AssociationConnector Association="MyProjectModel.FKLetterTemp854440" />
         <AssociationConnector Association="MyProjectModel.FKLetterTemp803911" />
-        <AssociationConnector Association="MyProjectModel.FK_LetterType_TableDrivedEntity" />
         <AssociationConnector Association="MyProjectModel.FK_RelationshipPhrase_LogicPhrase" />
         <AssociationConnector Association="MyProjectModel.FKPhrase543572" />
         <AssociationConnector Association="MyProjectModel.FKPhrase614152" />
         <AssociationConnector Association="MyProjectModel.FKManyToOneR998042" />
         <AssociationConnector Association="MyProjectModel.FKManyToOneR336195" />
-        <AssociationConnector Association="MyProjectModel.FKNavigation155968" />
         <AssociationConnector Association="MyProjectModel.FKNavigation977409" />
         <AssociationConnector Association="MyProjectModel.FKOneToManyR245498" />
         <AssociationConnector Association="MyProjectModel.FKPhrase678651" />
@@ -335,8 +305,6 @@
         <AssociationConnector Association="MyProjectModel.FK_Relationship_SecurityObject" />
         <AssociationConnector Association="MyProjectModel.FK_SearchRepository_Relationship" />
         <AssociationConnector Association="MyProjectModel.FK_UIEnablityDetails_Relationship" />
-        <AssociationConnector Association="MyProjectModel.FKRelationsh250123" />
-        <AssociationConnector Association="MyProjectModel.FKRelationsh250124" />
         <AssociationConnector Association="MyProjectModel.FKRelationsh283976" />
         <AssociationConnector Association="MyProjectModel.FKRelationsh685437" />
         <AssociationConnector Association="MyProjectModel.FKRelationsh827735" />
@@ -344,20 +312,9 @@
         <AssociationConnector Association="MyProjectModel.FKSubUnionTo818068" />
         <AssociationConnector Association="MyProjectModel.FKSuperToSub305547" />
         <AssociationConnector Association="MyProjectModel.FKUnionToSub14902" />
-        <AssociationConnector Association="MyProjectModel.FK_SearchRepository_TableDrivedEntity" />
         <AssociationConnector Association="MyProjectModel.FKSubSystems137775" />
         <AssociationConnector Association="MyProjectModel.FKSubUnionTo235113" />
-        <AssociationConnector Association="MyProjectModel.FKTableDrive311898" />
         <AssociationConnector Association="MyProjectModel.FKUniqueCons110156" />
-        <AssociationConnector Association="MyProjectModel.FK_Process_TableDrivedEntity" />
-        <AssociationConnector Association="MyProjectModel.FK_TableDrivedEntity_EntityCommand_TableDrivedEntity" />
-        <AssociationConnector Association="MyProjectModel.FKActionActi421900" />
-        <AssociationConnector Association="MyProjectModel.FKConditiona757" />
-        <AssociationConnector Association="MyProjectModel.FKEntitySecu295394" />
-        <AssociationConnector Association="MyProjectModel.FKEntitySecu556643" />
-        <AssociationConnector Association="MyProjectModel.FKTableDrive36776" />
-        <AssociationConnector Association="MyProjectModel.FKTableDrive379163" />
-        <AssociationConnector Association="MyProjectModel.FKTableDrive764829" />
         <AssociationConnector Association="MyProjectModel.FK_TableDrivedEntityStateValues_TableDrivedEntityState" />
         <AssociationConnector Association="MyProjectModel.FK_UIEnablityDetails_UIActionActivity" />
         <AssociationConnector Association="MyProjectModel.FKColumnValu201622" />
@@ -410,6 +367,49 @@
         <AssociationConnector Association="MyProjectModel.FKDatabaseIn186668" />
         <AssociationConnector Association="MyProjectModel.FKLinkedServ770687" />
         <AssociationConnector Association="MyProjectModel.FKLinkedServ812468" />
+        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntity" Width="1.5" PointX="27.75" PointY="120.5" />
+        <AssociationConnector Association="MyProjectModel.FKArchiveFol695820" />
+        <AssociationConnector Association="MyProjectModel.FK_ArchiveTag_EntityArchive" />
+        <AssociationConnector Association="MyProjectModel.FKEntityArch437336" />
+        <AssociationConnector Association="MyProjectModel.FKEntityLett778414" />
+        <AssociationConnector Association="MyProjectModel.FKArcRelatio319969" />
+        <AssociationConnector Association="MyProjectModel.FK_BackendActionActivity_TableDrivedEntity" />
+        <AssociationConnector Association="MyProjectModel.FKCodeFuncti589884" />
+        <AssociationConnector Association="MyProjectModel.FK_TableDrivedEntity_Column" />
+        <AssociationConnector Association="MyProjectModel.FKDatabaseFu423707" />
+        <AssociationConnector Association="MyProjectModel.FKDataLinkDe305355" />
+        <AssociationConnector Association="MyProjectModel.FKDataLinkDe790101" />
+        <AssociationConnector Association="MyProjectModel.FK_DataMenuSetting_TableDrivedEntity" />
+        <AssociationConnector Association="MyProjectModel.FK_EntityDataView_TableDrivedEntity" />
+        <AssociationConnector Association="MyProjectModel.FK_EntityDeterminer_TableDrivedEntity" />
+        <AssociationConnector Association="MyProjectModel.FKEntityList697639" />
+        <AssociationConnector Association="MyProjectModel.FKTableDrive842411" />
+        <AssociationConnector Association="MyProjectModel.FKEntityRela568378" />
+        <AssociationConnector Association="MyProjectModel.FKEntityRela831147" />
+        <AssociationConnector Association="MyProjectModel.FKEntityRepo82108" />
+        <AssociationConnector Association="MyProjectModel.FK_TableDrivedEntity_EntitySearch" />
+        <AssociationConnector Association="MyProjectModel.FKEntitySear266828" />
+        <AssociationConnector Association="MyProjectModel.FKEntityUICo461879" />
+        <AssociationConnector Association="MyProjectModel.FKEntityVali365073" />
+        <AssociationConnector Association="MyProjectModel.FKFormula967405" />
+        <AssociationConnector Association="MyProjectModel.FKEntityGrid247991" />
+        <AssociationConnector Association="MyProjectModel.FKLetterEnab821210" />
+        <AssociationConnector Association="MyProjectModel.FKLetterTemp289474" />
+        <AssociationConnector Association="MyProjectModel.FK_LetterType_TableDrivedEntity" />
+        <AssociationConnector Association="MyProjectModel.FKNavigation155968" />
+        <AssociationConnector Association="MyProjectModel.FKRelationsh250123" />
+        <AssociationConnector Association="MyProjectModel.FKRelationsh250124" />
+        <AssociationConnector Association="MyProjectModel.FK_SearchRepository_TableDrivedEntity" />
+        <AssociationConnector Association="MyProjectModel.FKTableDrive311898" />
+        <AssociationConnector Association="MyProjectModel.FK_Process_TableDrivedEntity" />
+        <AssociationConnector Association="MyProjectModel.FK_TableDrivedEntity_EntityCommand_TableDrivedEntity" />
+        <AssociationConnector Association="MyProjectModel.FKActionActi421900" />
+        <AssociationConnector Association="MyProjectModel.FKConditiona757" />
+        <AssociationConnector Association="MyProjectModel.FKEntitySecu295394" />
+        <AssociationConnector Association="MyProjectModel.FKEntitySecu556643" />
+        <AssociationConnector Association="MyProjectModel.FKTableDrive36776" />
+        <AssociationConnector Association="MyProjectModel.FKTableDrive379163" />
+        <AssociationConnector Association="MyProjectModel.FKTableDrive764829" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

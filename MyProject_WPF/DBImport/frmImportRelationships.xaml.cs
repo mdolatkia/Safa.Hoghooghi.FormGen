@@ -62,9 +62,9 @@ namespace MyProject_WPF
                         if (string.IsNullOrEmpty(data.Relationship.OrginalRelationshipGroup))
                         {
                             string name = "";
-                            if (data.Relationship.AllForeignKeysArePrimaryKey)
+                            if (data.Relationship.FKSidePKColumnsAreFkColumns)
                             {
-                                var eRel = listNew.FirstOrDefault(x => !string.IsNullOrEmpty(x.Relationship.OrginalRelationshipGroup) && x.Relationship.AllForeignKeysArePrimaryKey && x.Relationship.Entity1 == data.Relationship.Entity1 && x.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperToSub);
+                                var eRel = listNew.FirstOrDefault(x => !string.IsNullOrEmpty(x.Relationship.OrginalRelationshipGroup) && x.Relationship.FKSidePKColumnsAreFkColumns && x.Relationship.Entity1 == data.Relationship.Entity1 && x.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperToSub);
                                 if (eRel == null)
                                     name = "ISA_OnPK_" + data.Relationship.Entity1;
                                 else
@@ -72,7 +72,7 @@ namespace MyProject_WPF
                             }
                             else
                             {
-                                var eRel = listNew.FirstOrDefault(x => !string.IsNullOrEmpty(x.Relationship.OrginalRelationshipGroup) && !x.Relationship.AllForeignKeysArePrimaryKey && x.Relationship.Entity1 == data.Relationship.Entity1 && x.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperToSub);
+                                var eRel = listNew.FirstOrDefault(x => !string.IsNullOrEmpty(x.Relationship.OrginalRelationshipGroup) && !x.Relationship.FKSidePKColumnsAreFkColumns && x.Relationship.Entity1 == data.Relationship.Entity1 && x.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperToSub);
                                 if (eRel == null)
                                     name = "ISA_" + data.Relationship.Entity1;
                                 else
@@ -81,13 +81,13 @@ namespace MyProject_WPF
                             data.Relationship.OrginalRelationshipGroup = name;
                         }
                     }
-                    if (data.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperUnionToSubUnion)
+                    if (data.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SubUnionToUnion)
                     {
                         if (string.IsNullOrEmpty(data.Relationship.OrginalRelationshipGroup))
                         {
                             string name = "";
 
-                            var eRel = listNew.FirstOrDefault(x => !string.IsNullOrEmpty(x.Relationship.OrginalRelationshipGroup) && x.Relationship.Entity2 == data.Relationship.Entity2 && x.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperUnionToSubUnion);
+                            var eRel = listNew.FirstOrDefault(x => !string.IsNullOrEmpty(x.Relationship.OrginalRelationshipGroup) && x.Relationship.Entity2 == data.Relationship.Entity2 && x.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SubUnionToUnion);
                             if (eRel == null)
                                 name = "Union_" + data.Relationship.Entity2;
                             else
@@ -349,7 +349,7 @@ namespace MyProject_WPF
                    //else
                    //{
                    Enum_OrginalRelationshipType originalType = Enum_OrginalRelationshipType.None;
-                   if (item.Relationship.AllForeignKeysArePrimaryKey)
+                   if (item.Relationship.FKSidePKColumnsAreFkColumns)
                        originalType = Enum_OrginalRelationshipType.SuperToSub;
                    else
                    {
@@ -506,7 +506,7 @@ namespace MyProject_WPF
                     {
                         validationTooltip += (validationTooltip == "" ? "" : Environment.NewLine) + "نوع رابطه تعیین نشده است";
                     }
-                    if (item.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.OneToMany && item.Relationship.AllForeignKeysArePrimaryKey)
+                    if (item.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.OneToMany && item.Relationship.FKSidePKColumnsAreFkColumns)
                     {
                         validationTooltip += (validationTooltip == "" ? "" : Environment.NewLine) + "ارتباط بروی کلیدهای اصلی است، بنابراین رابطه نمیتواند یک به چند باشد";
                     }
@@ -518,11 +518,11 @@ namespace MyProject_WPF
                     {
                         validationTooltip += (validationTooltip == "" ? "" : Environment.NewLine) + "برخی داده ها برای این ارتباط بصورت یک به چند می باشند، بنابراین رابطه نمیتواند ارث بری باشد";
                     }
-                    if (item.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperUnionToSubUnion && item.Relationship.RelationInfo.FKHasData == true && item.Relationship.RelationInfo.MoreThanOneFkForEachPK == true)
+                    if (item.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SubUnionToUnion && item.Relationship.RelationInfo.FKHasData == true && item.Relationship.RelationInfo.MoreThanOneFkForEachPK == true)
                     {
                         validationTooltip += (validationTooltip == "" ? "" : Environment.NewLine) + "برخی داده ها برای این ارتباط بصورت یک به چند می باشند، بنابراین رابطه نمیتواند اتحاد باشد";
                     }
-                    if (item.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperToSub || item.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperUnionToSubUnion)
+                    if (item.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SuperToSub || item.Relationship.OrginalTypeEnum == Enum_OrginalRelationshipType.SubUnionToUnion)
                     {
                         if (string.IsNullOrEmpty(item.Relationship.OrginalRelationshipGroup))
                             validationTooltip += (validationTooltip == "" ? "" : Environment.NewLine) + "عنوان گروه مشخص نشده است";

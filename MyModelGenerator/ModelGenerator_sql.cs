@@ -56,219 +56,219 @@ namespace MyModelGenerator
             //یوزینگ کانتکست باید بره داخل داخل تا خطا باعث جلوگیری از سیو چنج نشه
             List<TableImportItem> result = new List<TableImportItem>();
 
-            using (var projectContext = new DataAccess.MyProjectEntities())
+            //using (var projectContext = new DataAccess.MyProjectEntities())
+            //{
+            //bool dataBaseInforationExists = false;
+            //   var database = projectContext.DatabaseInformation.First(x => x.ID == Database.ID);
+            using (SqlConnection testConn = new SqlConnection(Database.ConnectionString))
             {
-                //bool dataBaseInforationExists = false;
-                var database = projectContext.DatabaseInformation.First(x => x.ID == Database.ID);
-                using (SqlConnection testConn = new SqlConnection(Database.ConnectionString))
+                testConn.Open();
+                int count = 0;
+                using (SqlCommand commandCount = new SqlCommand("SELECT count (*) FROM information_schema.tables where table_type='BASE TABLE'", testConn))
                 {
-                    testConn.Open();
-                    int count = 0;
-                    using (SqlCommand commandCount = new SqlCommand("SELECT count (*) FROM information_schema.tables where table_type='BASE TABLE'", testConn))
-                    {
-                        count = (int)commandCount.ExecuteScalar();
-                    }
+                    count = (int)commandCount.ExecuteScalar();
+                }
 
-                    var tableExtendedPropertyQuery = @"SELECT major_id, minor_id, t.name AS [TableName],ep.name as  [Tag] , value AS [Value]
+                var tableExtendedPropertyQuery = @"SELECT major_id, minor_id, t.name AS [TableName],ep.name as  [Tag] , value AS [Value]
                                                         FROM sys.extended_properties AS ep INNER JOIN sys.tables AS t ON ep.major_id = t.object_id 
                                                         AND ep.minor_id = 0
                                                         WHERE class = 1 ";// and t.name=" + "'" + table.Name + "'";
 
-                    SqlDataAdapter adapterTableDesc = new SqlDataAdapter(tableExtendedPropertyQuery, testConn);
-                    var datatableTableDes = new DataTable();
-                    adapterTableDesc.Fill(datatableTableDes);
-                    var tablesDescEnumerator = datatableTableDes.AsEnumerable();
+                SqlDataAdapter adapterTableDesc = new SqlDataAdapter(tableExtendedPropertyQuery, testConn);
+                var datatableTableDes = new DataTable();
+                adapterTableDesc.Fill(datatableTableDes);
+                var tablesDescEnumerator = datatableTableDes.AsEnumerable();
 
-                    var keyColumnsQuery = @"SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + constraint_name), 'IsPrimaryKey') = 1";// AND table_name = '" + table.Name + "'"";// and t.name=" + "'" + table.Name + "'";
-                    SqlDataAdapter adapterKeyColumns = new SqlDataAdapter(keyColumnsQuery, testConn);
-                    var keyColumnsTableDes = new DataTable();
-                    adapterKeyColumns.Fill(keyColumnsTableDes);
-                    var keyColumnsEnumerator = keyColumnsTableDes.AsEnumerable();
+                var keyColumnsQuery = @"SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + constraint_name), 'IsPrimaryKey') = 1";// AND table_name = '" + table.Name + "'"";// and t.name=" + "'" + table.Name + "'";
+                SqlDataAdapter adapterKeyColumns = new SqlDataAdapter(keyColumnsQuery, testConn);
+                var keyColumnsTableDes = new DataTable();
+                adapterKeyColumns.Fill(keyColumnsTableDes);
+                var keyColumnsEnumerator = keyColumnsTableDes.AsEnumerable();
 
 
-                    var columnExtendedPropertyQuery = @"SELECT major_id, minor_id, t.name AS [TableName], c.name AS [ColumnName],ep.name as [Tag], value AS [Value]
+                var columnExtendedPropertyQuery = @"SELECT major_id, minor_id, t.name AS [TableName], c.name AS [ColumnName],ep.name as [Tag], value AS [Value]
                                                         FROM sys.extended_properties AS ep
                                                         INNER JOIN sys.tables AS t ON ep.major_id = t.object_id 
                                                         INNER JOIN sys.columns AS c ON ep.major_id = c.object_id AND ep.minor_id = c.column_id
                                                         WHERE class = 1 ";// and t.name=" + "'" + table.Name + "'";
 
-                    SqlDataAdapter adapterColumnsDesc = new SqlDataAdapter(columnExtendedPropertyQuery, testConn);
-                    var columnExtendedPropertyDataTable = new DataTable();
-                    adapterColumnsDesc.Fill(columnExtendedPropertyDataTable);
-                    var columnDescEnumerator = columnExtendedPropertyDataTable.AsEnumerable();
+                SqlDataAdapter adapterColumnsDesc = new SqlDataAdapter(columnExtendedPropertyQuery, testConn);
+                var columnExtendedPropertyDataTable = new DataTable();
+                adapterColumnsDesc.Fill(columnExtendedPropertyDataTable);
+                var columnDescEnumerator = columnExtendedPropertyDataTable.AsEnumerable();
 
 
-                    var columnsQuery = @"Select *, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'IsIdentity') as IsIdentity 
+                var columnsQuery = @"Select *, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'IsIdentity') as IsIdentity 
                             ,(select definition from  sys.computed_columns where object_id(TABLE_SCHEMA+'.'+TABLE_NAME)= sys.computed_columns.object_id and sys.computed_columns.name=Column_Name ) as Formula, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'iscomputed') as IsComputed from INFORMATION_SCHEMA.COLUMNS";
 
-                    SqlDataAdapter adaperColumns = new SqlDataAdapter(columnsQuery, testConn);
-                    var columnsDataTable = new DataTable();
-                    adaperColumns.Fill(columnsDataTable);
-                    var columnsEnumerator = columnsDataTable.AsEnumerable();
+                SqlDataAdapter adaperColumns = new SqlDataAdapter(columnsQuery, testConn);
+                var columnsDataTable = new DataTable();
+                adaperColumns.Fill(columnsDataTable);
+                var columnsEnumerator = columnsDataTable.AsEnumerable();
 
-                    var counter = 0;
-                    using (SqlCommand command = new SqlCommand("SELECT * FROM information_schema.tables where table_type='BASE TABLE'", testConn))
-                    using (SqlDataReader reader = command.ExecuteReader())
+                var counter = 0;
+                using (SqlCommand command = new SqlCommand("SELECT * FROM information_schema.tables where table_type='BASE TABLE'", testConn))
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        TableDrivedEntityDTO table = new TableDrivedEntityDTO();
+                        table.Name = reader["TABLE_Name"].ToString();
+                        try
                         {
-                            TableDrivedEntityDTO table = new TableDrivedEntityDTO();
-                            table.Name = reader["TABLE_Name"].ToString();
-                            try
+                            counter++;
+                            if (ItemImportingStarted != null)
+                                ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = table.Name, TotalProgressCount = count, CurrentProgress = counter });
+                            table.RelatedSchema = reader["TABLE_Schema"].ToString();
+
+                            ////عنوان جدول
+                            foreach (var tableDescRow in tablesDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower()))
                             {
-                                counter++;
-                                if (ItemImportingStarted != null)
-                                    ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = table.Name, TotalProgressCount = count, CurrentProgress = counter });
-                                table.RelatedSchema = reader["TABLE_Schema"].ToString();
+                                if (tableDescRow != null && tableDescRow["Tag"] != null && tableDescRow["Value"] != null)
+                                    table.DatabaseDescriptions.Add(new Tuple<string, string>(tableDescRow["Tag"].ToString(), tableDescRow["Value"].ToString()));
+                            }
+                            ////////
 
-                                ////عنوان جدول
-                                foreach (var tableDescRow in tablesDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower()))
+                            //عنوان های ستونها
+
+                            //////
+
+                            List<string> keyColumns = new List<string>();
+                            foreach (var row in keyColumnsEnumerator.Where(x => x.Field<String>("TABLE_NAME").ToLower() == table.Name.ToLower()))
+                                keyColumns.Add(row["column_name"].ToString());
+
+
+                            foreach (var columnRow in columnsEnumerator.Where(x => x.Field<String>("TABLE_Name").ToLower() == table.Name.ToLower()).OrderBy(x => x.Field<int>("ORDINAL_POSITION")))
+                            {
+                                ColumnDTO column = new ColumnDTO();
+                                column.Name = columnRow["Column_Name"].ToString();
+                                foreach (var columnDescRow in columnDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower() && x.Field<String>("ColumnName").ToLower() == column.Name.ToLower()))
                                 {
-                                    if (tableDescRow != null && tableDescRow["Tag"] != null && tableDescRow["Value"] != null)
-                                        table.DatabaseDescriptions.Add(new Tuple<string, string>(tableDescRow["Tag"].ToString(), tableDescRow["Value"].ToString()));
+                                    if (columnDescRow != null && columnDescRow["Tag"] != null && columnDescRow["Value"] != null)
+                                        column.DatabaseDescriptions.Add(new ColumnDescriptionDTO() { Key = columnDescRow["Tag"].ToString(), Value = columnDescRow["Value"].ToString() });
                                 }
-                                ////////
+                                //if (columnDescRow != null && columnDescRow["Value"] != null)
+                                //    column.Alias = columnDescRow["Value"].ToString();
 
-                                //عنوان های ستونها
-
-                                //////
-
-                                List<string> keyColumns = new List<string>();
-                                foreach (var row in keyColumnsEnumerator.Where(x => x.Field<String>("TABLE_NAME").ToLower() == table.Name.ToLower()))
-                                    keyColumns.Add(row["column_name"].ToString());
-
-
-                                foreach (var columnRow in columnsEnumerator.Where(x => x.Field<String>("TABLE_Name").ToLower() == table.Name.ToLower()).OrderBy(x => x.Field<int>("ORDINAL_POSITION")))
-                                {
-                                    ColumnDTO column = new ColumnDTO();
-                                    column.Name = columnRow["Column_Name"].ToString();
-                                    foreach (var columnDescRow in columnDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower() && x.Field<String>("ColumnName").ToLower() == column.Name.ToLower()))
-                                    {
-                                        if (columnDescRow != null && columnDescRow["Tag"] != null && columnDescRow["Value"] != null)
-                                            column.DatabaseDescriptions.Add(new ColumnDescriptionDTO() { Key = columnDescRow["Tag"].ToString(), Value = columnDescRow["Value"].ToString() });
-                                    }
-                                    //if (columnDescRow != null && columnDescRow["Value"] != null)
-                                    //    column.Alias = columnDescRow["Value"].ToString();
-
-                                    //if (columnExtendedPropertyDataTable.Rows.Count > 0)
-                                    //{
-                                    //    foreach (DataRow row in columnExtendedPropertyDataTable.Rows)
-                                    //    {
-                                    //        if (column.Name == row["ColumnName"].ToString())
-                                    //            columnDesc = row["Value"].ToString();
-                                    //    }
-                                    //}
-                                    //if (!string.IsNullOrEmpty(columnDesc))
-                                    //    column.Alias = columnDesc;
-
-                                    column.DataType = columnRow["DATA_TYPE"].ToString();
-                                    column.PrimaryKey = keyColumns.Contains(column.Name);
-                                    column.IsNull = columnRow["is_nullable"].ToString() == "YES";
-                                    column.IsIdentity = columnRow["IsIdentity"].ToString() == "1";
-                                    column.Position = Convert.ToInt32(columnRow["ORDINAL_POSITION"].ToString());
-                                    column.DefaultValue = (columnRow["COLUMN_DEFAULT"] == null ? null : columnRow["COLUMN_DEFAULT"].ToString());
-
-
-
-
-
-                                    if (IsStringType(column))
-                                    {
-                                        //column. = Convert.ToByte(Enum_ColumnType.String);
-                                        //if (column.DateColumnType != null)
-                                        //    column.DateColumnType = null;
-                                        //if (column.NumericColumnType != null)
-                                        //    column.NumericColumnType = null;
-
-                                        if (column.StringColumnType == null)
-                                            column.StringColumnType = new StringColumnTypeDTO();
-                                        column.StringColumnType.MaxLength = (columnRow["CHARACTER_MAXIMUM_LENGTH"] == null ? 0 : Convert.ToInt32(columnRow["CHARACTER_MAXIMUM_LENGTH"]));
-                                    }
-                                    else if (IsNumericType(column))
-                                    {
-                                        //       column.TypeEnum = Convert.ToByte(Enum_ColumnType.Numeric);
-                                        //if (column.DateColumnType != null)
-                                        //    column.DateColumnType = null;
-                                        //if (column.StringColumnType != null)
-                                        //    column.StringColumnType = null;
-
-                                        if (column.NumericColumnType == null)
-                                            column.NumericColumnType = new NumericColumnTypeDTO();
-                                        if (columnRow["NUMERIC_PRECISION"] != null)
-                                            column.NumericColumnType.Precision = Convert.ToInt32(columnRow["NUMERIC_PRECISION"]);
-                                        if (columnRow["NUMERIC_SCALE"] != null)
-                                            column.NumericColumnType.Scale = Convert.ToInt32(columnRow["NUMERIC_SCALE"]);
-                                    }
-                                    else if (IsDateType(column))
-                                    {
-                                        //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Date);
-                                        //if (column.StringColumnType != null)
-                                        //    column.StringColumnType = null;
-                                        //if (column.NumericColumnType != null)
-                                        //    column.NumericColumnType = null;
-
-                                        if (column.DateColumnType == null)
-                                            column.DateColumnType = new DateColumnTypeDTO();
-                                    }
-                                    else if (IsBooleanType(column))
-                                    {
-                                        column.IsBoolean = true;
-                                        //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Boolean);
-                                        //if (column.StringColumnType != null)
-                                        //    column.StringColumnType = null;
-                                        //if (column.NumericColumnType != null)
-                                        //    column.NumericColumnType = null;
-                                        //if (column.DateColumnType == null)
-                                        //    column.DateColumnType = null;
-
-                                    }
-
-                                    var IsComputed = columnRow["IsComputed"];
-                               //     column.IsDBCalculatedColumn = Convert.ToBoolean(IsComputed);
-                                    if (IsComputed != null && Convert.ToBoolean(IsComputed))
-                                    {
-                                        if ((columnRow["Formula"]) != null)
-                                            column.DBFormula = columnRow["Formula"].ToString();
-                                    }
-                                    else
-                                    {
-                                        column.DBFormula = "";
-                                        //column.IsDBCalculatedColumn = false;
-                                        //if (column.DBCalculatedColumn != null)
-                                        //    projectContext.DBCalculatedColumn.Remove(column.DBCalculatedColumn);
-                                    }
-                                    table.Columns.Add(column);
-                                }
-                                //    string queryColumns = @"Select *, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'IsIdentity') as IsIdentity 
-                                //,(select definition from  sys.computed_columns where object_id(TABLE_SCHEMA+'.'+TABLE_NAME)= sys.computed_columns.object_id and sys.computed_columns.name=Column_Name ) as Formula, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'iscomputed') as IsComputed from INFORMATION_SCHEMA.COLUMNS";
-                                //    using (SqlCommand commandFields = new SqlCommand(queryColumns + " Where TABLE_Name = '" + table.Name + "' ", testConn))
-                                //    using (SqlDataReader readerFields = commandFields.ExecuteReader())
-                                //    {
-                                //while (readerFields.Read())
+                                //if (columnExtendedPropertyDataTable.Rows.Count > 0)
                                 //{
-
+                                //    foreach (DataRow row in columnExtendedPropertyDataTable.Rows)
+                                //    {
+                                //        if (column.Name == row["ColumnName"].ToString())
+                                //            columnDesc = row["Value"].ToString();
+                                //    }
                                 //}
+                                //if (!string.IsNullOrEmpty(columnDesc))
+                                //    column.Alias = columnDesc;
 
-                                //if (table.ID == 0)
-                                //    projectContext.Table.Add(table);
-                                //projectContext.SaveChanges();
-                                //result.SuccessfulItems.Add(resultitem);
+                                column.DataType = columnRow["DATA_TYPE"].ToString();
+                                column.PrimaryKey = keyColumns.Contains(column.Name);
+                                column.IsNull = columnRow["is_nullable"].ToString() == "YES";
+                                column.IsIdentity = columnRow["IsIdentity"].ToString() == "1";
+                                column.Position = Convert.ToInt32(columnRow["ORDINAL_POSITION"].ToString());
+                                column.DefaultValue = (columnRow["COLUMN_DEFAULT"] == null ? null : columnRow["COLUMN_DEFAULT"].ToString());
 
 
 
 
 
+                                if (IsStringType(column))
+                                {
+                                    //column. = Convert.ToByte(Enum_ColumnType.String);
+                                    //if (column.DateColumnType != null)
+                                    //    column.DateColumnType = null;
+                                    //if (column.NumericColumnType != null)
+                                    //    column.NumericColumnType = null;
 
-                                result.Add(new TableImportItem(table, false, ""));
+                                    if (column.StringColumnType == null)
+                                        column.StringColumnType = new StringColumnTypeDTO();
+                                    column.StringColumnType.MaxLength = (columnRow["CHARACTER_MAXIMUM_LENGTH"] == null ? 0 : Convert.ToInt32(columnRow["CHARACTER_MAXIMUM_LENGTH"]));
+                                }
+                                else if (IsNumericType(column))
+                                {
+                                    //       column.TypeEnum = Convert.ToByte(Enum_ColumnType.Numeric);
+                                    //if (column.DateColumnType != null)
+                                    //    column.DateColumnType = null;
+                                    //if (column.StringColumnType != null)
+                                    //    column.StringColumnType = null;
+
+                                    if (column.NumericColumnType == null)
+                                        column.NumericColumnType = new NumericColumnTypeDTO();
+                                    if (columnRow["NUMERIC_PRECISION"] != null)
+                                        column.NumericColumnType.Precision = Convert.ToInt32(columnRow["NUMERIC_PRECISION"]);
+                                    if (columnRow["NUMERIC_SCALE"] != null)
+                                        column.NumericColumnType.Scale = Convert.ToInt32(columnRow["NUMERIC_SCALE"]);
+                                }
+                                else if (IsDateType(column))
+                                {
+                                    //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Date);
+                                    //if (column.StringColumnType != null)
+                                    //    column.StringColumnType = null;
+                                    //if (column.NumericColumnType != null)
+                                    //    column.NumericColumnType = null;
+
+                                    if (column.DateColumnType == null)
+                                        column.DateColumnType = new DateColumnTypeDTO();
+                                }
+                                else if (IsBooleanType(column))
+                                {
+                                    column.IsBoolean = true;
+                                    //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Boolean);
+                                    //if (column.StringColumnType != null)
+                                    //    column.StringColumnType = null;
+                                    //if (column.NumericColumnType != null)
+                                    //    column.NumericColumnType = null;
+                                    //if (column.DateColumnType == null)
+                                    //    column.DateColumnType = null;
+
+                                }
+
+                                var IsComputed = columnRow["IsComputed"];
+                                //     column.IsDBCalculatedColumn = Convert.ToBoolean(IsComputed);
+                                if (IsComputed != null && Convert.ToBoolean(IsComputed))
+                                {
+                                    if ((columnRow["Formula"]) != null)
+                                        column.DBFormula = columnRow["Formula"].ToString();
+                                }
+                                else
+                                {
+                                    column.DBFormula = "";
+                                    //column.IsDBCalculatedColumn = false;
+                                    //if (column.DBCalculatedColumn != null)
+                                    //    projectContext.DBCalculatedColumn.Remove(column.DBCalculatedColumn);
+                                }
+                                table.Columns.Add(column);
                             }
-                            catch (Exception ex)
-                            {
-                                result.Add(new TableImportItem(table, true, ex.Message));
-                            }
+                            //    string queryColumns = @"Select *, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'IsIdentity') as IsIdentity 
+                            //,(select definition from  sys.computed_columns where object_id(TABLE_SCHEMA+'.'+TABLE_NAME)= sys.computed_columns.object_id and sys.computed_columns.name=Column_Name ) as Formula, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'iscomputed') as IsComputed from INFORMATION_SCHEMA.COLUMNS";
+                            //    using (SqlCommand commandFields = new SqlCommand(queryColumns + " Where TABLE_Name = '" + table.Name + "' ", testConn))
+                            //    using (SqlDataReader readerFields = commandFields.ExecuteReader())
+                            //    {
+                            //while (readerFields.Read())
+                            //{
 
+                            //}
+
+                            //if (table.ID == 0)
+                            //    projectContext.Table.Add(table);
+                            //projectContext.SaveChanges();
+                            //result.SuccessfulItems.Add(resultitem);
+
+
+
+
+
+
+                            result.Add(new TableImportItem(table, false, ""));
+                        }
+                        catch (Exception ex)
+                        {
+                            result.Add(new TableImportItem(table, true, ex.Message));
                         }
 
                     }
+
+                    //    }
                 }
 
                 //if (ImportCompleted != null)
@@ -346,12 +346,12 @@ namespace MyModelGenerator
 
             using (SqlConnection testConn = new SqlConnection(Database.ConnectionString))
             {
-                using (var projectContext = new DataAccess.MyProjectEntities())
-                {
-                    testConn.Open();
+                //using (var projectContext = new DataAccess.MyProjectEntities())
+                //{
+                testConn.Open();
 
-                    //نام رابطه و جداول مرتبط
-                    string groupStr = @"SELECT
+                //نام رابطه و جداول مرتبط
+                string groupStr = @"SELECT
                                              fk.name 'Constraint_Name',tp.name 'FK_Table',  tr.name 'PK_Table',count(*) as count
                                         FROM 
                                             sys.foreign_keys fk
@@ -368,8 +368,8 @@ namespace MyModelGenerator
         			group by  fk.name,tp.name,tr.name";
 
 
-                    //گرفتن تعداد
-                    string groupStrCount = @"select count(*) from (SELECT
+                //گرفتن تعداد
+                string groupStrCount = @"select count(*) from (SELECT
                                              fk.name 'Constraint_Name',tp.name 'FK_Table',  tr.name 'PK_Table',count(*) as count
                                         FROM 
                                             sys.foreign_keys fk
@@ -385,8 +385,8 @@ namespace MyModelGenerator
                                             sys.columns cr ON fkc.referenced_column_id = cr.column_id AND fkc.referenced_object_id = cr.object_id
         			group by  fk.name,tp.name,tr.name) as innerQuery";
 
-                    //به همراه ستونها
-                    string commandStr = @"SELECT
+                //به همراه ستونها
+                string commandStr = @"SELECT
                                             fk.name 'Constraint_Name',
                                             tp.name 'FK_Table',
                                             cp.name 'FK_Column',
@@ -408,76 +408,89 @@ namespace MyModelGenerator
                                             tp.name, cp.column_id";
 
 
-                    SqlDataAdapter adapterRelationDesc = new SqlDataAdapter(commandStr, testConn);
-                    var datatableRelation = new DataTable();
-                    adapterRelationDesc.Fill(datatableRelation);
-                    var relationEnumerator = datatableRelation.AsEnumerable();
+                SqlDataAdapter adapterRelationDesc = new SqlDataAdapter(commandStr, testConn);
+                var datatableRelation = new DataTable();
+                adapterRelationDesc.Fill(datatableRelation);
+                var relationEnumerator = datatableRelation.AsEnumerable();
 
-                    //DataTable relationDataTable = null;
-                    //using (SqlCommand command = new SqlCommand(commandStr, testConn))
-                    //{
-                    //    using (SqlDataReader dr = command.ExecuteReader())
-                    //    {
-                    //        relationDataTable = new DataTable();
-                    //        relationDataTable.Load(dr);
-                    //    }
-                    //}
-                    int count = 0;
-                    using (SqlCommand commandCount = new SqlCommand(groupStrCount, testConn))
-                    {
-                        count = (int)commandCount.ExecuteScalar();
-                    }
 
-                    var counter = 0;
-                    using (SqlCommand command = new SqlCommand(groupStr, testConn))
-                    using (SqlDataReader reader = command.ExecuteReader())
+                //برای اینکه ببینیم فارن کی خودش کلید هست
+                var keyColumnsQuery = @"SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + constraint_name), 'IsPrimaryKey') = 1";// AND table_name = '" + table.Name + "'"";// and t.name=" + "'" + table.Name + "'";
+                SqlDataAdapter adapterKeyColumns = new SqlDataAdapter(keyColumnsQuery, testConn);
+                var keyColumnsTableDes = new DataTable();
+                adapterKeyColumns.Fill(keyColumnsTableDes);
+                var keyColumnsEnumerator = keyColumnsTableDes.AsEnumerable();
+
+                //DataTable relationDataTable = null;
+                //using (SqlCommand command = new SqlCommand(commandStr, testConn))
+                //{
+                //    using (SqlDataReader dr = command.ExecuteReader())
+                //    {
+                //        relationDataTable = new DataTable();
+                //        relationDataTable.Load(dr);
+                //    }
+                //}
+                int count = 0;
+                using (SqlCommand commandCount = new SqlCommand(groupStrCount, testConn))
+                {
+                    count = (int)commandCount.ExecuteScalar();
+                }
+
+                var counter = 0;
+                using (SqlCommand command = new SqlCommand(groupStr, testConn))
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        string tooltip = "";
+                        var relation = new RelationshipDTO();
+                        relation.Name = reader["Constraint_Name"].ToString();
+                        try
                         {
-                            string tooltip = "";
-                            var relation = new RelationshipDTO();
-                            relation.Name = reader["Constraint_Name"].ToString();
-                            try
+
+                            counter++;
+                            if (ItemImportingStarted != null)
+                                ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = relation.Name, TotalProgressCount = count, CurrentProgress = counter });
+
+                            relation.Entity1 = reader["PK_Table"].ToString();
+
+
+                            relation.Entity2 = reader["FK_Table"].ToString();
+
+                            ////var entity1 = projectContext.TableDrivedEntity.FirstOrDefault(x => x.DeteminerColumnID == null && x.Table.Name == PKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID);
+                            ////if (entity1 == null)
+                            ////    throw (new Exception("There is no entity defined for table " + PKTable));
+
+                            ////var entity2 = projectContext.TableDrivedEntity.FirstOrDefault(x => x.DeteminerColumnID == null && x.Table.Name == FKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID);
+                            ////if (entity2 == null)
+                            ////    throw (new Exception("There is no entity defined for table " + FKTable));
+
+                            //var relations = projectContext.Relationship.Where(x => x.TableDrivedEntity.ID == entity1.ID && x.TableDrivedEntity1.ID == entity2.ID);
+                            var rows = relationEnumerator.Where(x => x.Field<string>("Constraint_Name").ToLower() == relation.Name.ToLower());
+                            string PKColumns = "";
+                            string FKColumns = "";
+                            foreach (var row in rows)
+                            {
+                                string PKColumn = row["PK_Column"].ToString();
+                                string FKColumn = row["FK_Column"].ToString();
+                                PKColumns += (PKColumns == "" ? "" : ",") + PKColumn;
+                                FKColumns += (FKColumns == "" ? "" : ",") + FKColumn;
+                                //var pkColumn = projectContext.Column.Where(x => x.Table.Name == PKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID && x.Name == PKColumn).FirstOrDefault();
+                                //if (pkColumn == null)
+                                //    throw (new Exception("Column " + PKColumn + " in " + PKTable + " is not found!"));
+                                //var fkColumn = projectContext.Column.Where(x => x.Table.Name == FKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID && x.Name == FKColumn).FirstOrDefault();
+                                //if (fkColumn == null)
+                                //    throw (new Exception("Column " + FKColumn + " in " + FKTable + " is not found!"));
+                                //relations = relations.Where(x => x.RelationshipColumns.Any(y => y.Column.Name == PKColumn && y.Column1.Name == FKColumn));
+                                relation.RelationshipColumns.Add(new RelationshipColumnDTO() { FirstSideColumn = new ColumnDTO() { Name = PKColumn }, SecondSideColumn = new ColumnDTO() { Name = FKColumn } });
+                                tooltip += (tooltip == "" ? "" : Environment.NewLine) + relation.Entity1 + "." + PKColumn + " = " + relation.Entity2 + "." + FKColumn;
+                            }
+
+                            relation.FKSidePKColumnsAreFkColumns = FKSidePKColumnsAreFkColumns(relation, keyColumnsEnumerator);
+                            if (relation.FKSidePKColumnsAreFkColumns)
                             {
 
-                                counter++;
-                                if (ItemImportingStarted != null)
-                                    ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = relation.Name, TotalProgressCount = count, CurrentProgress = counter });
-
-                                relation.Entity1 = reader["PK_Table"].ToString();
-
-
-                                relation.Entity2 = reader["FK_Table"].ToString();
-
-                                ////var entity1 = projectContext.TableDrivedEntity.FirstOrDefault(x => x.DeteminerColumnID == null && x.Table.Name == PKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID);
-                                ////if (entity1 == null)
-                                ////    throw (new Exception("There is no entity defined for table " + PKTable));
-
-                                ////var entity2 = projectContext.TableDrivedEntity.FirstOrDefault(x => x.DeteminerColumnID == null && x.Table.Name == FKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID);
-                                ////if (entity2 == null)
-                                ////    throw (new Exception("There is no entity defined for table " + FKTable));
-
-                                //var relations = projectContext.Relationship.Where(x => x.TableDrivedEntity.ID == entity1.ID && x.TableDrivedEntity1.ID == entity2.ID);
-                                var rows = relationEnumerator.Where(x => x.Field<string>("Constraint_Name").ToLower() == relation.Name.ToLower());
-                                string PKColumns = "";
-                                string FKColumns = "";
-                                foreach (var row in rows)
-                                {
-                                    string PKColumn = row["PK_Column"].ToString();
-                                    string FKColumn = row["FK_Column"].ToString();
-                                    PKColumns += (PKColumns == "" ? "" : ",") + PKColumn;
-                                    FKColumns += (FKColumns == "" ? "" : ",") + FKColumn;
-                                    //var pkColumn = projectContext.Column.Where(x => x.Table.Name == PKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID && x.Name == PKColumn).FirstOrDefault();
-                                    //if (pkColumn == null)
-                                    //    throw (new Exception("Column " + PKColumn + " in " + PKTable + " is not found!"));
-                                    //var fkColumn = projectContext.Column.Where(x => x.Table.Name == FKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID && x.Name == FKColumn).FirstOrDefault();
-                                    //if (fkColumn == null)
-                                    //    throw (new Exception("Column " + FKColumn + " in " + FKTable + " is not found!"));
-                                    //relations = relations.Where(x => x.RelationshipColumns.Any(y => y.Column.Name == PKColumn && y.Column1.Name == FKColumn));
-                                    relation.RelationshipColumns.Add(new RelationshipColumnDTO() { FirstSideColumn = new ColumnDTO() { Name = PKColumn }, SecondSideColumn = new ColumnDTO() { Name = FKColumn } });
-                                    tooltip += (tooltip == "" ? "" : Environment.NewLine) + relation.Entity1 + "." + PKColumn + " = " + relation.Entity2 + "." + FKColumn;
-                                }
-
+                            }
                                 //Relationship reverseRelation = null;
                                 //var relation = relations.FirstOrDefault();
                                 //if (relation != null)
@@ -528,34 +541,34 @@ namespace MyModelGenerator
 
                                 //    result.SuccessfulItems.Add(resultitem);
                                 result.Add(new RelationshipImportItem(relation, false, tooltip));
-                            }
-                            catch (Exception ex)
-                            {
-                                result.Add(new RelationshipImportItem(relation, true, ex.Message));
+                        }
+                        catch (Exception ex)
+                        {
+                            result.Add(new RelationshipImportItem(relation, true, ex.Message));
 
-                                //   resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
-                                //  result.FailedItems.Add(resultitem);
-                            }
+                            //   resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
+                            //  result.FailedItems.Add(resultitem);
                         }
                     }
-                    //}
-                    //catch (System.Data.Entity.Validation.DbEntityValidationException e)
-                    //{
-                    //    foreach (var eve in e.EntityValidationErrors)
-                    //    {
-                    //        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                    //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    //        foreach (var ve in eve.ValidationErrors)
-                    //        {
-                    //            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                    //                ve.PropertyName, ve.ErrorMessage);
-                    //        }
-                    //    }
-                    //    throw;
-                    //}
-
-
                 }
+                //}
+                //catch (System.Data.Entity.Validation.DbEntityValidationException e)
+                //{
+                //    foreach (var eve in e.EntityValidationErrors)
+                //    {
+                //        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                //        foreach (var ve in eve.ValidationErrors)
+                //        {
+                //            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                //                ve.PropertyName, ve.ErrorMessage);
+                //        }
+                //    }
+                //    throw;
+                //}
+
+
+                //}
             }
             return result;
             //////                if (done && faild)
@@ -572,6 +585,24 @@ namespace MyModelGenerator
             //}
 
         }
+
+        private bool FKSidePKColumnsAreFkColumns(RelationshipDTO relation, EnumerableRowCollection<DataRow> keyColumnsEnumerator)
+        {
+            var fkSidePkColumns = new List<string>();
+            foreach (var row in keyColumnsEnumerator.Where(x => x["TABLE_NAME"].ToString() == relation.Entity2))
+            {
+                fkSidePkColumns.Add(row["column_name"].ToString());
+            }
+            var fkColumns = new List<string>();
+            foreach (var row in relation.RelationshipColumns)
+            {
+                fkColumns.Add(row.SecondSideColumn.Name);
+            }
+            return fkSidePkColumns.All(y => fkColumns.Any(z => y == z)) &&
+           fkColumns.All(x => fkSidePkColumns.Any(z => z == x));
+        }
+
+
 
         //private List<DataRow> FindRelationDataRow(DataTable relationDataTable, string relationName)
         //{
@@ -743,134 +774,134 @@ namespace MyModelGenerator
         { //try
           //{
             List<TableImportItem> result = new List<TableImportItem>();
-            using (var projectContext = new DataAccess.MyProjectEntities())
+            //using (var projectContext = new DataAccess.MyProjectEntities())
+            //{
+            using (SqlConnection testConn = new SqlConnection(Database.ConnectionString))
             {
-                using (SqlConnection testConn = new SqlConnection(Database.ConnectionString))
+                testConn.Open();
+
+                string commandCountStr = @"SELECT Count(*) FROM sys.views";
+                int count = 0;
+                using (SqlCommand commandCount = new SqlCommand(commandCountStr, testConn))
                 {
-                    testConn.Open();
+                    count = (int)commandCount.ExecuteScalar();
+                }
+                var counter = 0;
 
-                    string commandCountStr = @"SELECT Count(*) FROM sys.views";
-                    int count = 0;
-                    using (SqlCommand commandCount = new SqlCommand(commandCountStr, testConn))
-                    {
-                        count = (int)commandCount.ExecuteScalar();
-                    }
-                    var counter = 0;
-
-                    var tableExtendedPropertyQuery = @"SELECT major_id, minor_id, t.name AS [TableName],ep.name as  [Tag] , value AS [Value]
+                var tableExtendedPropertyQuery = @"SELECT major_id, minor_id, t.name AS [TableName],ep.name as  [Tag] , value AS [Value]
                                                         FROM sys.extended_properties AS ep INNER JOIN sys.views AS t ON ep.major_id = t.object_id 
                                                         AND ep.minor_id = 0
                                                         WHERE class = 1 ";// and t.name=" + "'" + table.Name + "'";
 
-                    var columnExtendedPropertyQuery = @"SELECT major_id, minor_id, t.name AS [TableName], c.name AS [ColumnName],ep.name as [Tag], value AS [Value]
+                var columnExtendedPropertyQuery = @"SELECT major_id, minor_id, t.name AS [TableName], c.name AS [ColumnName],ep.name as [Tag], value AS [Value]
                                                         FROM sys.extended_properties AS ep
                                                         INNER JOIN sys.views AS t ON ep.major_id = t.object_id 
                                                         INNER JOIN sys.columns AS c ON ep.major_id = c.object_id AND ep.minor_id = c.column_id
                                                         WHERE class = 1 ";// and t.name=" + "'" + table.Name + "'";
 
-                    SqlDataAdapter adapterColumnsDesc = new SqlDataAdapter(columnExtendedPropertyQuery, testConn);
-                    var columnExtendedPropertyDataTable = new DataTable();
-                    adapterColumnsDesc.Fill(columnExtendedPropertyDataTable);
-                    var columnDescEnumerator = columnExtendedPropertyDataTable.AsEnumerable();
+                SqlDataAdapter adapterColumnsDesc = new SqlDataAdapter(columnExtendedPropertyQuery, testConn);
+                var columnExtendedPropertyDataTable = new DataTable();
+                adapterColumnsDesc.Fill(columnExtendedPropertyDataTable);
+                var columnDescEnumerator = columnExtendedPropertyDataTable.AsEnumerable();
 
 
-                    SqlDataAdapter adapterTableDesc = new SqlDataAdapter(tableExtendedPropertyQuery, testConn);
-                    var datatableTableDes = new DataTable();
-                    adapterTableDesc.Fill(datatableTableDes);
-                    var tablesDescEnumerator = datatableTableDes.AsEnumerable();
+                SqlDataAdapter adapterTableDesc = new SqlDataAdapter(tableExtendedPropertyQuery, testConn);
+                var datatableTableDes = new DataTable();
+                adapterTableDesc.Fill(datatableTableDes);
+                var tablesDescEnumerator = datatableTableDes.AsEnumerable();
 
-                    string commandStr = @"SELECT *,SCHEMA_NAME(schema_id) as ViewSchema FROM sys.views";
-                    using (SqlCommand command = new SqlCommand(commandStr, testConn))
+                string commandStr = @"SELECT *,SCHEMA_NAME(schema_id) as ViewSchema FROM sys.views";
+                using (SqlCommand command = new SqlCommand(commandStr, testConn))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
+
+
+                        while (reader.Read())
                         {
+                            var table = new TableDrivedEntityDTO();
 
-
-                            while (reader.Read())
+                            table.Name = reader["Name"].ToString();
+                            try
                             {
-                                var table = new TableDrivedEntityDTO();
 
-                                table.Name = reader["Name"].ToString();
-                                try
+                                //var catalogName = GeneralHelper.GetCatalogName(ServerName, DBName);
+
+
+                                counter++;
+                                if (ItemImportingStarted != null)
+                                    ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = table.Name, TotalProgressCount = count, CurrentProgress = counter });
+
+                                table.RelatedSchema = reader["ViewSchema"].ToString();
+
+                                ////عنوان جدول
+                                foreach (var tableDescRow in tablesDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower()))
                                 {
+                                    if (tableDescRow != null && tableDescRow["Tag"] != null && tableDescRow["Value"] != null)
+                                        table.DatabaseDescriptions.Add(new Tuple<string, string>(tableDescRow["Tag"].ToString(), tableDescRow["Value"].ToString()));
+                                }
+                                ////////
 
-                                    //var catalogName = GeneralHelper.GetCatalogName(ServerName, DBName);
+                                //var dbSchema = projectContext.DBSchema.FirstOrDefault(x => x.DatabaseInformationID == Database.ID && x.Name == schema);
+                                //if (dbSchema == null)
+                                //{
+                                //    dbSchema = new DBSchema() { DatabaseInformationID = Database.ID, Name = schema };
+                                //    dbSchema.SecurityObject = new SecurityObject();
+                                //    dbSchema.SecurityObject.Type = (int)DatabaseObjectCategory.Schema;
+                                //    projectContext.DBSchema.Add(dbSchema);
+                                //}
 
+                                // View view = projectContext.View.Where(x => x.Name == view.Name && x.DBSchema.DatabaseInformationID == Database.ID).FirstOrDefault();
 
-                                    counter++;
-                                    if (ItemImportingStarted != null)
-                                        ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = table.Name, TotalProgressCount = count, CurrentProgress = counter });
-
-                                    table.RelatedSchema = reader["ViewSchema"].ToString();
-
-                                    ////عنوان جدول
-                                    foreach (var tableDescRow in tablesDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower()))
-                                    {
-                                        if (tableDescRow != null && tableDescRow["Tag"] != null && tableDescRow["Value"] != null)
-                                            table.DatabaseDescriptions.Add(new Tuple<string, string>(tableDescRow["Tag"].ToString(), tableDescRow["Value"].ToString()));
-                                    }
-                                    ////////
-
-                                    //var dbSchema = projectContext.DBSchema.FirstOrDefault(x => x.DatabaseInformationID == Database.ID && x.Name == schema);
-                                    //if (dbSchema == null)
-                                    //{
-                                    //    dbSchema = new DBSchema() { DatabaseInformationID = Database.ID, Name = schema };
-                                    //    dbSchema.SecurityObject = new SecurityObject();
-                                    //    dbSchema.SecurityObject.Type = (int)DatabaseObjectCategory.Schema;
-                                    //    projectContext.DBSchema.Add(dbSchema);
-                                    //}
-
-                                    // View view = projectContext.View.Where(x => x.Name == view.Name && x.DBSchema.DatabaseInformationID == Database.ID).FirstOrDefault();
-
-                                    //if (view == null)
-                                    //{
-                                    //    view = new View();
-                                    //    view.Name = viewName;
-                                    //    //view.Catalog = catalogName;
-                                    //}
-                                    //   view.RelatedSchema = dbSchema;
-                                    //view.RelatedSchema = reader["ViewSchema"].ToString();
-                                    string queryColumns = @"SELECT * FROM information_schema.columns WHERE 
+                                //if (view == null)
+                                //{
+                                //    view = new View();
+                                //    view.Name = viewName;
+                                //    //view.Catalog = catalogName;
+                                //}
+                                //   view.RelatedSchema = dbSchema;
+                                //view.RelatedSchema = reader["ViewSchema"].ToString();
+                                string queryColumns = @"SELECT * FROM information_schema.columns WHERE 
                                     table_name = '" + table.Name + "'";
-                                    using (SqlCommand commandFields = new SqlCommand(queryColumns, testConn))
-                                    using (SqlDataReader readerFields = commandFields.ExecuteReader())
-                                    {
-                                        while (readerFields.Read())
-                                        {
-                                            ColumnDTO column = new ColumnDTO();
-                                            column.Name = readerFields["Column_Name"].ToString();
-                                            foreach (var columnDescRow in columnDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower() && x.Field<String>("ColumnName").ToLower() == column.Name.ToLower()))
-                                            {
-                                                if (columnDescRow != null && columnDescRow["Tag"] != null && columnDescRow["Value"] != null)
-                                                    column.DatabaseDescriptions.Add(new ColumnDescriptionDTO() { Key = columnDescRow["Tag"].ToString(), Value = columnDescRow["Value"].ToString() });
-                                            }
-
-                                            column.DataType = readerFields["DATA_TYPE"].ToString();
-                                            // column.PrimaryKey = keyColumns.Contains(column.Name);
-                                            column.IsNull = readerFields["is_nullable"].ToString() == "YES";
-                                            //column.IsIdentity = readerFields["IsIdentity"].ToString() == "1";
-                                            column.Position = Convert.ToInt32(readerFields["ORDINAL_POSITION"].ToString());
-                                            column.DefaultValue = (readerFields["COLUMN_DEFAULT"] == null ? null : readerFields["COLUMN_DEFAULT"].ToString());
-
-                                            table.Columns.Add(column);
-                                        }
-                                    }
-                                    //if (view.ID == 0)
-                                    //    projectContext.View.Add(view);
-                                    //projectContext.SaveChanges();
-                                    //result.SuccessfulItems.Add(resultitem);
-
-                                    result.Add(new TableImportItem(table, false, ""));
-                                }
-                                catch (Exception ex)
+                                using (SqlCommand commandFields = new SqlCommand(queryColumns, testConn))
+                                using (SqlDataReader readerFields = commandFields.ExecuteReader())
                                 {
-                                    result.Add(new TableImportItem(table, true, ex.Message));
-                                    //resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
-                                    //result.FailedItems.Add(resultitem);
+                                    while (readerFields.Read())
+                                    {
+                                        ColumnDTO column = new ColumnDTO();
+                                        column.Name = readerFields["Column_Name"].ToString();
+                                        foreach (var columnDescRow in columnDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower() && x.Field<String>("ColumnName").ToLower() == column.Name.ToLower()))
+                                        {
+                                            if (columnDescRow != null && columnDescRow["Tag"] != null && columnDescRow["Value"] != null)
+                                                column.DatabaseDescriptions.Add(new ColumnDescriptionDTO() { Key = columnDescRow["Tag"].ToString(), Value = columnDescRow["Value"].ToString() });
+                                        }
+
+                                        column.DataType = readerFields["DATA_TYPE"].ToString();
+                                        // column.PrimaryKey = keyColumns.Contains(column.Name);
+                                        column.IsNull = readerFields["is_nullable"].ToString() == "YES";
+                                        //column.IsIdentity = readerFields["IsIdentity"].ToString() == "1";
+                                        column.Position = Convert.ToInt32(readerFields["ORDINAL_POSITION"].ToString());
+                                        column.DefaultValue = (readerFields["COLUMN_DEFAULT"] == null ? null : readerFields["COLUMN_DEFAULT"].ToString());
+
+                                        table.Columns.Add(column);
+                                    }
                                 }
+                                //if (view.ID == 0)
+                                //    projectContext.View.Add(view);
+                                //projectContext.SaveChanges();
+                                //result.SuccessfulItems.Add(resultitem);
+
+                                result.Add(new TableImportItem(table, false, ""));
+                            }
+                            catch (Exception ex)
+                            {
+                                result.Add(new TableImportItem(table, true, ex.Message));
+                                //resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
+                                //result.FailedItems.Add(resultitem);
                             }
                         }
                     }
+                    //}
                 }
             }
             return result;
@@ -880,195 +911,195 @@ namespace MyModelGenerator
         { //try
 
             List<FunctionImportItem> result = new List<FunctionImportItem>();
-            using (var projectContext = new DataAccess.MyProjectEntities())
+            //using (var projectContext = new DataAccess.MyProjectEntities())
+            //{
+            using (SqlConnection testConn = new SqlConnection(Database.ConnectionString))
             {
-                using (SqlConnection testConn = new SqlConnection(Database.ConnectionString))
-                {
-                    testConn.Open();
-                    string commandStr = @"SELECT name AS function_name,Parameter_Mode ,Is_Result,Parameter_Name,Data_Type
+                testConn.Open();
+                string commandStr = @"SELECT name AS function_name,Parameter_Mode ,Is_Result,Parameter_Name,Data_Type
                         ,SCHEMA_NAME(schema_id) AS schema_name
                         ,type_desc
                         FROM sys.objects inner join INFORMATION_SCHEMA.PARAMETERS on sys.objects.name=specific_Name
                         WHERE type_desc LIKE '%FUNCTION%' and type_desc like '%scalar%' and Parameter_Mode='out';";
-                    string commandCountStr = @"SELECT Count(*) FROM   sys.objects inner join INFORMATION_SCHEMA.PARAMETERS on sys.objects.name=specific_Name
+                string commandCountStr = @"SELECT Count(*) FROM   sys.objects inner join INFORMATION_SCHEMA.PARAMETERS on sys.objects.name=specific_Name
                         WHERE type_desc LIKE '%FUNCTION%' and type_desc like '%scalar%' and Parameter_Mode='out'";
-                    int count = 0;
-                    using (SqlCommand commandCount = new SqlCommand(commandCountStr, testConn))
-                    {
-                        count = (int)commandCount.ExecuteScalar();
-                    }
-                    var counter = 0;
+                int count = 0;
+                using (SqlCommand commandCount = new SqlCommand(commandCountStr, testConn))
+                {
+                    count = (int)commandCount.ExecuteScalar();
+                }
+                var counter = 0;
 
-                    using (SqlCommand command = new SqlCommand(commandStr, testConn))
+                using (SqlCommand command = new SqlCommand(commandStr, testConn))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
+
+
+                        while (reader.Read())
                         {
-
-
-                            while (reader.Read())
+                            var function = new DatabaseFunctionDTO();
+                            function.FunctionName = reader["function_name"].ToString();
+                            try
                             {
-                                var function = new DatabaseFunctionDTO();
-                                function.FunctionName = reader["function_name"].ToString();
-                                try
-                                {
 
 
-                                    counter++;
-                                    if (ItemImportingStarted != null)
-                                        ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = function.FunctionName, TotalProgressCount = count, CurrentProgress = counter });
+                                counter++;
+                                if (ItemImportingStarted != null)
+                                    ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = function.FunctionName, TotalProgressCount = count, CurrentProgress = counter });
 
-                                    //var DatabaseFunction = projectContext.DatabaseFunction.Where(x => x.FunctionName == function.Title && x.DBSchema.DatabaseInformationID == Database.ID && x.Type == 1).FirstOrDefault();
+                                //var DatabaseFunction = projectContext.DatabaseFunction.Where(x => x.FunctionName == function.Title && x.DBSchema.DatabaseInformationID == Database.ID && x.Type == 1).FirstOrDefault();
 
-                                    function.RelatedSchema = reader["schema_name"].ToString();
-                                    //var dbSchema = projectContext.DBSchema.FirstOrDefault(x => x.DatabaseInformationID == Database.ID && x.Name == schema);
-                                    //if (dbSchema == null)
-                                    //{
-                                    //    dbSchema = new DBSchema() { DatabaseInformationID = Database.ID, Name = schema };
-                                    //    dbSchema.SecurityObject = new SecurityObject();
-                                    //    dbSchema.SecurityObject.Type = (int)DatabaseObjectCategory.Schema;
-                                    //    projectContext.DBSchema.Add(dbSchema);
-                                    //}
+                                function.RelatedSchema = reader["schema_name"].ToString();
+                                //var dbSchema = projectContext.DBSchema.FirstOrDefault(x => x.DatabaseInformationID == Database.ID && x.Name == schema);
+                                //if (dbSchema == null)
+                                //{
+                                //    dbSchema = new DBSchema() { DatabaseInformationID = Database.ID, Name = schema };
+                                //    dbSchema.SecurityObject = new SecurityObject();
+                                //    dbSchema.SecurityObject.Type = (int)DatabaseObjectCategory.Schema;
+                                //    projectContext.DBSchema.Add(dbSchema);
+                                //}
 
-                                    //if (DatabaseFunction == null)
-                                    //{
-                                    //    DatabaseFunction = new DatabaseFunction();
-                                    //    DatabaseFunction.FunctionName = function.Title;
+                                //if (DatabaseFunction == null)
+                                //{
+                                //    DatabaseFunction = new DatabaseFunction();
+                                //    DatabaseFunction.FunctionName = function.Title;
 
-                                    //}
+                                //}
 
-                                    //DatabaseFunction.DBSchema = dbSchema;
-                                    function.ReturnType = reader["Data_Type"].ToString().Trim();
-                                    function.Type = Enum_DatabaseFunctionType.Function;
+                                //DatabaseFunction.DBSchema = dbSchema;
+                                function.ReturnType = reader["Data_Type"].ToString().Trim();
+                                function.Type = Enum_DatabaseFunctionType.Function;
 
-                                    var queryColumns = @"SELECT specific_Name,Parameter_Mode Is_Result,Parameter_Name,Data_Type
+                                var queryColumns = @"SELECT specific_Name,Parameter_Mode Is_Result,Parameter_Name,Data_Type
                                                FROM  INFORMATION_SCHEMA.PARAMETERS where  specific_Name='" + function.FunctionName + "' and Parameter_Mode='IN'";
-                                    using (SqlCommand commandFields = new SqlCommand(queryColumns, testConn))
-                                    using (SqlDataReader readerFields = commandFields.ExecuteReader())
-                                    {
-                                        while (readerFields.Read())
-                                        {
-                                            var column = new DatabaseFunctionColumnDTO();
-                                            function.DatabaseFunctionParameter.Add(column);
-                                            column.ParameterName = readerFields["Parameter_Name"].ToString();
-                                            column.DataType = readerFields["Data_Type"].ToString();
-                                            //var column = DatabaseFunction.DatabaseFunctionParameter.Where(x => x.ParamName == paramName).FirstOrDefault();
-                                            //if (column == null)
-                                            //{
-                                            //    column = new DatabaseFunctionParameter();
-                                            //    column.ParamName = paramName;
-                                            //    DatabaseFunction.DatabaseFunctionParameter.Add(column);
-                                            //}
-                                            //column.DataType = dataType;
-                                        }
-                                    }
-
-                                    //if (DatabaseFunction.ID == 0)
-                                    //    projectContext.DatabaseFunction.Add(DatabaseFunction);
-                                    //projectContext.SaveChanges();
-                                    result.Add(new FunctionImportItem(function, false, ""));
-                                }
-                                catch (Exception ex)
+                                using (SqlCommand commandFields = new SqlCommand(queryColumns, testConn))
+                                using (SqlDataReader readerFields = commandFields.ExecuteReader())
                                 {
-                                    result.Add(new FunctionImportItem(function, true, ex.Message));
-                                    //resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
-                                    //result.FailedItems.Add(resultitem);
+                                    while (readerFields.Read())
+                                    {
+                                        var column = new DatabaseFunctionColumnDTO();
+                                        function.DatabaseFunctionParameter.Add(column);
+                                        column.ParameterName = readerFields["Parameter_Name"].ToString();
+                                        column.DataType = readerFields["Data_Type"].ToString();
+                                        //var column = DatabaseFunction.DatabaseFunctionParameter.Where(x => x.ParamName == paramName).FirstOrDefault();
+                                        //if (column == null)
+                                        //{
+                                        //    column = new DatabaseFunctionParameter();
+                                        //    column.ParamName = paramName;
+                                        //    DatabaseFunction.DatabaseFunctionParameter.Add(column);
+                                        //}
+                                        //column.DataType = dataType;
+                                    }
                                 }
+
+                                //if (DatabaseFunction.ID == 0)
+                                //    projectContext.DatabaseFunction.Add(DatabaseFunction);
+                                //projectContext.SaveChanges();
+                                result.Add(new FunctionImportItem(function, false, ""));
                             }
-                        }
-                    }
-
-
-
-
-                    commandStr = @"select * 
-                                  from information_schema.routines 
-                                 where routine_type = 'PROCEDURE'";
-                    commandCountStr = @"select count(*)
-                      from information_schema.routines 
-                     where routine_type = 'PROCEDURE'";
-                    count = 0;
-                    using (SqlCommand commandCount = new SqlCommand(commandCountStr, testConn))
-                    {
-                        count = (int)commandCount.ExecuteScalar();
-                    }
-                    counter = 0;
-
-                    using (SqlCommand command = new SqlCommand(commandStr, testConn))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
+                            catch (Exception ex)
                             {
-                                var function = new DatabaseFunctionDTO();
-                                function.FunctionName = reader["specific_name"].ToString();
-                                try
-                                {
-
-                                    //var function.Title = reader["specific_name"].ToString();
-                                    counter++;
-                                    if (ItemImportingStarted != null)
-                                        ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = function.FunctionName, TotalProgressCount = count, CurrentProgress = counter });
-
-                                    var DatabaseFunction = projectContext.DatabaseFunction.Where(x => x.FunctionName == function.FunctionName && x.DBSchema.DatabaseInformationID == Database.ID && x.Type == 2).FirstOrDefault();
-
-                                    function.RelatedSchema = reader["specific_schema"].ToString();
-                                    //var dbSchema = projectContext.DBSchema.FirstOrDefault(x => x.DatabaseInformationID == Database.ID && x.Name == schema);
-                                    //if (dbSchema == null)
-                                    //{
-                                    //    dbSchema = new DBSchema() { DatabaseInformationID = Database.ID, Name = schema };
-                                    //    dbSchema.SecurityObject = new SecurityObject();
-                                    //    dbSchema.SecurityObject.Type = (int)DatabaseObjectCategory.Schema;
-                                    //    projectContext.DBSchema.Add(dbSchema);
-                                    //}
-
-                                    //if (DatabaseFunction == null)
-                                    //{
-                                    //    DatabaseFunction = new DatabaseFunction();
-                                    //    DatabaseFunction.FunctionName = function.Title;
-                                    //}
-
-                                    //DatabaseFunction.DBSchema = dbSchema;
-                                    function.ReturnType = "";
-                                    function.Type = Enum_DatabaseFunctionType.StoredProcedure;
-
-                                    var queryColumns = @"select * from 
-                                       sys.objects inner join INFORMATION_SCHEMA.PARAMETERS on sys.objects.name=specific_Name
-                                     WHERE (type = 'P')  and specific_Name='" + function.FunctionName + "' and Parameter_Mode='IN'";
-                                    using (SqlCommand commandFields = new SqlCommand(queryColumns, testConn))
-                                    using (SqlDataReader readerFields = commandFields.ExecuteReader())
-                                    {
-                                        while (readerFields.Read())
-                                        {
-                                            var column = new DatabaseFunctionColumnDTO();
-                                            function.DatabaseFunctionParameter.Add(column);
-                                            column.ParameterName = readerFields["Parameter_Name"].ToString();
-                                            column.DataType = readerFields["Data_Type"].ToString();
-                                            //var column = DatabaseFunction.DatabaseFunctionParameter.Where(x => x.ParamName == paramName).FirstOrDefault();
-                                            //if (column == null)
-                                            //{
-                                            //    column = new DatabaseFunctionParameter();
-                                            //    column.ParamName = paramName;
-                                            //    DatabaseFunction.DatabaseFunctionParameter.Add(column);
-                                            //}
-                                            //column.DataType = dataType;
-                                        }
-                                    }
-
-                                    //if (DatabaseFunction.ID == 0)
-                                    //    projectContext.DatabaseFunction.Add(DatabaseFunction);
-                                    //projectContext.SaveChanges();
-                                    result.Add(new FunctionImportItem(function, false, ""));
-                                }
-                                catch (Exception ex)
-                                {
-                                    result.Add(new FunctionImportItem(function, true, ex.Message));
-                                    //resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
-                                    //result.FailedItems.Add(resultitem);
-                                }
+                                result.Add(new FunctionImportItem(function, true, ex.Message));
+                                //resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
+                                //result.FailedItems.Add(resultitem);
                             }
                         }
                     }
                 }
+
+
+
+
+                commandStr = @"select * 
+                                  from information_schema.routines 
+                                 where routine_type = 'PROCEDURE'";
+                commandCountStr = @"select count(*)
+                      from information_schema.routines 
+                     where routine_type = 'PROCEDURE'";
+                count = 0;
+                using (SqlCommand commandCount = new SqlCommand(commandCountStr, testConn))
+                {
+                    count = (int)commandCount.ExecuteScalar();
+                }
+                counter = 0;
+
+                using (SqlCommand command = new SqlCommand(commandStr, testConn))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var function = new DatabaseFunctionDTO();
+                            function.FunctionName = reader["specific_name"].ToString();
+                            try
+                            {
+
+                                //var function.Title = reader["specific_name"].ToString();
+                                counter++;
+                                if (ItemImportingStarted != null)
+                                    ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = function.FunctionName, TotalProgressCount = count, CurrentProgress = counter });
+
+                                //var DatabaseFunction = projectContext.DatabaseFunction.Where(x => x.FunctionName == function.FunctionName && x.DBSchema.DatabaseInformationID == Database.ID && x.Type == 2).FirstOrDefault();
+
+                                function.RelatedSchema = reader["specific_schema"].ToString();
+                                //var dbSchema = projectContext.DBSchema.FirstOrDefault(x => x.DatabaseInformationID == Database.ID && x.Name == schema);
+                                //if (dbSchema == null)
+                                //{
+                                //    dbSchema = new DBSchema() { DatabaseInformationID = Database.ID, Name = schema };
+                                //    dbSchema.SecurityObject = new SecurityObject();
+                                //    dbSchema.SecurityObject.Type = (int)DatabaseObjectCategory.Schema;
+                                //    projectContext.DBSchema.Add(dbSchema);
+                                //}
+
+                                //if (DatabaseFunction == null)
+                                //{
+                                //    DatabaseFunction = new DatabaseFunction();
+                                //    DatabaseFunction.FunctionName = function.Title;
+                                //}
+
+                                //DatabaseFunction.DBSchema = dbSchema;
+                                function.ReturnType = "";
+                                function.Type = Enum_DatabaseFunctionType.StoredProcedure;
+
+                                var queryColumns = @"select * from 
+                                       sys.objects inner join INFORMATION_SCHEMA.PARAMETERS on sys.objects.name=specific_Name
+                                     WHERE (type = 'P')  and specific_Name='" + function.FunctionName + "' and Parameter_Mode='IN'";
+                                using (SqlCommand commandFields = new SqlCommand(queryColumns, testConn))
+                                using (SqlDataReader readerFields = commandFields.ExecuteReader())
+                                {
+                                    while (readerFields.Read())
+                                    {
+                                        var column = new DatabaseFunctionColumnDTO();
+                                        function.DatabaseFunctionParameter.Add(column);
+                                        column.ParameterName = readerFields["Parameter_Name"].ToString();
+                                        column.DataType = readerFields["Data_Type"].ToString();
+                                        //var column = DatabaseFunction.DatabaseFunctionParameter.Where(x => x.ParamName == paramName).FirstOrDefault();
+                                        //if (column == null)
+                                        //{
+                                        //    column = new DatabaseFunctionParameter();
+                                        //    column.ParamName = paramName;
+                                        //    DatabaseFunction.DatabaseFunctionParameter.Add(column);
+                                        //}
+                                        //column.DataType = dataType;
+                                    }
+                                }
+
+                                //if (DatabaseFunction.ID == 0)
+                                //    projectContext.DatabaseFunction.Add(DatabaseFunction);
+                                //projectContext.SaveChanges();
+                                result.Add(new FunctionImportItem(function, false, ""));
+                            }
+                            catch (Exception ex)
+                            {
+                                result.Add(new FunctionImportItem(function, true, ex.Message));
+                                //resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
+                                //result.FailedItems.Add(resultitem);
+                            }
+                        }
+                    }
+                }
+                //}
 
             }
 
