@@ -240,12 +240,14 @@ namespace MyUILibrary.EntityArea
                             propertyControl.EditNdTypeArea.SetAreaInitializer(editEntityAreaInitializer1);
                             //         propertyControl.ControlPackage = new UIControlPackageForRelationshipColumn();
                             propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateRelationshipControlManagerForOneDataForm(propertyControl.EditNdTypeArea.TemporaryDisplayView, GetRelationshipUISetting(), true, propertyControl.EntitySearchColumn.Alias);
+                            if (!string.IsNullOrEmpty(propertyControl.EntitySearchColumn.Tooltip))
+                                propertyControl.ControlManager.LabelControlManager.SetTooltip(null, propertyControl.EntitySearchColumn.Tooltip);
                         }
                         RelationshipColumnControls.Add(propertyControl);
 
-                        //اینجا چیه بررسی شود چرا اینجا؟
-                        if (propertyControl.EditNdTypeArea.SimpleEntity.SearchInitially == true)
-                            propertyControl.EditNdTypeArea.SearchViewEntityArea.SearchInitialy();
+                        ////اینجا چیه بررسی شود چرا اینجا؟
+                        //if (propertyControl.EditNdTypeArea.SimpleEntity.SearchInitially == true)
+                        //    propertyControl.EditNdTypeArea.SearchViewEntityArea.SearchInitialy();
 
                     }
 
@@ -258,6 +260,9 @@ namespace MyUILibrary.EntityArea
                     propertyControl.Operators = GetSimpleColumnOperators(propertyControl.Column);
                     //        propertyControl.ControlPackage = new UIControlPackageForSimpleColumn();
                     propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForOneDataForm(propertyControl.Column, GetColumnUISetting(propertyControl.Column), false, false, propertyControl.Operators, true, propertyControl.EntitySearchColumn.Alias);
+                    if (!string.IsNullOrEmpty(propertyControl.EntitySearchColumn.Tooltip))
+                        propertyControl.ControlManager.LabelControlManager.SetTooltip(null, propertyControl.EntitySearchColumn.Tooltip);
+
                     if (propertyControl.Operators.Any())
                         propertyControl.ControlManager.SetOperator(propertyControl.Operators.First(x => x.Operator == GetDefaultOperator(propertyControl.Column)).Operator);
                     SimpleColumnControls.Add(propertyControl);

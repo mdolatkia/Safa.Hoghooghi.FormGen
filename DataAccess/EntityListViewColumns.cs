@@ -36,6 +36,7 @@ namespace DataAccess
         public string Alias { get; set; }
         public Nullable<int> EntityRelationshipTailID { get; set; }
         public bool IsDescriptive { get; set; }
+        public string Tooltip { get; set; }
     
         public virtual ICollection<CharetReportCategories> CharetReportCategories { get; set; }
         public virtual ICollection<CharetReportSeries> CharetReportSeries { get; set; }

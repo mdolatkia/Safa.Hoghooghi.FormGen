@@ -31,9 +31,9 @@ namespace DataAccess
     
         public virtual Column Column { get; set; }
         public virtual Formula Formula { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<ConditionalPermission_Action> ConditionalPermission_Action { get; set; }
         public virtual SecurityObject SecurityObject { get; set; }
         public virtual SecuritySubject SecuritySubject { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

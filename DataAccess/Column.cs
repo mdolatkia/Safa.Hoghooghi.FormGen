@@ -19,6 +19,7 @@ namespace DataAccess
             this.CodeFunction_TableDrivedEntity_Parameters = new HashSet<CodeFunction_TableDrivedEntity_Parameters>();
             this.RelationshipSearchFilter = new HashSet<RelationshipSearchFilter>();
             this.RelationshipSearchFilter1 = new HashSet<RelationshipSearchFilter>();
+            this.TableDrivedEntity = new HashSet<TableDrivedEntity>();
             this.ColumnPhrase = new HashSet<ColumnPhrase>();
             this.UIColumnValue = new HashSet<UIColumnValue>();
             this.ConditionalPermission = new HashSet<ConditionalPermission>();
@@ -33,7 +34,6 @@ namespace DataAccess
             this.RelationshipColumns = new HashSet<RelationshipColumns>();
             this.RelationshipColumns1 = new HashSet<RelationshipColumns>();
             this.UniqueConstraint = new HashSet<UniqueConstraint>();
-            this.TableDrivedEntity = new HashSet<TableDrivedEntity>();
         }
     
         public string Value { get; set; }
@@ -63,6 +63,7 @@ namespace DataAccess
         public virtual ColumnValueRange ColumnValueRange { get; set; }
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter { get; set; }
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter1 { get; set; }
+        public virtual ICollection<TableDrivedEntity> TableDrivedEntity { get; set; }
         public virtual Table Table { get; set; }
         public virtual SecurityObject SecurityObject { get; set; }
         public virtual ICollection<ColumnPhrase> ColumnPhrase { get; set; }
@@ -82,6 +83,5 @@ namespace DataAccess
         public virtual ICollection<RelationshipColumns> RelationshipColumns { get; set; }
         public virtual ICollection<RelationshipColumns> RelationshipColumns1 { get; set; }
         public virtual ICollection<UniqueConstraint> UniqueConstraint { get; set; }
-        public virtual ICollection<TableDrivedEntity> TableDrivedEntity { get; set; }
     }
 }

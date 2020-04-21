@@ -28,8 +28,8 @@ namespace DataAccess
         public virtual EntityListView EntityListView { get; set; }
         public virtual MainLetterTemplate MainLetterTemplate { get; set; }
         public virtual PartialLetterTemplate PartialLetterTemplate { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<LetterTemplatePlainField> LetterTemplatePlainField { get; set; }
         public virtual ICollection<LetterTemplateRelationshipField> LetterTemplateRelationshipField { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

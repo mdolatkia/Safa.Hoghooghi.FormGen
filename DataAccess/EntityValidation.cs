@@ -20,7 +20,7 @@ namespace DataAccess
         public string Title { get; set; }
         public string Message { get; set; }
     
-        public virtual Formula Formula { get; set; }
         public virtual TableDrivedEntity TableDrivedEntity { get; set; }
+        public virtual Formula Formula { get; set; }
     }
 }

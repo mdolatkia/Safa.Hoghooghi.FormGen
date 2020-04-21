@@ -88,6 +88,10 @@ namespace MyUILibrary.DataViewArea
                     //     propertyControl.ControlPackage = new UIControlPackageForSimpleColumn();
                     propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForMultipleDataForm(column.Column, GetColumnUISetting(column.Column), false, false, true, propertyControl.Alias);
                     //      if (propertyControl.IsPermanentReadOnly)
+                    if (!string.IsNullOrEmpty(column.Tooltip))
+                    {
+                        propertyControl.ControlManager.LabelControlManager.SetTooltip(null, column.Tooltip);
+                    }
                     propertyControl.ControlManager.SetReadonly(true);
                     ViewColumnControls.Add(propertyControl);
                 }

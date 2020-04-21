@@ -44,7 +44,10 @@
                         <MyCommonWPFControls:MyStaticLookupColumn EditItemEnabled="True" NewItemEnabled="True" x:Name="colRelationshipTail" Header="رابطه" DataMemberBinding="{Binding RelationshipTailID}" />
                         <telerik:GridViewComboBoxColumn x:Name="colColumns" ItemsSourceBinding="{Binding vwValueColumns}" Header="نام ستون" DataMemberBinding="{Binding ColumnID}" />
                         <telerik:GridViewDataColumn Header="عنوان" DataMemberBinding="{Binding Alias}" />
+                        <telerik:GridViewDataColumn Header="Tooltip" DataMemberBinding="{Binding Tooltip}" />
+
                     </telerik:RadGridView.Columns>
+                    
                 </telerik:RadGridView>
             </Grid>
         </Grid>

@@ -30,8 +30,8 @@ namespace DataAccess
         public virtual EntityReport EntityReport { get; set; }
         public virtual Relationship Relationship { get; set; }
         public virtual SubSystems SubSystems { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<ConditionalPermission> ConditionalPermission { get; set; }
         public virtual ICollection<Permission> Permission { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

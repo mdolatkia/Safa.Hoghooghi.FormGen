@@ -28,11 +28,11 @@ namespace DataAccess
         public string TransitionFlowSTR { get; set; }
         public Nullable<int> TableDrivedEntityID { get; set; }
     
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<Action> Action { get; set; }
         public virtual ICollection<Activity> Activity { get; set; }
         public virtual ICollection<EntityGroup> EntityGroup { get; set; }
         public virtual ICollection<State> State { get; set; }
         public virtual ICollection<Transition> Transition { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

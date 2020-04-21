@@ -494,6 +494,7 @@
           <Property Name="Alias" Type="varchar" MaxLength="128" />
           <Property Name="EntityRelationshipTailID" Type="int" />
           <Property Name="IsDescriptive" Type="bit" Nullable="false" />
+          <Property Name="Tooltip" Type="varchar" MaxLength="1024" />
         </EntityType>
         <EntityType Name="EntityRelationshipTail">
           <Key>
@@ -541,6 +542,7 @@
           <Property Name="OrderID" Type="smallint" />
           <Property Name="Alias" Type="varchar" MaxLength="128" />
           <Property Name="RelationshipTailSelectable" Type="bit" Nullable="false" />
+          <Property Name="Tooltip" Type="varchar" MaxLength="1024" />
         </EntityType>
         <EntityType Name="EntityState_UIActionActivity">
           <Key>
@@ -5748,6 +5750,7 @@
           <EntitySet Name="DataViewSetting" EntityType="MyProjectModel.DataViewSetting" />
           <EntitySet Name="DateColumnType" EntityType="MyProjectModel.DateColumnType" />
           <EntitySet Name="DBSchema" EntityType="MyProjectModel.DBSchema" />
+          <EntitySet Name="DBServer" EntityType="MyProjectModel.DBServer" />
           <EntitySet Name="EmptySpaceUISetting" EntityType="MyProjectModel.EmptySpaceUISetting" />
           <EntitySet Name="EntityChartReport" EntityType="MyProjectModel.EntityChartReport" />
           <EntitySet Name="EntityCommand" EntityType="MyProjectModel.EntityCommand" />
@@ -5809,6 +5812,7 @@
           <EntitySet Name="SuperToSubRelationshipType" EntityType="MyProjectModel.SuperToSubRelationshipType" />
           <EntitySet Name="TabGroupUISetting" EntityType="MyProjectModel.TabGroupUISetting" />
           <EntitySet Name="Table" EntityType="MyProjectModel.Table" />
+          <EntitySet Name="TableDrivedEntity" EntityType="MyProjectModel.TableDrivedEntity" />
           <EntitySet Name="TableDrivedEntity_Columns" EntityType="MyProjectModel.TableDrivedEntity_Columns" />
           <EntitySet Name="TableDrivedEntity_EntityCommand" EntityType="MyProjectModel.TableDrivedEntity_EntityCommand" />
           <EntitySet Name="TableDrivedEntityState" EntityType="MyProjectModel.TableDrivedEntityState" />
@@ -5852,6 +5856,18 @@
           <EntitySet Name="TransitionAction_Formula" EntityType="MyProjectModel.TransitionAction_Formula" />
           <EntitySet Name="TransitionActionTarget" EntityType="MyProjectModel.TransitionActionTarget" />
           <EntitySet Name="TransitionActivity" EntityType="MyProjectModel.TransitionActivity" />
+          <AssociationSet Name="FKArchiveFol695820" Association="MyProjectModel.FKArchiveFol695820">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="ArchiveFolder" EntitySet="ArchiveFolder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArchiveTag_EntityArchive" Association="MyProjectModel.FK_ArchiveTag_EntityArchive">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="ArchiveTag" EntitySet="ArchiveTag" />
+          </AssociationSet>
+          <AssociationSet Name="FKEntityArch437336" Association="MyProjectModel.FKEntityArch437336">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntityArchiveRelationshipTails" EntitySet="EntityArchiveRelationshipTails" />
+          </AssociationSet>
           <AssociationSet Name="FKEntityArch748908" Association="MyProjectModel.FKEntityArch748908">
             <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
             <End Role="EntityArchiveRelationshipTails" EntitySet="EntityArchiveRelationshipTails" />
@@ -5860,9 +5876,17 @@
             <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
             <End Role="EntityLetterRelationshipTails" EntitySet="EntityLetterRelationshipTails" />
           </AssociationSet>
+          <AssociationSet Name="FKEntityLett778414" Association="MyProjectModel.FKEntityLett778414">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntityLetterRelationshipTails" EntitySet="EntityLetterRelationshipTails" />
+          </AssociationSet>
           <AssociationSet Name="FKArcRelatio252133" Association="MyProjectModel.FKArcRelatio252133">
             <End Role="ArcRelationshipGroup" EntitySet="ArcRelationshipGroup" />
             <End Role="ArcRelationshipGroup_Relationship" EntitySet="ArcRelationshipGroup_Relationship" />
+          </AssociationSet>
+          <AssociationSet Name="FKArcRelatio319969" Association="MyProjectModel.FKArcRelatio319969">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="ArcRelationshipGroup" EntitySet="ArcRelationshipGroup" />
           </AssociationSet>
           <AssociationSet Name="FKArcRelatio150451" Association="MyProjectModel.FKArcRelatio150451">
             <End Role="Relationship" EntitySet="Relationship" />
@@ -5874,6 +5898,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_BackendActionActivity_DatabaseFunction" Association="MyProjectModel.FK_BackendActionActivity_DatabaseFunction">
             <End Role="DatabaseFunction" EntitySet="DatabaseFunction" />
+            <End Role="BackendActionActivity" EntitySet="BackendActionActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BackendActionActivity_TableDrivedEntity" Association="MyProjectModel.FK_BackendActionActivity_TableDrivedEntity">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
             <End Role="BackendActionActivity" EntitySet="BackendActionActivity" />
           </AssociationSet>
           <AssociationSet Name="FK_CharetReportCategories_EntityListViewColumns" Association="MyProjectModel.FK_CharetReportCategories_EntityListViewColumns">
@@ -5940,6 +5968,10 @@
             <End Role="CodeFunction_TableDrivedEntity" EntitySet="CodeFunction_TableDrivedEntity" />
             <End Role="CodeFunction_TableDrivedEntity_Parameters" EntitySet="CodeFunction_TableDrivedEntity_Parameters" />
           </AssociationSet>
+          <AssociationSet Name="FKCodeFuncti589884" Association="MyProjectModel.FKCodeFuncti589884">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="CodeFunction_TableDrivedEntity" EntitySet="CodeFunction_TableDrivedEntity" />
+          </AssociationSet>
           <AssociationSet Name="FKCodeFuncti70133" Association="MyProjectModel.FKCodeFuncti70133">
             <End Role="Column" EntitySet="Column" />
             <End Role="CodeFunction_TableDrivedEntity_Parameters" EntitySet="CodeFunction_TableDrivedEntity_Parameters" />
@@ -5963,6 +5995,10 @@
           <AssociationSet Name="FK_RelationshipSearchFilter_Column1" Association="MyProjectModel.FK_RelationshipSearchFilter_Column1">
             <End Role="Column" EntitySet="Column" />
             <End Role="RelationshipSearchFilter" EntitySet="RelationshipSearchFilter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableDrivedEntity_Column" Association="MyProjectModel.FK_TableDrivedEntity_Column">
+            <End Role="Column" EntitySet="Column" />
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
           </AssociationSet>
           <AssociationSet Name="FKColumn659222" Association="MyProjectModel.FKColumn659222">
             <End Role="Table" EntitySet="Table" />
@@ -6104,9 +6140,17 @@
             <End Role="DatabaseFunction_TableDrivedEntity" EntitySet="DatabaseFunction_TableDrivedEntity" />
             <End Role="DatabaseFunction_TableDrivedEntity_Columns" EntitySet="DatabaseFunction_TableDrivedEntity_Columns" />
           </AssociationSet>
+          <AssociationSet Name="FKDatabaseFu423707" Association="MyProjectModel.FKDatabaseFu423707">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="DatabaseFunction_TableDrivedEntity" EntitySet="DatabaseFunction_TableDrivedEntity" />
+          </AssociationSet>
           <AssociationSet Name="FKDatabaseFu935636" Association="MyProjectModel.FKDatabaseFu935636">
             <End Role="DatabaseFunctionParameter" EntitySet="DatabaseFunctionParameter" />
             <End Role="DatabaseFunction_TableDrivedEntity_Columns" EntitySet="DatabaseFunction_TableDrivedEntity_Columns" />
+          </AssociationSet>
+          <AssociationSet Name="FKDatabaseIn186668" Association="MyProjectModel.FKDatabaseIn186668">
+            <End Role="DBServer" EntitySet="DBServer" />
+            <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
           </AssociationSet>
           <AssociationSet Name="FKDatabaseIn674957" Association="MyProjectModel.FKDatabaseIn674957">
             <End Role="SecurityObject" EntitySet="SecurityObject" />
@@ -6119,6 +6163,14 @@
           <AssociationSet Name="FKDBSchema138241" Association="MyProjectModel.FKDBSchema138241">
             <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
             <End Role="DBSchema" EntitySet="DBSchema" />
+          </AssociationSet>
+          <AssociationSet Name="FKDataLinkDe305355" Association="MyProjectModel.FKDataLinkDe305355">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="DataLinkDefinition" EntitySet="DataLinkDefinition" />
+          </AssociationSet>
+          <AssociationSet Name="FKDataLinkDe790101" Association="MyProjectModel.FKDataLinkDe790101">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="DataLinkDefinition" EntitySet="DataLinkDefinition" />
           </AssociationSet>
           <AssociationSet Name="FKDataLinkDe961681" Association="MyProjectModel.FKDataLinkDe961681">
             <End Role="DataLinkDefinition" EntitySet="DataLinkDefinition" />
@@ -6160,6 +6212,14 @@
             <End Role="EntitySearchableReport" EntitySet="EntitySearchableReport" />
             <End Role="DataMenuReportRelationship" EntitySet="DataMenuReportRelationship" />
           </AssociationSet>
+          <AssociationSet Name="FK_DataMenuSetting_TableDrivedEntity" Association="MyProjectModel.FK_DataMenuSetting_TableDrivedEntity">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="DataMenuSetting" EntitySet="DataMenuSetting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EntityDataView_TableDrivedEntity" Association="MyProjectModel.FK_EntityDataView_TableDrivedEntity">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="DataViewSetting" EntitySet="DataViewSetting" />
+          </AssociationSet>
           <AssociationSet Name="FKEntityData149283" Association="MyProjectModel.FKEntityData149283">
             <End Role="EntityListView" EntitySet="EntityListView" />
             <End Role="DataViewSetting" EntitySet="DataViewSetting" />
@@ -6171,6 +6231,14 @@
           <AssociationSet Name="FKTable824924" Association="MyProjectModel.FKTable824924">
             <End Role="DBSchema" EntitySet="DBSchema" />
             <End Role="Table" EntitySet="Table" />
+          </AssociationSet>
+          <AssociationSet Name="FKLinkedServ770687" Association="MyProjectModel.FKLinkedServ770687">
+            <End Role="DBServer" EntitySet="DBServer" />
+            <End Role="LinkedServer" EntitySet="LinkedServer" />
+          </AssociationSet>
+          <AssociationSet Name="FKLinkedServ812468" Association="MyProjectModel.FKLinkedServ812468">
+            <End Role="DBServer" EntitySet="DBServer" />
+            <End Role="LinkedServer" EntitySet="LinkedServer" />
           </AssociationSet>
           <AssociationSet Name="FK_EmptySpaceUISetting_EntityUIComposition" Association="MyProjectModel.FK_EmptySpaceUISetting_EntityUIComposition">
             <End Role="EntityUIComposition" EntitySet="EntityUIComposition" />
@@ -6203,6 +6271,10 @@
           <AssociationSet Name="FK_EntityDataViewReport_EntitySearchableReport" Association="MyProjectModel.FK_EntityDataViewReport_EntitySearchableReport">
             <End Role="EntitySearchableReport" EntitySet="EntitySearchableReport" />
             <End Role="EntityDataViewReport" EntitySet="EntityDataViewReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EntityDeterminer_TableDrivedEntity" Association="MyProjectModel.FK_EntityDeterminer_TableDrivedEntity">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntityDeterminer" EntitySet="EntityDeterminer" />
           </AssociationSet>
           <AssociationSet Name="FK_EntityDataExternalReport_SecurityObject" Association="MyProjectModel.FK_EntityDataExternalReport_SecurityObject">
             <End Role="EntityReport" EntitySet="EntityReport" />
@@ -6264,6 +6336,14 @@
             <End Role="EntityListView" EntitySet="EntityListView" />
             <End Role="EntityListViewColumns" EntitySet="EntityListViewColumns" />
           </AssociationSet>
+          <AssociationSet Name="FKEntityList697639" Association="MyProjectModel.FKEntityList697639">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntityListView" EntitySet="EntityListView" />
+          </AssociationSet>
+          <AssociationSet Name="FKTableDrive842411" Association="MyProjectModel.FKTableDrive842411">
+            <End Role="EntityListView" EntitySet="EntityListView" />
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+          </AssociationSet>
           <AssociationSet Name="FK_LetterTemplatePlainField_LetterTemplatePlainField" Association="MyProjectModel.FK_LetterTemplatePlainField_LetterTemplatePlainField">
             <End Role="EntityListViewColumns" EntitySet="EntityListViewColumns" />
             <End Role="LetterTemplatePlainField" EntitySet="LetterTemplatePlainField" />
@@ -6292,6 +6372,14 @@
             <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
             <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
           </AssociationSet>
+          <AssociationSet Name="FKEntityRela568378" Association="MyProjectModel.FKEntityRela568378">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
+          </AssociationSet>
+          <AssociationSet Name="FKEntityRela831147" Association="MyProjectModel.FKEntityRela831147">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
+          </AssociationSet>
           <AssociationSet Name="FKEntitySear748558" Association="MyProjectModel.FKEntitySear748558">
             <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
             <End Role="EntitySearchColumns" EntitySet="EntitySearchColumns" />
@@ -6312,6 +6400,10 @@
             <End Role="EntityReport" EntitySet="EntityReport" />
             <End Role="EntitySearchableReport" EntitySet="EntitySearchableReport" />
           </AssociationSet>
+          <AssociationSet Name="FKEntityRepo82108" Association="MyProjectModel.FKEntityRepo82108">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntityReport" EntitySet="EntityReport" />
+          </AssociationSet>
           <AssociationSet Name="FKEntityRepo965698" Association="MyProjectModel.FKEntityRepo965698">
             <End Role="SecurityObject" EntitySet="SecurityObject" />
             <End Role="EntityReport" EntitySet="EntityReport" />
@@ -6319,6 +6411,14 @@
           <AssociationSet Name="FK_SearchRepository_EntitySearch" Association="MyProjectModel.FK_SearchRepository_EntitySearch">
             <End Role="EntitySearch" EntitySet="EntitySearch" />
             <End Role="SearchRepository" EntitySet="SearchRepository" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableDrivedEntity_EntitySearch" Association="MyProjectModel.FK_TableDrivedEntity_EntitySearch">
+            <End Role="EntitySearch" EntitySet="EntitySearch" />
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+          </AssociationSet>
+          <AssociationSet Name="FKEntitySear266828" Association="MyProjectModel.FKEntitySear266828">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntitySearch" EntitySet="EntitySearch" />
           </AssociationSet>
           <AssociationSet Name="FKEntitySear726002" Association="MyProjectModel.FKEntitySear726002">
             <End Role="EntitySearch" EntitySet="EntitySearch" />
@@ -6340,6 +6440,10 @@
             <End Role="EntityUIComposition" EntitySet="EntityUIComposition" />
             <End Role="EntityUIComposition1" EntitySet="EntityUIComposition" />
           </AssociationSet>
+          <AssociationSet Name="FKEntityUICo461879" Association="MyProjectModel.FKEntityUICo461879">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntityUIComposition" EntitySet="EntityUIComposition" />
+          </AssociationSet>
           <AssociationSet Name="FKEntityUISe186333" Association="MyProjectModel.FKEntityUISe186333">
             <End Role="EntityUIComposition" EntitySet="EntityUIComposition" />
             <End Role="EntityUISetting" EntitySet="EntityUISetting" />
@@ -6360,6 +6464,10 @@
             <End Role="EntityUIComposition" EntitySet="EntityUIComposition" />
             <End Role="TabPageUISetting" EntitySet="TabPageUISetting" />
           </AssociationSet>
+          <AssociationSet Name="FKEntityVali365073" Association="MyProjectModel.FKEntityVali365073">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntityValidation" EntitySet="EntityValidation" />
+          </AssociationSet>
           <AssociationSet Name="FKEntityVali933297" Association="MyProjectModel.FKEntityVali933297">
             <End Role="Formula" EntitySet="Formula" />
             <End Role="EntityValidation" EntitySet="EntityValidation" />
@@ -6371,6 +6479,10 @@
           <AssociationSet Name="FKConditiona702385" Association="MyProjectModel.FKConditiona702385">
             <End Role="Formula" EntitySet="Formula" />
             <End Role="ConditionalPermission" EntitySet="ConditionalPermission" />
+          </AssociationSet>
+          <AssociationSet Name="FKFormula967405" Association="MyProjectModel.FKFormula967405">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="Formula" EntitySet="Formula" />
           </AssociationSet>
           <AssociationSet Name="FKFormulaIte505844" Association="MyProjectModel.FKFormulaIte505844">
             <End Role="Formula" EntitySet="Formula" />
@@ -6404,6 +6516,10 @@
             <End Role="Relationship" EntitySet="Relationship" />
             <End Role="FormulaItems" EntitySet="FormulaItems" />
           </AssociationSet>
+          <AssociationSet Name="FKEntityGrid247991" Association="MyProjectModel.FKEntityGrid247991">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="GridViewSetting" EntitySet="GridViewSetting" />
+          </AssociationSet>
           <AssociationSet Name="FKImplicitOn720517" Association="MyProjectModel.FKImplicitOn720517">
             <End Role="RelationshipType" EntitySet="RelationshipType" />
             <End Role="ImplicitOneToOneRelationshipType" EntitySet="ImplicitOneToOneRelationshipType" />
@@ -6416,6 +6532,10 @@
             <End Role="ISARelationship" EntitySet="ISARelationship" />
             <End Role="SuperToSubRelationshipType" EntitySet="SuperToSubRelationshipType" />
           </AssociationSet>
+          <AssociationSet Name="FKLetterEnab821210" Association="MyProjectModel.FKLetterEnab821210">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="LetterEnabledEntities" EntitySet="LetterEnabledEntities" />
+          </AssociationSet>
           <AssociationSet Name="FKExternalLe444510" Association="MyProjectModel.FKExternalLe444510">
             <End Role="LetterTemplate" EntitySet="LetterTemplate" />
             <End Role="MainLetterTemplate" EntitySet="MainLetterTemplate" />
@@ -6423,6 +6543,10 @@
           <AssociationSet Name="FKInternalLe245880" Association="MyProjectModel.FKInternalLe245880">
             <End Role="LetterTemplate" EntitySet="LetterTemplate" />
             <End Role="PartialLetterTemplate" EntitySet="PartialLetterTemplate" />
+          </AssociationSet>
+          <AssociationSet Name="FKLetterTemp289474" Association="MyProjectModel.FKLetterTemp289474">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="LetterTemplate" EntitySet="LetterTemplate" />
           </AssociationSet>
           <AssociationSet Name="FKLetterTemp311790" Association="MyProjectModel.FKLetterTemp311790">
             <End Role="LetterTemplate" EntitySet="LetterTemplate" />
@@ -6435,6 +6559,10 @@
           <AssociationSet Name="FKLetterTemp803911" Association="MyProjectModel.FKLetterTemp803911">
             <End Role="PartialLetterTemplate" EntitySet="PartialLetterTemplate" />
             <End Role="LetterTemplateRelationshipField" EntitySet="LetterTemplateRelationshipField" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LetterType_TableDrivedEntity" Association="MyProjectModel.FK_LetterType_TableDrivedEntity">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="LetterType" EntitySet="LetterType" />
           </AssociationSet>
           <AssociationSet Name="FK_RelationshipPhrase_LogicPhrase" Association="MyProjectModel.FK_RelationshipPhrase_LogicPhrase">
             <End Role="LogicPhrase" EntitySet="LogicPhrase" />
@@ -6455,6 +6583,10 @@
           <AssociationSet Name="FKManyToOneR336195" Association="MyProjectModel.FKManyToOneR336195">
             <End Role="RelationshipType" EntitySet="RelationshipType" />
             <End Role="ManyToOneRelationshipType" EntitySet="ManyToOneRelationshipType" />
+          </AssociationSet>
+          <AssociationSet Name="FKNavigation155968" Association="MyProjectModel.FKNavigation155968">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="NavigationTree" EntitySet="NavigationTree" />
           </AssociationSet>
           <AssociationSet Name="FKNavigation977409" Association="MyProjectModel.FKNavigation977409">
             <End Role="NavigationTree" EntitySet="NavigationTree" />
@@ -6484,6 +6616,14 @@
             <End Role="Relationship" EntitySet="Relationship" />
             <End Role="UIEnablityDetails" EntitySet="UIEnablityDetails" />
           </AssociationSet>
+          <AssociationSet Name="FKRelationsh250123" Association="MyProjectModel.FKRelationsh250123">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="Relationship" EntitySet="Relationship" />
+          </AssociationSet>
+          <AssociationSet Name="FKRelationsh250124" Association="MyProjectModel.FKRelationsh250124">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="Relationship" EntitySet="Relationship" />
+          </AssociationSet>
           <AssociationSet Name="FKRelationsh283976" Association="MyProjectModel.FKRelationsh283976">
             <End Role="Relationship" EntitySet="Relationship" />
             <End Role="RelationshipSearchFilter" EntitySet="RelationshipSearchFilter" />
@@ -6512,6 +6652,10 @@
             <End Role="RelationshipType" EntitySet="RelationshipType" />
             <End Role="UnionToSubUnionRelationshipType" EntitySet="UnionToSubUnionRelationshipType" />
           </AssociationSet>
+          <AssociationSet Name="FK_SearchRepository_TableDrivedEntity" Association="MyProjectModel.FK_SearchRepository_TableDrivedEntity">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="SearchRepository" EntitySet="SearchRepository" />
+          </AssociationSet>
           <AssociationSet Name="FKSubSystems137775" Association="MyProjectModel.FKSubSystems137775">
             <End Role="SecurityObject" EntitySet="SecurityObject" />
             <End Role="SubSystems" EntitySet="SubSystems" />
@@ -6520,9 +6664,49 @@
             <End Role="UnionRelationshipType" EntitySet="UnionRelationshipType" />
             <End Role="SubUnionToUnionRelationshipType" EntitySet="SubUnionToUnionRelationshipType" />
           </AssociationSet>
+          <AssociationSet Name="FKTableDrive311898" Association="MyProjectModel.FKTableDrive311898">
+            <End Role="Table" EntitySet="Table" />
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+          </AssociationSet>
           <AssociationSet Name="FKUniqueCons110156" Association="MyProjectModel.FKUniqueCons110156">
             <End Role="Table" EntitySet="Table" />
             <End Role="UniqueConstraint" EntitySet="UniqueConstraint" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Process_TableDrivedEntity" Association="MyProjectModel.FK_Process_TableDrivedEntity">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="Process" EntitySet="Process" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TableDrivedEntity_EntityCommand_TableDrivedEntity" Association="MyProjectModel.FK_TableDrivedEntity_EntityCommand_TableDrivedEntity">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="TableDrivedEntity_EntityCommand" EntitySet="TableDrivedEntity_EntityCommand" />
+          </AssociationSet>
+          <AssociationSet Name="FKActionActi421900" Association="MyProjectModel.FKActionActi421900">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="UIActionActivity" EntitySet="UIActionActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FKConditiona757" Association="MyProjectModel.FKConditiona757">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="ConditionalPermission" EntitySet="ConditionalPermission" />
+          </AssociationSet>
+          <AssociationSet Name="FKEntitySecu295394" Association="MyProjectModel.FKEntitySecu295394">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntitySecurityInDirect" EntitySet="EntitySecurityInDirect" />
+          </AssociationSet>
+          <AssociationSet Name="FKEntitySecu556643" Association="MyProjectModel.FKEntitySecu556643">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="EntitySecurityDirect" EntitySet="EntitySecurityDirect" />
+          </AssociationSet>
+          <AssociationSet Name="FKTableDrive36776" Association="MyProjectModel.FKTableDrive36776">
+            <End Role="SecurityObject" EntitySet="SecurityObject" />
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+          </AssociationSet>
+          <AssociationSet Name="FKTableDrive379163" Association="MyProjectModel.FKTableDrive379163">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="TableDrivedEntity_Columns" EntitySet="TableDrivedEntity_Columns" />
+          </AssociationSet>
+          <AssociationSet Name="FKTableDrive764829" Association="MyProjectModel.FKTableDrive764829">
+            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+            <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
           </AssociationSet>
           <AssociationSet Name="FK_TableDrivedEntityStateValues_TableDrivedEntityState" Association="MyProjectModel.FK_TableDrivedEntityStateValues_TableDrivedEntityState">
             <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
@@ -6716,188 +6900,6 @@
             <End Role="UniqueConstraint" EntitySet="UniqueConstraint" />
             <End Role="Column" EntitySet="Column" />
           </AssociationSet>
-          <EntitySet Name="DBServer" EntityType="MyProjectModel.DBServer" />
-          <AssociationSet Name="FKDatabaseIn186668" Association="MyProjectModel.FKDatabaseIn186668">
-            <End Role="DBServer" EntitySet="DBServer" />
-            <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
-          </AssociationSet>
-          <AssociationSet Name="FKLinkedServ770687" Association="MyProjectModel.FKLinkedServ770687">
-            <End Role="DBServer" EntitySet="DBServer" />
-            <End Role="LinkedServer" EntitySet="LinkedServer" />
-          </AssociationSet>
-          <AssociationSet Name="FKLinkedServ812468" Association="MyProjectModel.FKLinkedServ812468">
-            <End Role="DBServer" EntitySet="DBServer" />
-            <End Role="LinkedServer" EntitySet="LinkedServer" />
-          </AssociationSet>
-          <EntitySet Name="TableDrivedEntity" EntityType="MyProjectModel.TableDrivedEntity" />
-          <AssociationSet Name="FKArchiveFol695820" Association="MyProjectModel.FKArchiveFol695820">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="ArchiveFolder" EntitySet="ArchiveFolder" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ArchiveTag_EntityArchive" Association="MyProjectModel.FK_ArchiveTag_EntityArchive">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="ArchiveTag" EntitySet="ArchiveTag" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntityArch437336" Association="MyProjectModel.FKEntityArch437336">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntityArchiveRelationshipTails" EntitySet="EntityArchiveRelationshipTails" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntityLett778414" Association="MyProjectModel.FKEntityLett778414">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntityLetterRelationshipTails" EntitySet="EntityLetterRelationshipTails" />
-          </AssociationSet>
-          <AssociationSet Name="FKArcRelatio319969" Association="MyProjectModel.FKArcRelatio319969">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="ArcRelationshipGroup" EntitySet="ArcRelationshipGroup" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BackendActionActivity_TableDrivedEntity" Association="MyProjectModel.FK_BackendActionActivity_TableDrivedEntity">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="BackendActionActivity" EntitySet="BackendActionActivity" />
-          </AssociationSet>
-          <AssociationSet Name="FKCodeFuncti589884" Association="MyProjectModel.FKCodeFuncti589884">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="CodeFunction_TableDrivedEntity" EntitySet="CodeFunction_TableDrivedEntity" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TableDrivedEntity_Column" Association="MyProjectModel.FK_TableDrivedEntity_Column">
-            <End Role="Column" EntitySet="Column" />
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-          </AssociationSet>
-          <AssociationSet Name="FKDatabaseFu423707" Association="MyProjectModel.FKDatabaseFu423707">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="DatabaseFunction_TableDrivedEntity" EntitySet="DatabaseFunction_TableDrivedEntity" />
-          </AssociationSet>
-          <AssociationSet Name="FKDataLinkDe305355" Association="MyProjectModel.FKDataLinkDe305355">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="DataLinkDefinition" EntitySet="DataLinkDefinition" />
-          </AssociationSet>
-          <AssociationSet Name="FKDataLinkDe790101" Association="MyProjectModel.FKDataLinkDe790101">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="DataLinkDefinition" EntitySet="DataLinkDefinition" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DataMenuSetting_TableDrivedEntity" Association="MyProjectModel.FK_DataMenuSetting_TableDrivedEntity">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="DataMenuSetting" EntitySet="DataMenuSetting" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EntityDataView_TableDrivedEntity" Association="MyProjectModel.FK_EntityDataView_TableDrivedEntity">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="DataViewSetting" EntitySet="DataViewSetting" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EntityDeterminer_TableDrivedEntity" Association="MyProjectModel.FK_EntityDeterminer_TableDrivedEntity">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntityDeterminer" EntitySet="EntityDeterminer" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntityList697639" Association="MyProjectModel.FKEntityList697639">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntityListView" EntitySet="EntityListView" />
-          </AssociationSet>
-          <AssociationSet Name="FKTableDrive842411" Association="MyProjectModel.FKTableDrive842411">
-            <End Role="EntityListView" EntitySet="EntityListView" />
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntityRela568378" Association="MyProjectModel.FKEntityRela568378">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntityRela831147" Association="MyProjectModel.FKEntityRela831147">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntityRelationshipTail" EntitySet="EntityRelationshipTail" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntityRepo82108" Association="MyProjectModel.FKEntityRepo82108">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntityReport" EntitySet="EntityReport" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TableDrivedEntity_EntitySearch" Association="MyProjectModel.FK_TableDrivedEntity_EntitySearch">
-            <End Role="EntitySearch" EntitySet="EntitySearch" />
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntitySear266828" Association="MyProjectModel.FKEntitySear266828">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntitySearch" EntitySet="EntitySearch" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntityUICo461879" Association="MyProjectModel.FKEntityUICo461879">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntityUIComposition" EntitySet="EntityUIComposition" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntityVali365073" Association="MyProjectModel.FKEntityVali365073">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntityValidation" EntitySet="EntityValidation" />
-          </AssociationSet>
-          <AssociationSet Name="FKFormula967405" Association="MyProjectModel.FKFormula967405">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="Formula" EntitySet="Formula" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntityGrid247991" Association="MyProjectModel.FKEntityGrid247991">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="GridViewSetting" EntitySet="GridViewSetting" />
-          </AssociationSet>
-          <AssociationSet Name="FKLetterEnab821210" Association="MyProjectModel.FKLetterEnab821210">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="LetterEnabledEntities" EntitySet="LetterEnabledEntities" />
-          </AssociationSet>
-          <AssociationSet Name="FKLetterTemp289474" Association="MyProjectModel.FKLetterTemp289474">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="LetterTemplate" EntitySet="LetterTemplate" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LetterType_TableDrivedEntity" Association="MyProjectModel.FK_LetterType_TableDrivedEntity">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="LetterType" EntitySet="LetterType" />
-          </AssociationSet>
-          <AssociationSet Name="FKNavigation155968" Association="MyProjectModel.FKNavigation155968">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="NavigationTree" EntitySet="NavigationTree" />
-          </AssociationSet>
-          <AssociationSet Name="FKRelationsh250123" Association="MyProjectModel.FKRelationsh250123">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="Relationship" EntitySet="Relationship" />
-          </AssociationSet>
-          <AssociationSet Name="FKRelationsh250124" Association="MyProjectModel.FKRelationsh250124">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="Relationship" EntitySet="Relationship" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SearchRepository_TableDrivedEntity" Association="MyProjectModel.FK_SearchRepository_TableDrivedEntity">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="SearchRepository" EntitySet="SearchRepository" />
-          </AssociationSet>
-          <AssociationSet Name="FKTableDrive311898" Association="MyProjectModel.FKTableDrive311898">
-            <End Role="Table" EntitySet="Table" />
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Process_TableDrivedEntity" Association="MyProjectModel.FK_Process_TableDrivedEntity">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="Process" EntitySet="Process" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TableDrivedEntity_EntityCommand_TableDrivedEntity" Association="MyProjectModel.FK_TableDrivedEntity_EntityCommand_TableDrivedEntity">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="TableDrivedEntity_EntityCommand" EntitySet="TableDrivedEntity_EntityCommand" />
-          </AssociationSet>
-          <AssociationSet Name="FKActionActi421900" Association="MyProjectModel.FKActionActi421900">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="UIActionActivity" EntitySet="UIActionActivity" />
-          </AssociationSet>
-          <AssociationSet Name="FKConditiona757" Association="MyProjectModel.FKConditiona757">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="ConditionalPermission" EntitySet="ConditionalPermission" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntitySecu295394" Association="MyProjectModel.FKEntitySecu295394">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntitySecurityInDirect" EntitySet="EntitySecurityInDirect" />
-          </AssociationSet>
-          <AssociationSet Name="FKEntitySecu556643" Association="MyProjectModel.FKEntitySecu556643">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="EntitySecurityDirect" EntitySet="EntitySecurityDirect" />
-          </AssociationSet>
-          <AssociationSet Name="FKTableDrive36776" Association="MyProjectModel.FKTableDrive36776">
-            <End Role="SecurityObject" EntitySet="SecurityObject" />
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-          </AssociationSet>
-          <AssociationSet Name="FKTableDrive379163" Association="MyProjectModel.FKTableDrive379163">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="TableDrivedEntity_Columns" EntitySet="TableDrivedEntity_Columns" />
-          </AssociationSet>
-          <AssociationSet Name="FKTableDrive764829" Association="MyProjectModel.FKTableDrive764829">
-            <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
-            <End Role="TableDrivedEntityState" EntitySet="TableDrivedEntityState" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ArchiveFolder">
           <Key>
@@ -6924,8 +6926,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TableDrivedEntityID" Type="Int32" Nullable="false" />
           <Property Name="EntityRelationshipTailID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="EntityRelationshipTail" Relationship="MyProjectModel.FKEntityArch748908" FromRole="EntityArchiveRelationshipTails" ToRole="EntityRelationshipTail" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKEntityArch437336" FromRole="EntityArchiveRelationshipTails" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="EntityRelationshipTail" Relationship="MyProjectModel.FKEntityArch748908" FromRole="EntityArchiveRelationshipTails" ToRole="EntityRelationshipTail" />
         </EntityType>
         <EntityType Name="EntityLetterRelationshipTails">
           <Key>
@@ -7093,6 +7095,7 @@
           <NavigationProperty Name="ColumnValueRange" Relationship="MyProjectModel.FK_ColumnValueRange_Column" FromRole="Column" ToRole="ColumnValueRange" />
           <NavigationProperty Name="RelationshipSearchFilter" Relationship="MyProjectModel.FK_RelationshipSearchFilter_Column" FromRole="Column" ToRole="RelationshipSearchFilter" />
           <NavigationProperty Name="RelationshipSearchFilter1" Relationship="MyProjectModel.FK_RelationshipSearchFilter_Column1" FromRole="Column" ToRole="RelationshipSearchFilter" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FK_TableDrivedEntity_Column" FromRole="Column" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="Table" Relationship="MyProjectModel.FKColumn659222" FromRole="Column" ToRole="Table" />
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKColumn689451" FromRole="Column" ToRole="SecurityObject" />
           <NavigationProperty Name="ColumnPhrase" Relationship="MyProjectModel.FKColumnPhra124715" FromRole="Column" ToRole="ColumnPhrase" />
@@ -7112,7 +7115,6 @@
           <NavigationProperty Name="RelationshipColumns" Relationship="MyProjectModel.Relationship_FirstEntityColumns" FromRole="Column" ToRole="RelationshipColumns" />
           <NavigationProperty Name="RelationshipColumns1" Relationship="MyProjectModel.Relationship_SecondEntityColumns" FromRole="Column" ToRole="RelationshipColumns" />
           <NavigationProperty Name="UniqueConstraint" Relationship="MyProjectModel.UniqueConstraint_Column" FromRole="Column" ToRole="UniqueConstraint" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FK_TableDrivedEntity_Column" FromRole="Column" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="ColumnPhrase">
           <Key>
@@ -7262,11 +7264,11 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="ConnectionString" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="false" />
           <Property Name="DBHasDate" Type="Boolean" Nullable="false" />
+          <Property Name="DBType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DBServer" Relationship="MyProjectModel.FKDatabaseIn186668" FromRole="DatabaseInformation" ToRole="DBServer" />
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKDatabaseIn674957" FromRole="DatabaseInformation" ToRole="SecurityObject" />
           <NavigationProperty Name="DatabaseUISetting" Relationship="MyProjectModel.FKDatabaseUI703615" FromRole="DatabaseInformation" ToRole="DatabaseUISetting" />
           <NavigationProperty Name="DBSchema" Relationship="MyProjectModel.FKDBSchema138241" FromRole="DatabaseInformation" ToRole="DBSchema" />
-          <Property Name="DBType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DBServer" Relationship="MyProjectModel.FKDatabaseIn186668" FromRole="DatabaseInformation" ToRole="DBServer" />
         </EntityType>
         <EntityType Name="DatabaseUISetting">
           <Key>
@@ -7284,10 +7286,10 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="FirstSideEntityID" Type="Int32" Nullable="false" />
           <Property Name="SecondSideEntityID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DataLinkDefinition_EntityRelationshipTail" Relationship="MyProjectModel.FKDataLinkDe961681" FromRole="DataLinkDefinition" ToRole="DataLinkDefinition_EntityRelationshipTail" />
-          <NavigationProperty Name="EntityDataLinkReport" Relationship="MyProjectModel.FKEntityData66102" FromRole="DataLinkDefinition" ToRole="EntityDataLinkReport" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKDataLinkDe305355" FromRole="DataLinkDefinition" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="TableDrivedEntity1" Relationship="MyProjectModel.FKDataLinkDe790101" FromRole="DataLinkDefinition" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="DataLinkDefinition_EntityRelationshipTail" Relationship="MyProjectModel.FKDataLinkDe961681" FromRole="DataLinkDefinition" ToRole="DataLinkDefinition_EntityRelationshipTail" />
+          <NavigationProperty Name="EntityDataLinkReport" Relationship="MyProjectModel.FKEntityData66102" FromRole="DataLinkDefinition" ToRole="EntityDataLinkReport" />
         </EntityType>
         <EntityType Name="DataLinkDefinition_EntityRelationshipTail">
           <Key>
@@ -7352,8 +7354,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="IconContent" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="EntityListViewID" Type="Int32" />
-          <NavigationProperty Name="EntityListView" Relationship="MyProjectModel.FKEntityData149283" FromRole="DataViewSetting" ToRole="EntityListView" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FK_EntityDataView_TableDrivedEntity" FromRole="DataViewSetting" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="EntityListView" Relationship="MyProjectModel.FKEntityData149283" FromRole="DataViewSetting" ToRole="EntityListView" />
         </EntityType>
         <EntityType Name="DateColumnType">
           <Key>
@@ -7374,6 +7376,18 @@
           <NavigationProperty Name="DatabaseInformation" Relationship="MyProjectModel.FKDBSchema138241" FromRole="DBSchema" ToRole="DatabaseInformation" />
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKDBSchema227092" FromRole="DBSchema" ToRole="SecurityObject" />
           <NavigationProperty Name="Table" Relationship="MyProjectModel.FKTable824924" FromRole="DBSchema" ToRole="Table" />
+        </EntityType>
+        <EntityType Name="DBServer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="IPAddress" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DatabaseInformation" Relationship="MyProjectModel.FKDatabaseIn186668" FromRole="DBServer" ToRole="DatabaseInformation" />
+          <NavigationProperty Name="LinkedServer" Relationship="MyProjectModel.FKLinkedServ770687" FromRole="DBServer" ToRole="LinkedServer" />
+          <NavigationProperty Name="LinkedServer1" Relationship="MyProjectModel.FKLinkedServ812468" FromRole="DBServer" ToRole="LinkedServer" />
         </EntityType>
         <EntityType Name="EmptySpaceUISetting">
           <Key>
@@ -7539,6 +7553,7 @@
           <Property Name="Alias" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="EntityRelationshipTailID" Type="Int32" />
           <Property Name="IsDescriptive" Type="Boolean" Nullable="false" />
+          <Property Name="Tooltip" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CharetReportCategories" Relationship="MyProjectModel.FK_CharetReportCategories_EntityListViewColumns" FromRole="EntityListViewColumns" ToRole="CharetReportCategories" />
           <NavigationProperty Name="CharetReportSeries" Relationship="MyProjectModel.FK_CharetReportSeries_EntityListViewColumns" FromRole="EntityListViewColumns" ToRole="CharetReportSeries" />
           <NavigationProperty Name="CharetReportValues" Relationship="MyProjectModel.FK_CharetReportValues_EntityListViewColumns" FromRole="EntityListViewColumns" ToRole="CharetReportValues" />
@@ -7573,12 +7588,12 @@
           <NavigationProperty Name="LetterTemplateRelationshipField" Relationship="MyProjectModel.FK_LetterTemplateRelationshipField_EntityRelationshipTail" FromRole="EntityRelationshipTail" ToRole="LetterTemplateRelationshipField" />
           <NavigationProperty Name="RelationshipSearchFilter" Relationship="MyProjectModel.FK_RelationshipSearchFilter_EntityRelationshipTail" FromRole="EntityRelationshipTail" ToRole="RelationshipSearchFilter" />
           <NavigationProperty Name="TableDrivedEntityState" Relationship="MyProjectModel.FK_TableDrivedEntityState_EntityRelationshipTail" FromRole="EntityRelationshipTail" ToRole="TableDrivedEntityState" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKEntityRela568378" FromRole="EntityRelationshipTail" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="TableDrivedEntity1" Relationship="MyProjectModel.FKEntityRela831147" FromRole="EntityRelationshipTail" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="EntitySearchColumns" Relationship="MyProjectModel.FKEntitySear748558" FromRole="EntityRelationshipTail" ToRole="EntitySearchColumns" />
           <NavigationProperty Name="EntitySecurityInDirect" Relationship="MyProjectModel.FKEntitySecu489951" FromRole="EntityRelationshipTail" ToRole="EntitySecurityInDirect" />
           <NavigationProperty Name="EntitySecurityCondition" Relationship="MyProjectModel.FKEntitySecu518173" FromRole="EntityRelationshipTail" ToRole="EntitySecurityCondition" />
           <NavigationProperty Name="RelationshipSearchFilter1" Relationship="MyProjectModel.FKRelationsh552099" FromRole="EntityRelationshipTail" ToRole="RelationshipSearchFilter" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKEntityRela568378" FromRole="EntityRelationshipTail" ToRole="TableDrivedEntity" />
-          <NavigationProperty Name="TableDrivedEntity1" Relationship="MyProjectModel.FKEntityRela831147" FromRole="EntityRelationshipTail" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="EntityReport">
           <Key>
@@ -7591,8 +7606,8 @@
           <Property Name="ReportType" Type="Int16" />
           <NavigationProperty Name="EntityDirectlReport" Relationship="MyProjectModel.FK_EntityDataExternalReport_SecurityObject" FromRole="EntityReport" ToRole="EntityDirectlReport" />
           <NavigationProperty Name="EntitySearchableReport" Relationship="MyProjectModel.FK_EntitySearchableReport_EntityReport" FromRole="EntityReport" ToRole="EntitySearchableReport" />
-          <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKEntityRepo965698" FromRole="EntityReport" ToRole="SecurityObject" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKEntityRepo82108" FromRole="EntityReport" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKEntityRepo965698" FromRole="EntityReport" ToRole="SecurityObject" />
         </EntityType>
         <EntityType Name="EntitySearch">
           <Key>
@@ -7602,9 +7617,9 @@
           <Property Name="TableDrivedEntityID" Type="Int32" Nullable="false" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SearchRepository" Relationship="MyProjectModel.FK_SearchRepository_EntitySearch" FromRole="EntitySearch" ToRole="SearchRepository" />
-          <NavigationProperty Name="EntitySearchColumns" Relationship="MyProjectModel.FKEntitySear726002" FromRole="EntitySearch" ToRole="EntitySearchColumns" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FK_TableDrivedEntity_EntitySearch" FromRole="EntitySearch" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="TableDrivedEntity1" Relationship="MyProjectModel.FKEntitySear266828" FromRole="EntitySearch" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="EntitySearchColumns" Relationship="MyProjectModel.FKEntitySear726002" FromRole="EntitySearch" ToRole="EntitySearchColumns" />
         </EntityType>
         <EntityType Name="EntitySearchableReport">
           <Key>
@@ -7634,6 +7649,7 @@
           <Property Name="OrderID" Type="Int16" />
           <Property Name="Alias" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="RelationshipTailSelectable" Type="Boolean" Nullable="false" />
+          <Property Name="Tooltip" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FKEntitySear524417" FromRole="EntitySearchColumns" ToRole="Column" />
           <NavigationProperty Name="ColumnPhrase" Relationship="MyProjectModel.FK_ColumnPhrase_EntitySearchColumns" FromRole="EntitySearchColumns" ToRole="ColumnPhrase" />
           <NavigationProperty Name="EntityRelationshipTail" Relationship="MyProjectModel.FKEntitySear748558" FromRole="EntitySearchColumns" ToRole="EntityRelationshipTail" />
@@ -7664,12 +7680,12 @@
           <NavigationProperty Name="EmptySpaceUISetting" Relationship="MyProjectModel.FK_EmptySpaceUISetting_EntityUIComposition" FromRole="EntityUIComposition" ToRole="EmptySpaceUISetting" />
           <NavigationProperty Name="EntityUIComposition1" Relationship="MyProjectModel.FKEntityUICo258285" FromRole="EntityUIComposition" ToRole="EntityUIComposition1" />
           <NavigationProperty Name="EntityUIComposition2" Relationship="MyProjectModel.FKEntityUICo258285" FromRole="EntityUIComposition1" ToRole="EntityUIComposition" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKEntityUICo461879" FromRole="EntityUIComposition" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="EntityUISetting" Relationship="MyProjectModel.FKEntityUISe186333" FromRole="EntityUIComposition" ToRole="EntityUISetting" />
           <NavigationProperty Name="GroupUISetting" Relationship="MyProjectModel.FKGroupUISet752341" FromRole="EntityUIComposition" ToRole="GroupUISetting" />
           <NavigationProperty Name="RelationshipUISetting" Relationship="MyProjectModel.FKRelationsh12338" FromRole="EntityUIComposition" ToRole="RelationshipUISetting" />
           <NavigationProperty Name="TabGroupUISetting" Relationship="MyProjectModel.FKTabGroupUI128258" FromRole="EntityUIComposition" ToRole="TabGroupUISetting" />
           <NavigationProperty Name="TabPageUISetting" Relationship="MyProjectModel.FKTabPageUIS719811" FromRole="EntityUIComposition" ToRole="TabPageUISetting" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKEntityUICo461879" FromRole="EntityUIComposition" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="EntityUISetting">
           <Key>
@@ -7688,8 +7704,8 @@
           <Property Name="FormulaID" Type="Int32" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="Message" Type="String" Nullable="false" MaxLength="2024" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Formula" Relationship="MyProjectModel.FKEntityVali933297" FromRole="EntityValidation" ToRole="Formula" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKEntityVali365073" FromRole="EntityValidation" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="Formula" Relationship="MyProjectModel.FKEntityVali933297" FromRole="EntityValidation" ToRole="Formula" />
         </EntityType>
         <EntityType Name="ExplicitOneToOneRelationshipType">
           <Key>
@@ -7712,13 +7728,13 @@
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FK_Column_Formula" FromRole="Formula" ToRole="Column" />
           <NavigationProperty Name="EntityValidation" Relationship="MyProjectModel.FKEntityVali933297" FromRole="Formula" ToRole="EntityValidation" />
           <NavigationProperty Name="ConditionalPermission" Relationship="MyProjectModel.FKConditiona702385" FromRole="Formula" ToRole="ConditionalPermission" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKFormula967405" FromRole="Formula" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="FormulaItems" Relationship="MyProjectModel.FKFormulaIte505844" FromRole="Formula" ToRole="FormulaItems" />
           <NavigationProperty Name="FormulaItems1" Relationship="MyProjectModel.FKFormulaIte540022" FromRole="Formula" ToRole="FormulaItems" />
           <NavigationProperty Name="LetterTemplatePlainField" Relationship="MyProjectModel.FKLetterTemp586744" FromRole="Formula" ToRole="LetterTemplatePlainField" />
           <NavigationProperty Name="State_Formula" Relationship="MyProjectModel.FKState_Form943524" FromRole="Formula" ToRole="State_Formula" />
           <NavigationProperty Name="TableDrivedEntityState" Relationship="MyProjectModel.FKTableDrive466458" FromRole="Formula" ToRole="TableDrivedEntityState" />
           <NavigationProperty Name="TransitionAction_Formula" Relationship="MyProjectModel.FKTransition813783" FromRole="Formula" ToRole="TransitionAction_Formula" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKFormula967405" FromRole="Formula" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="FormulaItems">
           <Key>
@@ -7819,9 +7835,9 @@
           <NavigationProperty Name="EntityListView" Relationship="MyProjectModel.FK_LetterTemplate_EntityListView" FromRole="LetterTemplate" ToRole="EntityListView" />
           <NavigationProperty Name="MainLetterTemplate" Relationship="MyProjectModel.FKExternalLe444510" FromRole="LetterTemplate" ToRole="MainLetterTemplate" />
           <NavigationProperty Name="PartialLetterTemplate" Relationship="MyProjectModel.FKInternalLe245880" FromRole="LetterTemplate" ToRole="PartialLetterTemplate" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKLetterTemp289474" FromRole="LetterTemplate" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="LetterTemplatePlainField" Relationship="MyProjectModel.FKLetterTemp311790" FromRole="LetterTemplate" ToRole="LetterTemplatePlainField" />
           <NavigationProperty Name="LetterTemplateRelationshipField" Relationship="MyProjectModel.FKLetterTemp854440" FromRole="LetterTemplate" ToRole="LetterTemplateRelationshipField" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKLetterTemp289474" FromRole="LetterTemplate" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="LetterTemplatePlainField">
           <Key>
@@ -7919,9 +7935,9 @@
           <Property Name="TableDrivedEntityID" Type="Int32" />
           <Property Name="Tooltip" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKNavigation155968" FromRole="NavigationTree" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="NavigationTree1" Relationship="MyProjectModel.FKNavigation977409" FromRole="NavigationTree" ToRole="NavigationTree1" />
           <NavigationProperty Name="NavigationTree2" Relationship="MyProjectModel.FKNavigation977409" FromRole="NavigationTree1" ToRole="NavigationTree" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKNavigation155968" FromRole="NavigationTree" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="NumericColumnType">
           <Key>
@@ -7993,11 +8009,11 @@
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FK_Relationship_SecurityObject" FromRole="Relationship" ToRole="SecurityObject" />
           <NavigationProperty Name="SearchRepository" Relationship="MyProjectModel.FK_SearchRepository_Relationship" FromRole="Relationship" ToRole="SearchRepository" />
           <NavigationProperty Name="UIEnablityDetails" Relationship="MyProjectModel.FK_UIEnablityDetails_Relationship" FromRole="Relationship" ToRole="UIEnablityDetails" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKRelationsh250123" FromRole="Relationship" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="TableDrivedEntity1" Relationship="MyProjectModel.FKRelationsh250124" FromRole="Relationship" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="RelationshipSearchFilter" Relationship="MyProjectModel.FKRelationsh283976" FromRole="Relationship" ToRole="RelationshipSearchFilter" />
           <NavigationProperty Name="RelationshipColumns" Relationship="MyProjectModel.FKRelationsh685437" FromRole="Relationship" ToRole="RelationshipColumns" />
           <NavigationProperty Name="RelationshipType" Relationship="MyProjectModel.FKRelationsh827735" FromRole="Relationship" ToRole="RelationshipType" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKRelationsh250123" FromRole="Relationship" ToRole="TableDrivedEntity" />
-          <NavigationProperty Name="TableDrivedEntity1" Relationship="MyProjectModel.FKRelationsh250124" FromRole="Relationship" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="RelationshipColumns">
           <Key>
@@ -8158,8 +8174,79 @@
           <Property Name="DBSchemaID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FKColumn659222" FromRole="Table" ToRole="Column" />
           <NavigationProperty Name="DBSchema" Relationship="MyProjectModel.FKTable824924" FromRole="Table" ToRole="DBSchema" />
-          <NavigationProperty Name="UniqueConstraint" Relationship="MyProjectModel.FKUniqueCons110156" FromRole="Table" ToRole="UniqueConstraint" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKTableDrive311898" FromRole="Table" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="UniqueConstraint" Relationship="MyProjectModel.FKUniqueCons110156" FromRole="Table" ToRole="UniqueConstraint" />
+        </EntityType>
+        <EntityType Name="TableDrivedEntity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TableID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Alias" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="IndependentDataEntry" Type="Boolean" />
+          <Property Name="BatchDataEntry" Type="Boolean" Nullable="false" />
+          <Property Name="IsDataReference" Type="Boolean" />
+          <Property Name="IsStructurReferencee" Type="Boolean" Nullable="false" />
+          <Property Name="IsAssociative" Type="Boolean" Nullable="false" />
+          <Property Name="EntityListViewID" Type="Int32" />
+          <Property Name="EntitySearchID" Type="Int32" />
+          <Property Name="IsDisabled" Type="Boolean" Nullable="false" />
+          <Property Name="IsReadonly" Type="Boolean" Nullable="false" />
+          <Property Name="SearchInitially" Type="Boolean" />
+          <Property Name="LoadArchiveRelatedItems" Type="Boolean" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoadLetterRelatedItems" Type="Boolean" Nullable="false" />
+          <Property Name="IsOrginal" Type="Boolean" Nullable="false" />
+          <Property Name="IsView" Type="Boolean" Nullable="false" />
+          <Property Name="Reviewed" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ColumnsReviewed" Type="Boolean" Nullable="false" />
+          <Property Name="SelectAsComboBox" Type="Boolean" Nullable="false" />
+          <Property Name="DeterminerColumnID" Type="Int32" />
+          <NavigationProperty Name="ArchiveFolder" Relationship="MyProjectModel.FKArchiveFol695820" FromRole="TableDrivedEntity" ToRole="ArchiveFolder" />
+          <NavigationProperty Name="ArchiveTag" Relationship="MyProjectModel.FK_ArchiveTag_EntityArchive" FromRole="TableDrivedEntity" ToRole="ArchiveTag" />
+          <NavigationProperty Name="EntityArchiveRelationshipTails" Relationship="MyProjectModel.FKEntityArch437336" FromRole="TableDrivedEntity" ToRole="EntityArchiveRelationshipTails" />
+          <NavigationProperty Name="EntityLetterRelationshipTails" Relationship="MyProjectModel.FKEntityLett778414" FromRole="TableDrivedEntity" ToRole="EntityLetterRelationshipTails" />
+          <NavigationProperty Name="ArcRelationshipGroup" Relationship="MyProjectModel.FKArcRelatio319969" FromRole="TableDrivedEntity" ToRole="ArcRelationshipGroup" />
+          <NavigationProperty Name="BackendActionActivity" Relationship="MyProjectModel.FK_BackendActionActivity_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="BackendActionActivity" />
+          <NavigationProperty Name="CodeFunction_TableDrivedEntity" Relationship="MyProjectModel.FKCodeFuncti589884" FromRole="TableDrivedEntity" ToRole="CodeFunction_TableDrivedEntity" />
+          <NavigationProperty Name="Column" Relationship="MyProjectModel.FK_TableDrivedEntity_Column" FromRole="TableDrivedEntity" ToRole="Column" />
+          <NavigationProperty Name="DatabaseFunction_TableDrivedEntity" Relationship="MyProjectModel.FKDatabaseFu423707" FromRole="TableDrivedEntity" ToRole="DatabaseFunction_TableDrivedEntity" />
+          <NavigationProperty Name="DataLinkDefinition" Relationship="MyProjectModel.FKDataLinkDe305355" FromRole="TableDrivedEntity" ToRole="DataLinkDefinition" />
+          <NavigationProperty Name="DataLinkDefinition1" Relationship="MyProjectModel.FKDataLinkDe790101" FromRole="TableDrivedEntity" ToRole="DataLinkDefinition" />
+          <NavigationProperty Name="DataMenuSetting" Relationship="MyProjectModel.FK_DataMenuSetting_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="DataMenuSetting" />
+          <NavigationProperty Name="DataViewSetting" Relationship="MyProjectModel.FK_EntityDataView_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="DataViewSetting" />
+          <NavigationProperty Name="EntityDeterminer" Relationship="MyProjectModel.FK_EntityDeterminer_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="EntityDeterminer" />
+          <NavigationProperty Name="EntityListView" Relationship="MyProjectModel.FKEntityList697639" FromRole="TableDrivedEntity" ToRole="EntityListView" />
+          <NavigationProperty Name="EntityListView1" Relationship="MyProjectModel.FKTableDrive842411" FromRole="TableDrivedEntity" ToRole="EntityListView" />
+          <NavigationProperty Name="EntityRelationshipTail" Relationship="MyProjectModel.FKEntityRela568378" FromRole="TableDrivedEntity" ToRole="EntityRelationshipTail" />
+          <NavigationProperty Name="EntityRelationshipTail1" Relationship="MyProjectModel.FKEntityRela831147" FromRole="TableDrivedEntity" ToRole="EntityRelationshipTail" />
+          <NavigationProperty Name="EntityReport" Relationship="MyProjectModel.FKEntityRepo82108" FromRole="TableDrivedEntity" ToRole="EntityReport" />
+          <NavigationProperty Name="EntitySearch" Relationship="MyProjectModel.FK_TableDrivedEntity_EntitySearch" FromRole="TableDrivedEntity" ToRole="EntitySearch" />
+          <NavigationProperty Name="EntitySearch1" Relationship="MyProjectModel.FKEntitySear266828" FromRole="TableDrivedEntity" ToRole="EntitySearch" />
+          <NavigationProperty Name="EntityUIComposition" Relationship="MyProjectModel.FKEntityUICo461879" FromRole="TableDrivedEntity" ToRole="EntityUIComposition" />
+          <NavigationProperty Name="EntityValidation" Relationship="MyProjectModel.FKEntityVali365073" FromRole="TableDrivedEntity" ToRole="EntityValidation" />
+          <NavigationProperty Name="Formula" Relationship="MyProjectModel.FKFormula967405" FromRole="TableDrivedEntity" ToRole="Formula" />
+          <NavigationProperty Name="GridViewSetting" Relationship="MyProjectModel.FKEntityGrid247991" FromRole="TableDrivedEntity" ToRole="GridViewSetting" />
+          <NavigationProperty Name="LetterEnabledEntities" Relationship="MyProjectModel.FKLetterEnab821210" FromRole="TableDrivedEntity" ToRole="LetterEnabledEntities" />
+          <NavigationProperty Name="LetterTemplate" Relationship="MyProjectModel.FKLetterTemp289474" FromRole="TableDrivedEntity" ToRole="LetterTemplate" />
+          <NavigationProperty Name="LetterType" Relationship="MyProjectModel.FK_LetterType_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="LetterType" />
+          <NavigationProperty Name="NavigationTree" Relationship="MyProjectModel.FKNavigation155968" FromRole="TableDrivedEntity" ToRole="NavigationTree" />
+          <NavigationProperty Name="Relationship" Relationship="MyProjectModel.FKRelationsh250123" FromRole="TableDrivedEntity" ToRole="Relationship" />
+          <NavigationProperty Name="Relationship1" Relationship="MyProjectModel.FKRelationsh250124" FromRole="TableDrivedEntity" ToRole="Relationship" />
+          <NavigationProperty Name="SearchRepository" Relationship="MyProjectModel.FK_SearchRepository_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="SearchRepository" />
+          <NavigationProperty Name="Table" Relationship="MyProjectModel.FKTableDrive311898" FromRole="TableDrivedEntity" ToRole="Table" />
+          <NavigationProperty Name="Process" Relationship="MyProjectModel.FK_Process_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="Process" />
+          <NavigationProperty Name="TableDrivedEntity_EntityCommand" Relationship="MyProjectModel.FK_TableDrivedEntity_EntityCommand_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="TableDrivedEntity_EntityCommand" />
+          <NavigationProperty Name="UIActionActivity" Relationship="MyProjectModel.FKActionActi421900" FromRole="TableDrivedEntity" ToRole="UIActionActivity" />
+          <NavigationProperty Name="ConditionalPermission" Relationship="MyProjectModel.FKConditiona757" FromRole="TableDrivedEntity" ToRole="ConditionalPermission" />
+          <NavigationProperty Name="EntitySecurityInDirect" Relationship="MyProjectModel.FKEntitySecu295394" FromRole="TableDrivedEntity" ToRole="EntitySecurityInDirect" />
+          <NavigationProperty Name="EntitySecurityDirect" Relationship="MyProjectModel.FKEntitySecu556643" FromRole="TableDrivedEntity" ToRole="EntitySecurityDirect" />
+          <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKTableDrive36776" FromRole="TableDrivedEntity" ToRole="SecurityObject" />
+          <NavigationProperty Name="TableDrivedEntity_Columns" Relationship="MyProjectModel.FKTableDrive379163" FromRole="TableDrivedEntity" ToRole="TableDrivedEntity_Columns" />
+          <NavigationProperty Name="TableDrivedEntityState" Relationship="MyProjectModel.FKTableDrive764829" FromRole="TableDrivedEntity" ToRole="TableDrivedEntityState" />
         </EntityType>
         <EntityType Name="TableDrivedEntity_Columns">
           <Key>
@@ -8198,8 +8285,8 @@
           <NavigationProperty Name="EntityState_UIActionActivity" Relationship="MyProjectModel.FKEntityStat936255" FromRole="TableDrivedEntityState" ToRole="EntityState_UIActionActivity" />
           <NavigationProperty Name="Formula" Relationship="MyProjectModel.FKTableDrive466458" FromRole="TableDrivedEntityState" ToRole="Formula" />
           <NavigationProperty Name="FormulaItems" Relationship="MyProjectModel.FK_FormulaItems_TableDrivedEntityState" FromRole="TableDrivedEntityState" ToRole="FormulaItems" />
-          <NavigationProperty Name="TableDrivedEntityStateValues" Relationship="MyProjectModel.FK_TableDrivedEntityStateValues_TableDrivedEntityState" FromRole="TableDrivedEntityState" ToRole="TableDrivedEntityStateValues" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKTableDrive764829" FromRole="TableDrivedEntityState" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="TableDrivedEntityStateValues" Relationship="MyProjectModel.FK_TableDrivedEntityStateValues_TableDrivedEntityState" FromRole="TableDrivedEntityState" ToRole="TableDrivedEntityStateValues" />
         </EntityType>
         <EntityType Name="TableDrivedEntityStateValues">
           <Key>
@@ -8227,10 +8314,10 @@
           <Property Name="Type" Type="Int16" Nullable="false" />
           <Property Name="TableDrivedEntityID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="EntityState_UIActionActivity" Relationship="MyProjectModel.FKEntityStat608686" FromRole="UIActionActivity" ToRole="EntityState_UIActionActivity" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKActionActi421900" FromRole="UIActionActivity" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="UIEnablityDetails" Relationship="MyProjectModel.FK_UIEnablityDetails_UIActionActivity" FromRole="UIActionActivity" ToRole="UIEnablityDetails" />
           <NavigationProperty Name="UIColumnValue" Relationship="MyProjectModel.FKColumnValu201622" FromRole="UIActionActivity" ToRole="UIColumnValue" />
           <NavigationProperty Name="UIColumnValueRange" Relationship="MyProjectModel.FKUIColumnVa986416" FromRole="UIActionActivity" ToRole="UIColumnValueRange" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKActionActi421900" FromRole="UIActionActivity" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="UIColumnValue">
           <Key>
@@ -8315,10 +8402,10 @@
           <Property Name="SecurityObjectID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FKConditiona163674" FromRole="ConditionalPermission" ToRole="Column" />
           <NavigationProperty Name="Formula" Relationship="MyProjectModel.FKConditiona702385" FromRole="ConditionalPermission" ToRole="Formula" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKConditiona757" FromRole="ConditionalPermission" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="ConditionalPermission_Action" Relationship="MyProjectModel.FKConditiona428383" FromRole="ConditionalPermission" ToRole="ConditionalPermission_Action" />
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKConditiona5927" FromRole="ConditionalPermission" ToRole="SecurityObject" />
           <NavigationProperty Name="SecuritySubject" Relationship="MyProjectModel.FKConditiona957636" FromRole="ConditionalPermission" ToRole="SecuritySubject" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKConditiona757" FromRole="ConditionalPermission" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="ConditionalPermission_Action">
           <Key>
@@ -8355,9 +8442,9 @@
           <Property Name="SecuritySubjectID" Type="Int32" />
           <Property Name="Mode" Type="Int16" Nullable="false" />
           <Property Name="IgnoreSecurity" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKEntitySecu556643" FromRole="EntitySecurityDirect" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="EntitySecurityCondition" Relationship="MyProjectModel.FKEntitySecu917435" FromRole="EntitySecurityDirect" ToRole="EntitySecurityCondition" />
           <NavigationProperty Name="SecuritySubject" Relationship="MyProjectModel.FKEntitySecu456553" FromRole="EntitySecurityDirect" ToRole="SecuritySubject" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKEntitySecu556643" FromRole="EntitySecurityDirect" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="EntitySecurityInDirect">
           <Key>
@@ -8463,9 +8550,9 @@
           <NavigationProperty Name="EntityReport" Relationship="MyProjectModel.FKEntityRepo965698" FromRole="SecurityObject" ToRole="EntityReport" />
           <NavigationProperty Name="Relationship" Relationship="MyProjectModel.FK_Relationship_SecurityObject" FromRole="SecurityObject" ToRole="Relationship" />
           <NavigationProperty Name="SubSystems" Relationship="MyProjectModel.FKSubSystems137775" FromRole="SecurityObject" ToRole="SubSystems" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKTableDrive36776" FromRole="SecurityObject" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="ConditionalPermission" Relationship="MyProjectModel.FKConditiona5927" FromRole="SecurityObject" ToRole="ConditionalPermission" />
           <NavigationProperty Name="Permission" Relationship="MyProjectModel.FKPermission621140" FromRole="SecurityObject" ToRole="Permission" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKTableDrive36776" FromRole="SecurityObject" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="SecuritySubject">
           <Key>
@@ -8571,12 +8658,12 @@
           <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="TransitionFlowSTR" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="TableDrivedEntityID" Type="Int32" />
+          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FK_Process_TableDrivedEntity" FromRole="Process" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="Action" Relationship="MyProjectModel.FKAction739424" FromRole="Process" ToRole="Action" />
           <NavigationProperty Name="Activity" Relationship="MyProjectModel.FKActivity22180" FromRole="Process" ToRole="Activity" />
           <NavigationProperty Name="EntityGroup" Relationship="MyProjectModel.FKEntityGrou723664" FromRole="Process" ToRole="EntityGroup" />
           <NavigationProperty Name="State" Relationship="MyProjectModel.FKState419993" FromRole="Process" ToRole="State" />
           <NavigationProperty Name="Transition" Relationship="MyProjectModel.FKTransition318488" FromRole="Process" ToRole="Transition" />
-          <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FK_Process_TableDrivedEntity" FromRole="Process" ToRole="TableDrivedEntity" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -8691,6 +8778,42 @@
           <NavigationProperty Name="Activity" Relationship="MyProjectModel.FKTransition452078" FromRole="TransitionActivity" ToRole="Activity" />
           <NavigationProperty Name="Transition" Relationship="MyProjectModel.FKTransition753785" FromRole="TransitionActivity" ToRole="Transition" />
         </EntityType>
+        <Association Name="FKArchiveFol695820">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
+          <End Type="MyProjectModel.ArchiveFolder" Role="ArchiveFolder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArchiveFolder">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArchiveTag_EntityArchive">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
+          <End Type="MyProjectModel.ArchiveTag" Role="ArchiveTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArchiveTag">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKEntityArch437336">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntityArchiveRelationshipTails" Role="EntityArchiveRelationshipTails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntityArchiveRelationshipTails">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKEntityArch748908">
           <End Type="MyProjectModel.EntityRelationshipTail" Role="EntityRelationshipTail" Multiplicity="1" />
           <End Type="MyProjectModel.EntityArchiveRelationshipTails" Role="EntityArchiveRelationshipTails" Multiplicity="*" />
@@ -8715,6 +8838,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKEntityLett778414">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntityLetterRelationshipTails" Role="EntityLetterRelationshipTails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntityLetterRelationshipTails">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKArcRelatio252133">
           <End Type="MyProjectModel.ArcRelationshipGroup" Role="ArcRelationshipGroup" Multiplicity="1" />
           <End Type="MyProjectModel.ArcRelationshipGroup_Relationship" Role="ArcRelationshipGroup_Relationship" Multiplicity="*" />
@@ -8724,6 +8859,18 @@
             </Principal>
             <Dependent Role="ArcRelationshipGroup_Relationship">
               <PropertyRef Name="ArcRelationshipGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKArcRelatio319969">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.ArcRelationshipGroup" Role="ArcRelationshipGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ArcRelationshipGroup">
+              <PropertyRef Name="TableDrivedEntityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8760,6 +8907,18 @@
             </Principal>
             <Dependent Role="BackendActionActivity">
               <PropertyRef Name="DatabaseFunctionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BackendActionActivity_TableDrivedEntity">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.BackendActionActivity" Role="BackendActionActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BackendActionActivity">
+              <PropertyRef Name="TableDrivedEntityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8955,6 +9114,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKCodeFuncti589884">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.CodeFunction_TableDrivedEntity" Role="CodeFunction_TableDrivedEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CodeFunction_TableDrivedEntity">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKCodeFuncti70133">
           <End Type="MyProjectModel.Column" Role="Column" Multiplicity="1" />
           <End Type="MyProjectModel.CodeFunction_TableDrivedEntity_Parameters" Role="CodeFunction_TableDrivedEntity_Parameters" Multiplicity="*" />
@@ -9024,6 +9195,18 @@
             </Principal>
             <Dependent Role="RelationshipSearchFilter">
               <PropertyRef Name="SearchColumnID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableDrivedEntity_Column">
+          <End Type="MyProjectModel.Column" Role="Column" Multiplicity="0..1" />
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Column">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntity">
+              <PropertyRef Name="DeterminerColumnID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9447,6 +9630,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKDatabaseFu423707">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.DatabaseFunction_TableDrivedEntity" Role="DatabaseFunction_TableDrivedEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DatabaseFunction_TableDrivedEntity">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKDatabaseFu935636">
           <End Type="MyProjectModel.DatabaseFunctionParameter" Role="DatabaseFunctionParameter" Multiplicity="1" />
           <End Type="MyProjectModel.DatabaseFunction_TableDrivedEntity_Columns" Role="DatabaseFunction_TableDrivedEntity_Columns" Multiplicity="*" />
@@ -9456,6 +9651,18 @@
             </Principal>
             <Dependent Role="DatabaseFunction_TableDrivedEntity_Columns">
               <PropertyRef Name="DatabaseFunctionParameterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKDatabaseIn186668">
+          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
+          <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DBServer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DatabaseInformation">
+              <PropertyRef Name="DBServerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9492,6 +9699,30 @@
             </Principal>
             <Dependent Role="DBSchema">
               <PropertyRef Name="DatabaseInformationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKDataLinkDe305355">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.DataLinkDefinition" Role="DataLinkDefinition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DataLinkDefinition">
+              <PropertyRef Name="FirstSideEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKDataLinkDe790101">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.DataLinkDefinition" Role="DataLinkDefinition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DataLinkDefinition">
+              <PropertyRef Name="SecondSideEntityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9615,6 +9846,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DataMenuSetting_TableDrivedEntity">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.DataMenuSetting" Role="DataMenuSetting" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DataMenuSetting">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EntityDataView_TableDrivedEntity">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.DataViewSetting" Role="DataViewSetting" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DataViewSetting">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKEntityData149283">
           <End Type="MyProjectModel.EntityListView" Role="EntityListView" Multiplicity="0..1" />
           <End Type="MyProjectModel.DataViewSetting" Role="DataViewSetting" Multiplicity="*" />
@@ -9648,6 +9903,30 @@
             </Principal>
             <Dependent Role="Table">
               <PropertyRef Name="DBSchemaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLinkedServ770687">
+          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
+          <End Type="MyProjectModel.LinkedServer" Role="LinkedServer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DBServer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LinkedServer">
+              <PropertyRef Name="SourceDBServerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLinkedServ812468">
+          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
+          <End Type="MyProjectModel.LinkedServer" Role="LinkedServer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DBServer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LinkedServer">
+              <PropertyRef Name="TargetDBServerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9744,6 +10023,18 @@
             </Principal>
             <Dependent Role="EntityDataViewReport">
               <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EntityDeterminer_TableDrivedEntity">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntityDeterminer" Role="EntityDeterminer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntityDeterminer">
+              <PropertyRef Name="EntityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9927,6 +10218,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKEntityList697639">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntityListView" Role="EntityListView" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntityListView">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKTableDrive842411">
+          <End Type="MyProjectModel.EntityListView" Role="EntityListView" Multiplicity="0..1" />
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntityListView">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntity">
+              <PropertyRef Name="EntityListViewID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_LetterTemplatePlainField_LetterTemplatePlainField">
           <End Type="MyProjectModel.EntityListViewColumns" Role="EntityListViewColumns" Multiplicity="0..1" />
           <End Type="MyProjectModel.LetterTemplatePlainField" Role="LetterTemplatePlainField" Multiplicity="*" />
@@ -10011,6 +10326,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKEntityRela568378">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntityRelationshipTail" Role="EntityRelationshipTail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntityRelationshipTail">
+              <PropertyRef Name="TargetEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKEntityRela831147">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntityRelationshipTail" Role="EntityRelationshipTail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntityRelationshipTail">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKEntitySear748558">
           <End Type="MyProjectModel.EntityRelationshipTail" Role="EntityRelationshipTail" Multiplicity="0..1" />
           <End Type="MyProjectModel.EntitySearchColumns" Role="EntitySearchColumns" Multiplicity="*" />
@@ -10071,6 +10410,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKEntityRepo82108">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntityReport" Role="EntityReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntityReport">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKEntityRepo965698">
           <End Type="MyProjectModel.SecurityObject" Role="SecurityObject" Multiplicity="1" />
           <End Type="MyProjectModel.EntityReport" Role="EntityReport" Multiplicity="0..1" />
@@ -10092,6 +10443,30 @@
             </Principal>
             <Dependent Role="SearchRepository">
               <PropertyRef Name="EntitySearchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableDrivedEntity_EntitySearch">
+          <End Type="MyProjectModel.EntitySearch" Role="EntitySearch" Multiplicity="0..1" />
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntitySearch">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntity">
+              <PropertyRef Name="EntitySearchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKEntitySear266828">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntitySearch" Role="EntitySearch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntitySearch">
+              <PropertyRef Name="TableDrivedEntityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10155,6 +10530,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKEntityUICo461879">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntityUIComposition" Role="EntityUIComposition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntityUIComposition">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKEntityUISe186333">
           <End Type="MyProjectModel.EntityUIComposition" Role="EntityUIComposition" Multiplicity="1" />
           <End Type="MyProjectModel.EntityUISetting" Role="EntityUISetting" Multiplicity="0..1" />
@@ -10215,6 +10602,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKEntityVali365073">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntityValidation" Role="EntityValidation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntityValidation">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKEntityVali933297">
           <End Type="MyProjectModel.Formula" Role="Formula" Multiplicity="0..1" />
           <End Type="MyProjectModel.EntityValidation" Role="EntityValidation" Multiplicity="*" />
@@ -10248,6 +10647,18 @@
             </Principal>
             <Dependent Role="ConditionalPermission">
               <PropertyRef Name="FormulaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKFormula967405">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.Formula" Role="Formula" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Formula">
+              <PropertyRef Name="TableDrivedEntityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10347,6 +10758,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKEntityGrid247991">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.GridViewSetting" Role="GridViewSetting" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GridViewSetting">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKImplicitOn720517">
           <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
           <End Type="MyProjectModel.ImplicitOneToOneRelationshipType" Role="ImplicitOneToOneRelationshipType" Multiplicity="0..1" />
@@ -10383,6 +10806,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKLetterEnab821210">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.LetterEnabledEntities" Role="LetterEnabledEntities" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LetterEnabledEntities">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKExternalLe444510">
           <End Type="MyProjectModel.LetterTemplate" Role="LetterTemplate" Multiplicity="1" />
           <End Type="MyProjectModel.MainLetterTemplate" Role="MainLetterTemplate" Multiplicity="0..1" />
@@ -10404,6 +10839,18 @@
             </Principal>
             <Dependent Role="PartialLetterTemplate">
               <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKLetterTemp289474">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.LetterTemplate" Role="LetterTemplate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LetterTemplate">
+              <PropertyRef Name="TableDrivedEntityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10440,6 +10887,18 @@
             </Principal>
             <Dependent Role="LetterTemplateRelationshipField">
               <PropertyRef Name="PartialLetterTemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LetterType_TableDrivedEntity">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
+          <End Type="MyProjectModel.LetterType" Role="LetterType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LetterType">
+              <PropertyRef Name="TableDrivedEntityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10500,6 +10959,18 @@
             </Principal>
             <Dependent Role="ManyToOneRelationshipType">
               <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKNavigation155968">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
+          <End Type="MyProjectModel.NavigationTree" Role="NavigationTree" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NavigationTree">
+              <PropertyRef Name="TableDrivedEntityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10587,6 +11058,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKRelationsh250123">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.Relationship" Role="Relationship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Relationship">
+              <PropertyRef Name="TableDrivedEntityID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKRelationsh250124">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.Relationship" Role="Relationship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Relationship">
+              <PropertyRef Name="TableDrivedEntityID2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKRelationsh283976">
           <End Type="MyProjectModel.Relationship" Role="Relationship" Multiplicity="1" />
           <End Type="MyProjectModel.RelationshipSearchFilter" Role="RelationshipSearchFilter" Multiplicity="*" />
@@ -10671,6 +11166,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SearchRepository_TableDrivedEntity">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
+          <End Type="MyProjectModel.SearchRepository" Role="SearchRepository" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SearchRepository">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKSubSystems137775">
           <End Type="MyProjectModel.SecurityObject" Role="SecurityObject" Multiplicity="1" />
           <End Type="MyProjectModel.SubSystems" Role="SubSystems" Multiplicity="0..1" />
@@ -10695,6 +11202,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKTableDrive311898">
+          <End Type="MyProjectModel.Table" Role="Table" Multiplicity="1" />
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntity">
+              <PropertyRef Name="TableID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKUniqueCons110156">
           <End Type="MyProjectModel.Table" Role="Table" Multiplicity="1" />
           <End Type="MyProjectModel.UniqueConstraint" Role="UniqueConstraint" Multiplicity="*" />
@@ -10704,6 +11223,114 @@
             </Principal>
             <Dependent Role="UniqueConstraint">
               <PropertyRef Name="TableID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Process_TableDrivedEntity">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
+          <End Type="MyProjectModel.Process" Role="Process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Process">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TableDrivedEntity_EntityCommand_TableDrivedEntity">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.TableDrivedEntity_EntityCommand" Role="TableDrivedEntity_EntityCommand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntity_EntityCommand">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKActionActi421900">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.UIActionActivity" Role="UIActionActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UIActionActivity">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKConditiona757">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.ConditionalPermission" Role="ConditionalPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ConditionalPermission">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKEntitySecu295394">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntitySecurityInDirect" Role="EntitySecurityInDirect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntitySecurityInDirect">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKEntitySecu556643">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.EntitySecurityDirect" Role="EntitySecurityDirect" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EntitySecurityDirect">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKTableDrive36776">
+          <End Type="MyProjectModel.SecurityObject" Role="SecurityObject" Multiplicity="1" />
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SecurityObject">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKTableDrive379163">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.TableDrivedEntity_Columns" Role="TableDrivedEntity_Columns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntity_Columns">
+              <PropertyRef Name="TableDrivedEntityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKTableDrive764829">
+          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
+          <End Type="MyProjectModel.TableDrivedEntityState" Role="TableDrivedEntityState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TableDrivedEntity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TableDrivedEntityState">
+              <PropertyRef Name="TableDrivedEntityID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11275,629 +11902,6 @@
           <End Type="MyProjectModel.UniqueConstraint" Role="UniqueConstraint" Multiplicity="*" />
           <End Type="MyProjectModel.Column" Role="Column" Multiplicity="*" />
         </Association>
-        <EntityType Name="DBServer">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="IPAddress" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DatabaseInformation" Relationship="MyProjectModel.FKDatabaseIn186668" FromRole="DBServer" ToRole="DatabaseInformation" />
-          <NavigationProperty Name="LinkedServer" Relationship="MyProjectModel.FKLinkedServ770687" FromRole="DBServer" ToRole="LinkedServer" />
-          <NavigationProperty Name="LinkedServer1" Relationship="MyProjectModel.FKLinkedServ812468" FromRole="DBServer" ToRole="LinkedServer" />
-        </EntityType>
-        <Association Name="FKDatabaseIn186668">
-          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
-          <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DBServer">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DatabaseInformation">
-              <PropertyRef Name="DBServerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKLinkedServ770687">
-          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
-          <End Type="MyProjectModel.LinkedServer" Role="LinkedServer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DBServer">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LinkedServer">
-              <PropertyRef Name="SourceDBServerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKLinkedServ812468">
-          <End Type="MyProjectModel.DBServer" Role="DBServer" Multiplicity="1" />
-          <End Type="MyProjectModel.LinkedServer" Role="LinkedServer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DBServer">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LinkedServer">
-              <PropertyRef Name="TargetDBServerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="TableDrivedEntity">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="TableID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="Alias" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="IndependentDataEntry" Type="Boolean" />
-          <Property Name="BatchDataEntry" Type="Boolean" Nullable="false" />
-          <Property Name="IsDataReference" Type="Boolean" />
-          <Property Name="IsStructurReferencee" Type="Boolean" Nullable="false" />
-          <Property Name="IsAssociative" Type="Boolean" Nullable="false" />
-          <Property Name="EntityListViewID" Type="Int32" />
-          <Property Name="EntitySearchID" Type="Int32" />
-          <Property Name="IsDisabled" Type="Boolean" Nullable="false" />
-          <Property Name="IsReadonly" Type="Boolean" Nullable="false" />
-          <Property Name="SearchInitially" Type="Boolean" />
-          <Property Name="LoadArchiveRelatedItems" Type="Boolean" Nullable="false" />
-          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LoadLetterRelatedItems" Type="Boolean" Nullable="false" />
-          <Property Name="IsOrginal" Type="Boolean" Nullable="false" />
-          <Property Name="IsView" Type="Boolean" Nullable="false" />
-          <Property Name="Reviewed" Type="Boolean" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ColumnsReviewed" Type="Boolean" Nullable="false" />
-          <Property Name="SelectAsComboBox" Type="Boolean" Nullable="false" />
-          <Property Name="DeterminerColumnID" Type="Int32" />
-          <NavigationProperty Name="ArchiveFolder" Relationship="MyProjectModel.FKArchiveFol695820" FromRole="TableDrivedEntity" ToRole="ArchiveFolder" />
-          <NavigationProperty Name="ArchiveTag" Relationship="MyProjectModel.FK_ArchiveTag_EntityArchive" FromRole="TableDrivedEntity" ToRole="ArchiveTag" />
-          <NavigationProperty Name="EntityArchiveRelationshipTails" Relationship="MyProjectModel.FKEntityArch437336" FromRole="TableDrivedEntity" ToRole="EntityArchiveRelationshipTails" />
-          <NavigationProperty Name="EntityLetterRelationshipTails" Relationship="MyProjectModel.FKEntityLett778414" FromRole="TableDrivedEntity" ToRole="EntityLetterRelationshipTails" />
-          <NavigationProperty Name="ArcRelationshipGroup" Relationship="MyProjectModel.FKArcRelatio319969" FromRole="TableDrivedEntity" ToRole="ArcRelationshipGroup" />
-          <NavigationProperty Name="BackendActionActivity" Relationship="MyProjectModel.FK_BackendActionActivity_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="BackendActionActivity" />
-          <NavigationProperty Name="CodeFunction_TableDrivedEntity" Relationship="MyProjectModel.FKCodeFuncti589884" FromRole="TableDrivedEntity" ToRole="CodeFunction_TableDrivedEntity" />
-          <NavigationProperty Name="Column" Relationship="MyProjectModel.FK_TableDrivedEntity_Column" FromRole="TableDrivedEntity" ToRole="Column" />
-          <NavigationProperty Name="DatabaseFunction_TableDrivedEntity" Relationship="MyProjectModel.FKDatabaseFu423707" FromRole="TableDrivedEntity" ToRole="DatabaseFunction_TableDrivedEntity" />
-          <NavigationProperty Name="DataLinkDefinition" Relationship="MyProjectModel.FKDataLinkDe305355" FromRole="TableDrivedEntity" ToRole="DataLinkDefinition" />
-          <NavigationProperty Name="DataLinkDefinition1" Relationship="MyProjectModel.FKDataLinkDe790101" FromRole="TableDrivedEntity" ToRole="DataLinkDefinition" />
-          <NavigationProperty Name="DataMenuSetting" Relationship="MyProjectModel.FK_DataMenuSetting_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="DataMenuSetting" />
-          <NavigationProperty Name="DataViewSetting" Relationship="MyProjectModel.FK_EntityDataView_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="DataViewSetting" />
-          <NavigationProperty Name="EntityDeterminer" Relationship="MyProjectModel.FK_EntityDeterminer_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="EntityDeterminer" />
-          <NavigationProperty Name="EntityListView" Relationship="MyProjectModel.FKEntityList697639" FromRole="TableDrivedEntity" ToRole="EntityListView" />
-          <NavigationProperty Name="EntityListView1" Relationship="MyProjectModel.FKTableDrive842411" FromRole="TableDrivedEntity" ToRole="EntityListView" />
-          <NavigationProperty Name="EntityRelationshipTail" Relationship="MyProjectModel.FKEntityRela568378" FromRole="TableDrivedEntity" ToRole="EntityRelationshipTail" />
-          <NavigationProperty Name="EntityRelationshipTail1" Relationship="MyProjectModel.FKEntityRela831147" FromRole="TableDrivedEntity" ToRole="EntityRelationshipTail" />
-          <NavigationProperty Name="EntityReport" Relationship="MyProjectModel.FKEntityRepo82108" FromRole="TableDrivedEntity" ToRole="EntityReport" />
-          <NavigationProperty Name="EntitySearch" Relationship="MyProjectModel.FK_TableDrivedEntity_EntitySearch" FromRole="TableDrivedEntity" ToRole="EntitySearch" />
-          <NavigationProperty Name="EntitySearch1" Relationship="MyProjectModel.FKEntitySear266828" FromRole="TableDrivedEntity" ToRole="EntitySearch" />
-          <NavigationProperty Name="EntityUIComposition" Relationship="MyProjectModel.FKEntityUICo461879" FromRole="TableDrivedEntity" ToRole="EntityUIComposition" />
-          <NavigationProperty Name="EntityValidation" Relationship="MyProjectModel.FKEntityVali365073" FromRole="TableDrivedEntity" ToRole="EntityValidation" />
-          <NavigationProperty Name="Formula" Relationship="MyProjectModel.FKFormula967405" FromRole="TableDrivedEntity" ToRole="Formula" />
-          <NavigationProperty Name="GridViewSetting" Relationship="MyProjectModel.FKEntityGrid247991" FromRole="TableDrivedEntity" ToRole="GridViewSetting" />
-          <NavigationProperty Name="LetterEnabledEntities" Relationship="MyProjectModel.FKLetterEnab821210" FromRole="TableDrivedEntity" ToRole="LetterEnabledEntities" />
-          <NavigationProperty Name="LetterTemplate" Relationship="MyProjectModel.FKLetterTemp289474" FromRole="TableDrivedEntity" ToRole="LetterTemplate" />
-          <NavigationProperty Name="LetterType" Relationship="MyProjectModel.FK_LetterType_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="LetterType" />
-          <NavigationProperty Name="NavigationTree" Relationship="MyProjectModel.FKNavigation155968" FromRole="TableDrivedEntity" ToRole="NavigationTree" />
-          <NavigationProperty Name="Relationship" Relationship="MyProjectModel.FKRelationsh250123" FromRole="TableDrivedEntity" ToRole="Relationship" />
-          <NavigationProperty Name="Relationship1" Relationship="MyProjectModel.FKRelationsh250124" FromRole="TableDrivedEntity" ToRole="Relationship" />
-          <NavigationProperty Name="SearchRepository" Relationship="MyProjectModel.FK_SearchRepository_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="SearchRepository" />
-          <NavigationProperty Name="Table" Relationship="MyProjectModel.FKTableDrive311898" FromRole="TableDrivedEntity" ToRole="Table" />
-          <NavigationProperty Name="Process" Relationship="MyProjectModel.FK_Process_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="Process" />
-          <NavigationProperty Name="TableDrivedEntity_EntityCommand" Relationship="MyProjectModel.FK_TableDrivedEntity_EntityCommand_TableDrivedEntity" FromRole="TableDrivedEntity" ToRole="TableDrivedEntity_EntityCommand" />
-          <NavigationProperty Name="UIActionActivity" Relationship="MyProjectModel.FKActionActi421900" FromRole="TableDrivedEntity" ToRole="UIActionActivity" />
-          <NavigationProperty Name="ConditionalPermission" Relationship="MyProjectModel.FKConditiona757" FromRole="TableDrivedEntity" ToRole="ConditionalPermission" />
-          <NavigationProperty Name="EntitySecurityInDirect" Relationship="MyProjectModel.FKEntitySecu295394" FromRole="TableDrivedEntity" ToRole="EntitySecurityInDirect" />
-          <NavigationProperty Name="EntitySecurityDirect" Relationship="MyProjectModel.FKEntitySecu556643" FromRole="TableDrivedEntity" ToRole="EntitySecurityDirect" />
-          <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKTableDrive36776" FromRole="TableDrivedEntity" ToRole="SecurityObject" />
-          <NavigationProperty Name="TableDrivedEntity_Columns" Relationship="MyProjectModel.FKTableDrive379163" FromRole="TableDrivedEntity" ToRole="TableDrivedEntity_Columns" />
-          <NavigationProperty Name="TableDrivedEntityState" Relationship="MyProjectModel.FKTableDrive764829" FromRole="TableDrivedEntity" ToRole="TableDrivedEntityState" />
-        </EntityType>
-        <Association Name="FKArchiveFol695820">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
-          <End Type="MyProjectModel.ArchiveFolder" Role="ArchiveFolder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ArchiveFolder">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ArchiveTag_EntityArchive">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
-          <End Type="MyProjectModel.ArchiveTag" Role="ArchiveTag" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ArchiveTag">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntityArch437336">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntityArchiveRelationshipTails" Role="EntityArchiveRelationshipTails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntityArchiveRelationshipTails">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntityLett778414">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntityLetterRelationshipTails" Role="EntityLetterRelationshipTails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntityLetterRelationshipTails">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKArcRelatio319969">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.ArcRelationshipGroup" Role="ArcRelationshipGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ArcRelationshipGroup">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BackendActionActivity_TableDrivedEntity">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.BackendActionActivity" Role="BackendActionActivity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="BackendActionActivity">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKCodeFuncti589884">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.CodeFunction_TableDrivedEntity" Role="CodeFunction_TableDrivedEntity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CodeFunction_TableDrivedEntity">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TableDrivedEntity_Column">
-          <End Type="MyProjectModel.Column" Role="Column" Multiplicity="0..1" />
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Column">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TableDrivedEntity">
-              <PropertyRef Name="DeterminerColumnID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKDatabaseFu423707">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.DatabaseFunction_TableDrivedEntity" Role="DatabaseFunction_TableDrivedEntity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DatabaseFunction_TableDrivedEntity">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKDataLinkDe305355">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.DataLinkDefinition" Role="DataLinkDefinition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DataLinkDefinition">
-              <PropertyRef Name="FirstSideEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKDataLinkDe790101">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.DataLinkDefinition" Role="DataLinkDefinition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DataLinkDefinition">
-              <PropertyRef Name="SecondSideEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DataMenuSetting_TableDrivedEntity">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.DataMenuSetting" Role="DataMenuSetting" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DataMenuSetting">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EntityDataView_TableDrivedEntity">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.DataViewSetting" Role="DataViewSetting" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DataViewSetting">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EntityDeterminer_TableDrivedEntity">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntityDeterminer" Role="EntityDeterminer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntityDeterminer">
-              <PropertyRef Name="EntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntityList697639">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntityListView" Role="EntityListView" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntityListView">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKTableDrive842411">
-          <End Type="MyProjectModel.EntityListView" Role="EntityListView" Multiplicity="0..1" />
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EntityListView">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TableDrivedEntity">
-              <PropertyRef Name="EntityListViewID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntityRela568378">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntityRelationshipTail" Role="EntityRelationshipTail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntityRelationshipTail">
-              <PropertyRef Name="TargetEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntityRela831147">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntityRelationshipTail" Role="EntityRelationshipTail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntityRelationshipTail">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntityRepo82108">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntityReport" Role="EntityReport" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntityReport">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TableDrivedEntity_EntitySearch">
-          <End Type="MyProjectModel.EntitySearch" Role="EntitySearch" Multiplicity="0..1" />
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EntitySearch">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TableDrivedEntity">
-              <PropertyRef Name="EntitySearchID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntitySear266828">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntitySearch" Role="EntitySearch" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntitySearch">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntityUICo461879">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntityUIComposition" Role="EntityUIComposition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntityUIComposition">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntityVali365073">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntityValidation" Role="EntityValidation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntityValidation">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKFormula967405">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.Formula" Role="Formula" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Formula">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntityGrid247991">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.GridViewSetting" Role="GridViewSetting" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GridViewSetting">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKLetterEnab821210">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.LetterEnabledEntities" Role="LetterEnabledEntities" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LetterEnabledEntities">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKLetterTemp289474">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.LetterTemplate" Role="LetterTemplate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LetterTemplate">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LetterType_TableDrivedEntity">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
-          <End Type="MyProjectModel.LetterType" Role="LetterType" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LetterType">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKNavigation155968">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
-          <End Type="MyProjectModel.NavigationTree" Role="NavigationTree" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NavigationTree">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKRelationsh250123">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.Relationship" Role="Relationship" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Relationship">
-              <PropertyRef Name="TableDrivedEntityID1" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKRelationsh250124">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.Relationship" Role="Relationship" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Relationship">
-              <PropertyRef Name="TableDrivedEntityID2" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SearchRepository_TableDrivedEntity">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
-          <End Type="MyProjectModel.SearchRepository" Role="SearchRepository" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SearchRepository">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKTableDrive311898">
-          <End Type="MyProjectModel.Table" Role="Table" Multiplicity="1" />
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Table">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TableDrivedEntity">
-              <PropertyRef Name="TableID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Process_TableDrivedEntity">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
-          <End Type="MyProjectModel.Process" Role="Process" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Process">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TableDrivedEntity_EntityCommand_TableDrivedEntity">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.TableDrivedEntity_EntityCommand" Role="TableDrivedEntity_EntityCommand" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TableDrivedEntity_EntityCommand">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKActionActi421900">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.UIActionActivity" Role="UIActionActivity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UIActionActivity">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKConditiona757">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.ConditionalPermission" Role="ConditionalPermission" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ConditionalPermission">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntitySecu295394">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntitySecurityInDirect" Role="EntitySecurityInDirect" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntitySecurityInDirect">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKEntitySecu556643">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.EntitySecurityDirect" Role="EntitySecurityDirect" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="EntitySecurityDirect">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKTableDrive36776">
-          <End Type="MyProjectModel.SecurityObject" Role="SecurityObject" Multiplicity="1" />
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="SecurityObject">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKTableDrive379163">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.TableDrivedEntity_Columns" Role="TableDrivedEntity_Columns" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TableDrivedEntity_Columns">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKTableDrive764829">
-          <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="1" />
-          <End Type="MyProjectModel.TableDrivedEntityState" Role="TableDrivedEntityState" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TableDrivedEntity">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TableDrivedEntityState">
-              <PropertyRef Name="TableDrivedEntityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12298,6 +12302,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DBServer">
+            <EntityTypeMapping TypeName="MyProjectModel.DBServer">
+              <MappingFragment StoreEntitySet="DBServer">
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="EmptySpaceUISetting">
             <EntityTypeMapping TypeName="MyProjectModel.EmptySpaceUISetting">
               <MappingFragment StoreEntitySet="EmptySpaceUISetting">
@@ -12426,6 +12440,7 @@
           <EntitySetMapping Name="EntityListViewColumns">
             <EntityTypeMapping TypeName="MyProjectModel.EntityListViewColumns">
               <MappingFragment StoreEntitySet="EntityListViewColumns">
+                <ScalarProperty Name="Tooltip" ColumnName="Tooltip" />
                 <ScalarProperty Name="IsDescriptive" ColumnName="IsDescriptive" />
                 <ScalarProperty Name="EntityRelationshipTailID" ColumnName="EntityRelationshipTailID" />
                 <ScalarProperty Name="Alias" ColumnName="Alias" />
@@ -12479,6 +12494,7 @@
           <EntitySetMapping Name="EntitySearchColumns">
             <EntityTypeMapping TypeName="MyProjectModel.EntitySearchColumns">
               <MappingFragment StoreEntitySet="EntitySearchColumns">
+                <ScalarProperty Name="Tooltip" ColumnName="Tooltip" />
                 <ScalarProperty Name="RelationshipTailSelectable" ColumnName="RelationshipTailSelectable" />
                 <ScalarProperty Name="Alias" ColumnName="Alias" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
@@ -12918,6 +12934,36 @@
               <MappingFragment StoreEntitySet="Table">
                 <ScalarProperty Name="DBSchemaID" ColumnName="DBSchemaID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TableDrivedEntity">
+            <EntityTypeMapping TypeName="MyProjectModel.TableDrivedEntity">
+              <MappingFragment StoreEntitySet="TableDrivedEntity">
+                <ScalarProperty Name="DeterminerColumnID" ColumnName="DeterminerColumnID" />
+                <ScalarProperty Name="SelectAsComboBox" ColumnName="SelectAsComboBox" />
+                <ScalarProperty Name="ColumnsReviewed" ColumnName="ColumnsReviewed" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Reviewed" ColumnName="Reviewed" />
+                <ScalarProperty Name="IsView" ColumnName="IsView" />
+                <ScalarProperty Name="IsOrginal" ColumnName="IsOrginal" />
+                <ScalarProperty Name="LoadLetterRelatedItems" ColumnName="LoadLetterRelatedItems" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="LoadArchiveRelatedItems" ColumnName="LoadArchiveRelatedItems" />
+                <ScalarProperty Name="SearchInitially" ColumnName="SearchInitially" />
+                <ScalarProperty Name="IsReadonly" ColumnName="IsReadonly" />
+                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
+                <ScalarProperty Name="EntitySearchID" ColumnName="EntitySearchID" />
+                <ScalarProperty Name="EntityListViewID" ColumnName="EntityListViewID" />
+                <ScalarProperty Name="IsAssociative" ColumnName="IsAssociative" />
+                <ScalarProperty Name="IsStructurReferencee" ColumnName="IsStructurReferencee" />
+                <ScalarProperty Name="IsDataReference" ColumnName="IsDataReference" />
+                <ScalarProperty Name="BatchDataEntry" ColumnName="BatchDataEntry" />
+                <ScalarProperty Name="IndependentDataEntry" ColumnName="IndependentDataEntry" />
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TableID" ColumnName="TableID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -13362,46 +13408,6 @@
               <ScalarProperty Name="ID" ColumnName="UniqueConstraintID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="DBServer">
-            <EntityTypeMapping TypeName="MyProjectModel.DBServer">
-              <MappingFragment StoreEntitySet="DBServer">
-                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TableDrivedEntity">
-            <EntityTypeMapping TypeName="MyProjectModel.TableDrivedEntity">
-              <MappingFragment StoreEntitySet="TableDrivedEntity">
-                <ScalarProperty Name="DeterminerColumnID" ColumnName="DeterminerColumnID" />
-                <ScalarProperty Name="SelectAsComboBox" ColumnName="SelectAsComboBox" />
-                <ScalarProperty Name="ColumnsReviewed" ColumnName="ColumnsReviewed" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Reviewed" ColumnName="Reviewed" />
-                <ScalarProperty Name="IsView" ColumnName="IsView" />
-                <ScalarProperty Name="IsOrginal" ColumnName="IsOrginal" />
-                <ScalarProperty Name="LoadLetterRelatedItems" ColumnName="LoadLetterRelatedItems" />
-                <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="LoadArchiveRelatedItems" ColumnName="LoadArchiveRelatedItems" />
-                <ScalarProperty Name="SearchInitially" ColumnName="SearchInitially" />
-                <ScalarProperty Name="IsReadonly" ColumnName="IsReadonly" />
-                <ScalarProperty Name="IsDisabled" ColumnName="IsDisabled" />
-                <ScalarProperty Name="EntitySearchID" ColumnName="EntitySearchID" />
-                <ScalarProperty Name="EntityListViewID" ColumnName="EntityListViewID" />
-                <ScalarProperty Name="IsAssociative" ColumnName="IsAssociative" />
-                <ScalarProperty Name="IsStructurReferencee" ColumnName="IsStructurReferencee" />
-                <ScalarProperty Name="IsDataReference" ColumnName="IsDataReference" />
-                <ScalarProperty Name="BatchDataEntry" ColumnName="BatchDataEntry" />
-                <ScalarProperty Name="IndependentDataEntry" ColumnName="IndependentDataEntry" />
-                <ScalarProperty Name="Alias" ColumnName="Alias" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="TableID" ColumnName="TableID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

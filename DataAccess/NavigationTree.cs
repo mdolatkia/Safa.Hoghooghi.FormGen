@@ -28,8 +28,8 @@ namespace DataAccess
         public string Tooltip { get; set; }
         public string Name { get; set; }
     
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<NavigationTree> NavigationTree1 { get; set; }
         public virtual NavigationTree NavigationTree2 { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

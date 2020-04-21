@@ -26,6 +26,7 @@ namespace DataAccess
         public Nullable<short> OrderID { get; set; }
         public string Alias { get; set; }
         public bool RelationshipTailSelectable { get; set; }
+        public string Tooltip { get; set; }
     
         public virtual Column Column { get; set; }
         public virtual ICollection<ColumnPhrase> ColumnPhrase { get; set; }

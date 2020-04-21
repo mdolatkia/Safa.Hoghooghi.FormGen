@@ -198,6 +198,8 @@ namespace MyModelManager
                     else
                         rColumn.Alias = column.Alias ?? column.EntityRelationshipTail.TableDrivedEntity.Alias ?? column.EntityRelationshipTail.TableDrivedEntity.Name;
                     rColumn.OrderID = column.OrderID ?? 0;
+                    rColumn.Tooltip = column.Tooltip;
+
                     //rColumn.WidthUnit = column.WidthUnit ?? 0;
                     if (column.EntityRelationshipTailID != null)
                     {
@@ -236,10 +238,15 @@ namespace MyModelManager
 
             return result;
         }
-        private List<EntitySearchColumnsDTO> GenereateDefaultSearchColumns(TableDrivedEntityDTO sententity, RelationshipDTO relationship, List<TableDrivedEntityDTO> allEntities, string relationshipPath = "", List<EntitySearchColumnsDTO> list = null)
+        private List<EntitySearchColumnsDTO> GenereateDefaultSearchColumns(TableDrivedEntityDTO sententity, RelationshipDTO relationship, List<TableDrivedEntityDTO> allEntities, string relationshipPath = "", List<RelationshipDTO> relationships = null, List<EntitySearchColumnsDTO> list = null)
         {
             if (list == null)
                 list = new List<EntitySearchColumnsDTO>();
+            if (relationships == null)
+                relationships = new List<RelationshipDTO>();
+            if (relationship != null)
+                relationships.Add(relationship);
+
             TableDrivedEntityDTO entity = null;
             List<ColumnDTO> simplecollumns = null;
             if (sententity != null)
@@ -267,7 +274,9 @@ namespace MyModelManager
                     var resultColumn = new EntitySearchColumnsDTO();
                     resultColumn.ColumnID = column.ID;
                     resultColumn.CreateRelationshipTailPath = relationshipPath;
-                    resultColumn.Alias = (relationship == null ? "" : entity.Alias + ".") + column.Alias;
+                    resultColumn.AllRelationshipsAreSubTuSuper = relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper);
+                    resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + column.Alias;
+                    resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + column.Alias;
                     list.Add(resultColumn);
                 }
                 else
@@ -280,36 +289,38 @@ namespace MyModelManager
                             reviewedRels.Add(newrelationship);
                             if (newrelationship.TypeEnum == Enum_RelationshipType.SubToSuper)
                             {
-                                foreach (var relCol in newrelationship.RelationshipColumns)
+                                //کلید های خارجی موجودیت های دیگر مهم نیستند
+                                if (sententity != null)
                                 {
-                                    bool fkIsValid = false;
-                                    if (sententity == null)
-                                        fkIsValid = true;
-                                    else
-                                    {     //چون برای انتیتی اصلی پرایمری ها قبلا اضافه شده اند
-                                        fkIsValid = !relCol.FirstSideColumn.PrimaryKey;
-                                    }
-                                    if (fkIsValid)
+                                    foreach (var relCol in newrelationship.RelationshipColumns)
                                     {
-                                        var resultColumn = new EntitySearchColumnsDTO();
-                                        resultColumn.ColumnID = relCol.FirstSideColumnID;
-                                        resultColumn.CreateRelationshipTailPath = relationshipPath;
-                                        resultColumn.Alias = (relationship == null ? "" : entity.Alias + ".") + relCol.FirstSideColumn.Alias;
-                                        list.Add(resultColumn);
+                                        bool fkIsValid = false;
+                                        if (sententity == null)
+                                            fkIsValid = true;
+                                        else
+                                        {     //چون برای انتیتی اصلی پرایمری ها قبلا اضافه شده اند
+                                            fkIsValid = !relCol.FirstSideColumn.PrimaryKey;
+                                        }
+                                        if (fkIsValid)
+                                        {
+                                            var resultColumn = new EntitySearchColumnsDTO();
+                                            resultColumn.ColumnID = relCol.FirstSideColumnID;
+                                            resultColumn.CreateRelationshipTailPath = relationshipPath;
+                                            resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + relCol.FirstSideColumn.Alias;
+                                            resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + relCol.FirstSideColumn.Alias;
+                                            list.Add(resultColumn);
+                                        }
                                     }
                                 }
-
-                                GenereateDefaultSearchColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), list);
+                                GenereateDefaultSearchColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationships, list);
                             }
                             else if (relationship == null)
                             {
                                 var resultColumn = new EntitySearchColumnsDTO();
                                 resultColumn.CreateRelationshipTailPath = relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString();
-                                resultColumn.Alias = (relationship == null ? "" : entity.Alias + ".") + column.Alias;
+                                resultColumn.Alias = newrelationship.Entity2Alias;
                                 list.Add(resultColumn);
                             }
-
-
                         }
                     }
                 }
@@ -417,7 +428,7 @@ namespace MyModelManager
             foreach (var column in columns)
             {
                 var toLowwer = column.Name.ToLower();
-                if (toLowwer.Contains("name") || toLowwer.Contains("firstname") || toLowwer.Contains("lastname") || toLowwer.Contains("title") || toLowwer.Contains("number")
+                if (toLowwer.Contains("code") || toLowwer.Contains("name") || toLowwer.Contains("firstname") || toLowwer.Contains("lastname") || toLowwer.Contains("title") || toLowwer.Contains("number")
                       || toLowwer.Contains("family"))
                     result.Add(column);
                 else
@@ -485,6 +496,8 @@ namespace MyModelManager
                 else
                     rColumn.ColumnID = null;
                 rColumn.Alias = column.Alias;
+                rColumn.Tooltip = column.Tooltip;
+
                 rColumn.OrderID = column.OrderID;
                 // rColumn.WidthUnit = column.WidthUnit;
 

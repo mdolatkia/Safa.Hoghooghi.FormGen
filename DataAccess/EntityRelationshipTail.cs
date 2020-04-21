@@ -51,11 +51,11 @@ namespace DataAccess
         public virtual ICollection<LetterTemplateRelationshipField> LetterTemplateRelationshipField { get; set; }
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter { get; set; }
         public virtual ICollection<TableDrivedEntityState> TableDrivedEntityState { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity1 { get; set; }
         public virtual ICollection<EntitySearchColumns> EntitySearchColumns { get; set; }
         public virtual ICollection<EntitySecurityInDirect> EntitySecurityInDirect { get; set; }
         public virtual ICollection<EntitySecurityCondition> EntitySecurityCondition { get; set; }
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter1 { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity1 { get; set; }
     }
 }

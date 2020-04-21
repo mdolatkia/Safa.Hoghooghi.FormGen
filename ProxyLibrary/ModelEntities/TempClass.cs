@@ -1224,6 +1224,7 @@ namespace ModelEntites
         public string CreateRelationshipTailPath { get; set; }
         public bool IsDescriptive { get; set; }
         public bool AllRelationshipsAreSubTuSuper { get; set; }
+        public string Tooltip { get; set; }
 
         //public int CreateRelationshipID { get; set; }
         //public int CreateRelationshipTailTargetEntityID { get; set; }
@@ -1262,6 +1263,8 @@ namespace ModelEntites
 
         public bool RelationshipTailSelectable { set; get; }
         public string CreateRelationshipTailPath { get; set; }
+        public bool AllRelationshipsAreSubTuSuper { get; set; }
+        public string Tooltip { get; set; }
         //public int CreateRelationshipTargetEntityID { get; set; }
     }
     //public class EntityListViewRelationshipTailDTO

@@ -17,8 +17,8 @@ namespace DataAccess
         public EntitySearch()
         {
             this.SearchRepository = new HashSet<SearchRepository>();
-            this.EntitySearchColumns = new HashSet<EntitySearchColumns>();
             this.TableDrivedEntity = new HashSet<TableDrivedEntity>();
+            this.EntitySearchColumns = new HashSet<EntitySearchColumns>();
         }
     
         public int ID { get; set; }
@@ -26,8 +26,8 @@ namespace DataAccess
         public string Title { get; set; }
     
         public virtual ICollection<SearchRepository> SearchRepository { get; set; }
-        public virtual ICollection<EntitySearchColumns> EntitySearchColumns { get; set; }
         public virtual ICollection<TableDrivedEntity> TableDrivedEntity { get; set; }
         public virtual TableDrivedEntity TableDrivedEntity1 { get; set; }
+        public virtual ICollection<EntitySearchColumns> EntitySearchColumns { get; set; }
     }
 }

@@ -28,9 +28,9 @@ namespace DataAccess
         public int TableDrivedEntityID { get; set; }
     
         public virtual ICollection<EntityState_UIActionActivity> EntityState_UIActionActivity { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
         public virtual ICollection<UIEnablityDetails> UIEnablityDetails { get; set; }
         public virtual ICollection<UIColumnValue> UIColumnValue { get; set; }
         public virtual ICollection<UIColumnValueRange> UIColumnValueRange { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
     }
 }

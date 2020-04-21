@@ -27,9 +27,9 @@ namespace DataAccess
         public bool DBHasDate { get; set; }
         public string DBType { get; set; }
     
+        public virtual DBServer DBServer { get; set; }
         public virtual SecurityObject SecurityObject { get; set; }
         public virtual DatabaseUISetting DatabaseUISetting { get; set; }
         public virtual ICollection<DBSchema> DBSchema { get; set; }
-        public virtual DBServer DBServer { get; set; }
     }
 }

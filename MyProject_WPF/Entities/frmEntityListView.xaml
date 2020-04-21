@@ -50,6 +50,7 @@
                         <telerik:GridViewComboBoxColumn x:Name="colColumns" ItemsSourceBinding="{Binding vwValueColumns}" Header="ستون" DataMemberBinding="{Binding ColumnID}" />
                         <telerik:GridViewDataColumn Header="عنوان منتخب" DataMemberBinding="{Binding Alias}" />
                         <telerik:GridViewDataColumn Header="عرض" DataMemberBinding="{Binding WidthUnit}" />
+                        <telerik:GridViewDataColumn Header="Tooltip" DataMemberBinding="{Binding Tooltip}" />
                     </telerik:RadGridView.Columns>
                 </telerik:RadGridView>
             </Grid>

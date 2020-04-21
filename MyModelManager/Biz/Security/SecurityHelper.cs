@@ -12,14 +12,16 @@ namespace MyModelManager
 {
     public class SecurityHelper
     {
-      
-
         private List<SecurityAction> GetPersmissionByPosts(MyProjectEntities context, IQueryable<OrganizationPost> posts, SecurityObject securityObject, bool goUpward = true)
         {
             var actions = new List<SecurityAction>();
+
             //بهتر است راه حل کلی برای ذخیره دسترسی های کلی تر مانند نوع سازمان و یا آبجکتهای بالاتر مانن دیتابیس پیاده شود که هر دفعه خوانده نشوند
             var objectCategory = (DatabaseObjectCategory)securityObject.Type;
             var possibleActionTree = GetActionsByCategory(objectCategory);
+            //////////////////////////////// فعلا برای سرعت بیشتر
+            return GetAllActions();
+
             List<List<SecurityAction>> AllPostAccess = new List<List<SecurityAction>>();
             foreach (var post in posts)
             {
@@ -64,6 +66,15 @@ namespace MyModelManager
                 AllPostAccess.Add(postAccess);
             }
             return Combination(AllPostAccess, possibleActionTree);
+        }
+
+        private List<SecurityAction> GetAllActions()
+        {
+            return new List<SecurityAction>() {SecurityAction.Access,SecurityAction.Any,
+            SecurityAction.ArchiveEdit,
+            SecurityAction.EditAndDelete,SecurityAction.LetterEdit
+            
+        };
         }
 
         private List<SecurityAction> Combination(List<List<SecurityAction>> listActions, List<SecurityActionTreeItem> possibleActionTree, List<SecurityAction> result = null)
@@ -113,7 +124,6 @@ namespace MyModelManager
 
         private List<SecurityAction> GetPossibleActions(List<Tuple<int, SecurityAction>> postActions, List<SecurityActionTreeItem> possibleActionTree, List<SecurityAction> result = null)
         {
-
             //نتیجه یک موضوع را تعیین میکند.هم نو اکسس و هم آپدیت غیر ممکن است
             if (result == null)
                 result = new List<SecurityAction>();
@@ -542,7 +552,7 @@ namespace MyModelManager
                     var childObjects = GetChildObjects(securityObject);
                     if (childObjects != null)
                     {
-                        SetChildPermissions(requester,context, result, childObjects, organizationPosts);
+                        SetChildPermissions(requester, context, result, childObjects, organizationPosts);
                     }
                 }
                 // result = GetAssignedPermissions(context, organizationPosts, securityObject, withChildObjects);
@@ -551,7 +561,7 @@ namespace MyModelManager
             return result;
         }
 
-        private void SetChildPermissions(DR_Requester requester,MyProjectEntities context, AssignedPermissionDTO parentItem, List<SecurityObject> childObjects, IQueryable<OrganizationPost> posts)
+        private void SetChildPermissions(DR_Requester requester, MyProjectEntities context, AssignedPermissionDTO parentItem, List<SecurityObject> childObjects, IQueryable<OrganizationPost> posts)
         {
             foreach (var childObject in childObjects)
             {
@@ -590,7 +600,7 @@ namespace MyModelManager
                 var newchildObjects = GetChildObjects(childObject);
                 if (newchildObjects != null)
                 {
-                    SetChildPermissions(requester,context, assignedPermissionDTO, newchildObjects, posts);
+                    SetChildPermissions(requester, context, assignedPermissionDTO, newchildObjects, posts);
                 }
             }
         }
@@ -865,7 +875,7 @@ namespace MyModelManager
         public SecurityAction Action { set; get; }
         public List<SecurityActionTreeItem> ChildItems { set; get; }
     }
-   
+
     public class ImposePermissionResult
     {
         public int ObjectSecurityID { set; get; }

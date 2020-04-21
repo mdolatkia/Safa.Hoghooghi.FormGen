@@ -49,10 +49,10 @@ namespace DataAccess
         public virtual SecurityObject SecurityObject { get; set; }
         public virtual ICollection<SearchRepository> SearchRepository { get; set; }
         public virtual ICollection<UIEnablityDetails> UIEnablityDetails { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
+        public virtual TableDrivedEntity TableDrivedEntity1 { get; set; }
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter { get; set; }
         public virtual ICollection<RelationshipColumns> RelationshipColumns { get; set; }
         public virtual RelationshipType RelationshipType { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity { get; set; }
-        public virtual TableDrivedEntity TableDrivedEntity1 { get; set; }
     }
 }

@@ -172,52 +172,54 @@ namespace MyModelManager
             }
         }
 
-        private IQueryable<TableDrivedEntity> GetEntities(MyProjectEntities projectContext, EntityColumnInfoType columnInfoType, EntityRelationshipInfoType relationshipInfoType, bool? isView)
+        private IQueryable<TableDrivedEntity> GetEntities(MyProjectEntities projectContext, EntityColumnInfoType columnInfoType, EntityRelationshipInfoType relationshipInfoType, bool? isView, int ID = 0)
         {
             //بعدا بررسی شود که اینکلود رو میشه یکبار به کوئری اضافه کرد؟
             IQueryable<TableDrivedEntity> listEntity;
-            if (columnInfoType == EntityColumnInfoType.WithFullColumns)
-            {
-                if (relationshipInfoType == EntityRelationshipInfoType.WithRelationships)
-                {
-                    listEntity = projectContext.TableDrivedEntity.Include("Table.DBSchema.DatabaseInformation")
+            //if (columnInfoType == EntityColumnInfoType.WithFullColumns)
+            //{
+            //    if (relationshipInfoType == EntityRelationshipInfoType.WithRelationships)
+            //    {
+            //        listEntity = projectContext.TableDrivedEntity.Include("Table.DBSchema.DatabaseInformation")
 
 
-                   .Include("TableDrivedEntity_Columns.Column.StringColumnType").Include("TableDrivedEntity_Columns.Column.NumericColumnType")
-                   .Include("TableDrivedEntity_Columns.Column.DateColumnType")
-                   .Include("Table.Column.StringColumnType").Include("Table.Column.NumericColumnType")
-                   .Include("Table.Column.DateColumnType")
+            //       .Include("TableDrivedEntity_Columns.Column.StringColumnType").Include("TableDrivedEntity_Columns.Column.NumericColumnType")
+            //       .Include("TableDrivedEntity_Columns.Column.DateColumnType")
+            //       .Include("Table.Column.StringColumnType").Include("Table.Column.NumericColumnType")
+            //       .Include("Table.Column.DateColumnType")
 
-                   .Include("Relationship.TableDrivedEntity.Table.DBSchema.DatabaseInformation.DBServer.LinkedServer")
-                   .Include("Relationship.TableDrivedEntity1.Table.DBSchema.DatabaseInformation.DBServer.LinkedServer")
-                   .Include("Relationship.RelationshipColumns.Column")
-                   .Include("Relationship.RelationshipType");
-                }
-                else
-                {
-                    listEntity = projectContext.TableDrivedEntity.Include("Table.DBSchema.DatabaseInformation")
+            //       .Include("Relationship.TableDrivedEntity.Table.DBSchema.DatabaseInformation.DBServer.LinkedServer")
+            //       .Include("Relationship.TableDrivedEntity1.Table.DBSchema.DatabaseInformation.DBServer.LinkedServer")
+            //       .Include("Relationship.RelationshipColumns.Column")
+            //       .Include("Relationship.RelationshipType");
+            //    }
+            //    else
+            //    {
+            //        listEntity = projectContext.TableDrivedEntity.Include("Table.DBSchema.DatabaseInformation")
 
-                    .Include("TableDrivedEntity_Columns.Column.StringColumnType").Include("TableDrivedEntity_Columns.Column.NumericColumnType")
-                    .Include("TableDrivedEntity_Columns.Column.DateColumnType")
+            //        .Include("TableDrivedEntity_Columns.Column.StringColumnType").Include("TableDrivedEntity_Columns.Column.NumericColumnType")
+            //        .Include("TableDrivedEntity_Columns.Column.DateColumnType")
 
-                    .Include("Table.Column.StringColumnType").Include("Table.Column.NumericColumnType")
-                    .Include("Table.Column.DateColumnType");
-                }
-            }
-            else
-            {
-                if (relationshipInfoType == EntityRelationshipInfoType.WithRelationships)
-                {
-                    listEntity = projectContext.TableDrivedEntity.Include("Table.DBSchema.DatabaseInformation")
+            //        .Include("Table.Column.StringColumnType").Include("Table.Column.NumericColumnType")
+            //        .Include("Table.Column.DateColumnType");
+            //    }
+            //}
+            //else
+            //{
+            //    if (relationshipInfoType == EntityRelationshipInfoType.WithRelationships)
+            //    {
+            //        listEntity = projectContext.TableDrivedEntity.Include("Table.DBSchema.DatabaseInformation")
 
-                    .Include("Relationship.TableDrivedEntity.Table.DBSchema.DatabaseInformation.DBServer.LinkedServer")
-                    .Include("Relationship.TableDrivedEntity1.Table.DBSchema.DatabaseInformation.DBServer.LinkedServer")
-                    .Include("Relationship.RelationshipColumns.Column")
-                    .Include("Relationship.RelationshipType");
-                }
-                else
+            //        .Include("Relationship.TableDrivedEntity.Table.DBSchema.DatabaseInformation.DBServer.LinkedServer")
+            //        .Include("Relationship.TableDrivedEntity1.Table.DBSchema.DatabaseInformation.DBServer.LinkedServer")
+            //        .Include("Relationship.RelationshipColumns.Column")
+            //        .Include("Relationship.RelationshipType");
+            //    }
+            //    else
                     listEntity = projectContext.TableDrivedEntity.Include("Table.DBSchema.DatabaseInformation");
-            }
+            //}
+            if (ID != 0)
+                listEntity = listEntity.Where(x => x.ID == ID);
 
             if (isView != null)
                 listEntity = listEntity.Where(x => x.IsView == isView.Value);
@@ -675,7 +677,7 @@ namespace MyModelManager
 
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
-                var entity = GetEntities(projectContext, columnInfoType, relationshipInfoType, null).FirstOrDefault(x => x.ID == entityID);
+                var entity = GetEntities(projectContext, columnInfoType, relationshipInfoType, null, entityID).FirstOrDefault();
                 if (!DataIsAccessable(requester, entity, specificActions))
                 {
                     return null;

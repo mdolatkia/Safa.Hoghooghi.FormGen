@@ -22,7 +22,7 @@ namespace DataAccess
     
         public virtual EntityDirectlReport EntityDirectlReport { get; set; }
         public virtual EntitySearchableReport EntitySearchableReport { get; set; }
-        public virtual SecurityObject SecurityObject { get; set; }
         public virtual TableDrivedEntity TableDrivedEntity { get; set; }
+        public virtual SecurityObject SecurityObject { get; set; }
     }
 }

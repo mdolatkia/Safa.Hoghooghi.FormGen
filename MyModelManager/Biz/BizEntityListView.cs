@@ -206,6 +206,7 @@ namespace MyModelManager
                     rColumn.IsDescriptive = column.IsDescriptive;
                     rColumn.Alias = column.Alias ?? rColumn.Column.Alias ?? rColumn.Column.Name;
                     rColumn.OrderID = column.OrderID ?? 0;
+                    rColumn.Tooltip = column.Tooltip;
                     rColumn.WidthUnit = column.WidthUnit ?? 0;
                     if (column.EntityRelationshipTailID != null)
                     {
@@ -285,6 +286,7 @@ namespace MyModelManager
                     resultColumn.Alias = column.Alias;
                     list.Add(resultColumn);
                 }
+
             }
             else if (relationship != null)
             {
@@ -301,7 +303,8 @@ namespace MyModelManager
                     resultColumn.Column = column;
                     resultColumn.CreateRelationshipTailPath = relationshipPath;
                     resultColumn.AllRelationshipsAreSubTuSuper = relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper);
-                    resultColumn.Alias = (relationship == null ? "" : entity.Alias + ".") + column.Alias;
+                    resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + column.Alias;
+                    resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + column.Alias;
                     list.Add(resultColumn);
                 }
                 else
@@ -318,25 +321,30 @@ namespace MyModelManager
                                     continue;
                                 //دو لول بالا نمیرود مگر اینکه ارث بری باشد
                             }
-                            foreach (var relCol in newrelationship.RelationshipColumns)
+                            //کلید های خارجی موجودیت های دیگر مهم نیستند
+                            if (sententity != null)
                             {
-                                bool fkIsValid = false;
-                                if (sententity == null)
-                                    fkIsValid = true;
-                                else
+                                foreach (var relCol in newrelationship.RelationshipColumns)
                                 {
-                                    //چون برای انتیتی اصلی پرایمری ها قبلا اضافه شده اند
-                                    fkIsValid = !relCol.FirstSideColumn.PrimaryKey;
-                                }
-                                if (fkIsValid)
-                                {
-                                    //چون کلید اصلی ها بالا اضافه شدند
-                                    var resultColumn = new EntityListViewColumnsDTO();
-                                    resultColumn.Column = relCol.FirstSideColumn;
-                                    resultColumn.ColumnID = relCol.FirstSideColumnID;
-                                    resultColumn.CreateRelationshipTailPath = relationshipPath;
-                                    resultColumn.Alias = (relationship == null ? "" : entity.Alias + ".") + relCol.FirstSideColumn.Alias;
-                                    list.Add(resultColumn);
+                                    bool fkIsValid = false;
+                                    if (sententity == null)
+                                        fkIsValid = true;
+                                    else
+                                    {
+                                        //چون برای انتیتی اصلی پرایمری ها قبلا اضافه شده اند
+                                        fkIsValid = !relCol.FirstSideColumn.PrimaryKey;
+                                    }
+                                    if (fkIsValid)
+                                    {
+                                        //چون کلید اصلی ها بالا اضافه شدند
+                                        var resultColumn = new EntityListViewColumnsDTO();
+                                        resultColumn.Column = relCol.FirstSideColumn;
+                                        resultColumn.ColumnID = relCol.FirstSideColumnID;
+                                        resultColumn.CreateRelationshipTailPath = relationshipPath;
+                                        resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + relCol.FirstSideColumn.Alias;
+                                        resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + relCol.FirstSideColumn.Alias;
+                                        list.Add(resultColumn);
+                                    }
                                 }
                             }
 
@@ -404,7 +412,7 @@ namespace MyModelManager
         private bool CheckDescriptiveColumnName(string columnName)
         {
             var toLowwer = columnName.ToLower();
-            return toLowwer.Contains("name") || toLowwer.Contains("firstname") || toLowwer.Contains("lastname") || toLowwer.Contains("title") || toLowwer.Contains("number")
+            return toLowwer.Contains("code") || toLowwer.Contains("name") || toLowwer.Contains("firstname") || toLowwer.Contains("lastname") || toLowwer.Contains("title") || toLowwer.Contains("number")
                     || toLowwer.Contains("family");
         }
 
@@ -500,6 +508,7 @@ namespace MyModelManager
                 rColumn.ColumnID = column.ColumnID;
                 rColumn.Alias = column.Alias;
                 rColumn.OrderID = column.OrderID;
+                rColumn.Tooltip = column.Tooltip;
                 rColumn.IsDescriptive = column.IsDescriptive;
                 rColumn.WidthUnit = column.WidthUnit;
                 if (string.IsNullOrEmpty(column.CreateRelationshipTailPath))
