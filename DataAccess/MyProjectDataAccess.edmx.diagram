@@ -94,7 +94,6 @@
         <EntityTypeShape EntityType="MyProjectModel.Relationship" Width="1.5" PointX="21.5" PointY="138" />
         <EntityTypeShape EntityType="MyProjectModel.RelationshipColumns" Width="1.5" PointX="26.75" PointY="143.5" />
         <EntityTypeShape EntityType="MyProjectModel.RelationshipSearchFilter" Width="1.5" PointX="8.25" PointY="144.75" />
-        <EntityTypeShape EntityType="MyProjectModel.RelationshipType" Width="1.5" PointX="23.75" PointY="142.875" />
         <EntityTypeShape EntityType="MyProjectModel.RelationshipUISetting" Width="1.5" PointX="18.75" PointY="138.75" />
         <EntityTypeShape EntityType="MyProjectModel.ReportGroups" Width="1.5" PointX="28" PointY="202.75" />
         <EntityTypeShape EntityType="MyProjectModel.SearchRepository" Width="1.5" PointX="21.75" PointY="129.875" />
@@ -303,7 +302,6 @@
         <AssociationConnector Association="MyProjectModel.FKTabPageUIS719811" />
         <AssociationConnector Association="MyProjectModel.FKEntityVali365073" />
         <AssociationConnector Association="MyProjectModel.FKEntityVali933297" />
-        <AssociationConnector Association="MyProjectModel.FKExplicitOn408720" />
         <AssociationConnector Association="MyProjectModel.FKConditiona702385" />
         <AssociationConnector Association="MyProjectModel.FKFormula967405" />
         <AssociationConnector Association="MyProjectModel.FKFormulaIte505844" />
@@ -315,7 +313,6 @@
         <AssociationConnector Association="MyProjectModel.FK_FormulaItems_TableDrivedEntityState" />
         <AssociationConnector Association="MyProjectModel.FKFormulaIte675108" />
         <AssociationConnector Association="MyProjectModel.FKEntityGrid247991" />
-        <AssociationConnector Association="MyProjectModel.FKImplicitOn720517" />
         <AssociationConnector Association="MyProjectModel.FKSubToSuper88193" />
         <AssociationConnector Association="MyProjectModel.FKSuperToSub515953" />
         <AssociationConnector Association="MyProjectModel.FKLetterEnab821210" />
@@ -330,10 +327,8 @@
         <AssociationConnector Association="MyProjectModel.FKPhrase543572" />
         <AssociationConnector Association="MyProjectModel.FKPhrase614152" />
         <AssociationConnector Association="MyProjectModel.FKManyToOneR998042" />
-        <AssociationConnector Association="MyProjectModel.FKManyToOneR336195" />
         <AssociationConnector Association="MyProjectModel.FKNavigation155968" />
         <AssociationConnector Association="MyProjectModel.FKNavigation977409" />
-        <AssociationConnector Association="MyProjectModel.FKOneToManyR245498" />
         <AssociationConnector Association="MyProjectModel.FKPhrase678651" />
         <AssociationConnector Association="MyProjectModel.FK_Relationship_Relationship" />
         <AssociationConnector Association="MyProjectModel.FK_Relationship_SecurityObject" />
@@ -343,11 +338,6 @@
         <AssociationConnector Association="MyProjectModel.FKRelationsh250124" />
         <AssociationConnector Association="MyProjectModel.FKRelationsh283976" />
         <AssociationConnector Association="MyProjectModel.FKRelationsh685437" />
-        <AssociationConnector Association="MyProjectModel.FKRelationsh827735" />
-        <AssociationConnector Association="MyProjectModel.FKSubToSuper672991" />
-        <AssociationConnector Association="MyProjectModel.FKSubUnionTo818068" />
-        <AssociationConnector Association="MyProjectModel.FKSuperToSub305547" />
-        <AssociationConnector Association="MyProjectModel.FKUnionToSub14902" />
         <AssociationConnector Association="MyProjectModel.FK_SearchRepository_TableDrivedEntity" />
         <AssociationConnector Association="MyProjectModel.FKSubSystems137775" />
         <AssociationConnector Association="MyProjectModel.FKSubUnionTo235113" />
@@ -410,6 +400,16 @@
         <AssociationConnector Association="MyProjectModel.FKTransition612866" />
         <AssociationConnector Association="MyProjectModel.FKTransition636993" />
         <AssociationConnector Association="MyProjectModel.UniqueConstraint_Column" />
+        <EntityTypeShape EntityType="MyProjectModel.RelationshipType" Width="1.5" PointX="23.75" PointY="143.125" />
+        <AssociationConnector Association="MyProjectModel.FKExplicitOn408720" />
+        <AssociationConnector Association="MyProjectModel.FKImplicitOn720517" />
+        <AssociationConnector Association="MyProjectModel.FKManyToOneR336195" />
+        <AssociationConnector Association="MyProjectModel.FKOneToManyR245498" />
+        <AssociationConnector Association="MyProjectModel.FKRelationsh827735" />
+        <AssociationConnector Association="MyProjectModel.FKSubToSuper672991" />
+        <AssociationConnector Association="MyProjectModel.FKSubUnionTo818068" />
+        <AssociationConnector Association="MyProjectModel.FKSuperToSub305547" />
+        <AssociationConnector Association="MyProjectModel.FKUnionToSub14902" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

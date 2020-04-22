@@ -1035,7 +1035,7 @@ namespace MyModelManager
             newRelationship.RelationshipType.IsOtherSideMandatory = dbRelationship.RelationshipType.IsOtherSideMandatory;
             newRelationship.RelationshipType.PKToFKDataEntryEnabled = dbRelationship.RelationshipType.PKToFKDataEntryEnabled;
             //newRelationship.RelationshipType.IsOtherSideTransferable = dbRelationship.RelationshipType.IsOtherSideTransferable;
-            newRelationship.RelationshipType.IsSkippable = dbRelationship.RelationshipType.IsSkippable;
+            newRelationship.RelationshipType.IsNotSkippable = dbRelationship.RelationshipType.IsNotSkippable;
             if (dbRelationship.RelationshipType.ExplicitOneToOneRelationshipType != null)
             {
                 newRelationship.RelationshipType.ExplicitOneToOneRelationshipType = new ExplicitOneToOneRelationshipType();
@@ -1485,6 +1485,8 @@ namespace MyModelManager
             dbRelationship.RelationshipType.IsOtherSideCreatable = item.IsOtherSideCreatable;
             dbRelationship.RelationshipType.IsOtherSideDirectlyCreatable = item.IsOtherSideDirectlyCreatable;
             dbRelationship.RelationshipType.IsOtherSideMandatory = item.IsOtherSideMandatory;
+            dbRelationship.RelationshipType.IsNotSkippable = item.IsNotSkippable;
+
             //dbRelationship.RelationshipType.IsOtherSideTransferable = item.IsOtherSideTransferable;
             dbRelationship.RelationshipType.DeleteOption = (short)item.DeleteOption;
             if (item.MastertTypeEnum == Enum_MasterRelationshipType.FromPrimartyToForeign)
@@ -1536,7 +1538,7 @@ namespace MyModelManager
             result.FromDifferentServer = result.ServerID1 != result.ServerID2;
             result.ServerName1 = item.TableDrivedEntity.Table.DBSchema.DatabaseInformation.DBServer.Name;
             result.ServerName2 = item.TableDrivedEntity1.Table.DBSchema.DatabaseInformation.DBServer.Name;
-
+            result.Entity2IsIndependent = item.TableDrivedEntity1.IndependentDataEntry == true;
 
 
 
@@ -1612,6 +1614,7 @@ namespace MyModelManager
 
             result.IsOtherSideMandatory = item.RelationshipType.IsOtherSideMandatory;
             result.IsOtherSideCreatable = item.RelationshipType.IsOtherSideCreatable;
+            result.IsNotSkippable = item.RelationshipType.IsNotSkippable;
             result.IsOtherSideDirectlyCreatable = item.RelationshipType.IsOtherSideDirectlyCreatable;
             //result.IsOtherSideTransferable = item.RelationshipType.IsOtherSideTransferable;
             if (item.RelationshipType.DeleteOption != null)
@@ -2152,6 +2155,7 @@ namespace MyModelManager
 
                     dbFKtoPKRelationship.RelationshipType.SubToSuperRelationshipType = new SubToSuperRelationshipType();
                     dbFKtoPKRelationship.RelationshipType.IsOtherSideCreatable = true;
+                    dbFKtoPKRelationship.RelationshipType.IsOtherSideMandatory = true;
                     dbFKtoPKRelationship.RelationshipType.SubToSuperRelationshipType.ISARelationshipID = isaRelationshipID;
                     dbFKtoPKRelationship.TypeEnum = Convert.ToByte(Enum_RelationshipType.SubToSuper);
                 }

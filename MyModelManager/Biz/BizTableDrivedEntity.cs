@@ -250,6 +250,7 @@ namespace MyModelManager
 
         private TableDrivedEntityDTO CheckDataEntryPermission(DR_Requester requester, TableDrivedEntityDTO entity, bool dataEntry)
         {
+            //باید روابط اجباری همه برای ورود اطلاعلات فعال باشند. بعداً این کنترلها چک شود
             BizColumn bizColumn = new MyModelManager.BizColumn();
             BizRelationship bizRelationship = new BizRelationship();
             List<ColumnDTO> InValidColumns = new List<ColumnDTO>();

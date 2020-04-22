@@ -18,7 +18,7 @@ namespace DataAccess
         public int UnionRelationshipTypeID { get; set; }
         public Nullable<bool> Dummy { get; set; }
     
-        public virtual RelationshipType RelationshipType { get; set; }
         public virtual UnionRelationshipType UnionRelationshipType { get; set; }
+        public virtual RelationshipType RelationshipType { get; set; }
     }
 }

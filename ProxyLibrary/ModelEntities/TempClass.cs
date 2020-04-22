@@ -314,6 +314,7 @@ namespace ModelEntites
         public bool IsDisjoint { set; get; }
 
         public string SuperTypeEntities { set; get; }
+
         public string SubTypeEntities { set; get; }
         public bool InternalTable { get; set; }
         //public int InternalTableColumnID { get; set; }
@@ -424,6 +425,8 @@ namespace ModelEntites
         public string Entity1Alias { get; set; }
         public string Entity2Alias { get; set; }
         public bool OtherSideIsView { get; set; }
+        public bool IsNotSkippable { get; set; }
+        public bool Entity2IsIndependent { get; set; }
     }
     public enum CreateRelationshipType
     {

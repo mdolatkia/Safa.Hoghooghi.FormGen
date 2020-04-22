@@ -114,7 +114,6 @@ namespace DataAccess
         public virtual DbSet<Relationship> Relationship { get; set; }
         public virtual DbSet<RelationshipColumns> RelationshipColumns { get; set; }
         public virtual DbSet<RelationshipSearchFilter> RelationshipSearchFilter { get; set; }
-        public virtual DbSet<RelationshipType> RelationshipType { get; set; }
         public virtual DbSet<RelationshipUISetting> RelationshipUISetting { get; set; }
         public virtual DbSet<ReportGroups> ReportGroups { get; set; }
         public virtual DbSet<SearchRepository> SearchRepository { get; set; }
@@ -169,5 +168,6 @@ namespace DataAccess
         public virtual DbSet<TransitionAction_Formula> TransitionAction_Formula { get; set; }
         public virtual DbSet<TransitionActionTarget> TransitionActionTarget { get; set; }
         public virtual DbSet<TransitionActivity> TransitionActivity { get; set; }
+        public virtual DbSet<RelationshipType> RelationshipType { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace DataAccess
         public bool IsOtherSideCreatable { get; set; }
         public bool IsOtherSideDirectlyCreatable { get; set; }
         public Nullable<short> DeleteOption { get; set; }
-        public bool IsSkippable { get; set; }
+        public bool IsNotSkippable { get; set; }
         public Nullable<bool> PKToFKDataEntryEnabled { get; set; }
     
         public virtual ExplicitOneToOneRelationshipType ExplicitOneToOneRelationshipType { get; set; }

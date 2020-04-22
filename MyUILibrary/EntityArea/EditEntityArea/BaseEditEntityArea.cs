@@ -847,22 +847,21 @@ namespace MyUILibrary.EntityArea
         {
             if (AreaInitializer.SourceRelation != null)
             {
-                if (AreaInitializer.SourceRelation.Relationship.IsOtherSideDirectlyCreatable)
+                //bool logicallyMandatory = RelationshipColumnControlIsLogicallyMandatory(relationshipColumnControl);
+                if (AreaInitializer.IntracionMode == IntracionMode.CreateDirect ||
+                   AreaInitializer.IntracionMode == IntracionMode.CreateSelectDirect)
                 {
-                    if (SimpleEntity.IndependentDataEntry == true)
+                    اینجا اجباری بودن بصورت منطقی چک شود
+                        ارث بری و ...
+                    if (!relationshipColumnControl.Relationship.IsOtherSideMandatory)
                     {
-                        if (relationshipColumnControl.Relationship.IsOtherSideDirectlyCreatable)
+                        if (!relationshipColumnControl.Relationship.IsNotSkippable)
                         {
-                            if (AreaInitializer.SourceRelation.Relationship.TypeEnum == Enum_RelationshipType.SuperToSub
-                                || AreaInitializer.SourceRelation.Relationship.TypeEnum == Enum_RelationshipType.ImplicitOneToOne
-                                || AreaInitializer.SourceRelation.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
-                                if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.OneToMany)
-                                {
-                                    if (!relationshipColumnControl.Relationship.IsOtherSideMandatory)
-                                        return true;
-                                }
-                            //روابط اسکیپ شده لیست شوند
-                            //    بعدش کاستومر با پرسون
+
+                            bool check = CheckRelationshipControlIsaUnionSkip(relationshipColumnControl);
+                            if (check)
+                                return true;
+
                         }
                     }
                 }
@@ -893,6 +892,87 @@ namespace MyUILibrary.EntityArea
             }
             return false;
         }
+
+        private bool CheckRelationshipControlIsaUnionSkip(RelationshipColumnControl relationshipColumnControl)
+        {
+            if (AreaInitializer.SourceRelation.Relationship.TypeEnum == Enum_RelationshipType.SubToSuper ||
+              AreaInitializer.SourceRelation.Relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+            {
+                if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.OneToMany ||
+                    relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.ManyToOne ||
+                    relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.ExplicitOneToOne ||
+                    relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.ImplicitOneToOne)
+                    return false;
+            }
+
+            if (relationshipColumnControl.Relationship.TypeEnum != Enum_RelationshipType.SubToSuper &&
+                      relationshipColumnControl.Relationship.TypeEnum != Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+            {
+                if (relationshipColumnControl.Relationship.IsOtherSideDirectlyCreatable)
+                {
+                    if (SimpleEntity.IndependentDataEntry == true)
+                    {
+                        return true;
+                    }
+                }
+            }
+          
+            if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.SuperToSub)
+            {
+                var isaRelationship = (relationshipColumnControl.Relationship as SuperToSubRelationshipDTO).ISARelationship;
+                var parentIsNotSubToSuperOrIsDifferent = false;
+                if (!(AreaInitializer.SourceRelation.Relationship is SubToSuperRelationshipDTO))
+                    parentIsNotSubToSuperOrIsDifferent = true;
+                else if ((AreaInitializer.SourceRelation.Relationship as SubToSuperRelationshipDTO).ISARelationship.ID != isaRelationship.ID)
+                    parentIsNotSubToSuperOrIsDifferent = true;
+                if (isaRelationship.IsTolatParticipation && parentIsNotSubToSuperOrIsDifferent)
+                {
+                    return true;
+                }
+                if (isaRelationship.IsDisjoint)
+                {
+                    if (isaRelationship.ID == parentIsaRelationship.ID)
+                        return false;
+                }
+            }
+
+            if (AreaInitializer.SourceRelation.Relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+            {
+                if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                {
+                    var parentUnionRelationship = (AreaInitializer.SourceRelation.Relationship as SubUnionToSuperUnionRelationshipDTO).UnionRelationship;
+                    var unionRelationship = (relationshipColumnControl.Relationship as SuperUnionToSubUnionRelationshipDTO).UnionRelationship;
+                    if (unionRelationship.IsTolatParticipation && isaRelationship.ID != parentIsaRelationship.ID)
+                    {
+                        return true;
+                    }
+                    if (parentIsaRelationship.IsDisjoint)
+                    {
+                        if (isaRelationship.ID == parentIsaRelationship.ID)
+                            return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        //private bool RelationshipColumnControlIsLogicallyMandatory(RelationshipColumnControl relationshipColumnControl)
+        //{
+        //    if (relationshipColumnControl.Relationship.IsOtherSideMandatory)
+        //        return true;
+        //    if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.SubToSuper)
+        //        return true;
+        //    if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.SuperToSub)
+        //    {
+        //        var isaRelationship = (relationshipColumnControl.Relationship as SuperToSubRelationshipDTO).ISARelationship;
+        //        if(isaRelationship.IsTolatParticipation)
+        //        {
+        //            isaRelationship.SubTypeEntities
+        //        }
+        //    }
+
+        //}
 
         private void ControlManager_FocusLost(object sender, EventArgs e)
         {
