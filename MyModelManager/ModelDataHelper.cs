@@ -295,6 +295,15 @@ namespace MyModelManager
             var res1 = fkDBHelper.ExecuteScalar(query);
             return Convert.ToInt32(res1) != 0;
         }
+        private bool EntityHasData(TableDrivedEntityDTO entity)
+        {
+            var fkDBHelper = ConnectionManager.GetDBHelper(entity.DatabaseID);
+
+            var query = GetSingleEntityBaseSelectFromQuery(entity);
+       
+            var res1 = fkDBHelper.ExecuteScalar(query);
+            return Convert.ToInt32(res1) != 0;
+        }
         private bool FKEntityHasNotNullDataQuery(TableDrivedEntityDTO fkEntity, RelationshipDTO relationship)
         {
             var fkDBHelper = ConnectionManager.GetDBHelper(fkEntity.DatabaseID);
@@ -420,21 +429,26 @@ namespace MyModelManager
             }
             result.Name = relationships.First().Entity1 + ">" + subTypesStr;
 
-            var pkDBHelper = ConnectionManager.GetDBHelper(relationships.First().DatabaseID1);
-            var participationQuery = ISATolatParticipationQuery(requester, relationships);
-            var resCheckExists = pkDBHelper.ExecuteScalar(participationQuery);
-            if (Convert.ToInt32(resCheckExists) > 0)
-                result.IsTotalParticipation = false;
-            else
-                result.IsTotalParticipation = true;
+            var pkEntity = bizEntity.GetTableDrivedEntity(requester, relationships.First().EntityID1, EntityColumnInfoType.WithSimpleColumns, EntityRelationshipInfoType.WithoutRelationships);
 
-            string commandExistInBoth = ISADisjoinQuery(requester, relationships);
-            //pkDBHelper.CommandTimeout = 60;
-            var resExistInBoth = pkDBHelper.ExecuteScalar(commandExistInBoth);
-            if (Convert.ToInt32(resExistInBoth) > 0)
-                result.IsDisjoint = false;
-            else
-                result.IsDisjoint = true;
+            if (EntityHasData(pkEntity))
+            {
+                var pkDBHelper = ConnectionManager.GetDBHelper(relationships.First().DatabaseID1);
+                var participationQuery = ISATolatParticipationQuery(requester, relationships);
+                var resCheckExists = pkDBHelper.ExecuteScalar(participationQuery);
+                if (Convert.ToInt32(resCheckExists) > 0)
+                    result.IsTotalParticipation = false;
+                else
+                    result.IsTotalParticipation = true;
+
+                string commandExistInBoth = ISADisjoinQuery(requester, relationships);
+                //pkDBHelper.CommandTimeout = 60;
+                var resExistInBoth = pkDBHelper.ExecuteScalar(commandExistInBoth);
+                if (Convert.ToInt32(resExistInBoth) > 0)
+                    result.IsDisjoint = false;
+                else
+                    result.IsDisjoint = true;
+            }
 
             return result;
         }
@@ -517,11 +531,14 @@ namespace MyModelManager
                 subTypesStr += (subTypesStr == "" ? "" : ",") + rel.Entity1;
             }
             result.Name = superType + ">" + subTypesStr;
+            var unionEntity = bizEntity.GetTableDrivedEntity(requester, relationships.First().EntityID2, EntityColumnInfoType.WithSimpleColumns, EntityRelationshipInfoType.WithoutRelationships);
 
-            var pkDBHelper = ConnectionManager.GetDBHelper(relationships.First().DatabaseID1);
-            result.IsTotalParticipation = UnionTolatParticipationQuery(requester, pkDBHelper, relationships);
+            if (EntityHasData(unionEntity))
+            {
+                var pkDBHelper = ConnectionManager.GetDBHelper(relationships.First().DatabaseID1);
+                result.IsTotalParticipation = UnionTolatParticipationQuery(requester, pkDBHelper, relationships);
 
-
+            }
             //string commandExistInBoth = UnionDisjoinQuery(superType, relationships);
             ////pkDBHelper.CommandTimeout = 60;
             //var resExistInBoth = pkDBHelper.ExecuteScalar(commandExistInBoth);
@@ -1097,13 +1114,13 @@ namespace MyModelManager
     public class ISARelationshipDetail
     {
         public string Name { set; get; }
-        public bool IsDisjoint { set; get; }
-        public bool IsTotalParticipation { set; get; }
+        public bool? IsDisjoint { set; get; }
+        public bool? IsTotalParticipation { set; get; }
     }
     public class UnionRelationshipDetail
     {
         public string Name { set; get; }
         //    public bool IsDisjoint { set; get; }
-        public bool IsTotalParticipation { set; get; }
+        public bool? IsTotalParticipation { set; get; }
     }
 }

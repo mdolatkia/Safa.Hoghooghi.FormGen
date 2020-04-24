@@ -206,13 +206,21 @@ namespace MyModelManager
                     rColumn.IsDescriptive = column.IsDescriptive;
                     rColumn.Alias = column.Alias ?? rColumn.Column.Alias ?? rColumn.Column.Name;
                     rColumn.OrderID = column.OrderID ?? 0;
-                    rColumn.Tooltip = column.Tooltip;
-                    rColumn.WidthUnit = column.WidthUnit ?? 0;
                     if (column.EntityRelationshipTailID != null)
                     {
                         rColumn.RelationshipTailID = column.EntityRelationshipTailID.Value;
                         rColumn.RelationshipTail = bizEntityRelationshipTail.ToEntityRelationshipTailDTO(column.EntityRelationshipTail);
                     }
+                    if (!string.IsNullOrEmpty(column.Tooltip))
+                        rColumn.Tooltip = column.Tooltip;
+                    else
+                    {
+
+                        if (rColumn.RelationshipTail != null)
+                            rColumn.Tooltip = rColumn.RelationshipTail.TargetEntityAlias + "." + rColumn.Column.Alias;
+                    }
+                    rColumn.WidthUnit = column.WidthUnit ?? 0;
+
                     //rColumn.RelativeColumnName = rColumn.Column.Name + rColumn.RelationshipTailID.ToString();
                     result.EntityListViewAllColumns.Add(rColumn);
                 }
@@ -304,7 +312,7 @@ namespace MyModelManager
                     resultColumn.CreateRelationshipTailPath = relationshipPath;
                     resultColumn.AllRelationshipsAreSubTuSuper = relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper);
                     resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + column.Alias;
-                    resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + column.Alias;
+                    //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + column.Alias;
                     list.Add(resultColumn);
                 }
                 else
@@ -342,7 +350,7 @@ namespace MyModelManager
                                         resultColumn.ColumnID = relCol.FirstSideColumnID;
                                         resultColumn.CreateRelationshipTailPath = relationshipPath;
                                         resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + relCol.FirstSideColumn.Alias;
-                                        resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + relCol.FirstSideColumn.Alias;
+                                        //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + relCol.FirstSideColumn.Alias;
                                         list.Add(resultColumn);
                                     }
                                 }

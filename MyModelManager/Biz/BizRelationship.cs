@@ -687,8 +687,17 @@ namespace MyModelManager
 
                 var isaRelationship = new ISARelationship();
                 isaRelationship.Name = relationshipGroup.Key;
-                isaRelationship.IsTolatParticipation = isaInfo.IsTotalParticipation;
-                isaRelationship.IsDisjoint = isaInfo.IsDisjoint;
+                if (dbDatabase.DBHasDate)
+                {
+                    isaRelationship.IsTolatParticipation = isaInfo.IsTotalParticipation == true;
+                    isaRelationship.IsDisjoint = isaInfo.IsDisjoint == true;
+                }
+                else
+                {
+                    isaRelationship.IsTolatParticipation = false;
+                    isaRelationship.IsDisjoint = true;
+                }
+
 
                 foreach (var relationship in relationshipGroup)
                 {
@@ -729,8 +738,10 @@ namespace MyModelManager
                 var isaInfo = dataHelper.GetUnionRelationshipDetail(requester, relationshipGroup.ToList());
                 var unionRelationship = new UnionRelationshipType();
                 unionRelationship.Name = relationshipGroup.Key;
-                unionRelationship.IsTolatParticipation = isaInfo.IsTotalParticipation;
-
+                if (dbDatabase.DBHasDate)
+                    unionRelationship.IsTolatParticipation = isaInfo.IsTotalParticipation==true;
+                else
+                    unionRelationship.IsTolatParticipation = false;
                 foreach (var relationship in relationshipGroup)
                 {
                     var rels = GetModelRelationship(projectContext, relationship, allEntities);

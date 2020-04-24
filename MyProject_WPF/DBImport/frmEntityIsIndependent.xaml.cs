@@ -595,7 +595,7 @@ namespace MyProject_WPF
                         if (item.Entity.IndependentDataEntry == false)
                         {
                             bool isValid = false;
-                            if (relationships.Any(x => !x.IsDisabled && x.DataEntryEnabled))
+                            if (relationships.Any(x => !x.IsDisabled ))
                             {
                                 isValid = true;
                                 if (!isValid)

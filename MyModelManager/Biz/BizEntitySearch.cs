@@ -198,8 +198,13 @@ namespace MyModelManager
                     else
                         rColumn.Alias = column.Alias ?? column.EntityRelationshipTail.TableDrivedEntity.Alias ?? column.EntityRelationshipTail.TableDrivedEntity.Name;
                     rColumn.OrderID = column.OrderID ?? 0;
-                    rColumn.Tooltip = column.Tooltip;
-
+                    if (!string.IsNullOrEmpty(column.Tooltip))
+                        rColumn.Tooltip = column.Tooltip;
+                    else
+                    {
+                        if (rColumn.RelationshipTail != null && rColumn.Column != null)
+                            rColumn.Tooltip = rColumn.RelationshipTail.TargetEntityAlias + "." + rColumn.Column.Alias;
+                    }
                     //rColumn.WidthUnit = column.WidthUnit ?? 0;
                     if (column.EntityRelationshipTailID != null)
                     {
@@ -276,7 +281,7 @@ namespace MyModelManager
                     resultColumn.CreateRelationshipTailPath = relationshipPath;
                     resultColumn.AllRelationshipsAreSubTuSuper = relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper);
                     resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + column.Alias;
-                    resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + column.Alias;
+                    //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + column.Alias;
                     list.Add(resultColumn);
                 }
                 else
@@ -307,7 +312,7 @@ namespace MyModelManager
                                             resultColumn.ColumnID = relCol.FirstSideColumnID;
                                             resultColumn.CreateRelationshipTailPath = relationshipPath;
                                             resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + relCol.FirstSideColumn.Alias;
-                                            resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + relCol.FirstSideColumn.Alias;
+                                            //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + relCol.FirstSideColumn.Alias;
                                             list.Add(resultColumn);
                                         }
                                     }
