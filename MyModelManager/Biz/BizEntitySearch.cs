@@ -432,19 +432,36 @@ namespace MyModelManager
             List<ColumnDTO> result = new List<ColumnDTO>();
             foreach (var column in columns)
             {
-                var toLowwer = column.Name.ToLower();
-                if (toLowwer.Contains("code") || toLowwer.Contains("name") || toLowwer.Contains("firstname") || toLowwer.Contains("lastname") || toLowwer.Contains("title") || toLowwer.Contains("number")
-                      || toLowwer.Contains("family"))
+                if (CheckFirstPriorityColumnName(column))
                     result.Add(column);
                 else
                 {
-                    if (toLowwer.Contains("date") && indexer < columns.Count / 2)
+                    var key = string.IsNullOrEmpty(column.Alias) ? column.Name : column.Alias;
+                    if ((key.Contains("date") || key.Contains("تاریخ")) && indexer < columns.Count / 2)
                         result.Add(column);
                 }
                 indexer++;
             }
             return result;
         }
+
+        private bool CheckFirstPriorityColumnName(ColumnDTO column)
+        {
+            var key = string.IsNullOrEmpty(column.Alias) ? column.Name : column.Alias;
+            return GetPriorityColumnNames().Contains(key.ToLower());
+        }
+        List<string> _GetPriorityColumnNames;
+        List<string> GetPriorityColumnNames()
+        {
+            if (_GetPriorityColumnNames == null)
+            {
+                _GetPriorityColumnNames = new List<string>()
+                { "code","شماره", "name","نام", "firstname", "lastname", "title","عنوان", "number", "family",
+                "type","نوع"};
+            }
+            return _GetPriorityColumnNames;
+        }
+
         private List<ColumnDTO> GetSecondPriorityColumns(List<ColumnDTO> columns, List<ColumnDTO> alreadyColumns)
         {
             var indexer = 0;

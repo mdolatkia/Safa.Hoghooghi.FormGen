@@ -28,6 +28,7 @@
                                 <TextBlock Text="بازاوری"></TextBlock>
                             </StackPanel>
                         </Button>
+                       
                     </StackPanel>
                     <!--<Button Margin="2" Width="160" HorizontalAlignment="Right" Content="اعمال قوانین موجودیتها" x:Name="btnImposeEntityRules" Click="btnImposeEntityRules_Click"></Button>-->
                     <telerik:RadGridView   x:Name="dtgRuleEntity" Grid.Row="1">

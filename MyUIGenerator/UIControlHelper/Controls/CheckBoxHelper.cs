@@ -38,6 +38,8 @@ namespace MyUIGenerator.UIControlHelper
              checkbox = new CheckBox();
             checkbox.Name = "txtControl";
             checkbox.Checked += (sender, e) => control_Checked(sender, e);
+            if (correspondingTypeProperty.IsNull)
+                checkbox.IsThreeState = true;
             theGrid.Children.Add(checkbox);
             //textBox.Mask = "###";
 
@@ -72,7 +74,7 @@ namespace MyUIGenerator.UIControlHelper
 
         public bool SetValue( string value)
         {
-            if (value == "<Null>" || value == null)
+            if ( value == null)
                 checkbox.IsChecked = null;
             else
             {
@@ -93,7 +95,7 @@ namespace MyUIGenerator.UIControlHelper
         public string GetValue()
         {
             if (checkbox.IsChecked == null)
-                return "<Null>";
+                return null;
             else
             {
                 return (checkbox.IsChecked == true ? "1" : "0");

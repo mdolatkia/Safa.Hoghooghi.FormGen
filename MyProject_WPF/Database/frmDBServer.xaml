@@ -1,0 +1,67 @@
+﻿<UserControl  x:Class="MyProject_WPF.frmDBServer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyProject_WPF"
+             mc:Ignorable="d" 
+           Background="WhiteSmoke" FlowDirection="RightToLeft">
+    <Grid Width="480" Margin="5" HorizontalAlignment="Left" Height="120" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" ></RowDefinition>
+            <RowDefinition Height="30" ></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" ></RowDefinition>
+                <RowDefinition Height="auto" ></RowDefinition>
+                <RowDefinition Height="auto" ></RowDefinition>
+                <RowDefinition Height="auto" ></RowDefinition>
+                <RowDefinition Height="auto" ></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Text="نام سرور :" Grid.Row="0"  VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="عنوان:" Grid.Row="2"   VerticalAlignment="Center"></TextBlock>
+
+            <TextBlock Text="IP Address:" Grid.Row="3"   VerticalAlignment="Center"></TextBlock>
+            <TextBox x:Name="txtServer" Width="200" HorizontalAlignment="Left" Grid.Column="1" />
+            <TextBox x:Name="txtTitle"   Grid.Row="2"  Width="200" HorizontalAlignment="Left"  Grid.Column="1"  ></TextBox>
+            <TextBox x:Name="txtIPAddress"  Grid.Row="3"  Width="200" HorizontalAlignment="Left"  Grid.Column="1"    ></TextBox>
+
+
+        </Grid>
+        <Grid Grid.Row="1">
+            <StackPanel Grid.Row="4" Grid.Column="1"  HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button x:Name="btnLinkedServer" Margin="2" Width="110"    Click="btnLinkedServer_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\relationship1.png"  />
+                        <TextBlock Text="ارتباط سرورها"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnSave" Margin="2" Width="110"    Click="btnSave_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\save.png"  />
+                        <TextBlock Text="ثبت"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnSearch" Margin="2" Width="110" Click="btnSearch_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\search.png"  />
+                        <TextBlock Text="جستجو"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnNew" Margin="2" Width="110" Click="btnNew_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\addnew.png"  />
+                        <TextBlock Text="جدید"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <!--<Button Content="بازگشت"  Click="btnClose_Click" Margin="2" Width="100" HorizontalAlignment="Left"  x:Name="btnClose"></Button>-->
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</UserControl>

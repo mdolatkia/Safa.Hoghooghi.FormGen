@@ -573,7 +573,7 @@ namespace ProxyLibrary
                     return false;
                 else if (IsHiddenBecauseOfCreatorRelationshipOnState)
                     return false;
-                else if (ParantChildRelationshipInfo!=null && ParantChildRelationshipInfo.IsReadonly && ParantChildRelationshipInfo.DataItemIsAdded(this))
+                else if (ParantChildRelationshipInfo != null && ParantChildRelationshipInfo.IsReadonly && ParantChildRelationshipInfo.DataItemIsAdded(this))
                     return false;
                 else if (IsReadonlyBecauseOfCreatorRelationship && ParantChildRelationshipInfo.DataItemIsAdded(this))
                     return false;
@@ -781,7 +781,10 @@ namespace ProxyLibrary
             }
 
         }
-
+        public object TestValue
+        {
+            set; get;
+        }
         string _Value;
         public string Value
         {
@@ -818,14 +821,14 @@ namespace ProxyLibrary
             get { return Column.IsIdentity; }
         }
 
-        public bool IsDescriptive { get { return Column.IsDescriptive; } }
+        public bool? IsDescriptive { get { return ListViewColumn != null ? ListViewColumn.IsDescriptive : (bool?)null; } }
         //public PropertyContitionType ContitionType;
         public List<FormulaUsageParemetersDTO> FormulaUsageParemeters { set; get; }
         public string FormulaException { set; get; }
         public int FormulaID { get; set; }
         public bool ValueIsChanged { get; set; }
 
-        public int ListViewColumnID { set; get; }
+        //public int ListViewColumnID { set; get; }
         public string RelationshipIDTailPath { get; set; }
         public bool HasForeignKeyData { get; set; }
         public bool IsHidden { get; set; }
@@ -840,6 +843,7 @@ namespace ProxyLibrary
             }
         }
         public bool ISFK { get; set; }
+        public EntityListViewColumnsDTO ListViewColumn { get; set; }
         //public int EntityListViewColumnsID { get; set; }
     }
 

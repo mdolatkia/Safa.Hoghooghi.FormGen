@@ -170,7 +170,7 @@ namespace MyDataEditManagerBusiness
                             {
                                 fkprop = new EntityInstanceProperty(relCol.FirstSideColumn);
                             }
-                            fkprop.Value = "<Null>";
+                            fkprop.Value =null;
                             //prop.IsHidden = child.IsHidden;
                             foreignKeyProperties.Add(fkprop);
                         }
@@ -452,7 +452,7 @@ namespace MyDataEditManagerBusiness
                     {
                         prop = new EntityInstanceProperty(col.SecondSideColumn);
                     }
-                    prop.Value = "<Null>";
+                    prop.Value = null;
                     listEditProperties.Add(prop);
                 }
                 result.Add(new QueryItem(GetTableDrivedDTO(requester, item.Item2.TargetEntityID), Enum_QueryItemType.Update, listEditProperties, item.Item2));
@@ -534,7 +534,7 @@ namespace MyDataEditManagerBusiness
 
         private string GetPropertyValue(string value)
         {
-            if (value != null && value.ToLower() == "<null>")
+            if (value == null )
                 return "NULL";
             else
                 return "'" + value + "'";

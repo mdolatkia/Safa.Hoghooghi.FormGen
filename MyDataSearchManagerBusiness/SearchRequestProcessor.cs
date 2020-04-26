@@ -1125,7 +1125,7 @@ namespace MyDataSearchManagerBusiness
         }
         private bool PropertyHasValue(SearchProperty item)
         {
-            return (!string.IsNullOrEmpty(item.Value) && item.Value.ToLower() != "<null>" && item.Value.ToLower() != "0");
+            return (!string.IsNullOrEmpty(item.Value)  && item.Value.ToLower() != "0");
         }
         private List<DP_DataRepository> DataTableToDP_DataRepository(TableDrivedEntityDTO entity, EntityListViewDTO editListView, DataTable dataTable)
         {
@@ -1171,7 +1171,7 @@ namespace MyDataSearchManagerBusiness
                     if (reader[i] != DBNull.Value)
                         property.Value = reader[i].ToString();
                     else
-                        property.Value = "<Null>";
+                        property.Value = null;
                     result.AddProperty(column, property.Value);
                 }
             }
@@ -1268,12 +1268,12 @@ namespace MyDataSearchManagerBusiness
                     if (reader[i] != DBNull.Value)
                         value = reader[i].ToString();
                     else
-                        value = "<Null>";
+                        value =null;
 
                     var property = new EntityInstanceProperty(column.Column);
                     //               property.EntityListViewColumnsID = listColumnsItem.Item2.ID;
 
-                    property.ListViewColumnID = column.ID;
+                    property.ListViewColumn = column;
                     if (column.RelationshipTail != null)
                         property.RelationshipIDTailPath = column.RelationshipTail.RelationshipIDPath;
                     //property.Name = column.Column.Name;

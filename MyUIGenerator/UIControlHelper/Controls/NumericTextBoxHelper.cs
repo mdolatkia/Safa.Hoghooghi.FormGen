@@ -93,7 +93,7 @@ namespace MyUIGenerator.UIControlHelper
             //}
             //else
             //{
-            if (value == "<Null>" || value == null)
+            if ( value == null)
                 textBox.Value = null;
             else
             {
@@ -123,7 +123,7 @@ namespace MyUIGenerator.UIControlHelper
             //else
             //{
             if (textBox.Value == null)
-                return "<Null>";
+                return null;
             else
                 return textBox.Value.ToString();
             //}
@@ -182,7 +182,6 @@ namespace MyUIGenerator.UIControlHelper
             Binding binding = new Binding("Value");
             binding.Source = property;
             textBox.SetBinding(RadMaskedNumericInput.ValueProperty, binding);
-
         }
 
         //public void AddButtonMenu(ConrolPackageMenu menu)

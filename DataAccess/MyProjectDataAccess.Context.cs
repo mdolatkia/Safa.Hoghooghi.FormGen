@@ -53,7 +53,6 @@ namespace DataAccess
         public virtual DbSet<DatabaseFunction_TableDrivedEntity_Columns> DatabaseFunction_TableDrivedEntity_Columns { get; set; }
         public virtual DbSet<DatabaseFunctionParameter> DatabaseFunctionParameter { get; set; }
         public virtual DbSet<DatabaseInformation> DatabaseInformation { get; set; }
-        public virtual DbSet<DatabaseUISetting> DatabaseUISetting { get; set; }
         public virtual DbSet<DataLinkDefinition> DataLinkDefinition { get; set; }
         public virtual DbSet<DataLinkDefinition_EntityRelationshipTail> DataLinkDefinition_EntityRelationshipTail { get; set; }
         public virtual DbSet<DataMenuDataViewRelationship> DataMenuDataViewRelationship { get; set; }
@@ -169,5 +168,6 @@ namespace DataAccess
         public virtual DbSet<TransitionActionTarget> TransitionActionTarget { get; set; }
         public virtual DbSet<TransitionActivity> TransitionActivity { get; set; }
         public virtual DbSet<RelationshipType> RelationshipType { get; set; }
+        public virtual DbSet<DatabaseUISetting> DatabaseUISetting { get; set; }
     }
 }

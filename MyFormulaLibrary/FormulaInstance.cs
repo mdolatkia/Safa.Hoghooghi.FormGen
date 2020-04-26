@@ -277,7 +277,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
                 if (!gotFromParant)
                 {
                     result = new List<DP_DataRepository>();
-                    if (!relationshipPropertyInfo.Properties.Any(x => string.IsNullOrEmpty(x.Value) || x.Value == "<Null>"))
+                    if (!relationshipPropertyInfo.Properties.Any(x => string.IsNullOrEmpty(x.Value) ))
                     {
                         SearchRequestManager searchProcessor = new SearchRequestManager();
                         DP_SearchRepository searchItem = new DP_SearchRepository(relationshipPropertyInfo.Relationship.EntityID2);

@@ -553,7 +553,8 @@ namespace MyUILibrary
                     value = defVal;
                 }
                 else
-                    value = (column.IsNull == true ? "<Null>" : "");
+                    value = (column.IsNull == true ? null : "");
+                //    value = (column.IsNull == true ? "<Null>" : "");
                 ////}
                 //////}
                 result.AddProperty(column, value);
@@ -860,7 +861,7 @@ namespace MyUILibrary
         //}
         internal static bool ValueIsEmpty(EntityInstanceProperty property)
         {
-            if (string.IsNullOrEmpty(property.Value) || property.Value.ToLower() == "<null>" || property.Value == "0")
+            if (string.IsNullOrEmpty(property.Value) || property.Value == "0")
                 return true;
             else
                 return false;
@@ -1201,7 +1202,7 @@ namespace MyUILibrary
 
         //}
 
- 
+
         public static List<DP_DataView> GetRelatedDataItemsSomeHow(DP_DataRepository sentdata, EntityRelationshipTailDTO valueRelationshipTail)
         {
             return GetRelatedDataItemsSomeHow(valueRelationshipTail, new List<DP_DataRepository>() { sentdata });

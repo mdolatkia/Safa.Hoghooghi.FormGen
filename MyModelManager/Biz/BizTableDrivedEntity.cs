@@ -855,7 +855,12 @@ namespace MyModelManager
         {
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
-                var listSchema = new List<DBSchema>();
+                //bool showNullValue = false;
+                //var database = projectContext.DatabaseInformation.First(x => x.ID == databaseID);
+                //if(database.DatabaseUISetting!=null && database.DatabaseUISetting.ShowNullValue)
+
+
+                    var listSchema = new List<DBSchema>();
                 foreach (var newEntity in listNew)
                 {
                     if (ItemImportingStarted != null)
@@ -947,7 +952,7 @@ namespace MyModelManager
 
             //   table.TableDrivedEntity.First(x => x.IsOrginal == true).Alias = entity.Alias;
 
-
+         
 
             table.DBSchema = dbSchema;
             foreach (var column in entity.Columns)
@@ -1034,6 +1039,8 @@ namespace MyModelManager
                         dbColumn.TypeEnum = Convert.ToByte(Enum_ColumnType.None);
                 }
                 dbColumn.DBCalculateFormula = column.DBFormula;
+
+                //dbColumn.ShowNullValue=
                 //if (column.IsDBCalculatedColumn)
                 //{
                 //    dbColumn.IsDBCalculatedColumn = true;

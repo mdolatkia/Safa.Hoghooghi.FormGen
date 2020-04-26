@@ -55,12 +55,29 @@ namespace MyModelManager
             }
             return 0;
         }
-        public DatabaseDTO GetDatabase(int databaseID)
+
+        public bool SaveDatabaseSetting(int databaseID, DatabaseSettingDTO databaseSetting)
+        {
+            using (var projectContext = new DataAccess.MyProjectEntities())
+            {
+                var dbDatabase = projectContext.DatabaseInformation.FirstOrDefault(x => x.ID == databaseID);
+                if (dbDatabase.DatabaseUISetting == null)
+                    dbDatabase.DatabaseUISetting = new DatabaseUISetting();
+
+                dbDatabase.DatabaseUISetting.FlowDirectionLTR = databaseSetting.FlowDirectionLTR;
+                dbDatabase.DatabaseUISetting.ShowNullValue = databaseSetting.ShowNullValue;
+
+                projectContext.SaveChanges();
+                return true;
+            }
+        }
+
+        public DatabaseDTO GetDatabase(int databaseID, bool withSetting = false)
         {
             using (var context = new MyProjectEntities())
             {
                 var db = context.DatabaseInformation.First(x => x.ID == databaseID);
-                return ToDatabaseDTO(db);
+                return ToDatabaseDTO(db, withSetting);
 
             }
         }
@@ -106,12 +123,12 @@ namespace MyModelManager
                 return dbServer.ID;
             }
         }
-     
+
         public bool LinkedServerExists(int firstSideServerID, int secondSideServerId)
         {
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
-              return   projectContext.LinkedServer.Any(x => x.SourceDBServerID == firstSideServerID&& x.TargetDBServerID == secondSideServerId);
+                return projectContext.LinkedServer.Any(x => x.SourceDBServerID == firstSideServerID && x.TargetDBServerID == secondSideServerId);
             }
         }
         public int SaveServer(DbServerDTO message)
@@ -218,7 +235,7 @@ namespace MyModelManager
             return result;
         }
 
-        private DatabaseDTO ToDatabaseDTO(DataAccess.DatabaseInformation item)
+        private DatabaseDTO ToDatabaseDTO(DataAccess.DatabaseInformation item, bool withSetting = false)
         {
             DatabaseDTO result = new DatabaseDTO();
             result.ID = item.ID;
@@ -230,12 +247,26 @@ namespace MyModelManager
             result.DBType = (enum_DBType)Enum.Parse(typeof(enum_DBType), item.DBType, true);
             result.DBHasData = item.DBHasDate;
             result.ConnectionString = item.ConnectionString;
-
+            if (withSetting)
+            {
+                result.DatabaseSetting = GetDatabaseSetting(item);
+            }
 
             return result;
         }
 
-     
+        private DatabaseSettingDTO GetDatabaseSetting(DatabaseInformation item)
+        {
+            if (item.DatabaseUISetting != null)
+            {
+                DatabaseSettingDTO result = new DatabaseSettingDTO();
+                result.FlowDirectionLTR = item.DatabaseUISetting.FlowDirectionLTR;
+                result.ShowNullValue = item.DatabaseUISetting.ShowNullValue;
+                return result;
+            }
+            else
+                return null;
+        }
 
         public int SaveDatabase(DatabaseDTO message)
         {

@@ -2347,7 +2347,7 @@ namespace MyUILibrary.EntityArea
                                     fkProp.Value = pkProp.Value;
                             }
                             else
-                                fkProp.Value = "<Null>";
+                                fkProp.Value = null;
                         }
                     }
                 }

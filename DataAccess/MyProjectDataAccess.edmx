@@ -157,6 +157,7 @@
           <Property Name="DBCalculateFormula" Type="varchar" MaxLength="512" />
           <Property Name="CustomCalculateFormulaID" Type="int" />
           <Property Name="IsNotTransferable" Type="bit" Nullable="false" />
+          <Property Name="ShowNullValue" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ColumnPhrase">
           <Key>
@@ -285,7 +286,8 @@
             <PropertyRef Name="DatabaseInformationID" />
           </Key>
           <Property Name="DatabaseInformationID" Type="int" Nullable="false" />
-          <Property Name="FlowDirectionLTR" Type="int" Nullable="false" />
+          <Property Name="FlowDirectionLTR" Type="bit" Nullable="false" />
+          <Property Name="ShowNullValue" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DataLinkDefinition">
           <Key>
@@ -5740,7 +5742,6 @@
           <EntitySet Name="DatabaseFunction_TableDrivedEntity_Columns" EntityType="MyProjectModel.DatabaseFunction_TableDrivedEntity_Columns" />
           <EntitySet Name="DatabaseFunctionParameter" EntityType="MyProjectModel.DatabaseFunctionParameter" />
           <EntitySet Name="DatabaseInformation" EntityType="MyProjectModel.DatabaseInformation" />
-          <EntitySet Name="DatabaseUISetting" EntityType="MyProjectModel.DatabaseUISetting" />
           <EntitySet Name="DataLinkDefinition" EntityType="MyProjectModel.DataLinkDefinition" />
           <EntitySet Name="DataLinkDefinition_EntityRelationshipTail" EntityType="MyProjectModel.DataLinkDefinition_EntityRelationshipTail" />
           <EntitySet Name="DataMenuDataViewRelationship" EntityType="MyProjectModel.DataMenuDataViewRelationship" />
@@ -6154,10 +6155,6 @@
           <AssociationSet Name="FKDatabaseIn674957" Association="MyProjectModel.FKDatabaseIn674957">
             <End Role="SecurityObject" EntitySet="SecurityObject" />
             <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
-          </AssociationSet>
-          <AssociationSet Name="FKDatabaseUI703615" Association="MyProjectModel.FKDatabaseUI703615">
-            <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
-            <End Role="DatabaseUISetting" EntitySet="DatabaseUISetting" />
           </AssociationSet>
           <AssociationSet Name="FKDBSchema138241" Association="MyProjectModel.FKDBSchema138241">
             <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
@@ -6900,6 +6897,11 @@
             <End Role="RelationshipType" EntitySet="RelationshipType" />
             <End Role="UnionToSubUnionRelationshipType" EntitySet="UnionToSubUnionRelationshipType" />
           </AssociationSet>
+          <EntitySet Name="DatabaseUISetting" EntityType="MyProjectModel.DatabaseUISetting" />
+          <AssociationSet Name="FKDatabaseUI703615" Association="MyProjectModel.FKDatabaseUI703615">
+            <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
+            <End Role="DatabaseUISetting" EntitySet="DatabaseUISetting" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ArchiveFolder">
           <Key>
@@ -7115,6 +7117,7 @@
           <NavigationProperty Name="RelationshipColumns" Relationship="MyProjectModel.Relationship_FirstEntityColumns" FromRole="Column" ToRole="RelationshipColumns" />
           <NavigationProperty Name="RelationshipColumns1" Relationship="MyProjectModel.Relationship_SecondEntityColumns" FromRole="Column" ToRole="RelationshipColumns" />
           <NavigationProperty Name="UniqueConstraint" Relationship="MyProjectModel.UniqueConstraint_Column" FromRole="Column" ToRole="UniqueConstraint" />
+          <Property Name="ShowNullValue" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ColumnPhrase">
           <Key>
@@ -7267,16 +7270,8 @@
           <Property Name="DBType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DBServer" Relationship="MyProjectModel.FKDatabaseIn186668" FromRole="DatabaseInformation" ToRole="DBServer" />
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKDatabaseIn674957" FromRole="DatabaseInformation" ToRole="SecurityObject" />
-          <NavigationProperty Name="DatabaseUISetting" Relationship="MyProjectModel.FKDatabaseUI703615" FromRole="DatabaseInformation" ToRole="DatabaseUISetting" />
           <NavigationProperty Name="DBSchema" Relationship="MyProjectModel.FKDBSchema138241" FromRole="DatabaseInformation" ToRole="DBSchema" />
-        </EntityType>
-        <EntityType Name="DatabaseUISetting">
-          <Key>
-            <PropertyRef Name="DatabaseInformationID" />
-          </Key>
-          <Property Name="DatabaseInformationID" Type="Int32" Nullable="false" />
-          <Property Name="FlowDirectionLTR" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DatabaseInformation" Relationship="MyProjectModel.FKDatabaseUI703615" FromRole="DatabaseUISetting" ToRole="DatabaseInformation" />
+          <NavigationProperty Name="DatabaseUISetting" Relationship="MyProjectModel.FKDatabaseUI703615" FromRole="DatabaseInformation" ToRole="DatabaseUISetting" />
         </EntityType>
         <EntityType Name="DataLinkDefinition">
           <Key>
@@ -9657,18 +9652,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FKDatabaseUI703615">
-          <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="1" />
-          <End Type="MyProjectModel.DatabaseUISetting" Role="DatabaseUISetting" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DatabaseInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DatabaseUISetting">
-              <PropertyRef Name="DatabaseInformationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FKDBSchema138241">
           <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="1" />
           <End Type="MyProjectModel.DBSchema" Role="DBSchema" Multiplicity="*" />
@@ -11902,6 +11885,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DatabaseUISetting">
+          <Key>
+            <PropertyRef Name="DatabaseInformationID" />
+          </Key>
+          <Property Name="DatabaseInformationID" Type="Int32" Nullable="false" />
+          <Property Name="FlowDirectionLTR" Type="Boolean" Nullable="false" />
+          <Property Name="ShowNullValue" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DatabaseInformation" Relationship="MyProjectModel.FKDatabaseUI703615" FromRole="DatabaseUISetting" ToRole="DatabaseInformation" />
+        </EntityType>
+        <Association Name="FKDatabaseUI703615">
+          <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="1" />
+          <End Type="MyProjectModel.DatabaseUISetting" Role="DatabaseUISetting" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DatabaseInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DatabaseUISetting">
+              <PropertyRef Name="DatabaseInformationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12051,6 +12055,7 @@
           <EntitySetMapping Name="Column">
             <EntityTypeMapping TypeName="MyProjectModel.Column">
               <MappingFragment StoreEntitySet="Column">
+                <ScalarProperty Name="ShowNullValue" ColumnName="ShowNullValue" />
                 <ScalarProperty Name="IsNotTransferable" ColumnName="IsNotTransferable" />
                 <ScalarProperty Name="CustomCalculateFormulaID" ColumnName="CustomCalculateFormulaID" />
                 <ScalarProperty Name="DBCalculateFormula" ColumnName="DBCalculateFormula" />
@@ -12207,14 +12212,6 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="DBServerID" ColumnName="DBServerID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DatabaseUISetting">
-            <EntityTypeMapping TypeName="MyProjectModel.DatabaseUISetting">
-              <MappingFragment StoreEntitySet="DatabaseUISetting">
-                <ScalarProperty Name="FlowDirectionLTR" ColumnName="FlowDirectionLTR" />
-                <ScalarProperty Name="DatabaseInformationID" ColumnName="DatabaseInformationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -13405,6 +13402,15 @@
                 <ScalarProperty Name="IsOtherSideCreatable" ColumnName="IsOtherSideCreatable" />
                 <ScalarProperty Name="IsOtherSideMandatory" ColumnName="IsOtherSideMandatory" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DatabaseUISetting">
+            <EntityTypeMapping TypeName="MyProjectModel.DatabaseUISetting">
+              <MappingFragment StoreEntitySet="DatabaseUISetting">
+                <ScalarProperty Name="ShowNullValue" ColumnName="ShowNullValue" />
+                <ScalarProperty Name="FlowDirectionLTR" ColumnName="FlowDirectionLTR" />
+                <ScalarProperty Name="DatabaseInformationID" ColumnName="DatabaseInformationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

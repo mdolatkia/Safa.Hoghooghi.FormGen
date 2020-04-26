@@ -17,20 +17,20 @@ namespace ProxyLibrary
             get
             {
                 string text = "";
-                var list = Properties.Where(x => x.IsDescriptive);
+                var list = Properties.Where(x => x.IsDescriptive==true);
                 if (list.Count() == 0)
                 {
-                    list = Properties.Where(x => !string.IsNullOrEmpty(x.Value) && x.Value != "<Null>" && x.Value.Length <= 50).Take(5);
+                    list = Properties.Where(x => !string.IsNullOrEmpty(x.Value)  && x.Value.Length <= 50).Take(5);
                 }
                 if (list.Count() == 0)
                 {
-                    list = Properties.Where(x => !string.IsNullOrEmpty(x.Value) && x.Value != "<Null>").Take(1);
+                    list = Properties.Where(x => !string.IsNullOrEmpty(x.Value) ).Take(1);
                 }
                 //if (list.Count() <= 15)
                 //{
                 foreach (var prop in list)
                 {
-                    if (!string.IsNullOrEmpty(prop.Value) && prop.Value != "<Null>")
+                    if (!string.IsNullOrEmpty(prop.Value) )
                         text += (text == "" ? "" : ", ") + prop.Column.Alias + ":" + prop.Value;
                 }
                 //}

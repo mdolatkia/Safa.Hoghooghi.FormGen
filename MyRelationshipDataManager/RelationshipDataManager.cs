@@ -37,7 +37,7 @@ namespace MyRelationshipDataManager
                 {
                     var value = "";
                     value = firstSideDataItem.GetProperty(col.FirstSideColumnID).Value;
-                    if (value == "<Null>")
+                    if (value == null)
                         return null;
                     resultDataItem.Phrases.Add(new SearchProperty() { ColumnID = col.SecondSideColumnID, Value = value });
                 }
@@ -68,7 +68,7 @@ namespace MyRelationshipDataManager
                     {
 
                         var value = firstSideDataItem.GetProperty(col.FirstSideColumnID).Value;
-                        if (value == "<Null>")
+                        if (value == null)
                             return null;
                         resultDataItem.Phrases.Add(new SearchProperty() { ColumnID = col.SecondSideColumnID, Value = value });
 

@@ -227,22 +227,22 @@ namespace MyUILibrary.EntityArea
 
         private bool PropertyHasValue(SimpleSearchColumnControl property, string value)
         {
-            return !string.IsNullOrEmpty(value) && value.ToLower() != "<null>" && value.ToLower() != "0";
+            return !string.IsNullOrEmpty(value) && value.ToLower() != "0";
         }
 
         private bool PropertyHasValue(SearchProperty item)
         {
-            return !string.IsNullOrEmpty(item.Value) && item.Value.ToLower() != "<null>" && item.Value.ToLower() != "0";
+            return !string.IsNullOrEmpty(item.Value)  && item.Value.ToLower() != "0";
         }
 
         private bool SearchValueIsEmpty(SimpleSearchColumnControl typePropertyControl, string value)
         {
             if (typePropertyControl is NullColumnControl)
-                return string.IsNullOrEmpty(value) || value == "<Null>" || value == "false" || value == "0";
+                return string.IsNullOrEmpty(value)  || value == "false" || value == "0";
             else if (typePropertyControl is RelationCheckColumnControl || typePropertyControl is RelationCountCheckColumnControl)
-                return string.IsNullOrEmpty(value) || value == "<Null>" || value == "false" || value == "0";
+                return string.IsNullOrEmpty(value) || value == "false" || value == "0";
             else
-                return string.IsNullOrEmpty(value) || value == "<Null>" || value == "0";
+                return string.IsNullOrEmpty(value)  || value == "0";
         }
 
 

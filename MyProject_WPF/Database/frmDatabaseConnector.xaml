@@ -1,0 +1,29 @@
+﻿<UserControl xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls"  x:Class="MyProject_WPF.frmDatabaseConnector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyProject_WPF"
+             mc:Ignorable="d" 
+               FlowDirection="RightToLeft"  Width="400">
+    <Grid Margin="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" ></RowDefinition>
+            <RowDefinition Height="auto" ></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="پایگاه داده :" Grid.Row="0"   VerticalAlignment="Center"></TextBlock>
+        <MyCommonWPFControls:MyStaticLookup HorizontalAlignment="Stretch" x:Name="lokDatabase" Grid.Column="1" NewItemEnabled="False"/>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="اتصال به پایگاه داده"  Click="btnConnection_Click" Margin="2"  HorizontalAlignment="Stretch"  x:Name="btnConnection"></Button>
+            <Button Grid.Column="1" Content="استخراج پایگاه داده"  Click="btnImport_Click" Margin="2" HorizontalAlignment="Stretch"  x:Name="btnImport"></Button>
+        </Grid>
+    </Grid>
+</UserControl>

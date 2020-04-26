@@ -399,30 +399,55 @@ namespace MyModelManager
             {
                 return false;
             }
+            var key = string.IsNullOrEmpty(item.Column.Alias) ? item.Column.Name : item.Column.Alias;
             if (string.IsNullOrEmpty(item.CreateRelationshipTailPath))
             {
                 if (item.Column.PrimaryKey)
                     return true;
                 else
-                    return CheckDescriptiveColumnName(item.Column.Name);
+                    return GetDescriptiveColumnNames().Contains(key.ToLower());
             }
             else
             {
                 if (item.AllRelationshipsAreSubTuSuper)
                 {
-                    return CheckDescriptiveColumnName(item.Column.Name);
+                    return GetDescriptiveColumnNames().Contains(key.ToLower());
                 }
             }
             return false;
 
         }
-
-        private bool CheckDescriptiveColumnName(string columnName)
+        private bool CheckFirstPriorityColumnName(ColumnDTO column)
         {
-            var toLowwer = columnName.ToLower();
-            return toLowwer.Contains("code") || toLowwer.Contains("name") || toLowwer.Contains("firstname") || toLowwer.Contains("lastname") || toLowwer.Contains("title") || toLowwer.Contains("number")
-                    || toLowwer.Contains("family");
+            var key = string.IsNullOrEmpty(column.Alias) ? column.Name : column.Alias;
+            return GetPriorityColumnNames().Contains(key.ToLower());
         }
+        List<string> _GetPriorityColumnNames;
+        List<string> GetPriorityColumnNames()
+        {
+            if (_GetPriorityColumnNames == null)
+            {
+                _GetPriorityColumnNames = GetDescriptiveColumnNames().ToList();
+                _GetPriorityColumnNames.Add("type");
+                _GetPriorityColumnNames.Add("نوع");
+            }
+            return _GetPriorityColumnNames;
+        }
+        List<string> _DescriptiveColumnNames;
+        List<string> GetDescriptiveColumnNames()
+        {
+            if (_DescriptiveColumnNames == null)
+            {
+                _DescriptiveColumnNames = new List<string>()
+                {  "code","شماره", "name","نام", "firstname", "lastname", "title","عنوان", "number", "family" };
+            }
+            return _DescriptiveColumnNames;
+        }
+        //private bool CheckDescriptiveColumnName(ColumnDTO column)
+        //{
+           
+        //    return
+        //}
 
         private List<ColumnDTO> GetSimpleListViewColumns(TableDrivedEntityDTO entity)
         {
@@ -450,13 +475,12 @@ namespace MyModelManager
             List<ColumnDTO> result = new List<ColumnDTO>();
             foreach (var column in columns)
             {
-
-                if (CheckDescriptiveColumnName(column.Name))
+                if (CheckFirstPriorityColumnName(column))
                     result.Add(column);
                 else
                 {
-                    var toLowwer = column.Name.ToLower();
-                    if (toLowwer.Contains("date") && indexer < columns.Count / 2)
+                    var key = string.IsNullOrEmpty(column.Alias) ? column.Name : column.Alias;
+                    if ((key.Contains("date") || key.Contains("تاریخ")) && indexer < columns.Count / 2)
                         result.Add(column);
                 }
                 indexer++;

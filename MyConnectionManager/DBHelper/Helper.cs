@@ -56,7 +56,7 @@ namespace MyConnectionManager
         {//درست شود
             try
             {
-                if (value == null || value == "<Null>")
+                if (value == null )
                     return null;
                 else
                     return Convert.ChangeType(value, dotNetType);

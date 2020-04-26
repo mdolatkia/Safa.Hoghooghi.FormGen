@@ -225,8 +225,8 @@ namespace MyDataEditManagerBusiness
                 EditQueryItemManager editQueryItemManager = new MyDataEditManagerBusiness.EditQueryItemManager();
                 var listProperties = new List<EntityInstanceProperty>();
                 foreach (var column in entity.Columns)
-                    listProperties.Add(new EntityInstanceProperty(column) { Value = "<null>" });
-                listProperties.Add(new EntityInstanceProperty(entity.DeterminerColumn) { Value = "<null>" });
+                    listProperties.Add(new EntityInstanceProperty(column) { Value = null });
+                listProperties.Add(new EntityInstanceProperty(entity.DeterminerColumn) { Value = null});
 
                 var newQuertItem = new QueryItem(entity, Enum_QueryItemType.Update, listProperties, queryItem.DataItem);
                 return editQueryItemManager.GetUpdateQuery(newQuertItem);
@@ -234,7 +234,7 @@ namespace MyDataEditManagerBusiness
         }
         private string GetPropertyValue(string value)
         {
-            if (value != null && value.ToLower() == "<null>")
+            if (value == null )
                 return "NULL";
             else
                 return "'" + value + "'";
@@ -284,7 +284,7 @@ namespace MyDataEditManagerBusiness
                         var prop = item.GetProperty(col.SecondSideColumnID);
                         if (prop == null)
                             prop = new EntityInstanceProperty(col.SecondSideColumn);
-                        prop.Value = "<Null>";
+                        prop.Value = null;
                         listEditProperties.Add(prop);
 
                     }

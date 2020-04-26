@@ -595,14 +595,15 @@ namespace MyProject_WPF
                         if (item.Entity.IndependentDataEntry == false)
                         {
                             bool isValid = false;
-                            if (relationships.Any(x => !x.IsDisabled ))
+
+                            if (relationships.Any(x => !x.IsDisabled && x.DataEntryEnabled))
                             {
                                 isValid = true;
-                                if (!isValid)
-                                {
-                                    if (item.Relationships.Any(x => x.Select))
-                                        isValid = true;
-                                }
+                            }
+                            if (!isValid)
+                            {
+                                if (item.Relationships.Any(x => x.Select))
+                                    isValid = true;
                             }
                             if (!isValid)
                                 validationTooltip += (validationTooltip == "" ? "" : Environment.NewLine) + "موجودیت امکان ورود اطلاعات مستقیم و یا از طریق رابطه را ندارد";

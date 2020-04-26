@@ -404,6 +404,12 @@ namespace MyProject_WPF
             return true;
         }
 
+        private void btnDatabaseSetting_Click(object sender, RoutedEventArgs e)
+        {
+            frmDatabaseSetting frm = new MyProject_WPF.frmDatabaseSetting(Database.ID);
+            MyProjectManager.GetMyProjectManager.ShowDialog(frm, "تنظیمات پایگاه داده", Enum_WindowSize.None);
+        }
+
 
 
         //private Task<List<TableDrivedEntityDTO>> GenerateDefaultEntitiesAndColumns()

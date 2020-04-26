@@ -33,7 +33,6 @@
         <EntityTypeShape EntityType="MyProjectModel.DatabaseFunction_TableDrivedEntity_Columns" Width="1.5" PointX="28.75" PointY="155.375" />
         <EntityTypeShape EntityType="MyProjectModel.DatabaseFunctionParameter" Width="1.5" PointX="12.75" PointY="155.5" />
         <EntityTypeShape EntityType="MyProjectModel.DatabaseInformation" Width="1.5" PointX="3" PointY="144.75" />
-        <EntityTypeShape EntityType="MyProjectModel.DatabaseUISetting" Width="1.5" PointX="5.25" PointY="153" />
         <EntityTypeShape EntityType="MyProjectModel.DataLinkDefinition" Width="1.5" PointX="16.5" PointY="207.125" />
         <EntityTypeShape EntityType="MyProjectModel.DataLinkDefinition_EntityRelationshipTail" Width="1.5" PointX="18.75" PointY="216" />
         <EntityTypeShape EntityType="MyProjectModel.DataMenuDataViewRelationship" Width="1.5" PointX="18.75" PointY="200.375" />
@@ -223,7 +222,6 @@
         <AssociationConnector Association="MyProjectModel.FKDatabaseFu935636" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseIn186668" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseIn674957" />
-        <AssociationConnector Association="MyProjectModel.FKDatabaseUI703615" />
         <AssociationConnector Association="MyProjectModel.FKDBSchema138241" />
         <AssociationConnector Association="MyProjectModel.FKDataLinkDe305355" />
         <AssociationConnector Association="MyProjectModel.FKDataLinkDe790101" />
@@ -410,6 +408,8 @@
         <AssociationConnector Association="MyProjectModel.FKSubUnionTo818068" />
         <AssociationConnector Association="MyProjectModel.FKSuperToSub305547" />
         <AssociationConnector Association="MyProjectModel.FKUnionToSub14902" />
+        <EntityTypeShape EntityType="MyProjectModel.DatabaseUISetting" Width="1.5" PointX="5.25" PointY="152.375" />
+        <AssociationConnector Association="MyProjectModel.FKDatabaseUI703615" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

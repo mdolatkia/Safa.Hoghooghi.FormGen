@@ -61,7 +61,8 @@ namespace ModelEntites
 
         public Type DotNetType { set; get; }
         public bool IsNotTransferable { get; set; }
-
+        public bool ShowNullValue { get; set; }
+        
         public bool IsIdentity { get; set; }
 
         public bool IsBoolean { get; set; }
@@ -84,7 +85,7 @@ namespace ModelEntites
         public FormulaDTO CustomFormula { set; get; }
 
         public bool ColumnsAdded { get; set; }
-        public bool IsDescriptive { get; set; }
+     //   public bool IsDescriptive { get; set; }
     }
     public class ColumnDescriptionDTO
     {
@@ -285,6 +286,14 @@ namespace ModelEntites
         public string ConnectionString { set; get; }
         public enum_DBType DBType { set; get; }
         public bool DBHasData { get; set; }
+        public DatabaseSettingDTO DatabaseSetting { get; set; }
+        
+    }
+    public class DatabaseSettingDTO
+    {
+        public int DatabaseInformationID { set; get; }
+        public bool FlowDirectionLTR { get; set; }
+        public bool ShowNullValue { get; set; }
     }
     public enum enum_DBType
     {

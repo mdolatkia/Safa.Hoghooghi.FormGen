@@ -41,7 +41,7 @@ namespace MyGeneralLibrary
 
         public static string GetPropertyValue(EntityInstanceProperty column)
         {
-            if (column.Value != null && column.Value.ToLower() == "<null>")
+            if (column.Value == null )
                 return "NULL";
             else if (column != null && column.Value.ToLower() == "SCOPE_IDENTITY()".ToLower())
                 return column.Value;

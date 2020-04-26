@@ -202,10 +202,13 @@
     <Compile Include="CommonTemp\frmDataSelect.xaml.cs">
       <DependentUpon>frmDataSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DBConnect\frmLinekedServer.xaml.cs">
+    <Compile Include="Database\frmDatabaseSetting.xaml.cs">
+      <DependentUpon>frmDatabaseSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\frmLinekedServer.xaml.cs">
       <DependentUpon>frmLinekedServer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DBConnect\frmSQLConnectionString.xaml.cs">
+    <Compile Include="Database\frmSQLConnectionString.xaml.cs">
       <DependentUpon>frmSQLConnectionString.xaml</DependentUpon>
     </Compile>
     <Compile Include="DrivedEntities\SelectDrivedEntites.xaml.cs">
@@ -229,10 +232,10 @@
     <Compile Include="Formula\frmFormulaTree.xaml.cs">
       <DependentUpon>frmFormulaTree.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DBConnect\frmDBServerSelect.xaml.cs">
+    <Compile Include="Database\frmDBServerSelect.xaml.cs">
       <DependentUpon>frmDBServerSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DBConnect\frmDatabaseSelect.xaml.cs">
+    <Compile Include="Database\frmDatabaseSelect.xaml.cs">
       <DependentUpon>frmDatabaseSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="DBImport\DatabaseImportWizard.xaml.cs">
@@ -275,10 +278,10 @@
     <Compile Include="DrivedEntities\frmEditSubEntity.xaml.cs">
       <DependentUpon>frmEditSubEntity.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Entities\frmEntitySearch.xaml.cs">
+    <Compile Include="SearchView\frmEntitySearch.xaml.cs">
       <DependentUpon>frmEntitySearch.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Entities\frmEntitySearchSelect.xaml.cs">
+    <Compile Include="SearchView\frmEntitySearchSelect.xaml.cs">
       <DependentUpon>frmEntitySearchSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="EntityState\frmUIActionActivitySelect.xaml.cs">
@@ -407,10 +410,10 @@
     </Compile>
     <Compile Include="Workflow\Diagram\PercentageConverter.cs" />
     <Compile Include="Workflow\Diagram\StateShape.cs" />
-    <Compile Include="DBConnect\frmDBServer.xaml.cs">
+    <Compile Include="Database\frmDBServer.xaml.cs">
       <DependentUpon>frmDBServer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DBConnect\frmDatabase.xaml.cs">
+    <Compile Include="Database\frmDatabase.xaml.cs">
       <DependentUpon>frmDatabase.xaml</DependentUpon>
     </Compile>
     <Compile Include="DBViewFunctions\frmDBViewFunctions.xaml.cs">
@@ -437,10 +440,10 @@
     <Compile Include="Report\frmEntityChartReportSelect.xaml.cs">
       <DependentUpon>frmEntityChartReportSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Entities\frmEntityListViewSelect.xaml.cs">
+    <Compile Include="ListView\frmEntityListViewSelect.xaml.cs">
       <DependentUpon>frmEntityListViewSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Entities\frmEntityListView.xaml.cs">
+    <Compile Include="ListView\frmEntityListView.xaml.cs">
       <DependentUpon>frmEntityListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Report\frmEntityListReport.xaml.cs">
@@ -544,11 +547,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DBConnect\frmLinekedServer.xaml">
+    <Page Include="Database\frmDatabaseSetting.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DBConnect\frmSQLConnectionString.xaml">
+    <Page Include="Database\frmLinekedServer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Database\frmSQLConnectionString.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -580,11 +587,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DBConnect\frmDBServerSelect.xaml">
+    <Page Include="Database\frmDBServerSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DBConnect\frmDatabaseSelect.xaml">
+    <Page Include="Database\frmDatabaseSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -652,11 +659,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Entities\frmEntitySearch.xaml">
+    <Page Include="SearchView\frmEntitySearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Entities\frmEntitySearchSelect.xaml">
+    <Page Include="SearchView\frmEntitySearchSelect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -668,11 +675,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DBConnect\frmDBServer.xaml">
+    <Page Include="Database\frmDBServer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DBConnect\frmDatabase.xaml">
+    <Page Include="Database\frmDatabase.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -748,11 +755,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Entities\frmEntityListViewSelect.xaml">
+    <Page Include="ListView\frmEntityListViewSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Entities\frmEntityListView.xaml">
+    <Page Include="ListView\frmEntityListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

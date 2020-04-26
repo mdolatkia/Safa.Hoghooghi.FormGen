@@ -386,7 +386,6 @@ namespace MyProject_WPF
                        bool otoCondition = false;
                        if (item.Relationship.RelationInfo.FKHasData == true)
                        {
-                           روابط ترث خصئصیات
                            //این شرط جدید اضافه شد. برای اینکه اگر کلید خارجی جزو پرایمری ها باشد معلوم است که ارتباط چند به چند یا مالکیت منظور بوده است 
                            if (!item.Relationship.RelationshipColumns.Any(x => x.SecondSideColumn.PrimaryKey))
                            {

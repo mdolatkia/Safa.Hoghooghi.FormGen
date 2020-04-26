@@ -694,7 +694,11 @@ namespace MyModelManager
                 }
                 else
                 {
-                    isaRelationship.IsTolatParticipation = false;
+                    if (relationshipGroup.Count() > 1)
+                        isaRelationship.IsTolatParticipation = true;
+                    else
+                        isaRelationship.IsTolatParticipation = false;
+
                     isaRelationship.IsDisjoint = true;
                 }
 
@@ -739,7 +743,7 @@ namespace MyModelManager
                 var unionRelationship = new UnionRelationshipType();
                 unionRelationship.Name = relationshipGroup.Key;
                 if (dbDatabase.DBHasDate)
-                    unionRelationship.IsTolatParticipation = isaInfo.IsTotalParticipation==true;
+                    unionRelationship.IsTolatParticipation = isaInfo.IsTotalParticipation == true;
                 else
                     unionRelationship.IsTolatParticipation = false;
                 foreach (var relationship in relationshipGroup)

@@ -119,7 +119,6 @@ namespace MyProject_WPF
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsStructurReferencee", "مرجع ساختاری", false, 160, GridViewColumnType.CheckBox));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsAssociative", "جدول واسط", false, 160, GridViewColumnType.CheckBox));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SelectAsComboBox", "جستجوی کمبو", false, 160, GridViewColumnType.CheckBox));
-
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SearchInitially", "جستجوی خودکار", false, 160, GridViewColumnType.CheckBox));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("LoadArchiveRelatedItems", "نمایش آرشیو مرتبط", false, 160, GridViewColumnType.CheckBox));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("LoadLetterRelatedItems", "نمایش نامه های مرتبط", false, 160, GridViewColumnType.CheckBox));
@@ -137,9 +136,10 @@ namespace MyProject_WPF
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PrimaryKey", "کلید اصلی", true, 100, GridViewColumnType.CheckBox));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsIdentity", "شماره خودکار", true, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsNull", "مقدار NULL", true, 100, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsNull", "مقدار Null", true, 100, GridViewColumnType.CheckBox));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsMandatory", "اجباری", false, 100, GridViewColumnType.CheckBox));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DefaultValue", "مقدار پیش فرض", false, 100, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ShowNullValue", "نمایش مقدار Null", false, 100, GridViewColumnType.Text));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataType", "نوع داده", true, 100, GridViewColumnType.Text));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Position", "موقعیت", false, 100, GridViewColumnType.Numeric));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsDisabled", "غیر فعال", false, 100, GridViewColumnType.CheckBox));

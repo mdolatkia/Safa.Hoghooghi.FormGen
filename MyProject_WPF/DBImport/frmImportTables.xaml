@@ -32,7 +32,12 @@
                         <TextBlock Text="ثبت"></TextBlock>
                     </StackPanel>
                 </Button>
-
+                <Button Margin="2" Width="120"  x:Name="btnDatabaseSetting" Click="btnDatabaseSetting_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\command.png"  />
+                        <TextBlock Text="تنظیمات"></TextBlock>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Grid>
         <TabControl Grid.Row="1">

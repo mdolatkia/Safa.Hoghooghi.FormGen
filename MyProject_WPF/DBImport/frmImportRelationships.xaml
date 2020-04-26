@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
 
             </Grid.ColumnDefinitions>
-            <Image x:Name="imgJob" Source="../Images/relationship1.png"></Image>
+            <Image x:Name="imgJob" Source="../Images/relationship.png"></Image>
             <TextBlock Grid.Column="1" FontSize="16" HorizontalAlignment="Left">بروزرسانی روابط</TextBlock>
             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Column="2">
                 <Button Width="120" x:Name="btnExtract" Margin="2" Click="btnExtract_Click">

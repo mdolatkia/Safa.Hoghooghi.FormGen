@@ -421,6 +421,13 @@ namespace MyModelGenerator
                 adapterKeyColumns.Fill(keyColumnsTableDes);
                 var keyColumnsEnumerator = keyColumnsTableDes.AsEnumerable();
 
+                //کلیه ستونها برای اینکه ببینیم فارن کی نال هست یا نه
+                var fkColumnsQuery = @"SELECT * FROM information_schema.columns";
+                SqlDataAdapter adapterFKKeyColumns = new SqlDataAdapter(fkColumnsQuery, testConn);
+                var fkkeyColumnsTableDes = new DataTable();
+                adapterFKKeyColumns.Fill(fkkeyColumnsTableDes);
+                var fkkeyColumnsEnumerator = fkkeyColumnsTableDes.AsEnumerable();
+
                 //DataTable relationDataTable = null;
                 //using (SqlCommand command = new SqlCommand(commandStr, testConn))
                 //{
@@ -430,6 +437,9 @@ namespace MyModelGenerator
                 //        relationDataTable.Load(dr);
                 //    }
                 //}
+
+
+
                 int count = 0;
                 using (SqlCommand commandCount = new SqlCommand(groupStrCount, testConn))
                 {
@@ -475,6 +485,8 @@ namespace MyModelGenerator
                                 string FKColumn = row["FK_Column"].ToString();
                                 PKColumns += (PKColumns == "" ? "" : ",") + PKColumn;
                                 FKColumns += (FKColumns == "" ? "" : ",") + FKColumn;
+
+
                                 //var pkColumn = projectContext.Column.Where(x => x.Table.Name == PKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID && x.Name == PKColumn).FirstOrDefault();
                                 //if (pkColumn == null)
                                 //    throw (new Exception("Column " + PKColumn + " in " + PKTable + " is not found!"));
@@ -486,61 +498,74 @@ namespace MyModelGenerator
                                 tooltip += (tooltip == "" ? "" : Environment.NewLine) + relation.Entity1 + "." + PKColumn + " = " + relation.Entity2 + "." + FKColumn;
                             }
 
+
                             relation.FKSidePKColumnsAreFkColumns = FKSidePKColumnsAreFkColumns(relation, keyColumnsEnumerator);
                             if (relation.FKSidePKColumnsAreFkColumns)
                             {
 
                             }
-                                //Relationship reverseRelation = null;
-                                //var relation = relations.FirstOrDefault();
-                                //if (relation != null)
-                                //    reverseRelation = projectContext.Relationship.FirstOrDefault(x => x.RelationshipID == relation.ID);
-                                //if (relation == null)
-                                //    relation = new Relationship();
-                                //if (reverseRelation == null)
-                                //    reverseRelation = new Relationship();
-                                //     relation.Info = "(PK)" + relation.Entity1 + "." + PKColumns + ">(FK)" + relation.Entity2 + "." + FKColumns;
-                                //reverseRelation.Name = relation.Name + "=(FK)" + FKTable + "." + FKColumns + ">" + "(PK)" + PKTable + "." + PKColumns;
+                            bool hasNullFKColumn = false;
+                            foreach (var relColumn in relation.RelationshipColumns)
+                            {
+                                var fkColumn = fkkeyColumnsEnumerator.FirstOrDefault(x => x["TABLE_NAME"].ToString() == relation.Entity2
+                                && x["column_name"].ToString()== relColumn.SecondSideColumn.Name);
+                                if (fkColumn != null && fkColumn["is_nullable"].ToString() == "YES")
+                                {
+                                    hasNullFKColumn = true;
+                                    break;
+                                }
+                            }
+                            relation.FKCoumnIsNullable = hasNullFKColumn;
+                            //Relationship reverseRelation = null;
+                            //var relation = relations.FirstOrDefault();
+                            //if (relation != null)
+                            //    reverseRelation = projectContext.Relationship.FirstOrDefault(x => x.RelationshipID == relation.ID);
+                            //if (relation == null)
+                            //    relation = new Relationship();
+                            //if (reverseRelation == null)
+                            //    reverseRelation = new Relationship();
+                            //     relation.Info = "(PK)" + relation.Entity1 + "." + PKColumns + ">(FK)" + relation.Entity2 + "." + FKColumns;
+                            //reverseRelation.Name = relation.Name + "=(FK)" + FKTable + "." + FKColumns + ">" + "(PK)" + PKTable + "." + PKColumns;
 
-                                //if (relation.ID == 0)
-                                //{
-                                //    relation.MasterTypeEnum = (int)Enum_MasterRelationshipType.FromPrimartyToForeign;
-                                //    reverseRelation.MasterTypeEnum = (int)Enum_MasterRelationshipType.FromForeignToPrimary;
-                                //    relation.TableDrivedEntity = entity1;
-                                //    relation.TableDrivedEntity1 = entity2;
-                                //    reverseRelation.TableDrivedEntity1 = entity1;
-                                //    reverseRelation.TableDrivedEntity = entity2;
+                            //if (relation.ID == 0)
+                            //{
+                            //    relation.MasterTypeEnum = (int)Enum_MasterRelationshipType.FromPrimartyToForeign;
+                            //    reverseRelation.MasterTypeEnum = (int)Enum_MasterRelationshipType.FromForeignToPrimary;
+                            //    relation.TableDrivedEntity = entity1;
+                            //    relation.TableDrivedEntity1 = entity2;
+                            //    reverseRelation.TableDrivedEntity1 = entity1;
+                            //    reverseRelation.TableDrivedEntity = entity2;
 
-                                //    foreach (var row in rows)
-                                //    {
-                                //        string PKColumn = row["PK_Column"].ToString();
-                                //        string FKColumn = row["FK_Column"].ToString();
-                                //        var pkColumn = projectContext.Column.Where(x => x.Table.Name == PKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID && x.Name == PKColumn).FirstOrDefault();
-                                //        var fkColumn = projectContext.Column.Where(x => x.Table.Name == FKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID && x.Name == FKColumn).FirstOrDefault();
-                                //        relation.RelationshipColumns.Add(new RelationshipColumns() { Column = pkColumn, Column1 = fkColumn });
-                                //        reverseRelation.RelationshipColumns.Add(new RelationshipColumns() { Column = fkColumn, Column1 = pkColumn });
-                                //    }
-                                //}
-                                //if (relation.ID == 0)
-                                //{
+                            //    foreach (var row in rows)
+                            //    {
+                            //        string PKColumn = row["PK_Column"].ToString();
+                            //        string FKColumn = row["FK_Column"].ToString();
+                            //        var pkColumn = projectContext.Column.Where(x => x.Table.Name == PKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID && x.Name == PKColumn).FirstOrDefault();
+                            //        var fkColumn = projectContext.Column.Where(x => x.Table.Name == FKTable && x.Table.DBSchema.DatabaseInformationID == Database.ID && x.Name == FKColumn).FirstOrDefault();
+                            //        relation.RelationshipColumns.Add(new RelationshipColumns() { Column = pkColumn, Column1 = fkColumn });
+                            //        reverseRelation.RelationshipColumns.Add(new RelationshipColumns() { Column = fkColumn, Column1 = pkColumn });
+                            //    }
+                            //}
+                            //if (relation.ID == 0)
+                            //{
 
-                                //    relation.SecurityObject = new SecurityObject();
-                                //    relation.SecurityObject.Type = (int)DatabaseObjectCategory.Relationship;
-                                //    projectContext.Relationship.Add(relation);
-                                //    reverseRelation.SecurityObject = new SecurityObject();
-                                //    reverseRelation.SecurityObject.Type = (int)DatabaseObjectCategory.Relationship;
-                                //    projectContext.Relationship.Add(reverseRelation);
-                                //    projectContext.SaveChanges();
-                                //    relation.RelationshipID = reverseRelation.ID;
-                                //    reverseRelation.RelationshipID = relation.ID;
-                                //    projectContext.SaveChanges();
-                                //}
-                                //else
-                                //    projectContext.SaveChanges();
+                            //    relation.SecurityObject = new SecurityObject();
+                            //    relation.SecurityObject.Type = (int)DatabaseObjectCategory.Relationship;
+                            //    projectContext.Relationship.Add(relation);
+                            //    reverseRelation.SecurityObject = new SecurityObject();
+                            //    reverseRelation.SecurityObject.Type = (int)DatabaseObjectCategory.Relationship;
+                            //    projectContext.Relationship.Add(reverseRelation);
+                            //    projectContext.SaveChanges();
+                            //    relation.RelationshipID = reverseRelation.ID;
+                            //    reverseRelation.RelationshipID = relation.ID;
+                            //    projectContext.SaveChanges();
+                            //}
+                            //else
+                            //    projectContext.SaveChanges();
 
 
-                                //    result.SuccessfulItems.Add(resultitem);
-                                result.Add(new RelationshipImportItem(relation, false, tooltip));
+                            //    result.SuccessfulItems.Add(resultitem);
+                            result.Add(new RelationshipImportItem(relation, false, tooltip));
                         }
                         catch (Exception ex)
                         {
