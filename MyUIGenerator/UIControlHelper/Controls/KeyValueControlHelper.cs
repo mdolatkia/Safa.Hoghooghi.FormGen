@@ -63,7 +63,7 @@ namespace MyUIGenerator.UIControlHelper
             //    theGrid.Children.Add(cmbOperators);
             //}
             //}
-           
+
         }
         bool ValueIsTitleOrValue { set; get; }
         //public List<ColumnKeyValueRangeDetailsDTO> KeyValues { get; private set; }
@@ -71,24 +71,24 @@ namespace MyUIGenerator.UIControlHelper
         //public FrameworkElement GenerateControl(ColumnDTO correspondingTypeProperty, ColumnUISettingDTO columnSetting, List<SimpleSearchOperator> operators = null)
         //{
 
-            //UIControlPackage package = new UIControlPackage();
-            //package.UIControls = new List<FrameworkElement>();
-            //UIControlSetting controlUISetting = new UIControlSetting();
-            //controlUISetting.DesieredColumns = ColumnWidth.Normal;
-            //controlUISetting.DesieredRows = 1;
-            //if (columnSetting.IsReadOnly && columnSetting.LabelForReadOnlyText == true)
-            //{
-            //    var combo = new TextBlock();
+        //UIControlPackage package = new UIControlPackage();
+        //package.UIControls = new List<FrameworkElement>();
+        //UIControlSetting controlUISetting = new UIControlSetting();
+        //controlUISetting.DesieredColumns = ColumnWidth.Normal;
+        //controlUISetting.DesieredRows = 1;
+        //if (columnSetting.IsReadOnly && columnSetting.LabelForReadOnlyText == true)
+        //{
+        //    var combo = new TextBlock();
 
-            //    //combo.Margin = new System.Windows.Thickness(5);
-            //    combo.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-            //    combo.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+        //    //combo.Margin = new System.Windows.Thickness(5);
+        //    combo.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+        //    combo.VerticalAlignment = System.Windows.VerticalAlignment.Center;
 
-            //    package.FrameworkElement = new FrameworkElement() { Control = combo, UIControlSetting = columnSetting.UISetting};
-            //}
-            //else
-            //{
-           
+        //    package.FrameworkElement = new FrameworkElement() { Control = combo, UIControlSetting = columnSetting.UISetting};
+        //}
+        //else
+        //{
+
         //}
 
         //private void Combo_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -110,15 +110,15 @@ namespace MyUIGenerator.UIControlHelper
         //}
 
 
-        public bool SetValue( string value)
+        public bool SetValue(object value)
         {
             //var control = uiControl;
 
             if (ValueIsTitleOrValue)
-                combo.Text = value;
+                combo.Text = value==null?"":value.ToString();
             else
             {
-                if (value == "")
+                if (value == null)
                     combo.SelectedValue = null;
                 else
                     combo.SelectedValue = Convert.ToInt32(value);
@@ -173,11 +173,11 @@ namespace MyUIGenerator.UIControlHelper
             //}
         }
 
-        public void EnableDisable( bool enable)
+        public void EnableDisable(bool enable)
         {
             combo.IsEnabled = enable;
         }
-        public void Visiblity( bool visible)
+        public void Visiblity(bool visible)
         {
             combo.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -185,28 +185,28 @@ namespace MyUIGenerator.UIControlHelper
         {
             return combo.Visibility == Visibility.Visible;
         }
-        public void SetReadonly( bool isreadonly)
+        public void SetReadonly(bool isreadonly)
         {
             // combo.IsReadOnly = isreadonly;
             combo.IsEnabled = !isreadonly;
         }
         public CommonOperator GetOperator()
         {
-            if (cmbOperators!= null)
+            if (cmbOperators != null)
             {
                 return (cmbOperators.SelectedItem as SimpleSearchOperator).Operator;
             }
             else
                 return CommonOperator.Equals;
         }
-        public bool SetOperator( CommonOperator searchOperator)
+        public bool SetOperator(CommonOperator searchOperator)
         {
             cmbOperators.SelectedValue = searchOperator;
             return false;
         }
         public bool HasOperator()
         {
-            return cmbOperators!= null;
+            return cmbOperators != null;
         }
         //public void SetTooltip( string tooltip)
         //{
@@ -221,16 +221,16 @@ namespace MyUIGenerator.UIControlHelper
         //    ToolTipService.SetToolTip(combo, null);
         //}
 
-        public void SetBorderColor( InfoColor color)
+        public void SetBorderColor(InfoColor color)
         {
             combo.BorderBrush = UIManager.GetColorFromInfoColor(color);
             combo.BorderThickness = new Thickness(1);
         }
-        public void SetBackgroundColor( InfoColor color)
+        public void SetBackgroundColor(InfoColor color)
         {
             combo.Background = UIManager.GetColorFromInfoColor(color);
         }
-        public void SetForegroundColor( InfoColor color)
+        public void SetForegroundColor(InfoColor color)
         {
             combo.Foreground = UIManager.GetColorFromInfoColor(color);
         }
@@ -239,7 +239,7 @@ namespace MyUIGenerator.UIControlHelper
         //    combo.BorderBrush = new SolidColorBrush(UIManager.GetColorFromInfoColor(InfoColor.Black));
         //    combo.BorderThickness = new Thickness(1);
         //}
-        public void SetBinding( EntityInstanceProperty property)
+        public void SetBinding(EntityInstanceProperty property)
         {
             Binding binding = new Binding("Value");
             binding.Source = property;
@@ -268,7 +268,7 @@ namespace MyUIGenerator.UIControlHelper
         //    menu.OnMenuClicked(sender, arg);
         //}
 
-        public void SetColumnValueRange( List<ColumnValueRangeDetailsDTO> candidates)
+        public void SetColumnValueRange(List<ColumnValueRangeDetailsDTO> candidates)
         {
             combo.ItemsSource = candidates;
         }

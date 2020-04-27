@@ -27,7 +27,7 @@ namespace MyUIGenerator.UIControlHelper
         void SetReadonly( bool isreadonly);
         CommonOperator GetOperator();
         bool SetOperator( CommonOperator searchOperator);
-        bool SetValue( string value);
+        bool SetValue( object value);
         string GetValue();
         // void SetTooltip( string tooltip);
         //void ClearTooltip();

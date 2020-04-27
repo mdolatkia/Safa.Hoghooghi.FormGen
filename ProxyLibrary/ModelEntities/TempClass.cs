@@ -293,7 +293,7 @@ namespace ModelEntites
     {
         public int DatabaseInformationID { set; get; }
         public bool FlowDirectionLTR { get; set; }
-        public bool ShowNullValue { get; set; }
+     //   public bool ShowNullValue { get; set; }
     }
     public enum enum_DBType
     {

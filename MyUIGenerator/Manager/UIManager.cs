@@ -237,7 +237,7 @@ namespace MyUIGenerator
             var controlManager = new SimpleControlManagerForOneDataForm(column, columnSetting, hasRangeOfValues, valueIsTitleOrValue, operators);
             if (labelControlManager)
             {
-                controlManager.LabelControlManager = new LabelControlManager(labelText);
+                controlManager.LabelControlManager = new LabelControlManager(labelText,true);
             }
             return controlManager;
         }
@@ -247,7 +247,7 @@ namespace MyUIGenerator
             var controlManager = new RelationshipControlManagerForOneDataForm(view as FrameworkElement, relationshipUISetting);
             if (labelControlManager)
             {
-                controlManager.LabelControlManager = new LabelControlManager(labelText);
+                controlManager.LabelControlManager = new LabelControlManager(labelText, true);
             }
             return controlManager;
         }
@@ -257,7 +257,7 @@ namespace MyUIGenerator
             var controlManager = new SimpleControlManagerForMultipleDataForm(column, columnUISettingDTO, hasRangeOfValues, valueIsTitleOrValue);
             if (labelControlManager)
             {
-                controlManager.LabelControlManager = new LabelControlManager(labelText);
+                controlManager.LabelControlManager = new LabelControlManager(labelText,false);
             }
             return controlManager;
         }
@@ -274,14 +274,14 @@ namespace MyUIGenerator
             var controlManager = new RelationshipControlManagerForMultipleDataForm(temporaryLinkState, relationshipUISetting);
             if (labelControlManager)
             {
-                controlManager.LabelControlManager = new LabelControlManager(labelText);
+                controlManager.LabelControlManager = new LabelControlManager(labelText, false);
             }
             return controlManager;
         }
-        public I_LabelControlManager GenerateLabelControlManager()
-        {
-            return new LabelControlManager("");
-        }
+        //public I_LabelControlManager GenerateLabelControlManager()
+        //{
+        //    return new LabelControlManager("");
+        //}
         public I_UICompositionContainer GenerateGroup(GroupUISettingDTO groupUISettingDTO)
         {
             return new LocalContainerManager(groupUISettingDTO, groupUISettingDTO.InternalColumnsCount);

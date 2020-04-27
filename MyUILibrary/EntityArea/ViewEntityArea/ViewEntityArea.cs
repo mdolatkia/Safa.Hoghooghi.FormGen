@@ -186,8 +186,12 @@ namespace MyUILibrary.EntityArea
              //   propertyControl.ControlPackage = new UIControlPackageForSimpleColumn();
            //     propertyControl.IsPermanentReadOnly = true;
                 propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForMultipleDataForm(column.Column, GetColumnUISetting(column.Column), false, false,true, propertyControl.Alias);
-          //      if (propertyControl.IsPermanentReadOnly)
-                    propertyControl.ControlManager.SetReadonly(true);
+                //      if (propertyControl.IsPermanentReadOnly)
+                if (!string.IsNullOrEmpty(column.Tooltip))
+                {
+                    propertyControl.ControlManager.LabelControlManager.SetTooltip(null, column.Tooltip);
+                }
+                propertyControl.ControlManager.SetReadonly(true);
 
                 ViewColumnControls.Add(propertyControl);
 

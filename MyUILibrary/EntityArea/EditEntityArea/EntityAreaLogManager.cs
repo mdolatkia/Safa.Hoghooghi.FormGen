@@ -182,21 +182,21 @@ namespace MyUILibrary.EntityArea
                 actionLogProperty.ColumnaName = property.Column.Alias;
                 actionLogProperty.ColumnID = property.ColumnID;
                 actionLogProperty.InfoColor = InfoColor.Black;
-                var value = property.Value == null ? "<Null>" : property.Value;
+                var stringvalue = property.Value == null ? "<Null>" : property.Value;
                 if (property.FormulaID != 0)
                 {
                     if (string.IsNullOrEmpty(property.FormulaException))
                     {
-                        actionLogProperty.NewValue = value + " " + "محاسبه شده توسط فرمول" + " " + property.FormulaID;
+                        actionLogProperty.NewValue = stringvalue + " " + "محاسبه شده توسط فرمول" + " " + property.FormulaID;
                     }
                     else
                     {
-                        actionLogProperty.NewValue = value + " " + property.FormulaException;
+                        actionLogProperty.NewValue = stringvalue + " " + property.FormulaException;
                         actionLogProperty.InfoColor = InfoColor.Red;
                     }
                 }
                 else
-                    actionLogProperty.NewValue = value;
+                    actionLogProperty.NewValue = stringvalue.ToString();
 
                 if (item.IsNewItem)
                 {
@@ -207,7 +207,7 @@ namespace MyUILibrary.EntityArea
                 if (item.OriginalProperties.Any(x => x.ColumnID == property.ColumnID))
                 {
                     var oldvalue = item.OriginalProperties.First(x => x.ColumnID == property.ColumnID).Value;
-                    actionLogProperty.OldValue = oldvalue == null ? "<Null>" : property.Value;
+                    actionLogProperty.OldValue = oldvalue == null ? "<Null>" : property.Value.ToString();
                 }
                 log.LogProperties.Add(actionLogProperty);
             }

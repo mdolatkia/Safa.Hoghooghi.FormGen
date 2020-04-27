@@ -39,7 +39,7 @@ namespace MyUIGenerator.View
                 txtFormula.Text = value;
             }
         }
-        public string ResultString
+        public object ResultString
         {
             get
             {
@@ -48,7 +48,7 @@ namespace MyUIGenerator.View
 
             set
             {
-                txtResult.Text = value;
+                txtResult.Text = value == null ? "<Null>" : value.ToString();
             }
         }
         public event EventHandler CloseRequested;

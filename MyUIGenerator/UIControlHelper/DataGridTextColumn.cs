@@ -48,6 +48,15 @@ namespace MyUIGenerator.UIControlHelper
             Column = column;
             HasRangeOfValues = hasRangeOfValues;
             ValueIsTitleOrValue = valueIsTitleOrValue;
+            if (columnSetting != null)
+            {
+                if (columnSetting.UIColumnsType == Enum_UIColumnsType.Full)
+                    Width = 200;
+                else if (columnSetting.UIColumnsType == Enum_UIColumnsType.Half)
+                    Width = 140;
+                else
+                    Width = 80;
+            }
 
         }
         public override FrameworkElement CreateCellElement(GridViewCell cell, object dataItem)
@@ -253,7 +262,7 @@ namespace MyUIGenerator.UIControlHelper
             }));
         }
 
-        internal bool SetValue(object dataItem, string value)
+        internal bool SetValue(object dataItem, object value)
         {
 
             System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>

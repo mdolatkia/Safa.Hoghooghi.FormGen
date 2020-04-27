@@ -861,14 +861,14 @@ namespace MyUILibrary
         //}
         internal static bool ValueIsEmpty(EntityInstanceProperty property)
         {
-            if (string.IsNullOrEmpty(property.Value) || property.Value == "0")
+            if (property.Value==null ||string.IsNullOrEmpty(property.Value.ToString()) || property.Value.ToString() == "0")
                 return true;
             else
                 return false;
         }
         internal static bool ValueIsEmptyOrDefaultValue(EntityInstanceProperty property)
         {
-            return ValueIsEmpty(property) || property.Value == property.Column.DefaultValue;
+            return ValueIsEmpty(property) || property.Value.ToString() == property.Column.DefaultValue;
         }
 
         //internal static string GetTypePropertyValue(DP_DataRepository dataRepository, ColumnDTO typeProperty)
@@ -881,15 +881,15 @@ namespace MyUILibrary
         //    throw new Exception("asdsadaa");
         //}
 
-        internal static string GetTypePropertyValue(DP_SearchRepository dataRepository, ColumnDTO typeProperty)
-        {
-            foreach (SearchProperty prop in dataRepository.Phrases.Where(x => x is SearchProperty))
-            {
-                if (prop.ColumnID == typeProperty.ID)
-                    return prop.Value;
-            }
-            throw new Exception("asdsadaa");
-        }
+        //internal static string GetTypePropertyValue(DP_SearchRepository dataRepository, ColumnDTO typeProperty)
+        //{
+        //    foreach (SearchProperty prop in dataRepository.Phrases.Where(x => x is SearchProperty))
+        //    {
+        //        if (prop.ColumnID == typeProperty.ID)
+        //            return prop.Value;
+        //    }
+        //    throw new Exception("asdsadaa");
+        //}
         internal static void ShowEditEntityAreaInfo(I_EditEntityArea editArea)
         {
             EditEntityAreaInfo info = new EditEntityAreaInfo();

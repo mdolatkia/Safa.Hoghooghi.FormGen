@@ -81,8 +81,8 @@ namespace MyUILibrary.EntityArea
         {
             SearchConfirmed(e.SearchItems, false);
         }
-        public List<Tuple<int, string>> LastFilterValues = new List<Tuple<int, string>>();
-        public List<Tuple<int, string>> CurrentValues = new List<Tuple<int, string>>();
+        public List<Tuple<int, object>> LastFilterValues = new List<Tuple<int, object>>();
+        public List<Tuple<int, object>> CurrentValues = new List<Tuple<int, object>>();
         private DR_ResultSearchView GetSearchResult(DP_SearchRepository searchItems)
         {
             CalculateFilterValues();
@@ -93,7 +93,7 @@ namespace MyUILibrary.EntityArea
             }
             LastFilterValues.Clear();
             foreach (var item in CurrentValues)
-                LastFilterValues.Add(new Tuple<int, string>(item.Item1, item.Item2));
+                LastFilterValues.Add(new Tuple<int, object>(item.Item1, item.Item2));
 
             if (RelationshipFilters != null)
             {
@@ -306,9 +306,9 @@ namespace MyUILibrary.EntityArea
                         foreach (var filter in RelationshipFilters)
                         {
                             var value = AgentUICoreMediator.GetAgentUICoreMediator.formulaManager.GetValueSomeHow(AgentUICoreMediator.GetAgentUICoreMediator.GetRequester(), AreaInitializer.SourceEditArea.ChildRelationshipInfo.SourceData, filter.ValueRelationshipTail, filter.ValueColumnID);
-                            if (!string.IsNullOrEmpty(value))
+                            if (value != null && !string.IsNullOrEmpty(value.ToString()))
                             {
-                                CurrentValues.Add(new Tuple<int, string>(filter.ID, value));
+                                CurrentValues.Add(new Tuple<int, object>(filter.ID, value));
                             }
                         }
                     }

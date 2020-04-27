@@ -128,12 +128,20 @@ namespace MyUILibrary.EntityArea
             if (dataITem.IsNewItem)
             {
                 if (EditArea.FullEntity.Columns.Any(x => x.DataEntryEnabled && x.IsMandatory &&
-                (!EditArea.SimpleColumnControls.Any(c => c.Column.ID == x.ID) && !EditArea.RelationshipColumnControls.Any(r => r.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && r.Columns.Any(rc => rc.ID == x.ID)))))
+                (!EditArea.SimpleColumnControls.Any(c => c.Column.ID == x.ID) &&
+                !EditArea.RelationshipColumnControls.Any(r => r.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && r.Columns.Any(rc => rc.ID == x.ID)) &&
+                (EditArea.AreaInitializer == null || EditArea.AreaInitializer.SourceRelation.MasterRelationshipType!=Enum_MasterRelationshipType.FromPrimartyToForeign||  !EditArea.AreaInitializer.SourceRelation.RelationshipColumns.Any(r => r.SecondSideColumnID == x.ID))
+                )
+                ))
                 {  //اگر غیر از این باشه و بخوایم ستونهایی که دسترسی دارند را از آنهایی که ندارند جدا کرده و بررسی کنیم قضیه خلی پیچیده میشود. 
                    //بهتر است نیاز بیزینسی با اختصاصی سازی موجودیت حل شود ونه با دسترسی امنیتی
                     var columnNames = "";
-                    foreach (var col in EditArea.FullEntity.Columns.Where(x => x.DataEntryEnabled &&
-                 (!EditArea.SimpleColumnControls.Any(c => c.Column.ID == x.ID) && !EditArea.RelationshipColumnControls.Any(r => r.Columns.Any(rc => rc.ID == x.ID)))))
+                    foreach (var col in EditArea.FullEntity.Columns.Where(x => x.DataEntryEnabled && x.IsMandatory &&
+                (!EditArea.SimpleColumnControls.Any(c => c.Column.ID == x.ID) &&
+                !EditArea.RelationshipColumnControls.Any(r => r.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && r.Columns.Any(rc => rc.ID == x.ID)) &&
+                (EditArea.AreaInitializer == null || EditArea.AreaInitializer.SourceRelation.MasterRelationshipType != Enum_MasterRelationshipType.FromPrimartyToForeign || !EditArea.AreaInitializer.SourceRelation.RelationshipColumns.Any(r => r.SecondSideColumnID == x.ID))
+                )
+                ))
                     {
                         columnNames += (columnNames == "" ? "" : ",") + col.Name;
                     }
@@ -581,7 +589,7 @@ namespace MyUILibrary.EntityArea
                     if (simplePropertyControl.Column.StringColumnType.MaxLength != 0
                         && simplePropertyControl.Column.StringColumnType.MaxLength != -1)
                     {
-                        if (dataColumn.Value.Length > simplePropertyControl.Column.StringColumnType.MaxLength)
+                        if (dataColumn.Value.ToString().Length > simplePropertyControl.Column.StringColumnType.MaxLength)
                         {
                             string message = "حداکثر طول این خصوصیت" + " " + simplePropertyControl.Column.StringColumnType.MaxLength + " " + "کاراکتر می باشد";
                             AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);

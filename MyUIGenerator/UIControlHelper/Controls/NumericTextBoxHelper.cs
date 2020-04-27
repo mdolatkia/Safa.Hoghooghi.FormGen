@@ -83,7 +83,7 @@ namespace MyUIGenerator.UIControlHelper
             return false;
         }
 
-        public bool SetValue(string value)
+        public bool SetValue(object value)
         {
             //FrameworkElement control;
             //control = (uiControl as Grid).Children[0] as RadMaskedNumericInput;

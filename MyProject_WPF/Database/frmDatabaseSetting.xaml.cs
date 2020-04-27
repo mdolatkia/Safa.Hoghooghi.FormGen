@@ -34,7 +34,7 @@ namespace MyProject_WPF
             txtDBTitle.Text = Message.Title;
             if (Message.DatabaseSetting == null)
                 Message.DatabaseSetting = new DatabaseSettingDTO();
-            chkShowNullValue.IsChecked = Message.DatabaseSetting.ShowNullValue;
+          //  chkShowNullValue.IsChecked = Message.DatabaseSetting.ShowNullValue;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)

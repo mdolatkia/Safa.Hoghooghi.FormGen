@@ -57,7 +57,6 @@ namespace DataAccess
         public string DBCalculateFormula { get; set; }
         public Nullable<int> CustomCalculateFormulaID { get; set; }
         public bool IsNotTransferable { get; set; }
-        public bool ShowNullValue { get; set; }
     
         public virtual ICollection<CodeFunction_TableDrivedEntity_Parameters> CodeFunction_TableDrivedEntity_Parameters { get; set; }
         public virtual Formula Formula { get; set; }

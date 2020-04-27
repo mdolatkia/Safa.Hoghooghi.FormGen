@@ -682,7 +682,7 @@ namespace MyUILibrary.EntityArea
         bool SetOperator(CommonOperator searchOperator);
         void SetReadonly(object dataItem, bool isreadonly);
         void SetReadonly(bool isreadonly);
-        bool SetValue(object dataItem, string value);
+        bool SetValue(object dataItem, object value);
         string GetValue(object dataItem);
         void AddButtonMenu(ConrolPackageMenu menu);
         void AddButtonMenu(object dataItem, ConrolPackageMenu menu);

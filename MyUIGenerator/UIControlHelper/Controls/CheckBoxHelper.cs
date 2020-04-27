@@ -72,7 +72,7 @@ namespace MyUIGenerator.UIControlHelper
         //}
 
 
-        public bool SetValue( string value)
+        public bool SetValue(object value)
         {
             if ( value == null)
                 checkbox.IsChecked = null;

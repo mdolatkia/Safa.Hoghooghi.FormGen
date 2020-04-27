@@ -232,7 +232,7 @@ namespace MyDataEditManagerBusiness
                 return editQueryItemManager.GetUpdateQuery(newQuertItem);
             }
         }
-        private string GetPropertyValue(string value)
+        private string GetPropertyValue(object value)
         {
             if (value == null )
                 return "NULL";

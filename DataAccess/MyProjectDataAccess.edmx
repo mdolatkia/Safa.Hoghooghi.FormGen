@@ -157,7 +157,6 @@
           <Property Name="DBCalculateFormula" Type="varchar" MaxLength="512" />
           <Property Name="CustomCalculateFormulaID" Type="int" />
           <Property Name="IsNotTransferable" Type="bit" Nullable="false" />
-          <Property Name="ShowNullValue" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ColumnPhrase">
           <Key>
@@ -287,7 +286,6 @@
           </Key>
           <Property Name="DatabaseInformationID" Type="int" Nullable="false" />
           <Property Name="FlowDirectionLTR" Type="bit" Nullable="false" />
-          <Property Name="ShowNullValue" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DataLinkDefinition">
           <Key>
@@ -5742,6 +5740,7 @@
           <EntitySet Name="DatabaseFunction_TableDrivedEntity_Columns" EntityType="MyProjectModel.DatabaseFunction_TableDrivedEntity_Columns" />
           <EntitySet Name="DatabaseFunctionParameter" EntityType="MyProjectModel.DatabaseFunctionParameter" />
           <EntitySet Name="DatabaseInformation" EntityType="MyProjectModel.DatabaseInformation" />
+          <EntitySet Name="DatabaseUISetting" EntityType="MyProjectModel.DatabaseUISetting" />
           <EntitySet Name="DataLinkDefinition" EntityType="MyProjectModel.DataLinkDefinition" />
           <EntitySet Name="DataLinkDefinition_EntityRelationshipTail" EntityType="MyProjectModel.DataLinkDefinition_EntityRelationshipTail" />
           <EntitySet Name="DataMenuDataViewRelationship" EntityType="MyProjectModel.DataMenuDataViewRelationship" />
@@ -5802,6 +5801,7 @@
           <EntitySet Name="Relationship" EntityType="MyProjectModel.Relationship" />
           <EntitySet Name="RelationshipColumns" EntityType="MyProjectModel.RelationshipColumns" />
           <EntitySet Name="RelationshipSearchFilter" EntityType="MyProjectModel.RelationshipSearchFilter" />
+          <EntitySet Name="RelationshipType" EntityType="MyProjectModel.RelationshipType" />
           <EntitySet Name="RelationshipUISetting" EntityType="MyProjectModel.RelationshipUISetting" />
           <EntitySet Name="ReportGroups" EntityType="MyProjectModel.ReportGroups" />
           <EntitySet Name="SearchRepository" EntityType="MyProjectModel.SearchRepository" />
@@ -6156,6 +6156,10 @@
             <End Role="SecurityObject" EntitySet="SecurityObject" />
             <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
           </AssociationSet>
+          <AssociationSet Name="FKDatabaseUI703615" Association="MyProjectModel.FKDatabaseUI703615">
+            <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
+            <End Role="DatabaseUISetting" EntitySet="DatabaseUISetting" />
+          </AssociationSet>
           <AssociationSet Name="FKDBSchema138241" Association="MyProjectModel.FKDBSchema138241">
             <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
             <End Role="DBSchema" EntitySet="DBSchema" />
@@ -6468,6 +6472,10 @@
             <End Role="Formula" EntitySet="Formula" />
             <End Role="EntityValidation" EntitySet="EntityValidation" />
           </AssociationSet>
+          <AssociationSet Name="FKExplicitOn408720" Association="MyProjectModel.FKExplicitOn408720">
+            <End Role="RelationshipType" EntitySet="RelationshipType" />
+            <End Role="ExplicitOneToOneRelationshipType" EntitySet="ExplicitOneToOneRelationshipType" />
+          </AssociationSet>
           <AssociationSet Name="FKConditiona702385" Association="MyProjectModel.FKConditiona702385">
             <End Role="Formula" EntitySet="Formula" />
             <End Role="ConditionalPermission" EntitySet="ConditionalPermission" />
@@ -6511,6 +6519,10 @@
           <AssociationSet Name="FKEntityGrid247991" Association="MyProjectModel.FKEntityGrid247991">
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
             <End Role="GridViewSetting" EntitySet="GridViewSetting" />
+          </AssociationSet>
+          <AssociationSet Name="FKImplicitOn720517" Association="MyProjectModel.FKImplicitOn720517">
+            <End Role="RelationshipType" EntitySet="RelationshipType" />
+            <End Role="ImplicitOneToOneRelationshipType" EntitySet="ImplicitOneToOneRelationshipType" />
           </AssociationSet>
           <AssociationSet Name="FKSubToSuper88193" Association="MyProjectModel.FKSubToSuper88193">
             <End Role="ISARelationship" EntitySet="ISARelationship" />
@@ -6568,6 +6580,10 @@
             <End Role="ManyToManyRelationshipType" EntitySet="ManyToManyRelationshipType" />
             <End Role="ManyToOneRelationshipType" EntitySet="ManyToOneRelationshipType" />
           </AssociationSet>
+          <AssociationSet Name="FKManyToOneR336195" Association="MyProjectModel.FKManyToOneR336195">
+            <End Role="RelationshipType" EntitySet="RelationshipType" />
+            <End Role="ManyToOneRelationshipType" EntitySet="ManyToOneRelationshipType" />
+          </AssociationSet>
           <AssociationSet Name="FKNavigation155968" Association="MyProjectModel.FKNavigation155968">
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
             <End Role="NavigationTree" EntitySet="NavigationTree" />
@@ -6575,6 +6591,10 @@
           <AssociationSet Name="FKNavigation977409" Association="MyProjectModel.FKNavigation977409">
             <End Role="NavigationTree" EntitySet="NavigationTree" />
             <End Role="NavigationTree1" EntitySet="NavigationTree" />
+          </AssociationSet>
+          <AssociationSet Name="FKOneToManyR245498" Association="MyProjectModel.FKOneToManyR245498">
+            <End Role="RelationshipType" EntitySet="RelationshipType" />
+            <End Role="OneToManyRelationshipType" EntitySet="OneToManyRelationshipType" />
           </AssociationSet>
           <AssociationSet Name="FKPhrase678651" Association="MyProjectModel.FKPhrase678651">
             <End Role="SearchRepository" EntitySet="SearchRepository" />
@@ -6611,6 +6631,26 @@
           <AssociationSet Name="FKRelationsh685437" Association="MyProjectModel.FKRelationsh685437">
             <End Role="Relationship" EntitySet="Relationship" />
             <End Role="RelationshipColumns" EntitySet="RelationshipColumns" />
+          </AssociationSet>
+          <AssociationSet Name="FKRelationsh827735" Association="MyProjectModel.FKRelationsh827735">
+            <End Role="Relationship" EntitySet="Relationship" />
+            <End Role="RelationshipType" EntitySet="RelationshipType" />
+          </AssociationSet>
+          <AssociationSet Name="FKSubToSuper672991" Association="MyProjectModel.FKSubToSuper672991">
+            <End Role="RelationshipType" EntitySet="RelationshipType" />
+            <End Role="SubToSuperRelationshipType" EntitySet="SubToSuperRelationshipType" />
+          </AssociationSet>
+          <AssociationSet Name="FKSubUnionTo818068" Association="MyProjectModel.FKSubUnionTo818068">
+            <End Role="RelationshipType" EntitySet="RelationshipType" />
+            <End Role="SubUnionToUnionRelationshipType" EntitySet="SubUnionToUnionRelationshipType" />
+          </AssociationSet>
+          <AssociationSet Name="FKSuperToSub305547" Association="MyProjectModel.FKSuperToSub305547">
+            <End Role="RelationshipType" EntitySet="RelationshipType" />
+            <End Role="SuperToSubRelationshipType" EntitySet="SuperToSubRelationshipType" />
+          </AssociationSet>
+          <AssociationSet Name="FKUnionToSub14902" Association="MyProjectModel.FKUnionToSub14902">
+            <End Role="RelationshipType" EntitySet="RelationshipType" />
+            <End Role="UnionToSubUnionRelationshipType" EntitySet="UnionToSubUnionRelationshipType" />
           </AssociationSet>
           <AssociationSet Name="FK_SearchRepository_TableDrivedEntity" Association="MyProjectModel.FK_SearchRepository_TableDrivedEntity">
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
@@ -6860,48 +6900,6 @@
             <End Role="UniqueConstraint" EntitySet="UniqueConstraint" />
             <End Role="Column" EntitySet="Column" />
           </AssociationSet>
-          <EntitySet Name="RelationshipType" EntityType="MyProjectModel.RelationshipType" />
-          <AssociationSet Name="FKExplicitOn408720" Association="MyProjectModel.FKExplicitOn408720">
-            <End Role="RelationshipType" EntitySet="RelationshipType" />
-            <End Role="ExplicitOneToOneRelationshipType" EntitySet="ExplicitOneToOneRelationshipType" />
-          </AssociationSet>
-          <AssociationSet Name="FKImplicitOn720517" Association="MyProjectModel.FKImplicitOn720517">
-            <End Role="RelationshipType" EntitySet="RelationshipType" />
-            <End Role="ImplicitOneToOneRelationshipType" EntitySet="ImplicitOneToOneRelationshipType" />
-          </AssociationSet>
-          <AssociationSet Name="FKManyToOneR336195" Association="MyProjectModel.FKManyToOneR336195">
-            <End Role="RelationshipType" EntitySet="RelationshipType" />
-            <End Role="ManyToOneRelationshipType" EntitySet="ManyToOneRelationshipType" />
-          </AssociationSet>
-          <AssociationSet Name="FKOneToManyR245498" Association="MyProjectModel.FKOneToManyR245498">
-            <End Role="RelationshipType" EntitySet="RelationshipType" />
-            <End Role="OneToManyRelationshipType" EntitySet="OneToManyRelationshipType" />
-          </AssociationSet>
-          <AssociationSet Name="FKRelationsh827735" Association="MyProjectModel.FKRelationsh827735">
-            <End Role="Relationship" EntitySet="Relationship" />
-            <End Role="RelationshipType" EntitySet="RelationshipType" />
-          </AssociationSet>
-          <AssociationSet Name="FKSubToSuper672991" Association="MyProjectModel.FKSubToSuper672991">
-            <End Role="RelationshipType" EntitySet="RelationshipType" />
-            <End Role="SubToSuperRelationshipType" EntitySet="SubToSuperRelationshipType" />
-          </AssociationSet>
-          <AssociationSet Name="FKSubUnionTo818068" Association="MyProjectModel.FKSubUnionTo818068">
-            <End Role="RelationshipType" EntitySet="RelationshipType" />
-            <End Role="SubUnionToUnionRelationshipType" EntitySet="SubUnionToUnionRelationshipType" />
-          </AssociationSet>
-          <AssociationSet Name="FKSuperToSub305547" Association="MyProjectModel.FKSuperToSub305547">
-            <End Role="RelationshipType" EntitySet="RelationshipType" />
-            <End Role="SuperToSubRelationshipType" EntitySet="SuperToSubRelationshipType" />
-          </AssociationSet>
-          <AssociationSet Name="FKUnionToSub14902" Association="MyProjectModel.FKUnionToSub14902">
-            <End Role="RelationshipType" EntitySet="RelationshipType" />
-            <End Role="UnionToSubUnionRelationshipType" EntitySet="UnionToSubUnionRelationshipType" />
-          </AssociationSet>
-          <EntitySet Name="DatabaseUISetting" EntityType="MyProjectModel.DatabaseUISetting" />
-          <AssociationSet Name="FKDatabaseUI703615" Association="MyProjectModel.FKDatabaseUI703615">
-            <End Role="DatabaseInformation" EntitySet="DatabaseInformation" />
-            <End Role="DatabaseUISetting" EntitySet="DatabaseUISetting" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ArchiveFolder">
           <Key>
@@ -7117,7 +7115,6 @@
           <NavigationProperty Name="RelationshipColumns" Relationship="MyProjectModel.Relationship_FirstEntityColumns" FromRole="Column" ToRole="RelationshipColumns" />
           <NavigationProperty Name="RelationshipColumns1" Relationship="MyProjectModel.Relationship_SecondEntityColumns" FromRole="Column" ToRole="RelationshipColumns" />
           <NavigationProperty Name="UniqueConstraint" Relationship="MyProjectModel.UniqueConstraint_Column" FromRole="Column" ToRole="UniqueConstraint" />
-          <Property Name="ShowNullValue" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ColumnPhrase">
           <Key>
@@ -7270,8 +7267,16 @@
           <Property Name="DBType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DBServer" Relationship="MyProjectModel.FKDatabaseIn186668" FromRole="DatabaseInformation" ToRole="DBServer" />
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKDatabaseIn674957" FromRole="DatabaseInformation" ToRole="SecurityObject" />
-          <NavigationProperty Name="DBSchema" Relationship="MyProjectModel.FKDBSchema138241" FromRole="DatabaseInformation" ToRole="DBSchema" />
           <NavigationProperty Name="DatabaseUISetting" Relationship="MyProjectModel.FKDatabaseUI703615" FromRole="DatabaseInformation" ToRole="DatabaseUISetting" />
+          <NavigationProperty Name="DBSchema" Relationship="MyProjectModel.FKDBSchema138241" FromRole="DatabaseInformation" ToRole="DBSchema" />
+        </EntityType>
+        <EntityType Name="DatabaseUISetting">
+          <Key>
+            <PropertyRef Name="DatabaseInformationID" />
+          </Key>
+          <Property Name="DatabaseInformationID" Type="Int32" Nullable="false" />
+          <Property Name="FlowDirectionLTR" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DatabaseInformation" Relationship="MyProjectModel.FKDatabaseUI703615" FromRole="DatabaseUISetting" ToRole="DatabaseInformation" />
         </EntityType>
         <EntityType Name="DataLinkDefinition">
           <Key>
@@ -8039,6 +8044,27 @@
           <NavigationProperty Name="EntityRelationshipTail1" Relationship="MyProjectModel.FKRelationsh552099" FromRole="RelationshipSearchFilter" ToRole="EntityRelationshipTail" />
           <NavigationProperty Name="Relationship" Relationship="MyProjectModel.FKRelationsh283976" FromRole="RelationshipSearchFilter" ToRole="Relationship" />
         </EntityType>
+        <EntityType Name="RelationshipType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="IsOtherSideMandatory" Type="Boolean" Nullable="false" />
+          <Property Name="IsOtherSideCreatable" Type="Boolean" Nullable="false" />
+          <Property Name="IsOtherSideDirectlyCreatable" Type="Boolean" Nullable="false" />
+          <Property Name="DeleteOption" Type="Int16" />
+          <Property Name="IsNotSkippable" Type="Boolean" Nullable="false" />
+          <Property Name="PKToFKDataEntryEnabled" Type="Boolean" />
+          <NavigationProperty Name="ExplicitOneToOneRelationshipType" Relationship="MyProjectModel.FKExplicitOn408720" FromRole="RelationshipType" ToRole="ExplicitOneToOneRelationshipType" />
+          <NavigationProperty Name="ImplicitOneToOneRelationshipType" Relationship="MyProjectModel.FKImplicitOn720517" FromRole="RelationshipType" ToRole="ImplicitOneToOneRelationshipType" />
+          <NavigationProperty Name="ManyToOneRelationshipType" Relationship="MyProjectModel.FKManyToOneR336195" FromRole="RelationshipType" ToRole="ManyToOneRelationshipType" />
+          <NavigationProperty Name="OneToManyRelationshipType" Relationship="MyProjectModel.FKOneToManyR245498" FromRole="RelationshipType" ToRole="OneToManyRelationshipType" />
+          <NavigationProperty Name="Relationship" Relationship="MyProjectModel.FKRelationsh827735" FromRole="RelationshipType" ToRole="Relationship" />
+          <NavigationProperty Name="SubToSuperRelationshipType" Relationship="MyProjectModel.FKSubToSuper672991" FromRole="RelationshipType" ToRole="SubToSuperRelationshipType" />
+          <NavigationProperty Name="SubUnionToUnionRelationshipType" Relationship="MyProjectModel.FKSubUnionTo818068" FromRole="RelationshipType" ToRole="SubUnionToUnionRelationshipType" />
+          <NavigationProperty Name="SuperToSubRelationshipType" Relationship="MyProjectModel.FKSuperToSub305547" FromRole="RelationshipType" ToRole="SuperToSubRelationshipType" />
+          <NavigationProperty Name="UnionToSubUnionRelationshipType" Relationship="MyProjectModel.FKUnionToSub14902" FromRole="RelationshipType" ToRole="UnionToSubUnionRelationshipType" />
+        </EntityType>
         <EntityType Name="RelationshipUISetting">
           <Key>
             <PropertyRef Name="ID" />
@@ -8115,8 +8141,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="UnionRelationshipTypeID" Type="Int32" Nullable="false" />
           <Property Name="Dummy" Type="Boolean" />
-          <NavigationProperty Name="UnionRelationshipType" Relationship="MyProjectModel.FKSubUnionTo235113" FromRole="SubUnionToUnionRelationshipType" ToRole="UnionRelationshipType" />
           <NavigationProperty Name="RelationshipType" Relationship="MyProjectModel.FKSubUnionTo818068" FromRole="SubUnionToUnionRelationshipType" ToRole="RelationshipType" />
+          <NavigationProperty Name="UnionRelationshipType" Relationship="MyProjectModel.FKSubUnionTo235113" FromRole="SubUnionToUnionRelationshipType" ToRole="UnionRelationshipType" />
         </EntityType>
         <EntityType Name="SuperToSubRelationshipType">
           <Key>
@@ -8348,8 +8374,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="UnionRelationshipTypeID" Type="Int32" Nullable="false" />
           <Property Name="Dummy" Type="Boolean" />
-          <NavigationProperty Name="UnionRelationshipType" Relationship="MyProjectModel.FKUnionToSub933310" FromRole="UnionToSubUnionRelationshipType" ToRole="UnionRelationshipType" />
           <NavigationProperty Name="RelationshipType" Relationship="MyProjectModel.FKUnionToSub14902" FromRole="UnionToSubUnionRelationshipType" ToRole="RelationshipType" />
+          <NavigationProperty Name="UnionRelationshipType" Relationship="MyProjectModel.FKUnionToSub933310" FromRole="UnionToSubUnionRelationshipType" ToRole="UnionRelationshipType" />
         </EntityType>
         <EntityType Name="UniqueConstraint">
           <Key>
@@ -9652,6 +9678,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKDatabaseUI703615">
+          <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="1" />
+          <End Type="MyProjectModel.DatabaseUISetting" Role="DatabaseUISetting" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DatabaseInformation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DatabaseUISetting">
+              <PropertyRef Name="DatabaseInformationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKDBSchema138241">
           <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="1" />
           <End Type="MyProjectModel.DBSchema" Role="DBSchema" Multiplicity="*" />
@@ -10588,6 +10626,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKExplicitOn408720">
+          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
+          <End Type="MyProjectModel.ExplicitOneToOneRelationshipType" Role="ExplicitOneToOneRelationshipType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="RelationshipType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ExplicitOneToOneRelationshipType">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKConditiona702385">
           <End Type="MyProjectModel.Formula" Role="Formula" Multiplicity="0..1" />
           <End Type="MyProjectModel.ConditionalPermission" Role="ConditionalPermission" Multiplicity="*" />
@@ -10716,6 +10766,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="GridViewSetting">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKImplicitOn720517">
+          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
+          <End Type="MyProjectModel.ImplicitOneToOneRelationshipType" Role="ImplicitOneToOneRelationshipType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="RelationshipType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ImplicitOneToOneRelationshipType">
               <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -10888,6 +10950,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FKManyToOneR336195">
+          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
+          <End Type="MyProjectModel.ManyToOneRelationshipType" Role="ManyToOneRelationshipType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="RelationshipType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ManyToOneRelationshipType">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FKNavigation155968">
           <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="0..1" />
           <End Type="MyProjectModel.NavigationTree" Role="NavigationTree" Multiplicity="*" />
@@ -10909,6 +10983,18 @@
             </Principal>
             <Dependent Role="NavigationTree1">
               <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKOneToManyR245498">
+          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
+          <End Type="MyProjectModel.OneToManyRelationshipType" Role="OneToManyRelationshipType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="RelationshipType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OneToManyRelationshipType">
+              <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11017,6 +11103,66 @@
             </Principal>
             <Dependent Role="RelationshipColumns">
               <PropertyRef Name="RelationshipID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKRelationsh827735">
+          <End Type="MyProjectModel.Relationship" Role="Relationship" Multiplicity="1" />
+          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Relationship">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RelationshipType">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKSubToSuper672991">
+          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
+          <End Type="MyProjectModel.SubToSuperRelationshipType" Role="SubToSuperRelationshipType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="RelationshipType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubToSuperRelationshipType">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKSubUnionTo818068">
+          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
+          <End Type="MyProjectModel.SubUnionToUnionRelationshipType" Role="SubUnionToUnionRelationshipType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="RelationshipType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubUnionToUnionRelationshipType">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKSuperToSub305547">
+          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
+          <End Type="MyProjectModel.SuperToSubRelationshipType" Role="SuperToSubRelationshipType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="RelationshipType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SuperToSubRelationshipType">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FKUnionToSub14902">
+          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
+          <End Type="MyProjectModel.UnionToSubUnionRelationshipType" Role="UnionToSubUnionRelationshipType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="RelationshipType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnionToSubUnionRelationshipType">
+              <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11756,156 +11902,6 @@
           <End Type="MyProjectModel.UniqueConstraint" Role="UniqueConstraint" Multiplicity="*" />
           <End Type="MyProjectModel.Column" Role="Column" Multiplicity="*" />
         </Association>
-        <EntityType Name="RelationshipType">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="IsOtherSideMandatory" Type="Boolean" Nullable="false" />
-          <Property Name="IsOtherSideCreatable" Type="Boolean" Nullable="false" />
-          <Property Name="IsOtherSideDirectlyCreatable" Type="Boolean" Nullable="false" />
-          <Property Name="DeleteOption" Type="Int16" />
-          <Property Name="IsNotSkippable" Type="Boolean" Nullable="false" />
-          <Property Name="PKToFKDataEntryEnabled" Type="Boolean" />
-          <NavigationProperty Name="ExplicitOneToOneRelationshipType" Relationship="MyProjectModel.FKExplicitOn408720" FromRole="RelationshipType" ToRole="ExplicitOneToOneRelationshipType" />
-          <NavigationProperty Name="ImplicitOneToOneRelationshipType" Relationship="MyProjectModel.FKImplicitOn720517" FromRole="RelationshipType" ToRole="ImplicitOneToOneRelationshipType" />
-          <NavigationProperty Name="ManyToOneRelationshipType" Relationship="MyProjectModel.FKManyToOneR336195" FromRole="RelationshipType" ToRole="ManyToOneRelationshipType" />
-          <NavigationProperty Name="OneToManyRelationshipType" Relationship="MyProjectModel.FKOneToManyR245498" FromRole="RelationshipType" ToRole="OneToManyRelationshipType" />
-          <NavigationProperty Name="Relationship" Relationship="MyProjectModel.FKRelationsh827735" FromRole="RelationshipType" ToRole="Relationship" />
-          <NavigationProperty Name="SubToSuperRelationshipType" Relationship="MyProjectModel.FKSubToSuper672991" FromRole="RelationshipType" ToRole="SubToSuperRelationshipType" />
-          <NavigationProperty Name="SubUnionToUnionRelationshipType" Relationship="MyProjectModel.FKSubUnionTo818068" FromRole="RelationshipType" ToRole="SubUnionToUnionRelationshipType" />
-          <NavigationProperty Name="SuperToSubRelationshipType" Relationship="MyProjectModel.FKSuperToSub305547" FromRole="RelationshipType" ToRole="SuperToSubRelationshipType" />
-          <NavigationProperty Name="UnionToSubUnionRelationshipType" Relationship="MyProjectModel.FKUnionToSub14902" FromRole="RelationshipType" ToRole="UnionToSubUnionRelationshipType" />
-        </EntityType>
-        <Association Name="FKExplicitOn408720">
-          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
-          <End Type="MyProjectModel.ExplicitOneToOneRelationshipType" Role="ExplicitOneToOneRelationshipType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="RelationshipType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ExplicitOneToOneRelationshipType">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKImplicitOn720517">
-          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
-          <End Type="MyProjectModel.ImplicitOneToOneRelationshipType" Role="ImplicitOneToOneRelationshipType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="RelationshipType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ImplicitOneToOneRelationshipType">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKManyToOneR336195">
-          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
-          <End Type="MyProjectModel.ManyToOneRelationshipType" Role="ManyToOneRelationshipType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="RelationshipType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ManyToOneRelationshipType">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKOneToManyR245498">
-          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
-          <End Type="MyProjectModel.OneToManyRelationshipType" Role="OneToManyRelationshipType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="RelationshipType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OneToManyRelationshipType">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKRelationsh827735">
-          <End Type="MyProjectModel.Relationship" Role="Relationship" Multiplicity="1" />
-          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Relationship">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="RelationshipType">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKSubToSuper672991">
-          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
-          <End Type="MyProjectModel.SubToSuperRelationshipType" Role="SubToSuperRelationshipType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="RelationshipType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SubToSuperRelationshipType">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKSubUnionTo818068">
-          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
-          <End Type="MyProjectModel.SubUnionToUnionRelationshipType" Role="SubUnionToUnionRelationshipType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="RelationshipType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SubUnionToUnionRelationshipType">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKSuperToSub305547">
-          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
-          <End Type="MyProjectModel.SuperToSubRelationshipType" Role="SuperToSubRelationshipType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="RelationshipType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SuperToSubRelationshipType">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKUnionToSub14902">
-          <End Type="MyProjectModel.RelationshipType" Role="RelationshipType" Multiplicity="1" />
-          <End Type="MyProjectModel.UnionToSubUnionRelationshipType" Role="UnionToSubUnionRelationshipType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="RelationshipType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UnionToSubUnionRelationshipType">
-              <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="DatabaseUISetting">
-          <Key>
-            <PropertyRef Name="DatabaseInformationID" />
-          </Key>
-          <Property Name="DatabaseInformationID" Type="Int32" Nullable="false" />
-          <Property Name="FlowDirectionLTR" Type="Boolean" Nullable="false" />
-          <Property Name="ShowNullValue" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="DatabaseInformation" Relationship="MyProjectModel.FKDatabaseUI703615" FromRole="DatabaseUISetting" ToRole="DatabaseInformation" />
-        </EntityType>
-        <Association Name="FKDatabaseUI703615">
-          <End Type="MyProjectModel.DatabaseInformation" Role="DatabaseInformation" Multiplicity="1" />
-          <End Type="MyProjectModel.DatabaseUISetting" Role="DatabaseUISetting" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DatabaseInformation">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DatabaseUISetting">
-              <PropertyRef Name="DatabaseInformationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12055,7 +12051,6 @@
           <EntitySetMapping Name="Column">
             <EntityTypeMapping TypeName="MyProjectModel.Column">
               <MappingFragment StoreEntitySet="Column">
-                <ScalarProperty Name="ShowNullValue" ColumnName="ShowNullValue" />
                 <ScalarProperty Name="IsNotTransferable" ColumnName="IsNotTransferable" />
                 <ScalarProperty Name="CustomCalculateFormulaID" ColumnName="CustomCalculateFormulaID" />
                 <ScalarProperty Name="DBCalculateFormula" ColumnName="DBCalculateFormula" />
@@ -12212,6 +12207,14 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="DBServerID" ColumnName="DBServerID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DatabaseUISetting">
+            <EntityTypeMapping TypeName="MyProjectModel.DatabaseUISetting">
+              <MappingFragment StoreEntitySet="DatabaseUISetting">
+                <ScalarProperty Name="FlowDirectionLTR" ColumnName="FlowDirectionLTR" />
+                <ScalarProperty Name="DatabaseInformationID" ColumnName="DatabaseInformationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -12822,6 +12825,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RelationshipType">
+            <EntityTypeMapping TypeName="MyProjectModel.RelationshipType">
+              <MappingFragment StoreEntitySet="RelationshipType">
+                <ScalarProperty Name="PKToFKDataEntryEnabled" ColumnName="PKToFKDataEntryEnabled" />
+                <ScalarProperty Name="IsNotSkippable" ColumnName="IsNotSkippable" />
+                <ScalarProperty Name="DeleteOption" ColumnName="DeleteOption" />
+                <ScalarProperty Name="IsOtherSideDirectlyCreatable" ColumnName="IsOtherSideDirectlyCreatable" />
+                <ScalarProperty Name="IsOtherSideCreatable" ColumnName="IsOtherSideCreatable" />
+                <ScalarProperty Name="IsOtherSideMandatory" ColumnName="IsOtherSideMandatory" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="RelationshipUISetting">
             <EntityTypeMapping TypeName="MyProjectModel.RelationshipUISetting">
               <MappingFragment StoreEntitySet="RelationshipUISetting">
@@ -13392,28 +13408,6 @@
               <ScalarProperty Name="ID" ColumnName="UniqueConstraintID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="RelationshipType">
-            <EntityTypeMapping TypeName="MyProjectModel.RelationshipType">
-              <MappingFragment StoreEntitySet="RelationshipType">
-                <ScalarProperty Name="PKToFKDataEntryEnabled" ColumnName="PKToFKDataEntryEnabled" />
-                <ScalarProperty Name="IsNotSkippable" ColumnName="IsNotSkippable" />
-                <ScalarProperty Name="DeleteOption" ColumnName="DeleteOption" />
-                <ScalarProperty Name="IsOtherSideDirectlyCreatable" ColumnName="IsOtherSideDirectlyCreatable" />
-                <ScalarProperty Name="IsOtherSideCreatable" ColumnName="IsOtherSideCreatable" />
-                <ScalarProperty Name="IsOtherSideMandatory" ColumnName="IsOtherSideMandatory" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DatabaseUISetting">
-            <EntityTypeMapping TypeName="MyProjectModel.DatabaseUISetting">
-              <MappingFragment StoreEntitySet="DatabaseUISetting">
-                <ScalarProperty Name="ShowNullValue" ColumnName="ShowNullValue" />
-                <ScalarProperty Name="FlowDirectionLTR" ColumnName="FlowDirectionLTR" />
-                <ScalarProperty Name="DatabaseInformationID" ColumnName="DatabaseInformationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

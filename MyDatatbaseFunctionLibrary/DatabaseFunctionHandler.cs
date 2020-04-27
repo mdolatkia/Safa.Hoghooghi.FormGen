@@ -20,7 +20,7 @@ namespace MyDatabaseFunctionLibrary
             DatabaseFunctionResult result = new DatabaseFunctionResult();
             var databaseFunctionEntity = bizDatabaseFunction.GetDatabaseFunctionEntity(functionID, dataItem.TargetEntityID);
             var stringParamList = "";
-            List<string> paramList = new List<string>();
+            List<object> paramList = new List<object>();
             if (databaseFunctionEntity != null)
             {
                 // List<Tuple<string, string>> parameters = new List<Tuple<string, string>>();
@@ -74,7 +74,7 @@ namespace MyDatabaseFunctionLibrary
             else
             {
                 var stringParamList = "";
-                List<string> paramList = new List<string>();
+                List<object> paramList = new List<object>();
                 int index = 0;
                 foreach (var column in databaseFunction.DatabaseFunctionParameter)
                 {
@@ -89,7 +89,7 @@ namespace MyDatabaseFunctionLibrary
             }
 
         }
-        private DatabaseFunctionResult GetDatabaseFunctionValue(DatabaseFunctionDTO databaseFunction, List<string> paramList, string stringParamList)
+        private DatabaseFunctionResult GetDatabaseFunctionValue(DatabaseFunctionDTO databaseFunction, List<object> paramList, string stringParamList)
         {
             try
             {

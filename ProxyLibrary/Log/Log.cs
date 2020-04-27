@@ -59,8 +59,8 @@ namespace ProxyLibrary
         public int ColumnID { get; set; }
         public string vwColumnName { get; set; }
         public string vwColumnAlias { get; set; }
-        public string OldValue { get; set; }
-        public string NewValue { get; set; }
+        public object OldValue { get; set; }
+        public object NewValue { get; set; }
         public string Info { get; set; }
         public List<FormulaUsageParemetersDTO> FormulaUsageParemeters { set; get; }
         public int FormulaID { get; set; }

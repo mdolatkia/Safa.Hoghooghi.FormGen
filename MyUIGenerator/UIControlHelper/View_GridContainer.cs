@@ -441,7 +441,7 @@ namespace MyUIGenerator.UIControlHelper
 
             var localContainerManager = (view as LocalContainerManager);
 
-            var headerControl = new LabelControlManager(title);
+            var headerControl = new LabelControlManager(title, false);
 
             if ((view as LocalContainerManager).Expander == null)
             {
@@ -461,7 +461,7 @@ namespace MyUIGenerator.UIControlHelper
 
         public void AddTabGroup(I_TabGroupContainer view, string title, TabGroupUISettingDTO groupUISettingDTO)
         {
-            var headerControl = new LabelControlManager(title);
+            var headerControl = new LabelControlManager(title, false);
             var tabGroupContainerManager = (view as TabGroupContainerManager);
             if (tabGroupContainerManager.Expander != null)
                 tabGroupContainerManager.Expander.Header = headerControl.WholeControl;

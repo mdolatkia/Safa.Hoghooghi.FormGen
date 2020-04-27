@@ -339,7 +339,7 @@ namespace MyDataSearchManagerBusiness
             List<DP_SearchRepository> relationshipPhrases = GetRelationshipPhrases(searchDataItem);
             foreach (var item in relationshipPhrases)
             {
-                if (!bizRElationship.DataIsAccessable(requester, item.SourceRelationship.ID,false,true))
+                if (!bizRElationship.DataIsAccessable(requester, item.SourceRelationship.ID, false, true))
                     return "عدم دسترسی به رابطه به شناسه" + " " + item.SourceRelationship.ID;
 
             }
@@ -425,7 +425,7 @@ namespace MyDataSearchManagerBusiness
                     securityItems = bizRoleSecurity.GetPostEntitySecurityItems(requester, mainEntity.ID, securityMode);
                 else
                 {
-                    bool entityHasViewSecurity = securityHelper.EntityHasSecurity(mainEntity.ID,SecurityMode.View);
+                    bool entityHasViewSecurity = securityHelper.EntityHasSecurity(mainEntity.ID, SecurityMode.View);
                     if (entityHasViewSecurity)
                     {
                         return GetNowRowSearchQuery(requester, mainEntity);
@@ -890,7 +890,7 @@ namespace MyDataSearchManagerBusiness
             return where;
         }
 
-        private string GetEquation(string columnName, SearchProperty property, string value)
+        private string GetEquation(string columnName, SearchProperty property, object value)
         {
             if (property.Operator == CommonOperator.Equals ||
                 property.Operator == CommonOperator.BiggerThan ||
@@ -920,9 +920,9 @@ namespace MyDataSearchManagerBusiness
         private string GetInValuseRange(SearchProperty property)
         {
             string result = "";
-            if (property.Value.Contains(","))
+            if (property.Value != null && property.Value.ToString().Contains(","))
             {
-                var split = property.Value.Split(',');
+                var split = property.Value.ToString().Split(',');
                 foreach (var splt in split)
                 {
                     result += (result == "" ? "" : ",") + "'" + splt + "'";
@@ -1125,7 +1125,7 @@ namespace MyDataSearchManagerBusiness
         }
         private bool PropertyHasValue(SearchProperty item)
         {
-            return (!string.IsNullOrEmpty(item.Value)  && item.Value.ToLower() != "0");
+            return (item.Value != null && !string.IsNullOrEmpty(item.Value.ToString()) && item.Value.ToString() != "0");
         }
         private List<DP_DataRepository> DataTableToDP_DataRepository(TableDrivedEntityDTO entity, EntityListViewDTO editListView, DataTable dataTable)
         {
@@ -1268,7 +1268,7 @@ namespace MyDataSearchManagerBusiness
                     if (reader[i] != DBNull.Value)
                         value = reader[i].ToString();
                     else
-                        value =null;
+                        value = null;
 
                     var property = new EntityInstanceProperty(column.Column);
                     //               property.EntityListViewColumnsID = listColumnsItem.Item2.ID;

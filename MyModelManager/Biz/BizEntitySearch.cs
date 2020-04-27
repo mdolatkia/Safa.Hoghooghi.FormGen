@@ -198,19 +198,21 @@ namespace MyModelManager
                     else
                         rColumn.Alias = column.Alias ?? column.EntityRelationshipTail.TableDrivedEntity.Alias ?? column.EntityRelationshipTail.TableDrivedEntity.Name;
                     rColumn.OrderID = column.OrderID ?? 0;
-                    if (!string.IsNullOrEmpty(column.Tooltip))
-                        rColumn.Tooltip = column.Tooltip;
-                    else
-                    {
-                        if (rColumn.RelationshipTail != null && rColumn.Column != null)
-                            rColumn.Tooltip = rColumn.RelationshipTail.TargetEntityAlias + "." + rColumn.Column.Alias;
-                    }
+                   
                     //rColumn.WidthUnit = column.WidthUnit ?? 0;
                     if (column.EntityRelationshipTailID != null)
                     {
                         rColumn.RelationshipTailID = column.EntityRelationshipTailID.Value;
                         rColumn.RelationshipTail = bizEntityRelationshipTail.ToEntityRelationshipTailDTO(column.EntityRelationshipTail);
                     }
+                    if (!string.IsNullOrEmpty(column.Tooltip))
+                        rColumn.Tooltip = column.Tooltip;
+                    else
+                    {
+                        if (rColumn.RelationshipTail != null && rColumn.Column != null)
+                            rColumn.Tooltip = rColumn.RelationshipTail.ReverseRelationshipTail.TargetEntityAlias + "." + rColumn.Column.Alias;
+                    }
+                    بررسی اینکه جستجوی چند به یک یا لیست نمایش چند به یک امکان پذیره؟
                     result.EntitySearchAllColumns.Add(rColumn);
                 }
                 //foreach (var tail in item.EntitySearchRelationshipTails)
@@ -247,10 +249,7 @@ namespace MyModelManager
         {
             if (list == null)
                 list = new List<EntitySearchColumnsDTO>();
-            if (relationships == null)
-                relationships = new List<RelationshipDTO>();
-            if (relationship != null)
-                relationships.Add(relationship);
+           
 
             TableDrivedEntityDTO entity = null;
             List<ColumnDTO> simplecollumns = null;
@@ -279,7 +278,7 @@ namespace MyModelManager
                     var resultColumn = new EntitySearchColumnsDTO();
                     resultColumn.ColumnID = column.ID;
                     resultColumn.CreateRelationshipTailPath = relationshipPath;
-                    resultColumn.AllRelationshipsAreSubTuSuper = relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper);
+                    resultColumn.AllRelationshipsAreSubTuSuper = relationships != null && relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper);
                     resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + column.Alias;
                     //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + column.Alias;
                     list.Add(resultColumn);
@@ -311,13 +310,26 @@ namespace MyModelManager
                                             var resultColumn = new EntitySearchColumnsDTO();
                                             resultColumn.ColumnID = relCol.FirstSideColumnID;
                                             resultColumn.CreateRelationshipTailPath = relationshipPath;
-                                            resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + relCol.FirstSideColumn.Alias;
+                                            string entityAlias = "";
+                                            if (relationship != null)
+                                            {
+                                                entityAlias = entity.Alias + ".";
+                                            }
+                                            resultColumn.Alias = entityAlias + relCol.FirstSideColumn.Alias;
                                             //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + relCol.FirstSideColumn.Alias;
                                             list.Add(resultColumn);
                                         }
                                     }
                                 }
-                                GenereateDefaultSearchColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationships, list);
+                                List<RelationshipDTO> relationshipsTail = new List<RelationshipDTO>();
+                                if (relationships != null)
+                                {
+                                    foreach (var relItem in relationships)
+                                        relationshipsTail.Add(relItem);
+                                    
+                                }
+                                relationshipsTail.Add(newrelationship);
+                                GenereateDefaultSearchColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationshipsTail, list);
                             }
                             else if (relationship == null)
                             {
@@ -448,16 +460,38 @@ namespace MyModelManager
         private bool CheckFirstPriorityColumnName(ColumnDTO column)
         {
             var key = string.IsNullOrEmpty(column.Alias) ? column.Name : column.Alias;
-            return GetPriorityColumnNames().Contains(key.ToLower());
+            return CheckColumnDetection(GetPriorityColumnNames(), key);
         }
-        List<string> _GetPriorityColumnNames;
-        List<string> GetPriorityColumnNames()
+        private bool CheckColumnDetection(List<PriorityColumnDetection> list, string columnAlias)
+        {
+            return list.Any(x =>
+              (x.CompareType == PriorityCompareType.Equals && x.Key.ToLower() == columnAlias.ToLower())
+              || (x.CompareType == PriorityCompareType.ColumnAliasContainsKey && columnAlias.ToLower().Contains(x.Key.ToLower()))
+                );
+        }
+        List<PriorityColumnDetection> _GetPriorityColumnNames;
+        List<PriorityColumnDetection> GetPriorityColumnNames()
         {
             if (_GetPriorityColumnNames == null)
             {
-                _GetPriorityColumnNames = new List<string>()
-                { "code","شماره", "name","نام", "firstname", "lastname", "title","عنوان", "number", "family",
-                "type","نوع"};
+                _GetPriorityColumnNames = new List<PriorityColumnDetection>()
+                {
+                    new PriorityColumnDetection("code",PriorityCompareType.ColumnAliasContainsKey),
+                    new PriorityColumnDetection("کد",PriorityCompareType.Equals),
+                    new PriorityColumnDetection("کد"+" ",PriorityCompareType.ColumnAliasContainsKey),
+                    new PriorityColumnDetection("name",PriorityCompareType.ColumnAliasContainsKey),
+                    new PriorityColumnDetection("نام",PriorityCompareType.Equals),
+                    new PriorityColumnDetection("نام"+" ",PriorityCompareType.ColumnAliasContainsKey),
+                    new PriorityColumnDetection("title",PriorityCompareType.ColumnAliasContainsKey),
+                    new PriorityColumnDetection("عنوان",PriorityCompareType.ColumnAliasContainsKey),
+                    new PriorityColumnDetection("number",PriorityCompareType.ColumnAliasContainsKey),
+                    new PriorityColumnDetection("شماره",PriorityCompareType.ColumnAliasContainsKey),
+                    new PriorityColumnDetection("family",PriorityCompareType.ColumnAliasContainsKey),
+                    new PriorityColumnDetection("نوع",PriorityCompareType.Equals),
+                      new PriorityColumnDetection("نوع"+" ",PriorityCompareType.ColumnAliasContainsKey),
+                    new PriorityColumnDetection("type",PriorityCompareType.ColumnAliasContainsKey)
+                };
+
             }
             return _GetPriorityColumnNames;
         }

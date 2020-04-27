@@ -88,7 +88,7 @@ namespace MyModelManager
                 dbSearchRepository.Title = searchRepository.Title;
             else
                 dbSearchRepository.Title = "";
-           dbSearchRepository.HasNotRelationshipCheck = searchRepository.HasNotRelationshipCheck;
+            dbSearchRepository.HasNotRelationshipCheck = searchRepository.HasNotRelationshipCheck;
             //dbSearchRepository.HasRelationshipCheck = searchRepository.HasRelationshipCheck;
             dbSearchRepository.RelationshipFromCount = searchRepository.RelationshipFromCount;
             dbSearchRepository.RelationshipToCount = searchRepository.RelationshipToCount;
@@ -167,7 +167,7 @@ namespace MyModelManager
             dbColumnPhrase.ColumnID = searchProperty.ColumnID;
             dbColumnPhrase.EntitySearchColumnsID = searchProperty.SearchColumnID == 0 ? (int?)null : searchProperty.SearchColumnID;
             dbColumnPhrase.Operator = searchProperty.Operator.ToString();
-            dbColumnPhrase.Value = searchProperty.Value;
+            dbColumnPhrase.Value = searchProperty.Value == null ? null : searchProperty.Value.ToString();
             return new Tuple<ColumnPhrase, DataAccess.Phrase>(dbColumnPhrase, phrase);
         }
 

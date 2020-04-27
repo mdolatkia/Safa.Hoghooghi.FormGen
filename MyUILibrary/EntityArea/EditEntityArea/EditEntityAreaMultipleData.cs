@@ -192,7 +192,7 @@ namespace MyUILibrary.EntityArea
             foreach (var relationshipControl in RelationshipColumnControls)
             {
                 bool relationshipFirstSideHasValue = relationshipControl.Relationship.RelationshipColumns.Any()
-               && relationshipControl.Relationship.RelationshipColumns.All(x => specificDate.GetProperties().Any(y => !string.IsNullOrEmpty(y.Value) && y.ColumnID == x.FirstSideColumnID));
+               && relationshipControl.Relationship.RelationshipColumns.All(x => specificDate.GetProperties().Any(y => y.Value!=null && !string.IsNullOrEmpty(y.Value.ToString()) && y.ColumnID == x.FirstSideColumnID));
 
                 bool childLoadedBefore = specificDate.ChildRelationshipInfos.Any(x => x.Relationship.ID == relationshipControl.Relationship.ID);
                 ChildRelationshipInfo childData = null;

@@ -202,7 +202,7 @@ namespace MyUILibrary
         //I_FormulaOptions GetFormulaOptionForm();
         //I_FormulaUsageParameters GetFormulaUsageParametersForm();
         I_DataTreeView GetViewOfDataTree();
-        I_LabelControlManager GenerateLabelControlManager();
+        //I_LabelControlManager GenerateLabelControlManager();
         I_View_LogReportArea GenerateViewOfLogReportArea();
         I_View_WorkflowReport GetWorkflowReportForm();
         void ClearNavigationTree();

@@ -8,18 +8,18 @@
         <EntityTypeShape EntityType="MyIdeaDataDBModel.ArchiveItem" Width="1.5" PointX="6" PointY="15" />
         <EntityTypeShape EntityType="MyIdeaDataDBModel.ArchiveItem_Tag" Width="1.5" PointX="8.25" PointY="16.125" />
         <EntityTypeShape EntityType="MyIdeaDataDBModel.DataLog" Width="1.5" PointX="3" PointY="35" />
-        <EntityTypeShape EntityType="MyIdeaDataDBModel.EditDataItemColumnDetails" Width="1.5" PointX="5.25" PointY="33.25" />
-        <EntityTypeShape EntityType="MyIdeaDataDBModel.EditDataItemExceptionLog" Width="1.5" PointX="5.25" PointY="36.875" />
+        <EntityTypeShape EntityType="MyIdeaDataDBModel.EditDataItemColumnDetails" Width="1.5" PointX="5.25" PointY="38.125" />
+        <EntityTypeShape EntityType="MyIdeaDataDBModel.EditDataItemExceptionLog" Width="1.5" PointX="5.25" PointY="35.625" />
         <EntityTypeShape EntityType="MyIdeaDataDBModel.ExternalReportKeys" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="MyIdeaDataDBModel.FileRepository" Width="1.5" PointX="0.75" PointY="10.75" />
-        <EntityTypeShape EntityType="MyIdeaDataDBModel.FormulaUsageParemeters" Width="1.5" PointX="7.5" PointY="33.5" />
-        <EntityTypeShape EntityType="MyIdeaDataDBModel.Letter" Width="1.5" PointX="3" PointY="9.625" />
-        <EntityTypeShape EntityType="MyIdeaDataDBModel.LetterItemLog" Width="1.5" PointX="5.25" PointY="39.5" />
+        <EntityTypeShape EntityType="MyIdeaDataDBModel.FileRepository" Width="1.5" PointX="3.75" PointY="25.75" />
+        <EntityTypeShape EntityType="MyIdeaDataDBModel.FormulaUsageParemeters" Width="1.5" PointX="7.5" PointY="38.375" />
+        <EntityTypeShape EntityType="MyIdeaDataDBModel.Letter" Width="1.5" PointX="3" PointY="14.625" />
+        <EntityTypeShape EntityType="MyIdeaDataDBModel.LetterItemLog" Width="1.5" PointX="5.25" PointY="33.25" />
         <EntityTypeShape EntityType="MyIdeaDataDBModel.MyDataItem" Width="1.5" PointX="0.75" PointY="15.75" />
         <EntityTypeShape EntityType="MyIdeaDataDBModel.MyDataItemKeyColumns" Width="1.5" PointX="3" PointY="30.5" />
-        <EntityTypeShape EntityType="MyIdeaDataDBModel.Request" Width="1.5" PointX="3" PointY="15.25" />
-        <EntityTypeShape EntityType="MyIdeaDataDBModel.RequestAction" Width="1.5" PointX="5.25" PointY="9" />
-        <EntityTypeShape EntityType="MyIdeaDataDBModel.RequestNote" Width="1.5" PointX="5.25" PointY="20.625" />
+        <EntityTypeShape EntityType="MyIdeaDataDBModel.Request" Width="1.5" PointX="3" PointY="10.25" />
+        <EntityTypeShape EntityType="MyIdeaDataDBModel.RequestAction" Width="1.5" PointX="5.25" PointY="20.125" />
+        <EntityTypeShape EntityType="MyIdeaDataDBModel.RequestNote" Width="1.5" PointX="5.25" PointY="8" />
         <EntityTypeShape EntityType="MyIdeaDataDBModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="0.75" />
         <AssociationConnector Association="MyIdeaDataDBModel.FK_ArchiveItem_FileRepository" />
         <AssociationConnector Association="MyIdeaDataDBModel.FK_ArchiveItem_MyDataItem" />

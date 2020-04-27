@@ -146,7 +146,7 @@ namespace MyDataEditManagerBusiness
                                     fkprop = new EntityInstanceProperty(relCol.FirstSideColumn);
                                 }
                                 var pkprop = pkData.GetProperty(relCol.SecondSideColumnID);
-                                if (pkData.IsNewItem && pkprop.Column.IsIdentity)
+                                if (pkData.IsNewItem && (pkprop.Column.IsIdentity || pkprop.PKIdentityColumn != null))
                                 {
                                     fkprop.Value = "{" + fkprop.ColumnID + "}";
                                     fkprop.PKIdentityColumn = pkprop;
@@ -170,7 +170,7 @@ namespace MyDataEditManagerBusiness
                             {
                                 fkprop = new EntityInstanceProperty(relCol.FirstSideColumn);
                             }
-                            fkprop.Value =null;
+                            fkprop.Value = null;
                             //prop.IsHidden = child.IsHidden;
                             foreignKeyProperties.Add(fkprop);
                         }
@@ -213,11 +213,10 @@ namespace MyDataEditManagerBusiness
                             fkprop = new EntityInstanceProperty(relCol.SecondSideColumn);
                         }
                         var pkprop = parentQueryItem.DataItem.GetProperty(relCol.FirstSideColumnID);
-                        if (parentQueryItem.DataItem.IsNewItem && pkprop.Column.IsIdentity)
+                        if (parentQueryItem.DataItem.IsNewItem && (pkprop.Column.IsIdentity || pkprop.PKIdentityColumn != null))
                         {
                             fkprop.Value = "{" + fkprop.ColumnID + "}";
                             fkprop.PKIdentityColumn = pkprop;
-
                         }
                         else
                             fkprop.Value = pkprop.Value;
@@ -372,10 +371,10 @@ namespace MyDataEditManagerBusiness
 
         private void IdentityProp_PropertyValueChanged(object sender, PropertyValueChangedArg e, EntityInstanceProperty targetFk, QueryItem queryItem)
         {
-            string oldValue = targetFk.Value;
+            var oldValue = targetFk.Value.ToString();
             targetFk.Value = e.NewValue;
             if (!string.IsNullOrEmpty(queryItem.Query))
-                queryItem.Query = queryItem.Query.Replace(oldValue, e.NewValue);
+                queryItem.Query = queryItem.Query.Replace(oldValue, e.NewValue.ToString());
         }
 
         private string GetInsertQuery(QueryItem queryItem)
@@ -532,9 +531,9 @@ namespace MyDataEditManagerBusiness
             return (string.IsNullOrEmpty(entity.RelatedSchema) ? "" : "[" + entity.RelatedSchema + "]" + ".") + "[" + entity.TableName + "]";
         }
 
-        private string GetPropertyValue(string value)
+        private string GetPropertyValue(object value)
         {
-            if (value == null )
+            if (value == null)
                 return "NULL";
             else
                 return "'" + value + "'";

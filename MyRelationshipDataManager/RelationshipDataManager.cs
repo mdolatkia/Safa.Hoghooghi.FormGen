@@ -25,7 +25,7 @@ namespace MyRelationshipDataManager
 
             foreach (var col in relationship.RelationshipColumns)
             {
-                if (!firstSideDataItem.Properties.Any(x => !string.IsNullOrEmpty(x.Value) && x.ColumnID == col.FirstSideColumnID))
+                if (!firstSideDataItem.Properties.Any(x => x.Value != null && !string.IsNullOrEmpty(x.Value.ToString()) && x.ColumnID == col.FirstSideColumnID))
                     relationshipFirstSideColumnExist = false;
 
             }
@@ -35,8 +35,8 @@ namespace MyRelationshipDataManager
                 DP_SearchRepository resultDataItem = new DP_SearchRepository(relationship.EntityID2);
                 foreach (var col in relationship.RelationshipColumns)
                 {
-                    var value = "";
-                    value = firstSideDataItem.GetProperty(col.FirstSideColumnID).Value;
+
+                    var value = firstSideDataItem.GetProperty(col.FirstSideColumnID).Value;
                     if (value == null)
                         return null;
                     resultDataItem.Phrases.Add(new SearchProperty() { ColumnID = col.SecondSideColumnID, Value = value });
@@ -47,7 +47,7 @@ namespace MyRelationshipDataManager
                 || relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary)
             {
                 DP_SearchRepository resultDataItem = new DP_SearchRepository(relationship.EntityID2);
-                if (firstSideDataItem.KeyProperties.Any() && firstSideDataItem.KeyProperties.All(x => !string.IsNullOrEmpty(x.Value)))
+                if (firstSideDataItem.KeyProperties.Any() && firstSideDataItem.KeyProperties.All(x => x.Value!=null &&  !string.IsNullOrEmpty(x.Value.ToString())))
                 {
                     DP_SearchRepository searchItem = new DP_SearchRepository(relationship.EntityID1);
                     foreach (var col in firstSideDataItem.KeyProperties)

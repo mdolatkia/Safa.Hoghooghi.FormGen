@@ -55,7 +55,7 @@ namespace MyProject_WPF
                 var item = e.DataElement as TableImportItem;
                 if (!string.IsNullOrEmpty(item.Tooltip))
                 {
-                    ToolTipService.SetToolTip(e.Row, ControlHelper.GetTooltip(item.Tooltip,false));
+                    ToolTipService.SetToolTip(e.Row, ControlHelper.GetTooltip(item.Tooltip, false));
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace MyProject_WPF
                 var item = e.DataElement as TableImportItem;
                 if (!string.IsNullOrEmpty(item.Tooltip))
                 {
-                    ToolTipService.SetToolTip(e.Row, ControlHelper.GetTooltip(item.Tooltip,true));
+                    ToolTipService.SetToolTip(e.Row, ControlHelper.GetTooltip(item.Tooltip, true));
                 }
             }
         }
@@ -220,7 +220,7 @@ namespace MyProject_WPF
             tooltip += Environment.NewLine + "Columns : ";
             foreach (var column in item.Entity.Columns)
             {
-                tooltip += Environment.NewLine +  column.Name + ((!string.IsNullOrEmpty(column.Alias) && column.Name != column.Alias) ? " As " + "'" + column.Alias + "'" : "")
+                tooltip += Environment.NewLine + column.Name + ((!string.IsNullOrEmpty(column.Alias) && column.Name != column.Alias) ? " As " + "'" + column.Alias + "'" : "")
                     + "  " + column.DataType;
             }
             return tooltip;
@@ -404,11 +404,11 @@ namespace MyProject_WPF
             return true;
         }
 
-        private void btnDatabaseSetting_Click(object sender, RoutedEventArgs e)
-        {
-            frmDatabaseSetting frm = new MyProject_WPF.frmDatabaseSetting(Database.ID);
-            MyProjectManager.GetMyProjectManager.ShowDialog(frm, "تنظیمات پایگاه داده", Enum_WindowSize.None);
-        }
+        //private void btnDatabaseSetting_Click(object sender, RoutedEventArgs e)
+        //{
+        //    frmDatabaseSetting frm = new MyProject_WPF.frmDatabaseSetting(Database.ID);
+        //    MyProjectManager.GetMyProjectManager.ShowDialog(frm, "تنظیمات پایگاه داده", Enum_WindowSize.None);
+        //}
 
 
 

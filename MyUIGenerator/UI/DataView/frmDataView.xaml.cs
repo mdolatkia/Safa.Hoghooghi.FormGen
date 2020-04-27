@@ -139,7 +139,7 @@ namespace MyUIGenerator.View
         public event EventHandler<EntitiListViewChangedArg> EntityListViewChanged;
         public event EventHandler SearchCommandRequested;
         public event EventHandler OrderColumnsChanged;
-     //   public event EventHandler ReportRequested;
+        //   public event EventHandler ReportRequested;
 
         private void DrawItems()
         {
@@ -180,7 +180,7 @@ namespace MyUIGenerator.View
         private void Timer_Tick(object sender, EventArgs e)
         {
             (sender as DispatcherTimer).Stop();
-         //   diagram.AutoFit();
+            //   diagram.AutoFit();
         }
         private void Shape_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -210,7 +210,7 @@ namespace MyUIGenerator.View
             grdInfo.RowDefinitions.Clear();
         }
 
-        public void AddDataViewItemInfo(string name, string value)
+        public void AddDataViewItemInfo(string name, object value)
         {
             var rowDef = new RowDefinition();
             rowDef.Height = GridLength.Auto;
@@ -231,7 +231,7 @@ namespace MyUIGenerator.View
             lblTitle.Margin = new Thickness(0);
 
             var lblValue = new TextBlock();
-            lblValue.Text = value;
+            lblValue.Text = value == null ? "<Null>" : value.ToString();
             lblValue.Background = backColor;
             lblValue.HorizontalAlignment = HorizontalAlignment.Stretch;
             lblValue.TextAlignment = TextAlignment.Left;

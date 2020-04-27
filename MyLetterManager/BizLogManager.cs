@@ -255,8 +255,8 @@ namespace MyLogManager
                     EditDataItemColumnDetails dbCol = new EditDataItemColumnDetails();
                     dbCol.ColumnID = messageCol.ColumnID;
                     dbCol.Info = messageCol.Info;
-                    dbCol.NewValue = messageCol.NewValue;
-                    dbCol.OldValue = messageCol.OldValue;
+                    dbCol.NewValue = messageCol.NewValue == null ? "<Null>" : messageCol.NewValue.ToString();
+                    dbCol.OldValue = messageCol.OldValue == null ? "<Null>" : messageCol.OldValue.ToString();
                     dbCol.FormulaException = messageCol.FormulaException;
                     dbCol.FormulaID = messageCol.FormulaID;
                     dbLog.EditDataItemColumnDetails.Add(dbCol);

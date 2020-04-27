@@ -167,7 +167,7 @@ namespace MyUIGenerator.UIControlHelper
         //    else
         //        DataGridColumn.ClearColor(dataItem);
         //}
-        public bool SetValue(object dataItem, string value)
+        public bool SetValue(object dataItem, object value)
         {
             var dataRow = DataGridColumn.DataControl.GetRowForItem(dataItem);
             return DataGridColumn.SetValue(dataItem, value);

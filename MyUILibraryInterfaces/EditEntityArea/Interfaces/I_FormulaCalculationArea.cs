@@ -21,7 +21,7 @@ namespace MyUILibraryInterfaces.FormulaCalculationArea
     public interface I_View_FormulaCalculationArea
     {
         string FromulaExpression { get; set; }
-        string ResultString { get; set; }
+        object ResultString { get; set; }
 
         void ParameterTabSelect();
         void ExceptionTabSelect();

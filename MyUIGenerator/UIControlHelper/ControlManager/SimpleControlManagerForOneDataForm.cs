@@ -61,7 +61,7 @@ namespace MyUIGenerator.UIControlHelper
             MyControlHelper.SetReadonly(isreadonly);
         }
 
-        public bool SetValue(object dataItem, string value)
+        public bool SetValue(object dataItem, object value)
         {
             return MyControlHelper.SetValue(value);
         }

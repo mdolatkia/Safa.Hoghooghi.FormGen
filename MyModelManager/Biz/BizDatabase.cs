@@ -65,7 +65,7 @@ namespace MyModelManager
                     dbDatabase.DatabaseUISetting = new DatabaseUISetting();
 
                 dbDatabase.DatabaseUISetting.FlowDirectionLTR = databaseSetting.FlowDirectionLTR;
-                dbDatabase.DatabaseUISetting.ShowNullValue = databaseSetting.ShowNullValue;
+                //dbDatabase.DatabaseUISetting.ShowNullValue = databaseSetting.ShowNullValue;
 
                 projectContext.SaveChanges();
                 return true;
@@ -261,7 +261,7 @@ namespace MyModelManager
             {
                 DatabaseSettingDTO result = new DatabaseSettingDTO();
                 result.FlowDirectionLTR = item.DatabaseUISetting.FlowDirectionLTR;
-                result.ShowNullValue = item.DatabaseUISetting.ShowNullValue;
+                //result.ShowNullValue = item.DatabaseUISetting.ShowNullValue;
                 return result;
             }
             else

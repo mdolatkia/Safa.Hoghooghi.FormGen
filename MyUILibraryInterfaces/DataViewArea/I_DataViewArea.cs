@@ -77,7 +77,7 @@ namespace MyUILibraryInterfaces.DataViewArea
     {
         void AddDataViewItems(List<I_DataViewItem> items);
         void ClearDataViewItemInfo();
-        void AddDataViewItemInfo(string name, string value);
+        void AddDataViewItemInfo(string name, object value);
         void ShowDataViewItemInfo();
         void HideDataViewItemInfo();
         void BringIntoView(I_DataViewItem defaultDataViewItem);

@@ -98,7 +98,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
 
         public Dictionary<string, MyPropertyInfo> GetProperties(DR_Requester requester, FormulaObject formulaObject, MyPropertyInfo parentPropetyInfo)
         {
-            var entity = bizTableDrivedEntity.GetPermissionedEntity( requester, formulaObject.DataItem.TargetEntityID);
+            var entity = bizTableDrivedEntity.GetPermissionedEntity(requester, formulaObject.DataItem.TargetEntityID);
             return FormulaInstanceInternalHelper.GetProperties(entity, parentPropetyInfo, formulaObject, false);
         }
         private void SetUniqueName(MyPropertyInfo propertyInfo, Dictionary<string, MyPropertyInfo> m_properties, int index = 0)
@@ -139,7 +139,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
                         {  //بهتر نوشته شود.برای لیست لازم نیست هر دفعه خصوصیات خوانده شوند
                             if (item.PropertiesLoaded == false)
                             {
-                                var properties = GetProperties( Requester, item, e.PropertyInfo);
+                                var properties = GetProperties(Requester, item, e.PropertyInfo);
                                 item.SetProperties(properties);
                             }
                         }
@@ -277,7 +277,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
                 if (!gotFromParant)
                 {
                     result = new List<DP_DataRepository>();
-                    if (!relationshipPropertyInfo.Properties.Any(x => string.IsNullOrEmpty(x.Value) ))
+                    if (!relationshipPropertyInfo.Properties.Any(x => x.Value == null || string.IsNullOrEmpty(x.Value.ToString())))
                     {
                         SearchRequestManager searchProcessor = new SearchRequestManager();
                         DP_SearchRepository searchItem = new DP_SearchRepository(relationshipPropertyInfo.Relationship.EntityID2);
@@ -337,12 +337,12 @@ namespace MyFormulaFunctionStateFunctionLibrary
             try
             {
                 var expression = GetExpression(expressionStr);
-              
+
                 dynamic dynamicExpression = expression;
                 dynamic compiledExpression = dynamicExpression.Compile();
 
                 bool hasParameters = dynamicExpression.Parameters.Count > 0;
-              
+
                 return hasParameters ? compiledExpression(MainFormulaObject) : compiledExpression();
             }
             catch (Exception ex)
@@ -350,7 +350,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
                 AddException(ex.Message);
                 return null;
             }
-        
+
 
         }
         private System.Linq.Expressions.Expression GetExpression(string expressionStr)

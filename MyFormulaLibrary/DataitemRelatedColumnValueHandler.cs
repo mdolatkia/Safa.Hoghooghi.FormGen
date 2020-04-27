@@ -12,7 +12,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
 {
     public class DataitemRelatedColumnValueHandler
     {
-        public string GetValueSomeHow(DR_Requester requester, DP_DataRepository sentdata, EntityRelationshipTailDTO valueRelationshipTail, int valueColumnID)
+        public object GetValueSomeHow(DR_Requester requester, DP_DataRepository sentdata, EntityRelationshipTailDTO valueRelationshipTail, int valueColumnID)
         {
             if (valueRelationshipTail == null)
             {

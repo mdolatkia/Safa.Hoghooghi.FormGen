@@ -139,7 +139,7 @@ namespace MyLetterGenerator
                             //درست شود
                             var property = dataviewItem.Properties.FirstOrDefault(x => x.RelativeName == bizField.EntityListViewColumns.RelativeColumnName);
                             if (property != null)
-                                (plainField.LetterField as Field).Result.Text = property.Value;
+                                (plainField.LetterField as Field).Result.Text = property.Value==null?"":property.Value.ToString();
 
                         }
                         else if (bizField.FormulaID != 0)

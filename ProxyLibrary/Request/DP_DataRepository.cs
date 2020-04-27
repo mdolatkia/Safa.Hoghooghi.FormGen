@@ -191,7 +191,7 @@ namespace ProxyLibrary
             }
         }
 
-        public string GetValueSomeHow(EntityRelationshipTailDTO valueRelationshipTail, int valueColumnID)
+        public object GetValueSomeHow(EntityRelationshipTailDTO valueRelationshipTail, int valueColumnID)
         {
             if (valueRelationshipTail == null)
             {
@@ -382,7 +382,7 @@ namespace ProxyLibrary
             }
         }
 
-        public void AddProperty(ColumnDTO column, string value)
+        public void AddProperty(ColumnDTO column, object value)
         {
             EntityInstanceProperty property = new ProxyLibrary.EntityInstanceProperty(column);
             //property.Name = column.Name;
@@ -785,8 +785,8 @@ namespace ProxyLibrary
         {
             set; get;
         }
-        string _Value;
-        public string Value
+        object _Value;
+        public object Value
         {
             get { return _Value; }
             set
@@ -941,7 +941,7 @@ namespace ProxyLibrary
 
 
         public string Name;
-        public string Value;
+        public object Value;
         public bool IsKey { set; get; }
         //public AndORType AndORType { set; get; }
         public CommonOperator Operator { set; get; }
@@ -961,8 +961,8 @@ namespace ProxyLibrary
     {
         public int ColumnID { set; get; }
         public DP_DataRepository DataItem { set; get; }
-        public string OldValue { set; get; }
-        public string NewValue { set; get; }
+        public object OldValue { set; get; }
+        public object NewValue { set; get; }
 
     }
     //public class RelatedDataCollectionChangedArg : EventArgs

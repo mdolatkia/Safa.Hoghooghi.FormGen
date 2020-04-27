@@ -44,15 +44,15 @@ namespace MyConnectionManager
         public static bool DataItemPrimaryKeysHaveValue(DP_DataRepository dataItem)
         {
             var keyProperties = dataItem.KeyProperties;
-            return keyProperties.Any() && keyProperties.All(x => !string.IsNullOrEmpty(x.Value));
+            return keyProperties.Any() && keyProperties.All(x => x.Value!=null && !string.IsNullOrEmpty(x.Value.ToString()));
         }
 
         public static bool DataItemNonPrimaryKeysHaveValues(DP_DataRepository dataItem)
         {
-            return dataItem.GetProperties().Where(x => !x.IsKey).Any(x => !string.IsNullOrEmpty(x.Value));
+            return dataItem.GetProperties().Where(x => !x.IsKey).Any(x => x.Value != null && !string.IsNullOrEmpty(x.Value.ToString()));
         }
 
-        public static object GetPropertyValue(string value, Type dotNetType)
+        public static object GetPropertyValue(object value, Type dotNetType)
         {//درست شود
             try
             {

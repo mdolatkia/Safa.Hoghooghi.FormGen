@@ -723,6 +723,10 @@ namespace MyModelManager
         //}
         private TableDrivedEntityDTO ToTableDrivedEntityDTO(DataAccess.TableDrivedEntity item, EntityColumnInfoType columnInfoType, EntityRelationshipInfoType relationshipInfoType, bool specializeRelationships, bool tableColumns)
         {
+
+            // ستونهای disable از لیست ستونها حذف میشوند
+
+
             //var cachedItem = CacheManager.GetCacheManager().GetCachedItem(CacheItemType.Entity, item.ID.ToString(), columnInfoType.ToString(), relationshipInfoType.ToString());
             //if (cachedItem != null)
             //    return (cachedItem as TableDrivedEntityDTO);
@@ -796,8 +800,8 @@ namespace MyModelManager
                         columns = item.Table.Column.ToList();
                     }
                 }
-
-                columns = columns.OrderBy(x => x.Position).ToList();
+                // ستونهای disable از لیست ستونها حذف میشوند
+                columns = columns.Where(x=>x.IsDisabled==false).OrderBy(x => x.Position).ToList();
                 foreach (var column in columns)
                 {
                     var columnDTO = bizColumn.ToColumnDTO(column, columnInfoType == EntityColumnInfoType.WithSimpleColumns);
@@ -988,6 +992,7 @@ namespace MyModelManager
                 dbColumn.DataType = column.DataType;
                 dbColumn.PrimaryKey = column.PrimaryKey;
                 dbColumn.IsNull = column.IsNull;
+                dbColumn.IsMandatory = !column.IsNull;
                 dbColumn.IsIdentity = column.IsIdentity;
                 dbColumn.Position = column.Position;
                 dbColumn.DefaultValue = column.DefaultValue;

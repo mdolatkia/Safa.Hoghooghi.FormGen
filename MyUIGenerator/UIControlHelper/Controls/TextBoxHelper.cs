@@ -74,9 +74,9 @@ namespace MyUIGenerator.UIControlHelper
         //}
 
 
-        public bool SetValue(string value)
+        public bool SetValue(object value)
         {
-            textBox.Text = value;
+            textBox.Text = value == null ? "" : value.ToString();
             return true;
         }
 

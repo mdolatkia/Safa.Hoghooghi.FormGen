@@ -33,7 +33,7 @@ namespace MyUIGenerator.UIControlHelper
             }
         }
 
-        public LabelControlManager(string text)
+        public LabelControlManager(string text, bool rightAlignment)
         {
             //FrameworkElement uiControl = new FrameworkElement();
             //UIControlSetting controlUISetting = new UIControlSetting();
@@ -50,7 +50,8 @@ namespace MyUIGenerator.UIControlHelper
             TextBlock.MaxWidth = 150;
             TextBlock.TextWrapping = System.Windows.TextWrapping.Wrap;
             TextBlock.Margin = new System.Windows.Thickness(2, 0, 2, 0);
-            TextBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
+            if (rightAlignment)
+                TextBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
             TextBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             //if (title!=null && title.Length > 20)
             //    title = title.Substring(0, 17) + "...";
@@ -127,7 +128,7 @@ namespace MyUIGenerator.UIControlHelper
 
         public void SetBorderColor(object dataItem, InfoColor color)
         {
-         //   TextBlock.bo = UIManager.GetColorFromInfoColor(color);
+            //   TextBlock.bo = UIManager.GetColorFromInfoColor(color);
         }
 
         public void SetBackgroundColor(object dataItem, InfoColor color)
@@ -141,6 +142,6 @@ namespace MyUIGenerator.UIControlHelper
 
         }
 
-       
+
     }
 }

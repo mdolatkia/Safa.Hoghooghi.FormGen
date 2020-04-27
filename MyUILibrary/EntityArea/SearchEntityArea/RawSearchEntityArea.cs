@@ -230,10 +230,10 @@ namespace MyUILibrary.EntityArea
             return !string.IsNullOrEmpty(value) && value.ToLower() != "0";
         }
 
-        private bool PropertyHasValue(SearchProperty item)
-        {
-            return !string.IsNullOrEmpty(item.Value)  && item.Value.ToLower() != "0";
-        }
+        //private bool PropertyHasValue(SearchProperty item)
+        //{
+        //    return !string.IsNullOrEmpty(item.Value)  && item.Value.ToLower() != "0";
+        //}
 
         private bool SearchValueIsEmpty(SimpleSearchColumnControl typePropertyControl, string value)
         {

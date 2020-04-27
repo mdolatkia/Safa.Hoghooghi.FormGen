@@ -45,7 +45,7 @@ namespace MyProject_WPF
         }
         private void btnConfirm_Click(object sender, RoutedEventArgs e)
         {
-            if (keyColumns.Any(x => string.IsNullOrEmpty(x.Value)))
+            if (keyColumns.Any(x => x.Value==null|| string.IsNullOrEmpty(x.Value.ToString())))
             {
                 MessageBox.Show("تمامی فیلدها باید دارای مقدار باشند");
                 return;

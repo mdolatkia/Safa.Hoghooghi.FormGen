@@ -39,19 +39,19 @@ namespace MyGeneralLibrary
         //    //return string.Format(str, serverName, dbName, userName, password);
         //}
 
-        public static string GetPropertyValue(EntityInstanceProperty column)
-        {
-            if (column.Value == null )
-                return "NULL";
-            else if (column != null && column.Value.ToLower() == "SCOPE_IDENTITY()".ToLower())
-                return column.Value;
-            else if (column != null && column.Value.Contains("()"))
-                return column.Value;
-            else
-                return "'" + column.Value + "'";
+        //public static string GetPropertyValue(EntityInstanceProperty column)
+        //{
+        //    if (column.Value == null )
+        //        return "NULL";
+        //    else if (column != null && column.Value.ToLower() == "SCOPE_IDENTITY()".ToLower())
+        //        return column.Value;
+        //    else if (column != null && column.Value.Contains("()"))
+        //        return column.Value;
+        //    else
+        //        return "'" + column.Value + "'";
 
 
-        }
+        //}
 
 
         public static DateTime GetMiladiDateFromShamsi(string date)

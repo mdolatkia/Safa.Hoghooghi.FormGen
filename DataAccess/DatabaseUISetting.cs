@@ -16,7 +16,6 @@ namespace DataAccess
     {
         public int DatabaseInformationID { get; set; }
         public bool FlowDirectionLTR { get; set; }
-        public bool ShowNullValue { get; set; }
     
         public virtual DatabaseInformation DatabaseInformation { get; set; }
     }

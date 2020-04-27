@@ -29,7 +29,7 @@
             <TextBox x:Name="txtDBName" HorizontalAlignment="Left" IsReadOnly="True"  Grid.Row="0"  Grid.Column="1" Width="180" ></TextBox>
             <TextBlock Text="عنوان :" HorizontalAlignment="Right" Grid.Row="1"  VerticalAlignment="Center"></TextBlock>
             <TextBox x:Name="txtDBTitle" HorizontalAlignment="Left" IsReadOnly="True"  Grid.Row="1"  Grid.Column="1" Width="180" ></TextBox>
-            <CheckBox x:Name="chkShowNullValue" Content="فعال سازی خصوصیت نمایش مقدار Null هنگام استخراج ستونها " Grid.Row="2"  Grid.Column="1"  ></CheckBox>
+            <!--<CheckBox x:Name="chkShowNullValue" Content="فعال سازی خصوصیت نمایش مقدار Null هنگام استخراج ستونها " Grid.Row="2"  Grid.Column="1"  ></CheckBox>-->
 
 
         </Grid>

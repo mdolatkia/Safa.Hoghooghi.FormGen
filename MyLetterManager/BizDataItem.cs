@@ -78,7 +78,7 @@ namespace MyDataItemManager
                         MyDataItem.Info = (dataItem as DP_DataRepository).ViewInfo;
 
                     foreach (var keyColumn in dataItem.KeyProperties)
-                        MyDataItem.MyDataItemKeyColumns.Add(new MyDataItemKeyColumns() { ColumnID = keyColumn.ColumnID, Value = keyColumn.Value });
+                        MyDataItem.MyDataItemKeyColumns.Add(new MyDataItemKeyColumns() { ColumnID = keyColumn.ColumnID, Value = keyColumn.Value==null?null:keyColumn.Value.ToString() });
                     model.MyDataItem.Add(MyDataItem);
                     model.SaveChanges();
                 }
