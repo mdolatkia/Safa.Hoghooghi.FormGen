@@ -988,7 +988,7 @@ namespace ModelEntites
         public bool UnionHoldsKeys { set; get; }
 
     }
-    public class SuperUnionToSubUnionRelationshipDTO : RelationshipDTO
+    public class UnionToSubUnionRelationshipDTO : RelationshipDTO
     {
         public UnionRelationshipDTO UnionRelationship { set; get; }
     }
@@ -1235,7 +1235,7 @@ namespace ModelEntites
 
         public string CreateRelationshipTailPath { get; set; }
         public bool IsDescriptive { get; set; }
-        public bool AllRelationshipsAreSubTuSuper { get; set; }
+        public bool AllRelationshipsAreSubToSuper { get; set; }
         public string Tooltip { get; set; }
 
         //public int CreateRelationshipID { get; set; }
@@ -1275,7 +1275,7 @@ namespace ModelEntites
 
         public bool RelationshipTailSelectable { set; get; }
         public string CreateRelationshipTailPath { get; set; }
-        public bool AllRelationshipsAreSubTuSuper { get; set; }
+        public bool AllRelationshipsAreSubToSuper { get; set; }
         public string Tooltip { get; set; }
         //public int CreateRelationshipTargetEntityID { get; set; }
     }

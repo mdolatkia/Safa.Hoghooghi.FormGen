@@ -356,6 +356,20 @@ namespace MyModelManager
             }
             return result;
         }
+        public List<int> GetEntityIDs(int databaseID, bool? isView)
+        {
+            List<int> result = new List<int>();
+            using (var projectContext = new DataAccess.MyProjectEntities())
+            {
+                var entities = GetEntities(projectContext, EntityColumnInfoType.WithoutColumn, EntityRelationshipInfoType.WithoutRelationships, isView)
+                    .Where(x => x.Table.DBSchema.DatabaseInformationID == databaseID ).ToList();
+                foreach (var entity in entities)
+                {
+                    result.Add(entity.ID);
+                }
+            }
+            return result;
+        }
         public List<TableDrivedEntityDTO> GetOrginalEntities(int databaseID, EntityColumnInfoType columnInfoType, EntityRelationshipInfoType relationshipInfoType, bool? isView)
         {
             List<TableDrivedEntityDTO> result = new List<TableDrivedEntityDTO>();

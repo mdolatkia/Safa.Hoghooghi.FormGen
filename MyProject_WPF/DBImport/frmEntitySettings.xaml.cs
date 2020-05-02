@@ -110,7 +110,7 @@ namespace MyProject_WPF
         {
             return Task.Run(() =>
             {
-                bizEntitySettings.UpdateDefaultSettingsInModel(Database.ID);
+                bizEntitySettings.UpdateDefaultSettingsInModel(MyProjectManager.GetMyProjectManager.GetRequester(), Database.ID);
             });
         }
 

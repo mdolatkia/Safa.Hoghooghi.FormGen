@@ -1,4 +1,5 @@
-﻿using ModelEntites;
+﻿using DataAccess;
+using ModelEntites;
 using ProxyLibrary;
 using System;
 using System.Collections.Generic;
@@ -33,14 +34,19 @@ namespace MyModelManager
 
             UpdateDefaultSettingsInModel(listEntities, listEntities, listEntities, listEntities, allEntities);
         }
-        public void UpdateDefaultSettingsInModel(int databaseID)
+        public void UpdateDefaultSettingsInModel(DR_Requester requester, int databaseID)
         {
             //try
             //{
             BizTableDrivedEntity bizTableDrivedEntity = new BizTableDrivedEntity();
             bizTableDrivedEntity.ItemImportingStarted += BizTableDrivedEntity_ItemImportingStarted;
 
-            var allEntities = bizTableDrivedEntity.GetOrginalEntities(databaseID, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithRelationships, false);
+            List<TableDrivedEntityDTO> allEntities = new List<TableDrivedEntityDTO>();
+            var listEntityIds = bizTableDrivedEntity.GetEntityIDs(databaseID, false);
+            foreach (var id in listEntityIds)
+            {
+                allEntities.Add(bizTableDrivedEntity.GetTableDrivedEntity(requester, id, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithRelationships));
+            }
 
             var uiCompositionEntities = bizTableDrivedEntity.GetOrginalEntitiesWithoutUIComposition(databaseID, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithRelationships, false);
             var listViewEntities = allEntities.Where(x => x.EntityListViewID == 0).ToList();
@@ -50,9 +56,6 @@ namespace MyModelManager
             var initialSearchEntities = allEntities.Where(x => x.SearchInitially == null).ToList();
 
             UpdateDefaultSettingsInModel(uiCompositionEntities, listViewEntities, searchEntities, initialSearchEntities, allEntities);
-
-
-
         }
         public void UpdateDefaultSettingsInModel(List<TableDrivedEntityDTO> uiCompositionEntities, List<TableDrivedEntityDTO> listViewEntities, List<TableDrivedEntityDTO> searchEntities, List<TableDrivedEntityDTO> initialSearchEntities, List<TableDrivedEntityDTO> allEntities)
         {
@@ -84,11 +87,13 @@ namespace MyModelManager
                     listEntityAndView.Add(new Tuple<TableDrivedEntityDTO, EntityListViewDTO>(entity, viewItem));
                 }
 
+
+                List<EntityRelationshipTail> createdRelationshipTails = new List<EntityRelationshipTail>();
                 foreach (var item in listEntityAndView)
                 {
                     if (ItemImportingStarted != null)
                         ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = "Setting default view for entity" + " " + item.Item1.Name, TotalProgressCount = listEntityAndView.Count(), CurrentProgress = listEntityAndView.IndexOf(item) + 1 });
-                    var dbListView = bizEntityListView.SaveItem(projectContext, item.Item2);
+                    var dbListView = bizEntityListView.SaveItem(projectContext, item.Item2, createdRelationshipTails);
                     var dbentity = projectContext.TableDrivedEntity.First(x => x.ID == item.Item1.ID);
                     dbentity.EntityListView1 = dbListView;
                 }
@@ -107,7 +112,7 @@ namespace MyModelManager
                 {
                     if (ItemImportingStarted != null)
                         ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = "Setting default search for entity" + " " + item.Item1.Name, TotalProgressCount = listEntityAndSearch.Count(), CurrentProgress = listEntityAndSearch.IndexOf(item) + 1 });
-                    var dbSearch = bizEntitySearch.SaveItem(projectContext, item.Item2);
+                    var dbSearch = bizEntitySearch.SaveItem(projectContext, item.Item2, createdRelationshipTails);
                     var dbentity = projectContext.TableDrivedEntity.First(x => x.ID == item.Item1.ID);
                     dbentity.EntitySearch = dbSearch;
                 }

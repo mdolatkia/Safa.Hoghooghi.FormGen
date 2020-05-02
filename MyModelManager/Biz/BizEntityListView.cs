@@ -269,119 +269,29 @@ namespace MyModelManager
             EntityListViewDTO result = new EntityListViewDTO();
             result.TableDrivedEntityID = entity.ID;
             result.Title = "لیست نمایشی پیش فرض";
-            result.EntityListViewAllColumns = GenereateDefaultListViewColumns(entity, null, allEntities);
+            result.EntityListViewAllColumns = GenereateDefaultListViewColumns(entity, allEntities);
             return result;
         }
-        private List<EntityListViewColumnsDTO> GenereateDefaultListViewColumns(TableDrivedEntityDTO sententity, RelationshipDTO relationship, List<TableDrivedEntityDTO> allEntities, string relationshipPath = "", List<RelationshipDTO> relationships = null, List<EntityListViewColumnsDTO> list = null)
+        private List<EntityListViewColumnsDTO> GenereateDefaultListViewColumns(TableDrivedEntityDTO entity, List<TableDrivedEntityDTO> allEntities, List<EntityListViewColumnsDTO> list = null)
         {
             if (list == null)
                 list = new List<EntityListViewColumnsDTO>();
-
-            TableDrivedEntityDTO entity = null;
-            List<ColumnDTO> simplecollumns = null;
-            if (sententity != null)
+            foreach (var column in entity.Columns.Where(x => x.PrimaryKey))
             {
-                entity = sententity;
-                simplecollumns = GetSimpleListViewColumns(entity);
-                foreach (var column in entity.Columns.Where(x => x.PrimaryKey))
-                {
-                    var resultColumn = new EntityListViewColumnsDTO();
-                    resultColumn.ColumnID = column.ID;
-                    resultColumn.Column = column;
-                    resultColumn.Alias = column.Alias;
-                    list.Add(resultColumn);
-                }
-
+                AddListViewColumn(list, column);
             }
-            else if (relationship != null)
+            var simplecollumns = GetSimpleListViewColumns(entity);
+            foreach (var column in simplecollumns)
             {
-                entity = allEntities.First(x => x.ID == relationship.EntityID2);
-                simplecollumns = GetRelationColumns(entity);
+                AddListViewColumn(list, column);
             }
-            var reviewedRels = new List<RelationshipDTO>();
-            foreach (var column in entity.Columns)
-            {
-                if (simplecollumns.Any(x => x.ID == column.ID))
-                {
-                    var resultColumn = new EntityListViewColumnsDTO();
-                    resultColumn.ColumnID = column.ID;
-                    resultColumn.Column = column;
-                    resultColumn.CreateRelationshipTailPath = relationshipPath;
-                    resultColumn.AllRelationshipsAreSubTuSuper = relationships != null && relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper);
-                    string entityAlias = "";
-                    if (relationship != null)
-                    {
-                        if (!resultColumn.AllRelationshipsAreSubTuSuper)
-                            entityAlias = relationships.First().Entity2Alias + ".";
-                    }
-                    resultColumn.Alias = entityAlias + column.Alias;
-                    //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + column.Alias;
-                    list.Add(resultColumn);
-                }
-                else
-                {
-                    if (entity.Relationships.Any(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID)))
-                    {
-                        var newrelationship = entity.Relationships.First(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID));
-                        if (!reviewedRels.Any(x => x.ID == newrelationship.ID))
-                        {
-                            reviewedRels.Add(newrelationship);
-                            if (relationship != null)
-                            {
-                                if (newrelationship.TypeEnum != Enum_RelationshipType.SubToSuper)
-                                    continue;
-                                //دو لول بالا نمیرود مگر اینکه ارث بری باشد
-                            }
-                            List<RelationshipDTO> relationshipsTail = new List<RelationshipDTO>();
-                            if (relationships != null)
-                            {
-                                foreach (var relItem in relationships)
-                                    relationshipsTail.Add(relItem);
+            AddRelationshipDefaultColumns(entity, allEntities, list);
 
-                            }
-                            relationshipsTail.Add(newrelationship);
-                            //کلید های خارجی موجودیت های دیگر مهم نیستند
-                            if (sententity != null)
-                            {
-                                foreach (var relCol in newrelationship.RelationshipColumns)
-                                {
-                                    bool fkIsValid = false;
-                                    if (sententity == null)
-                                        fkIsValid = true;
-                                    else
-                                    {
-                                        //چون برای انتیتی اصلی پرایمری ها قبلا اضافه شده اند
-                                        fkIsValid = !relCol.FirstSideColumn.PrimaryKey;
-                                    }
-                                    if (fkIsValid)
-                                    {
-                                        var resultColumn = new EntityListViewColumnsDTO();
-                                        resultColumn.Column = relCol.FirstSideColumn;
-                                        resultColumn.ColumnID = relCol.FirstSideColumnID;
-                                        resultColumn.CreateRelationshipTailPath = relationshipPath;
-                                        string entityAlias = "";
-                                        if (relationship != null)
-                                        {
-                                            entityAlias = entity.Alias + ".";
-                                        }
-                                        resultColumn.Alias = entityAlias + relCol.FirstSideColumn.Alias;
-                                        //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + relCol.FirstSideColumn.Alias;
-                                        list.Add(resultColumn);
-                                    }
-                                }
-                            }
-
-                            GenereateDefaultListViewColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationshipsTail, list);
-                        }
-                    }
-                }
-            }
-            if (sententity != null)
+            if (entity != null)
             {
                 short index = 0;
                 foreach (var item in list)
                 {
-
                     item.OrderID = index;
                     index++;
                 }
@@ -389,7 +299,181 @@ namespace MyModelManager
             }
             return list;
         }
+        private void AddRelationshipDefaultColumns(TableDrivedEntityDTO entity, List<TableDrivedEntityDTO> allEntities, List<EntityListViewColumnsDTO> list, string relationshipPath = "", List<RelationshipDTO> relationships = null)
+        {
+            var reviewedFKRels = new List<RelationshipDTO>();
+            foreach (var column in entity.Columns)
+            {
+                if (entity.Relationships.Any(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID)))
+                {
+                    var newrelationship = entity.Relationships.First(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID));
+                    if (relationships == null || (newrelationship.TypeEnum == Enum_RelationshipType.SubToSuper || newrelationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys))
+                    {
+                        if (!reviewedFKRels.Any(x => x.ID == newrelationship.ID))
+                        {
+                            reviewedFKRels.Add(newrelationship);
+                            //جلوگیری از لوپ
+                            if (relationships == null || (!relationships.Any(x => x.ID == newrelationship.ID)))
+                            {
+                                int isaID = 0;
+                                int uinonID = 0;
+                                if (newrelationship.TypeEnum == Enum_RelationshipType.SubToSuper)
+                                {
+                                    isaID = (newrelationship as SubToSuperRelationshipDTO).ISARelationship.ID;
+                                }
+                                else if (newrelationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                                {
+                                    uinonID = (newrelationship as UnionToSubUnionRelationshipDTO).UnionRelationship.ID;
+                                }
+                                if ((isaID == 0 || isaID != GetLastISAID(relationships)) &&
+                                 (uinonID == 0 || isaID != GetLastUnionID(relationships)))
+                                {
+                                    List<RelationshipDTO> relationshipsTail = new List<RelationshipDTO>();
+                                    if (relationships != null)
+                                    {
+                                        foreach (var relItem in relationships)
+                                            relationshipsTail.Add(relItem);
+                                    }
+                                    relationshipsTail.Add(newrelationship);
+                                    //کلید های خارجی موجودیت های دیگر مهم نیستند
+                                    foreach (var relCol in newrelationship.RelationshipColumns)
+                                    {
+                                        if (!relCol.FirstSideColumn.PrimaryKey)
+                                        {
+                                            AddListViewColumn(list, relCol.FirstSideColumn, relationshipPath, relationships);
+                                        }
+                                    }
+                                    GenereateDefaultListViewColumnsFromRelationship(newrelationship, allEntities, list, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationshipsTail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
+            foreach (var newrelationship in entity.Relationships.Where(x => x.MastertTypeEnum == Enum_MasterRelationshipType.FromPrimartyToForeign))
+            {
+                if (newrelationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys
+                    || (newrelationship.TypeEnum == Enum_RelationshipType.SuperToSub && (newrelationship as SuperToSubRelationshipDTO).ISARelationship.IsTolatParticipation))
+                {
+                    //جلوگیری از لوپ
+                    if (relationships == null || !relationships.Any(x => x.ID == newrelationship.ID))
+                    {
+                        int isaID = 0;
+                        int uinonID = 0;
+                        if (newrelationship.TypeEnum == Enum_RelationshipType.SuperToSub)
+                        {
+                            isaID = (newrelationship as SuperToSubRelationshipDTO).ISARelationship.ID;
+                        }
+                        else if (newrelationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                        {
+                            uinonID = (newrelationship as SubUnionToSuperUnionRelationshipDTO).UnionRelationship.ID;
+                        }
+                        if ((isaID == 0 || isaID != GetLastISAID(relationships)) &&
+                            (uinonID == 0 || isaID != GetLastUnionID(relationships)))
+                        {
+                            //دیگه بقیه روابط یک رابطه ارث بری یا اتحاد را نرود
+                            List<RelationshipDTO> relationshipsTail = new List<RelationshipDTO>();
+                            if (relationships != null)
+                            {
+                                foreach (var relItem in relationships)
+                                    relationshipsTail.Add(relItem);
+                            }
+                            relationshipsTail.Add(newrelationship);
+                            GenereateDefaultListViewColumnsFromRelationship(newrelationship, allEntities, list, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationshipsTail);
+                        }
+                    }
+                }
+            }
+        }
+
+        private int GetLastUnionID(List<RelationshipDTO> relationships)
+        {
+            if (relationships == null || relationships.Count == 0)
+                return 0;
+            else
+            {
+                var lastRel = relationships.Last();
+                if (lastRel.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                {
+                    return (lastRel as UnionToSubUnionRelationshipDTO).UnionRelationship.ID;
+                }
+                else if (lastRel.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                {
+                    return (lastRel as SubUnionToSuperUnionRelationshipDTO).UnionRelationship.ID;
+                }
+                else
+                    return 0;
+            }
+        }
+
+        private int GetLastISAID(List<RelationshipDTO> relationships)
+        {
+            if (relationships == null || relationships.Count == 0)
+                return 0;
+            else
+            {
+                var lastRel = relationships.Last();
+                if (lastRel.TypeEnum == Enum_RelationshipType.SubToSuper)
+                {
+                    return (lastRel as SubToSuperRelationshipDTO).ISARelationship.ID;
+                }
+                else if (lastRel.TypeEnum == Enum_RelationshipType.SuperToSub)
+                {
+                    return (lastRel as SuperToSubRelationshipDTO).ISARelationship.ID;
+                }
+                else
+                    return 0;
+            }
+        }
+
+        private void GenereateDefaultListViewColumnsFromRelationship(RelationshipDTO relationship, List<TableDrivedEntityDTO> allEntities, List<EntityListViewColumnsDTO> list, string relationshipPath, List<RelationshipDTO> relationships)
+        {
+            TableDrivedEntityDTO entity = allEntities.First(x => x.ID == relationship.EntityID2);
+            var skipRelColumnIDs = relationship.RelationshipColumns.Select(x => x.SecondSideColumn.ID).ToList();
+            foreach (var column in entity.Columns.Where(x => x.PrimaryKey && !skipRelColumnIDs.Contains(x.ID)))
+            {
+                AddListViewColumn(list, column);
+            }
+            List<ColumnDTO> simplecollumns = GetEntitySimpleColumnsColumns(entity);
+            foreach (var column in simplecollumns)
+            {
+                AddListViewColumn(list, column, relationshipPath, relationships);
+            }
+            AddRelationshipDefaultColumns(entity, allEntities, list, relationshipPath, relationships);
+        }
+        private void AddListViewColumn(List<EntityListViewColumnsDTO> list, ColumnDTO column, string relationshipPath = null, List<RelationshipDTO> relationships = null)
+        {
+            var resultColumn = new EntityListViewColumnsDTO();
+            resultColumn.ColumnID = column.ID;
+            resultColumn.Column = column;
+            resultColumn.CreateRelationshipTailPath = relationshipPath;
+            resultColumn.AllRelationshipsAreSubToSuper = relationships != null && relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper || x.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys);
+            string entityAlias = "";
+            if (relationships == null || relationships.Count == 0)
+                entityAlias = "";
+            else if (resultColumn.AllRelationshipsAreSubToSuper)
+                entityAlias = "";
+            else
+            {
+                var firstNotISAOrUnionEntity = GetLastNotISAOrUnionRelationship(relationships);
+                if (firstNotISAOrUnionEntity != null)
+                    entityAlias = firstNotISAOrUnionEntity.Entity2Alias + ".";
+            }
+            resultColumn.Alias = entityAlias + column.Alias;
+            list.Add(resultColumn);
+        }
+        private RelationshipDTO GetLastNotISAOrUnionRelationship(List<RelationshipDTO> relationships)
+        {
+            var list = relationships.ToList();
+            list.Reverse();
+            foreach (var rel in list)
+            {
+                if (rel.TypeEnum != Enum_RelationshipType.SubToSuper && rel.TypeEnum != Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                    return rel;
+            }
+            return null;
+        }
         private void CheckDescriptiveColumns(List<EntityListViewColumnsDTO> list)
         {
             foreach (var item in list)
@@ -424,7 +508,7 @@ namespace MyModelManager
             }
             else
             {
-                if (item.AllRelationshipsAreSubTuSuper)
+                if (item.AllRelationshipsAreSubToSuper)
                 {
                     return CheckColumnDetection(GetDescriptiveColumnNames(), key);
                 }
@@ -500,7 +584,7 @@ namespace MyModelManager
             return selectedColumns;
         }
 
-        private List<ColumnDTO> GetRelationColumns(TableDrivedEntityDTO targetEntity)
+        private List<ColumnDTO> GetEntitySimpleColumnsColumns(TableDrivedEntityDTO targetEntity)
         {
             List<ColumnDTO> result = new List<ColumnDTO>();
             var simplecollumns = targetEntity.Columns.Where(x => !x.PrimaryKey && !targetEntity.Relationships.Any(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == x.ID))).ToList();
@@ -554,7 +638,7 @@ namespace MyModelManager
             return result;
         }
 
-        public EntityListView SaveItem(MyProjectEntities projectContext, EntityListViewDTO message)
+        public EntityListView SaveItem(MyProjectEntities projectContext, EntityListViewDTO message, List<EntityRelationshipTail> createdRelationshipTails = null)
         {
             var dbEntityListView = projectContext.EntityListView.FirstOrDefault(x => x.ID == message.ID);
             if (dbEntityListView == null)
@@ -570,7 +654,9 @@ namespace MyModelManager
                 projectContext.EntityListViewColumns.Remove(dbEntityListView.EntityListViewColumns.First());
             //while (dbEntityListView.EntityListViewRelationshipTails.Any())
             //    projectContext.EntityListViewRelationshipTails.Remove(dbEntityListView.EntityListViewRelationshipTails.First());
-            List<EntityRelationshipTail> relationshipTails = new List<EntityRelationshipTail>();
+            if (createdRelationshipTails == null)
+                createdRelationshipTails = new List<EntityRelationshipTail>();
+
             BizEntityRelationshipTail bizEntityRelationshipTail = new BizEntityRelationshipTail();
             foreach (var column in message.EntityListViewAllColumns)
             {
@@ -585,12 +671,12 @@ namespace MyModelManager
                     rColumn.EntityRelationshipTailID = column.RelationshipTailID == 0 ? (int?)null : column.RelationshipTailID;
                 else
                 {
-                    if (relationshipTails.Any(x => x.TableDrivedEntityID == message.TableDrivedEntityID && x.RelationshipPath == column.CreateRelationshipTailPath))
-                        rColumn.EntityRelationshipTail = relationshipTails.First(x => x.TableDrivedEntityID == message.TableDrivedEntityID && x.RelationshipPath == column.CreateRelationshipTailPath);
+                    if (createdRelationshipTails.Any(x => x.TableDrivedEntityID == message.TableDrivedEntityID && x.RelationshipPath == column.CreateRelationshipTailPath))
+                        rColumn.EntityRelationshipTail = createdRelationshipTails.First(x => x.TableDrivedEntityID == message.TableDrivedEntityID && x.RelationshipPath == column.CreateRelationshipTailPath);
                     else
                     {
                         var relationshipTail = bizEntityRelationshipTail.GetOrCreateEntityRelationshipTail(projectContext, message.TableDrivedEntityID, column.CreateRelationshipTailPath);
-                        relationshipTails.Add(relationshipTail);
+                        createdRelationshipTails.Add(relationshipTail);
                         rColumn.EntityRelationshipTail = relationshipTail;
                     }
                 }

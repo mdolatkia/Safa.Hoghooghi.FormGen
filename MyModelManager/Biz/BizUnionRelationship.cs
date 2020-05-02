@@ -109,9 +109,9 @@ namespace MyModelManager
             }
         }
 
-        public List<SuperUnionToSubUnionRelationshipDTO> GetSuperUnionToSubUnionRelationship(int UnionRelationshipID)
+        public List<UnionToSubUnionRelationshipDTO> GetSuperUnionToSubUnionRelationship(int UnionRelationshipID)
         {
-            List<SuperUnionToSubUnionRelationshipDTO> result = new List<SuperUnionToSubUnionRelationshipDTO>();
+            List<UnionToSubUnionRelationshipDTO> result = new List<UnionToSubUnionRelationshipDTO>();
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
                 //projectContext.Configuration.LazyLoadingEnabled = false;
@@ -130,13 +130,13 @@ namespace MyModelManager
         }
 
 
-        public SuperUnionToSubUnionRelationshipDTO ToSuperUnionToSubUnionRelationshipDTO(UnionToSubUnionRelationshipType item, RelationshipDTO baseRelationship=null)
+        public UnionToSubUnionRelationshipDTO ToSuperUnionToSubUnionRelationshipDTO(UnionToSubUnionRelationshipType item, RelationshipDTO baseRelationship=null)
         {
             BizRelationship biz = new MyModelManager.BizRelationship();
             if (baseRelationship == null)
                 baseRelationship = biz.ToRelationshipDTO(item.RelationshipType.Relationship);
-            Mapper.Initialize(cfg => cfg.CreateMap<RelationshipDTO, SuperUnionToSubUnionRelationshipDTO>());
-            var result = AutoMapper.Mapper.Map<RelationshipDTO, SuperUnionToSubUnionRelationshipDTO>(baseRelationship);
+            Mapper.Initialize(cfg => cfg.CreateMap<RelationshipDTO, UnionToSubUnionRelationshipDTO>());
+            var result = AutoMapper.Mapper.Map<RelationshipDTO, UnionToSubUnionRelationshipDTO>(baseRelationship);
             result.UnionRelationship = ToUnionRelationshipDTO(item.UnionRelationshipType);
             return result;
         }
@@ -172,7 +172,7 @@ namespace MyModelManager
         }
 
 
-        public void UpdateSuperUnionToSubUnionRelationships(List<SuperUnionToSubUnionRelationshipDTO> relationships)
+        public void UpdateSuperUnionToSubUnionRelationships(List<UnionToSubUnionRelationshipDTO> relationships)
         {
             using (var projectContext = new DataAccess.MyProjectEntities())
             {

@@ -428,11 +428,11 @@ namespace MyUILibrary.EntityArea
                 {
                     if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
                     {
-                        var unionID = (relationshipControl.Relationship as SuperUnionToSubUnionRelationshipDTO).UnionRelationship.ID;
+                        var unionID = (relationshipControl.Relationship as UnionToSubUnionRelationshipDTO).UnionRelationship.ID;
                         Tuple<UnionRelationshipDTO, List<RelationshipColumnControl>> unionRelationship = null;
                         if (!unionRelationships.Any(x => x.Item1.ID == unionID))
                         {
-                            unionRelationship = new Tuple<UnionRelationshipDTO, List<RelationshipColumnControl>>((relationshipControl.Relationship as SuperUnionToSubUnionRelationshipDTO).UnionRelationship, new List<RelationshipColumnControl>());
+                            unionRelationship = new Tuple<UnionRelationshipDTO, List<RelationshipColumnControl>>((relationshipControl.Relationship as UnionToSubUnionRelationshipDTO).UnionRelationship, new List<RelationshipColumnControl>());
                             unionRelationships.Add(unionRelationship);
                         }
                         else

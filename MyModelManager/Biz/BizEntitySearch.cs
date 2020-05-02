@@ -198,7 +198,7 @@ namespace MyModelManager
                     else
                         rColumn.Alias = column.Alias ?? column.EntityRelationshipTail.TableDrivedEntity.Alias ?? column.EntityRelationshipTail.TableDrivedEntity.Name;
                     rColumn.OrderID = column.OrderID ?? 0;
-                   
+
                     //rColumn.WidthUnit = column.WidthUnit ?? 0;
                     if (column.EntityRelationshipTailID != null)
                     {
@@ -212,7 +212,6 @@ namespace MyModelManager
                         if (rColumn.RelationshipTail != null && rColumn.Column != null)
                             rColumn.Tooltip = rColumn.RelationshipTail.ReverseRelationshipTail.TargetEntityAlias + "." + rColumn.Column.Alias;
                     }
-                    بررسی اینکه جستجوی چند به یک یا لیست نمایش چند به یک امکان پذیره؟
                     result.EntitySearchAllColumns.Add(rColumn);
                 }
                 //foreach (var tail in item.EntitySearchRelationshipTails)
@@ -241,108 +240,25 @@ namespace MyModelManager
             EntitySearchDTO result = new EntitySearchDTO();
             result.TableDrivedEntityID = entity.ID;
             result.Title = "لیست جستجوی پیش فرض";
-            result.EntitySearchAllColumns = GenereateDefaultSearchColumns(entity, null, allEntities);
+            result.EntitySearchAllColumns = GenereateDefaultSearchColumns(entity, allEntities);
 
             return result;
         }
-        private List<EntitySearchColumnsDTO> GenereateDefaultSearchColumns(TableDrivedEntityDTO sententity, RelationshipDTO relationship, List<TableDrivedEntityDTO> allEntities, string relationshipPath = "", List<RelationshipDTO> relationships = null, List<EntitySearchColumnsDTO> list = null)
+        private List<EntitySearchColumnsDTO> GenereateDefaultSearchColumns(TableDrivedEntityDTO entity, List<TableDrivedEntityDTO> allEntities, List<EntitySearchColumnsDTO> list = null)
         {
             if (list == null)
                 list = new List<EntitySearchColumnsDTO>();
-           
-
-            TableDrivedEntityDTO entity = null;
-            List<ColumnDTO> simplecollumns = null;
-            if (sententity != null)
+            foreach (var column in entity.Columns.Where(x => x.PrimaryKey))
             {
-                entity = sententity;
-                simplecollumns = GetSimpleListViewColumns(entity);
-                foreach (var column in entity.Columns.Where(x => x.PrimaryKey))
-                {
-                    var resultColumn = new EntitySearchColumnsDTO();
-                    resultColumn.ColumnID = column.ID;
-                    resultColumn.Alias = column.Alias;
-                    list.Add(resultColumn);
-                }
+                AddSearchColumn(list, column);
             }
-            else if (relationship != null)
+            var simplecollumns = GetSimpleSearchColumns(entity);
+            foreach (var column in simplecollumns)
             {
-                entity = allEntities.First(x => x.ID == relationship.EntityID2);
-                simplecollumns = GetRelationColumns(entity);
+                AddSearchColumn(list, column);
             }
-            var reviewedRels = new List<RelationshipDTO>();
-            foreach (var column in entity.Columns)
-            {
-                if (simplecollumns.Any(x => x.ID == column.ID))
-                {
-                    var resultColumn = new EntitySearchColumnsDTO();
-                    resultColumn.ColumnID = column.ID;
-                    resultColumn.CreateRelationshipTailPath = relationshipPath;
-                    resultColumn.AllRelationshipsAreSubTuSuper = relationships != null && relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper);
-                    resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + column.Alias;
-                    //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + column.Alias;
-                    list.Add(resultColumn);
-                }
-                else
-                {
-                    if (entity.Relationships.Any(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID)))
-                    {
-                        var newrelationship = entity.Relationships.First(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID));
-                        if (!reviewedRels.Any(x => x.ID == newrelationship.ID))
-                        {
-                            reviewedRels.Add(newrelationship);
-                            if (newrelationship.TypeEnum == Enum_RelationshipType.SubToSuper)
-                            {
-                                //کلید های خارجی موجودیت های دیگر مهم نیستند
-                                if (sententity != null)
-                                {
-                                    foreach (var relCol in newrelationship.RelationshipColumns)
-                                    {
-                                        bool fkIsValid = false;
-                                        if (sententity == null)
-                                            fkIsValid = true;
-                                        else
-                                        {     //چون برای انتیتی اصلی پرایمری ها قبلا اضافه شده اند
-                                            fkIsValid = !relCol.FirstSideColumn.PrimaryKey;
-                                        }
-                                        if (fkIsValid)
-                                        {
-                                            var resultColumn = new EntitySearchColumnsDTO();
-                                            resultColumn.ColumnID = relCol.FirstSideColumnID;
-                                            resultColumn.CreateRelationshipTailPath = relationshipPath;
-                                            string entityAlias = "";
-                                            if (relationship != null)
-                                            {
-                                                entityAlias = entity.Alias + ".";
-                                            }
-                                            resultColumn.Alias = entityAlias + relCol.FirstSideColumn.Alias;
-                                            //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + relCol.FirstSideColumn.Alias;
-                                            list.Add(resultColumn);
-                                        }
-                                    }
-                                }
-                                List<RelationshipDTO> relationshipsTail = new List<RelationshipDTO>();
-                                if (relationships != null)
-                                {
-                                    foreach (var relItem in relationships)
-                                        relationshipsTail.Add(relItem);
-                                    
-                                }
-                                relationshipsTail.Add(newrelationship);
-                                GenereateDefaultSearchColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationshipsTail, list);
-                            }
-                            else if (relationship == null)
-                            {
-                                var resultColumn = new EntitySearchColumnsDTO();
-                                resultColumn.CreateRelationshipTailPath = relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString();
-                                resultColumn.Alias = newrelationship.Entity2Alias;
-                                list.Add(resultColumn);
-                            }
-                        }
-                    }
-                }
-            }
-            if (sententity != null)
+            AddRelationshipDefaultColumns(entity, allEntities, list);
+            if (entity != null)
             {
                 short index = 0;
                 foreach (var item in list)
@@ -350,11 +266,323 @@ namespace MyModelManager
                     item.OrderID = index;
                     index++;
                 }
-
             }
             return list;
         }
-        private List<ColumnDTO> GetSimpleListViewColumns(TableDrivedEntityDTO entity)
+        private void AddRelationshipDefaultColumns(TableDrivedEntityDTO entity, List<TableDrivedEntityDTO> allEntities, List<EntitySearchColumnsDTO> list, string relationshipPath = "", List<RelationshipDTO> relationships = null)
+        {
+            var reviewedFKRels = new List<RelationshipDTO>();
+            foreach (var column in entity.Columns)
+            {
+                if (entity.Relationships.Any(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID)))
+                {
+                    var newrelationship = entity.Relationships.First(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID));
+                    if (newrelationship.TypeEnum == Enum_RelationshipType.SubToSuper
+                        || newrelationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                    {
+                        if (!reviewedFKRels.Any(x => x.ID == newrelationship.ID))
+                        {
+                            reviewedFKRels.Add(newrelationship);
+                            //جلوگیری از لوپ
+                            if (relationships == null || !relationships.Any(x => x.ID == newrelationship.ID))
+                            {
+                                int isaID = 0;
+                                int uinonID = 0;
+                                if (newrelationship.TypeEnum == Enum_RelationshipType.SubToSuper)
+                                {
+                                    isaID = (newrelationship as SubToSuperRelationshipDTO).ISARelationship.ID;
+                                }
+                                else if (newrelationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                                {
+                                    uinonID = (newrelationship as UnionToSubUnionRelationshipDTO).UnionRelationship.ID;
+                                }
+                                if ((isaID == 0 || isaID != GetLastISAID(relationships)) &&
+                                 (uinonID == 0 || isaID != GetLastUnionID(relationships)))
+                                {
+                                    List<RelationshipDTO> relationshipsTail = new List<RelationshipDTO>();
+                                    if (relationships != null)
+                                    {
+                                        foreach (var relItem in relationships)
+                                            relationshipsTail.Add(relItem);
+                                    }
+                                    relationshipsTail.Add(newrelationship);
+                                    //کلید های خارجی موجودیت های دیگر مهم نیستند
+                                    foreach (var relCol in newrelationship.RelationshipColumns)
+                                    {
+                                        if (!relCol.FirstSideColumn.PrimaryKey)
+                                        {
+                                            AddSearchColumn(list, relCol.FirstSideColumn, relationshipPath, relationships);
+                                        }
+                                    }
+                                    GenereateDefaultSearchColumnsFromRelationship(newrelationship, allEntities, list, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationshipsTail);
+                                }
+                            }
+                        }
+                    }
+                    else if (relationships == null)
+                    {
+                        var resultColumn = new EntitySearchColumnsDTO();
+                        resultColumn.CreateRelationshipTailPath = relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString();
+                        resultColumn.Alias = newrelationship.Entity2Alias;
+                        list.Add(resultColumn);
+                    }
+                }
+            }
+
+            foreach (var newrelationship in entity.Relationships.Where(x => x.MastertTypeEnum == Enum_MasterRelationshipType.FromPrimartyToForeign))
+            {
+                if (newrelationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys
+                    || (newrelationship.TypeEnum == Enum_RelationshipType.SuperToSub && (newrelationship as SuperToSubRelationshipDTO).ISARelationship.IsTolatParticipation))
+                {
+                    //جلوگیری از لوپ
+                    if (relationships == null || !relationships.Any(x => x.ID == newrelationship.ID))
+                    {
+                        int isaID = 0;
+                        int uinonID = 0;
+                        if (newrelationship.TypeEnum == Enum_RelationshipType.SuperToSub)
+                        {
+                            isaID = (newrelationship as SuperToSubRelationshipDTO).ISARelationship.ID;
+                        }
+                        else if (newrelationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                        {
+                            uinonID = (newrelationship as SubUnionToSuperUnionRelationshipDTO).UnionRelationship.ID;
+                        }
+                        if ((isaID == 0 || isaID != GetLastISAID(relationships)) &&
+                            (uinonID == 0 || isaID != GetLastUnionID(relationships)))
+                        {
+                            List<RelationshipDTO> relationshipsTail = new List<RelationshipDTO>();
+                            if (relationships != null)
+                            {
+                                foreach (var relItem in relationships)
+                                    relationshipsTail.Add(relItem);
+                            }
+                            relationshipsTail.Add(newrelationship);
+                            GenereateDefaultSearchColumnsFromRelationship(newrelationship, allEntities, list, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationshipsTail);
+                        }
+                    }
+                }
+            }
+        }
+        private int GetLastUnionID(List<RelationshipDTO> relationships)
+        {
+            if (relationships == null || relationships.Count == 0)
+                return 0;
+            else
+            {
+                var lastRel = relationships.Last();
+                if (lastRel.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                {
+                    return (lastRel as UnionToSubUnionRelationshipDTO).UnionRelationship.ID;
+                }
+                else if (lastRel.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                {
+                    return (lastRel as SubUnionToSuperUnionRelationshipDTO).UnionRelationship.ID;
+                }
+                else
+                    return 0;
+            }
+        }
+
+        private int GetLastISAID(List<RelationshipDTO> relationships)
+        {
+            if (relationships == null || relationships.Count == 0)
+                return 0;
+            else
+            {
+                var lastRel = relationships.Last();
+                if (lastRel.TypeEnum == Enum_RelationshipType.SubToSuper)
+                {
+                    return (lastRel as SubToSuperRelationshipDTO).ISARelationship.ID;
+                }
+                else if (lastRel.TypeEnum == Enum_RelationshipType.SuperToSub)
+                {
+                    return (lastRel as SuperToSubRelationshipDTO).ISARelationship.ID;
+                }
+                else
+                    return 0;
+            }
+        }
+
+        private void GenereateDefaultSearchColumnsFromRelationship(RelationshipDTO relationship, List<TableDrivedEntityDTO> allEntities, List<EntitySearchColumnsDTO> list, string relationshipPath, List<RelationshipDTO> relationships)
+        {
+
+            TableDrivedEntityDTO entity = allEntities.First(x => x.ID == relationship.EntityID2);
+            var skipRelColumnIDs = relationship.RelationshipColumns.Select(x => x.SecondSideColumn.ID).ToList();
+            foreach (var column in entity.Columns.Where(x => x.PrimaryKey && !skipRelColumnIDs.Contains(x.ID)))
+            {
+                AddSearchColumn(list, column);
+            }
+            List<ColumnDTO> simplecollumns = GetSimpleSearchColumns(entity);
+            foreach (var column in simplecollumns)
+            {
+                AddSearchColumn(list, column, relationshipPath, relationships);
+            }
+            AddRelationshipDefaultColumns(entity, allEntities, list, relationshipPath, relationships);
+        }
+        private void AddSearchColumn(List<EntitySearchColumnsDTO> list, ColumnDTO column, string relationshipPath = null, List<RelationshipDTO> relationships = null)
+        {
+            var resultColumn = new EntitySearchColumnsDTO();
+            resultColumn.ColumnID = column.ID;
+            resultColumn.Column = column;
+            resultColumn.CreateRelationshipTailPath = relationshipPath;
+            resultColumn.AllRelationshipsAreSubToSuper = relationships != null && relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper || x.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys);
+            string entityAlias = "";
+            if (relationships == null || relationships.Count == 0)
+                entityAlias = "";
+            else if (resultColumn.AllRelationshipsAreSubToSuper)
+                entityAlias = "";
+            else
+            {
+                var firstNotISAOrUnionEntity = GetLastNotISAOrUnionRelationship(relationships);
+                if (firstNotISAOrUnionEntity != null)
+                    entityAlias = firstNotISAOrUnionEntity.Entity2Alias + ".";
+            }
+            resultColumn.Alias = entityAlias + column.Alias;
+            list.Add(resultColumn);
+        }
+
+        private RelationshipDTO GetLastNotISAOrUnionRelationship(List<RelationshipDTO> relationships)
+        {
+            var list = relationships.ToList();
+            list.Reverse();
+            foreach (var rel in list)
+            {
+                if (rel.TypeEnum != Enum_RelationshipType.SubToSuper && rel.TypeEnum != Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                    return rel;
+            }
+            return null;
+        }
+
+
+
+        //private List<EntitySearchColumnsDTO> GenereateDefaultSearchColumns(TableDrivedEntityDTO sententity, RelationshipDTO relationship, List<TableDrivedEntityDTO> allEntities, string relationshipPath = "", List<RelationshipDTO> relationships = null, List<EntitySearchColumnsDTO> list = null)
+        //{
+        //    if (list == null)
+        //        list = new List<EntitySearchColumnsDTO>();
+
+        //    TableDrivedEntityDTO entity = null;
+        //    List<ColumnDTO> simplecollumns = null;
+        //    if (sententity != null)
+        //    {
+        //        entity = sententity;
+        //        simplecollumns = GetEntitySimpleColumnsColumns(entity);
+        //        foreach (var column in entity.Columns.Where(x => x.PrimaryKey))
+        //        {
+        //            var resultColumn = new EntitySearchColumnsDTO();
+        //            resultColumn.ColumnID = column.ID;
+        //            resultColumn.Alias = column.Alias;
+        //            list.Add(resultColumn);
+        //        }
+        //    }
+        //    else if (relationship != null)
+        //    {
+        //        entity = allEntities.First(x => x.ID == relationship.EntityID2);
+        //        simplecollumns = GetRelationColumns(entity);
+        //    }
+        //    var reviewedRels = new List<RelationshipDTO>();
+        //    foreach (var column in entity.Columns)
+        //    {
+        //        if (simplecollumns.Any(x => x.ID == column.ID))
+        //        {
+        //            var resultColumn = new EntitySearchColumnsDTO();
+        //            resultColumn.ColumnID = column.ID;
+        //            resultColumn.CreateRelationshipTailPath = relationshipPath;
+        //            resultColumn.AllRelationshipsAreSubTuSuper = relationships != null && relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper);
+        //            resultColumn.Alias = (relationship == null || resultColumn.AllRelationshipsAreSubTuSuper ? "" : entity.Alias + ".") + column.Alias;
+        //            //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + column.Alias;
+        //            list.Add(resultColumn);
+        //        }
+        //        else
+        //        {
+        //            if (entity.Relationships.Any(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID)))
+        //            {
+        //                var newrelationship = entity.Relationships.First(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID));
+        //                if (!reviewedRels.Any(x => x.ID == newrelationship.ID))
+        //                {
+        //                    reviewedRels.Add(newrelationship);
+        //                    if (newrelationship.TypeEnum == Enum_RelationshipType.SubToSuper)
+        //                    {
+        //                        //کلید های خارجی موجودیت های دیگر مهم نیستند
+        //                        if (sententity != null)
+        //                        {
+        //                            foreach (var relCol in newrelationship.RelationshipColumns)
+        //                            {
+        //                                bool fkIsValid = false;
+        //                                if (sententity == null)
+        //                                    fkIsValid = true;
+        //                                else
+        //                                {     //چون برای انتیتی اصلی پرایمری ها قبلا اضافه شده اند
+        //                                    fkIsValid = !relCol.FirstSideColumn.PrimaryKey;
+        //                                }
+        //                                if (fkIsValid)
+        //                                {
+        //                                    var resultColumn = new EntitySearchColumnsDTO();
+        //                                    resultColumn.ColumnID = relCol.FirstSideColumnID;
+        //                                    resultColumn.CreateRelationshipTailPath = relationshipPath;
+        //                                    string entityAlias = "";
+        //                                    if (relationship != null)
+        //                                    {
+        //                                        entityAlias = entity.Alias + ".";
+        //                                    }
+        //                                    resultColumn.Alias = entityAlias + relCol.FirstSideColumn.Alias;
+        //                                    //resultColumn.Tooltip = relationship == null ? "" : entity.Alias + "." + relCol.FirstSideColumn.Alias;
+        //                                    list.Add(resultColumn);
+        //                                }
+        //                            }
+        //                        }
+        //                        List<RelationshipDTO> relationshipsTail = new List<RelationshipDTO>();
+        //                        if (relationships != null)
+        //                        {
+        //                            foreach (var relItem in relationships)
+        //                                relationshipsTail.Add(relItem);
+
+        //                        }
+        //                        relationshipsTail.Add(newrelationship);
+        //                        GenereateDefaultSearchColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationshipsTail, list);
+        //                    }
+        //                    else if (relationship == null)
+        //                    {
+        //                        var resultColumn = new EntitySearchColumnsDTO();
+        //                        resultColumn.CreateRelationshipTailPath = relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString();
+        //                        resultColumn.Alias = newrelationship.Entity2Alias;
+        //                        list.Add(resultColumn);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    foreach (var newrelationship in entity.Relationships.Where(x => x.MastertTypeEnum == Enum_MasterRelationshipType.FromPrimartyToForeign))
+        //    {
+        //        if (newrelationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys
+        //            || (newrelationship.TypeEnum == Enum_RelationshipType.SuperToSub && (newrelationship as SuperToSubRelationshipDTO).ISARelationship.IsTolatParticipation))
+        //        {
+        //            List<RelationshipDTO> relationshipsTail = new List<RelationshipDTO>();
+        //            if (relationships != null)
+        //            {
+        //                foreach (var relItem in relationships)
+        //                    relationshipsTail.Add(relItem);
+        //            }
+        //            relationshipsTail.Add(newrelationship);
+        //            GenereateDefaultSearchColumns(null, newrelationship, allEntities, relationshipPath + (relationshipPath == "" ? "" : ",") + newrelationship.ID.ToString(), relationshipsTail, list);
+        //        }
+        //    }
+
+        //    if (sententity != null)
+        //    {
+        //        short index = 0;
+        //        foreach (var item in list)
+        //        {
+        //            item.OrderID = index;
+        //            index++;
+        //        }
+
+        //    }
+        //    return list;
+        //}
+        //private void GenereateDefaultSearchColumnsFromRelationship(TableDrivedEntityDTO sententity, RelationshipDTO relationship, List<TableDrivedEntityDTO> allEntities, string relationshipPath = "", List<RelationshipDTO> relationships = null, List<EntitySearchColumnsDTO> list = null)
+        //{
+        //}
+        private List<ColumnDTO> GetSimpleSearchColumns(TableDrivedEntityDTO entity)
         {
             var simplecollumns = entity.Columns.Where(x => !x.PrimaryKey && !entity.Relationships.Any(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == x.ID))).ToList();
             var countLimit = simplecollumns.Count(x => x.ColumnType == Enum_ColumnType.String || x.ColumnType == Enum_ColumnType.Date);
@@ -524,7 +752,7 @@ namespace MyModelManager
             }
             return result;
         }
-        public EntitySearch SaveItem(MyProjectEntities projectContext, EntitySearchDTO message)
+        public EntitySearch SaveItem(MyProjectEntities projectContext, EntitySearchDTO message, List<EntityRelationshipTail> createdRelationshipTails = null)
         {
             var dbEntitySearch = projectContext.EntitySearch.FirstOrDefault(x => x.ID == message.ID);
             if (dbEntitySearch == null)
@@ -542,7 +770,8 @@ namespace MyModelManager
                 projectContext.EntitySearchColumns.Remove(dbEntitySearch.EntitySearchColumns.First());
             //while (dbEntitySearch.EntitySearchRelationshipTails.Any())
             //    projectContext.EntitySearchRelationshipTails.Remove(dbEntitySearch.EntitySearchRelationshipTails.First());
-            List<EntityRelationshipTail> relationshipTails = new List<EntityRelationshipTail>();
+            if (createdRelationshipTails == null)
+                createdRelationshipTails = new List<EntityRelationshipTail>();
             BizEntityRelationshipTail bizEntityRelationshipTail = new BizEntityRelationshipTail();
             foreach (var column in message.EntitySearchAllColumns)
             {
@@ -561,12 +790,12 @@ namespace MyModelManager
                     rColumn.EntityRelationshipTailID = column.RelationshipTailID == 0 ? (int?)null : column.RelationshipTailID;
                 else
                 {
-                    if (relationshipTails.Any(x => x.TableDrivedEntityID == message.TableDrivedEntityID && x.RelationshipPath == column.CreateRelationshipTailPath))
-                        rColumn.EntityRelationshipTail = relationshipTails.First(x => x.TableDrivedEntityID == message.TableDrivedEntityID && x.RelationshipPath == column.CreateRelationshipTailPath);
+                    if (createdRelationshipTails.Any(x => x.TableDrivedEntityID == message.TableDrivedEntityID && x.RelationshipPath == column.CreateRelationshipTailPath))
+                        rColumn.EntityRelationshipTail = createdRelationshipTails.First(x => x.TableDrivedEntityID == message.TableDrivedEntityID && x.RelationshipPath == column.CreateRelationshipTailPath);
                     else
                     {
                         var relationshipTail = bizEntityRelationshipTail.GetOrCreateEntityRelationshipTail(projectContext, message.TableDrivedEntityID, column.CreateRelationshipTailPath);
-                        relationshipTails.Add(relationshipTail);
+                        createdRelationshipTails.Add(relationshipTail);
                         rColumn.EntityRelationshipTail = relationshipTail;
                     }
                 }

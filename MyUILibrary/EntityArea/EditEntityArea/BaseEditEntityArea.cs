@@ -908,7 +908,7 @@ namespace MyUILibrary.EntityArea
                     var parentUnionRelationship = (AreaInitializer.SourceRelation.Relationship as SubUnionToSuperUnionRelationshipDTO).UnionRelationship;
                     if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
                     {
-                        var unionRelationship = (relationshipColumnControl.Relationship as SuperUnionToSubUnionRelationshipDTO).UnionRelationship;
+                        var unionRelationship = (relationshipColumnControl.Relationship as UnionToSubUnionRelationshipDTO).UnionRelationship;
                         if (unionRelationship.ID == parentUnionRelationship.ID)
                             return true;
                     }
@@ -965,7 +965,7 @@ namespace MyUILibrary.EntityArea
                 else
                 {
                     //relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.SuperToSub
-                    var unionRelationship = (relationshipColumnControl.Relationship as SuperUnionToSubUnionRelationshipDTO).UnionRelationship;
+                    var unionRelationship = (relationshipColumnControl.Relationship as UnionToSubUnionRelationshipDTO).UnionRelationship;
                     var parentIsNotSubToSuperOrIsDifferent = false;
                     if (!(AreaInitializer.SourceRelation.Relationship is SubUnionToSuperUnionRelationshipDTO))
                         parentIsNotSubToSuperOrIsDifferent = true;

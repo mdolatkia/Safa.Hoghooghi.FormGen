@@ -879,7 +879,7 @@ namespace MyProject_WPF
         {
             BizUnionRelationship biz = new BizUnionRelationship();
             btnUpdateSuperUnionToSubUnion.IsEnabled = false;
-            biz.UpdateSuperUnionToSubUnionRelationships(dtgSuperToSub.ItemsSource as List<SuperUnionToSubUnionRelationshipDTO>);
+            biz.UpdateSuperUnionToSubUnionRelationships(dtgSuperToSub.ItemsSource as List<UnionToSubUnionRelationshipDTO>);
             btnUpdateSuperUnionToSubUnion.IsEnabled = true;
         }
 
