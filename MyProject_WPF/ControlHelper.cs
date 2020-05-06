@@ -29,6 +29,8 @@ namespace MyProject_WPF
             else if (columnType == GridViewColumnType.Numeric)
             {
                 column = new GridViewDataColumn();
+                //column = new GridViewMaskedInputColumn();
+                //(column as GridViewMaskedInputColumn).MaskType = MaskType.Numeric;
             }
             else if (columnType == GridViewColumnType.CheckBox)
             {

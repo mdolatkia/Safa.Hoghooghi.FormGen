@@ -131,7 +131,7 @@ namespace MyUILibrary.EntityArea
                 if (EditArea.FullEntity.Columns.Any(x => x.DataEntryEnabled && x.IsMandatory &&
                 (!EditArea.SimpleColumnControls.Any(c => c.Column.ID == x.ID) &&
                 !EditArea.RelationshipColumnControls.Any(r => r.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && r.Columns.Any(rc => rc.ID == x.ID)) &&
-                (EditArea.AreaInitializer == null || EditArea.AreaInitializer.SourceRelation.MasterRelationshipType!=Enum_MasterRelationshipType.FromPrimartyToForeign||  !EditArea.AreaInitializer.SourceRelation.RelationshipColumns.Any(r => r.SecondSideColumnID == x.ID))
+                (EditArea.AreaInitializer == null || EditArea.AreaInitializer.SourceRelation.MasterRelationshipType != Enum_MasterRelationshipType.FromPrimartyToForeign || !EditArea.AreaInitializer.SourceRelation.RelationshipColumns.Any(r => r.SecondSideColumnID == x.ID))
                 )
                 ))
                 {  //اگر غیر از این باشه و بخوایم ستونهایی که دسترسی دارند را از آنهایی که ندارند جدا کرده و بررسی کنیم قضیه خلی پیچیده میشود. 
@@ -600,29 +600,50 @@ namespace MyUILibrary.EntityArea
 
                 if (simplePropertyControl.Column.NumericColumnType != null)
                 {
-                    if (simplePropertyControl.Column.NumericColumnType.MinValue != 0)
+                    if (simplePropertyControl.Column.NumericColumnType.MinValue != null)
                     {
-                        var value = Convert.ToInt32(dataColumn.Value);
-                        if (value < simplePropertyControl.Column.NumericColumnType.MinValue)
+                        var value = Convert.ToDouble(dataColumn.Value);
+                        if (value < simplePropertyControl.Column.NumericColumnType.MinValue.Value)
                         {
-                            string message = "حداقل مقدار این خصوصیت" + " " + simplePropertyControl.Column.NumericColumnType.MinValue + " " + "می باشد";
+                            string message = "حداقل مقدار این خصوصیت" + " " + simplePropertyControl.Column.NumericColumnType.MinValue.Value + " " + "می باشد";
                             AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
-
                         }
                     }
-                    if (simplePropertyControl.Column.NumericColumnType.MaxValue != 0)
+                    if (simplePropertyControl.Column.NumericColumnType.MaxValue != null)
                     {
-                        var value = Convert.ToInt32(dataColumn.Value);
-                        if (value > simplePropertyControl.Column.NumericColumnType.MaxValue)
+                        var value = Convert.ToDouble(dataColumn.Value);
+                        if (value > simplePropertyControl.Column.NumericColumnType.MaxValue.Value)
                         {
-                            string message = "حداکثر مقدار این خصوصیت" + " " + simplePropertyControl.Column.NumericColumnType.MaxValue + " " + "می باشد";
+                            string message = "حداکثر مقدار این خصوصیت" + " " + simplePropertyControl.Column.NumericColumnType.MaxValue.Value + " " + "می باشد";
                             AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
+                        }
+                    }
+                    if (simplePropertyControl.Column.NumericColumnType.Precision != 0)
+                    {
+                        var value = Convert.ToDouble(dataColumn.Value);
+                        if(value.ToString().Replace(".","").Length> simplePropertyControl.Column.NumericColumnType.Precision)
+                        {
+                            string message = "تعداد اعداد این خصوصیت از مقدار تعیین شده" + " " + simplePropertyControl.Column.NumericColumnType.Precision + " " + "بیشتر می باشد";
+                            AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
+                        }
+                    }
+                    if (simplePropertyControl.Column.NumericColumnType.Scale != 0)
+                    {
+                        var value = Convert.ToDouble(dataColumn.Value);
+                        if (value.ToString().Contains("."))
+                        {
+                            var splt = value.ToString().Split('.')[1];
+                            if (splt.Length > simplePropertyControl.Column.NumericColumnType.Scale)
+                            {
+                                string message = "تعداد اعشار این خصوصیت از مقدار تعیین شده" + " " + simplePropertyControl.Column.NumericColumnType.Scale + " " + "بیشتر می باشد";
+                                AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
+                            }
                         }
                     }
                 }
                 if (simplePropertyControl.Column.StringColumnType != null)
                 {
-                    if (!string.IsNullOrEmpty( simplePropertyControl.Column.StringColumnType.Format ))
+                    if (!string.IsNullOrEmpty(simplePropertyControl.Column.StringColumnType.Format))
                     {
                         Regex regex = new Regex(simplePropertyControl.Column.StringColumnType.Format);
                         if (!regex.IsMatch(dataColumn.Value.ToString()))

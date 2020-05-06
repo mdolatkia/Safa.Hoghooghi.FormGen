@@ -105,7 +105,6 @@ namespace DataAccess
         public virtual DbSet<ManyToManyRelationshipType> ManyToManyRelationshipType { get; set; }
         public virtual DbSet<ManyToOneRelationshipType> ManyToOneRelationshipType { get; set; }
         public virtual DbSet<NavigationTree> NavigationTree { get; set; }
-        public virtual DbSet<NumericColumnType> NumericColumnType { get; set; }
         public virtual DbSet<OneToManyRelationshipType> OneToManyRelationshipType { get; set; }
         public virtual DbSet<PartialLetterTemplate> PartialLetterTemplate { get; set; }
         public virtual DbSet<Phrase> Phrase { get; set; }
@@ -169,5 +168,6 @@ namespace DataAccess
         public virtual DbSet<DatabaseUISetting> DatabaseUISetting { get; set; }
         public virtual DbSet<DateColumnType> DateColumnType { get; set; }
         public virtual DbSet<StringColumnType> StringColumnType { get; set; }
+        public virtual DbSet<NumericColumnType> NumericColumnType { get; set; }
     }
 }

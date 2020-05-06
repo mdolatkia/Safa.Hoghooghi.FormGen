@@ -119,8 +119,8 @@ namespace MyModelManager
         {
             NumericColumnTypeDTO result = new NumericColumnTypeDTO();
             result.ColumnID = item.ColumnID;
-            result.MaxValue = (item.MaxValue == null ? 0 : item.MaxValue.Value);
-            result.MinValue = (item.MinValue == null ? 0 : item.MinValue.Value);
+            result.MaxValue = item.MaxValue;
+            result.MinValue = item.MinValue;
             result.Precision = (item.Precision == null ? 0 : item.Precision.Value);
             result.Scale = (item.Scale == null ? 0 : item.Scale.Value);
             return result;

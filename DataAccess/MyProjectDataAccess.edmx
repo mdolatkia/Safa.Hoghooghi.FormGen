@@ -769,8 +769,8 @@
           <Property Name="ColumnID" Type="int" Nullable="false" />
           <Property Name="Precision" Type="int" />
           <Property Name="Scale" Type="int" />
-          <Property Name="MinValue" Type="int" />
-          <Property Name="MaxValue" Type="int" />
+          <Property Name="MinValue" Type="float" />
+          <Property Name="MaxValue" Type="float" />
         </EntityType>
         <EntityType Name="OneToManyRelationshipType">
           <Key>
@@ -5796,7 +5796,6 @@
           <EntitySet Name="ManyToManyRelationshipType" EntityType="MyProjectModel.ManyToManyRelationshipType" />
           <EntitySet Name="ManyToOneRelationshipType" EntityType="MyProjectModel.ManyToOneRelationshipType" />
           <EntitySet Name="NavigationTree" EntityType="MyProjectModel.NavigationTree" />
-          <EntitySet Name="NumericColumnType" EntityType="MyProjectModel.NumericColumnType" />
           <EntitySet Name="OneToManyRelationshipType" EntityType="MyProjectModel.OneToManyRelationshipType" />
           <EntitySet Name="PartialLetterTemplate" EntityType="MyProjectModel.PartialLetterTemplate" />
           <EntitySet Name="Phrase" EntityType="MyProjectModel.Phrase" />
@@ -6040,10 +6039,6 @@
           <AssociationSet Name="FKFormulaIte729281" Association="MyProjectModel.FKFormulaIte729281">
             <End Role="Column" EntitySet="Column" />
             <End Role="FormulaItems" EntitySet="FormulaItems" />
-          </AssociationSet>
-          <AssociationSet Name="FKNumericCol878005" Association="MyProjectModel.FKNumericCol878005">
-            <End Role="Column" EntitySet="Column" />
-            <End Role="NumericColumnType" EntitySet="NumericColumnType" />
           </AssociationSet>
           <AssociationSet Name="FKTableDrive108467" Association="MyProjectModel.FKTableDrive108467">
             <End Role="Column" EntitySet="Column" />
@@ -6904,6 +6899,11 @@
             <End Role="Column" EntitySet="Column" />
             <End Role="StringColumnType" EntitySet="StringColumnType" />
           </AssociationSet>
+          <EntitySet Name="NumericColumnType" EntityType="MyProjectModel.NumericColumnType" />
+          <AssociationSet Name="FKNumericCol878005" Association="MyProjectModel.FKNumericCol878005">
+            <End Role="Column" EntitySet="Column" />
+            <End Role="NumericColumnType" EntitySet="NumericColumnType" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ArchiveFolder">
           <Key>
@@ -7110,7 +7110,6 @@
           <NavigationProperty Name="EntitySearchColumns" Relationship="MyProjectModel.FKEntitySear524417" FromRole="Column" ToRole="EntitySearchColumns" />
           <NavigationProperty Name="EntitySecurityCondition" Relationship="MyProjectModel.FKEntitySecu216788" FromRole="Column" ToRole="EntitySecurityCondition" />
           <NavigationProperty Name="FormulaItems" Relationship="MyProjectModel.FKFormulaIte729281" FromRole="Column" ToRole="FormulaItems" />
-          <NavigationProperty Name="NumericColumnType" Relationship="MyProjectModel.FKNumericCol878005" FromRole="Column" ToRole="NumericColumnType" />
           <NavigationProperty Name="TableDrivedEntity_Columns" Relationship="MyProjectModel.FKTableDrive108467" FromRole="Column" ToRole="TableDrivedEntity_Columns" />
           <NavigationProperty Name="TableDrivedEntityState" Relationship="MyProjectModel.FKTableDrive277199" FromRole="Column" ToRole="TableDrivedEntityState" />
           <NavigationProperty Name="UIEnablityDetails" Relationship="MyProjectModel.FKUIEnablity310255" FromRole="Column" ToRole="UIEnablityDetails" />
@@ -7120,6 +7119,7 @@
           <Property Name="OriginalTypeEnum" Type="Byte" Nullable="false" />
           <NavigationProperty Name="DateColumnType" Relationship="MyProjectModel.FKDateColumn74546" FromRole="Column" ToRole="DateColumnType" />
           <NavigationProperty Name="StringColumnType" Relationship="MyProjectModel.FKStringColu936883" FromRole="Column" ToRole="StringColumnType" />
+          <NavigationProperty Name="NumericColumnType" Relationship="MyProjectModel.FKNumericCol878005" FromRole="Column" ToRole="NumericColumnType" />
         </EntityType>
         <EntityType Name="ColumnPhrase">
           <Key>
@@ -7927,17 +7927,6 @@
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FKNavigation155968" FromRole="NavigationTree" ToRole="TableDrivedEntity" />
           <NavigationProperty Name="NavigationTree1" Relationship="MyProjectModel.FKNavigation977409" FromRole="NavigationTree" ToRole="NavigationTree1" />
           <NavigationProperty Name="NavigationTree2" Relationship="MyProjectModel.FKNavigation977409" FromRole="NavigationTree1" ToRole="NavigationTree" />
-        </EntityType>
-        <EntityType Name="NumericColumnType">
-          <Key>
-            <PropertyRef Name="ColumnID" />
-          </Key>
-          <Property Name="ColumnID" Type="Int32" Nullable="false" />
-          <Property Name="Precision" Type="Int32" />
-          <Property Name="Scale" Type="Int32" />
-          <Property Name="MinValue" Type="Int32" />
-          <Property Name="MaxValue" Type="Int32" />
-          <NavigationProperty Name="Column" Relationship="MyProjectModel.FKNumericCol878005" FromRole="NumericColumnType" ToRole="Column" />
         </EntityType>
         <EntityType Name="OneToManyRelationshipType">
           <Key>
@@ -9306,18 +9295,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="FormulaItems">
-              <PropertyRef Name="ColumnID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FKNumericCol878005">
-          <End Type="MyProjectModel.Column" Role="Column" Multiplicity="1" />
-          <End Type="MyProjectModel.NumericColumnType" Role="NumericColumnType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Column">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="NumericColumnType">
               <PropertyRef Name="ColumnID" />
             </Dependent>
           </ReferentialConstraint>
@@ -11910,6 +11887,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="NumericColumnType">
+          <Key>
+            <PropertyRef Name="ColumnID" />
+          </Key>
+          <Property Name="ColumnID" Type="Int32" Nullable="false" />
+          <Property Name="Precision" Type="Int32" />
+          <Property Name="Scale" Type="Int32" />
+          <Property Name="MinValue" Type="Double" />
+          <Property Name="MaxValue" Type="Double" />
+          <NavigationProperty Name="Column" Relationship="MyProjectModel.FKNumericCol878005" FromRole="NumericColumnType" ToRole="Column" />
+        </EntityType>
+        <Association Name="FKNumericCol878005">
+          <End Type="MyProjectModel.Column" Role="Column" Multiplicity="1" />
+          <End Type="MyProjectModel.NumericColumnType" Role="NumericColumnType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Column">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NumericColumnType">
+              <PropertyRef Name="ColumnID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12735,17 +12735,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="NumericColumnType">
-            <EntityTypeMapping TypeName="MyProjectModel.NumericColumnType">
-              <MappingFragment StoreEntitySet="NumericColumnType">
-                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
-                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
-                <ScalarProperty Name="Scale" ColumnName="Scale" />
-                <ScalarProperty Name="Precision" ColumnName="Precision" />
-                <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="OneToManyRelationshipType">
             <EntityTypeMapping TypeName="MyProjectModel.OneToManyRelationshipType">
               <MappingFragment StoreEntitySet="OneToManyRelationshipType">
@@ -13416,6 +13405,17 @@
               <MappingFragment StoreEntitySet="StringColumnType">
                 <ScalarProperty Name="Format" ColumnName="Format" />
                 <ScalarProperty Name="MaxLength" ColumnName="MaxLength" />
+                <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NumericColumnType">
+            <EntityTypeMapping TypeName="MyProjectModel.NumericColumnType">
+              <MappingFragment StoreEntitySet="NumericColumnType">
+                <ScalarProperty Name="MaxValue" ColumnName="MaxValue" />
+                <ScalarProperty Name="MinValue" ColumnName="MinValue" />
+                <ScalarProperty Name="Scale" ColumnName="Scale" />
+                <ScalarProperty Name="Precision" ColumnName="Precision" />
                 <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
               </MappingFragment>
             </EntityTypeMapping>

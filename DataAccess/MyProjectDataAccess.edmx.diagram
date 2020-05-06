@@ -85,7 +85,6 @@
         <EntityTypeShape EntityType="MyProjectModel.ManyToManyRelationshipType" Width="1.5" PointX="24.75" PointY="127.125" />
         <EntityTypeShape EntityType="MyProjectModel.ManyToOneRelationshipType" Width="1.5" PointX="27" PointY="134" />
         <EntityTypeShape EntityType="MyProjectModel.NavigationTree" Width="1.5" PointX="16.5" PointY="108.125" />
-        <EntityTypeShape EntityType="MyProjectModel.NumericColumnType" Width="1.5" PointX="8.25" PointY="154.75" />
         <EntityTypeShape EntityType="MyProjectModel.OneToManyRelationshipType" Width="1.5" PointX="24" PointY="136.625" />
         <EntityTypeShape EntityType="MyProjectModel.PartialLetterTemplate" Width="1.5" PointX="24" PointY="186.75" />
         <EntityTypeShape EntityType="MyProjectModel.Phrase" Width="1.5" PointX="31.25" PointY="159.625" />
@@ -192,7 +191,6 @@
         <AssociationConnector Association="MyProjectModel.FKEntitySear524417" />
         <AssociationConnector Association="MyProjectModel.FKEntitySecu216788" />
         <AssociationConnector Association="MyProjectModel.FKFormulaIte729281" />
-        <AssociationConnector Association="MyProjectModel.FKNumericCol878005" />
         <AssociationConnector Association="MyProjectModel.FKTableDrive108467" />
         <AssociationConnector Association="MyProjectModel.FKTableDrive277199" />
         <AssociationConnector Association="MyProjectModel.FKUIEnablity310255" />
@@ -410,6 +408,8 @@
         <AssociationConnector Association="MyProjectModel.FKDateColumn74546" />
         <EntityTypeShape EntityType="MyProjectModel.StringColumnType" Width="1.5" PointX="8.25" PointY="146" />
         <AssociationConnector Association="MyProjectModel.FKStringColu936883" />
+        <EntityTypeShape EntityType="MyProjectModel.NumericColumnType" Width="1.5" PointX="8.25" PointY="154.875" />
+        <AssociationConnector Association="MyProjectModel.FKNumericCol878005" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

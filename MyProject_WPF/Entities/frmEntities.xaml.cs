@@ -55,7 +55,23 @@ namespace MyProject_WPF
             SetColumnTabs();
             tabColumns.Visibility = Visibility.Collapsed;
             tabRelationships.Visibility = Visibility.Collapsed;
+
+
+            //dtgNumericColumnType.CellEditEnded += DtgNumericColumnType_CellEditEnded;
+            //dtgNumericColumnType.CellValidating += DtgNumericColumnType_CellValidating;
         }
+
+        //private void DtgNumericColumnType_CellValidating(object sender, GridViewCellValidatingEventArgs e)
+        //{
+        //    var aa = e.Cell;
+        //}
+
+        //private void DtgNumericColumnType_CellEditEnded(object sender, GridViewCellEditEndedEventArgs e)
+        //{
+        //    var aa = e.EditingElement;
+        //    var bb = e.Source;
+
+        //}
 
         private void DtgColumns_RowLoaded(object sender, RowLoadedEventArgs e)
         {

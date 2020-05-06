@@ -33,12 +33,58 @@ namespace MyUIGenerator.UIControlHelper
             textBox.Name = "txtControl";
             textBox.ValueChanged += (sender, e) => textBox_ValueChanged(sender, e);
             textBox.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-
             textBox.IsLastPositionEditable = false;
             textBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left;
             textBox.IsClearButtonVisible = false;
-            textBox.Mask = "";
-            textBox.Value = null;
+            textBox.TextMode = Telerik.Windows.Controls.MaskedInput.TextMode.PlainText;
+            textBox.SelectionOnFocus = SelectionOnFocus.SelectAll;
+
+
+            //if (correspondingTypeProperty.DataType.Contains("float")
+            //    || correspondingTypeProperty.DataType.Contains("decimal")
+            //    || correspondingTypeProperty.DataType.Contains("double"))
+            //{
+            if (correspondingTypeProperty.NumericColumnType != null && correspondingTypeProperty.NumericColumnType.Precision != 0
+                && correspondingTypeProperty.NumericColumnType.Scale != 0)
+            {
+                textBox.Mask = "#" + (correspondingTypeProperty.NumericColumnType.Precision - correspondingTypeProperty.NumericColumnType.Scale);
+                textBox.Mask += "." + correspondingTypeProperty.NumericColumnType.Scale;
+                textBox.FormatString = "";
+                
+            }
+            else
+            {
+
+
+                textBox.Mask = "";
+                if (correspondingTypeProperty.DataType.Contains("float")
+                    || correspondingTypeProperty.DataType.Contains("decimal")
+                    || correspondingTypeProperty.DataType.Contains("double"))
+                {
+                    //بطور پیش فرض دو رقم اعشار میگذارد و سه رقم سه رقم جدا میکند
+                    //textBox.FormatString = "n";
+
+                    //اگر اعشار خواست از پرسیجن و اسکیل استفاده شود
+                    textBox.FormatString = "n0";
+                }
+                else
+                {
+                    
+                    //رقم اعشار نمیگذارد و سه رقم سه رقم جدا میکند
+                    textBox.FormatString = "n0";
+                }
+                بیشتر تست شود از نوع خود مقدار بایند شده به این کنترل
+                //بعدا یک خصوصیت اضافه شود که جدا نکند مثل شماره شناسنامه
+               
+            // سه رقم سه رقم جدا نمیکند  
+                // textBox.FormatString = "";
+
+            }
+            //}
+
+
+
+
             theGrid.Children.Add(textBox);
 
             if (operators != null && operators.Count > 0)
@@ -56,7 +102,31 @@ namespace MyUIGenerator.UIControlHelper
 
         }
 
-    
+        //        < TextBlock Text = "Currency Pattern" />
+
+        //< telerik:RadMaskedCurrencyInput Margin = "0,5,0,10"
+        //                               Mask = "c3.3"
+        //                               Value = "111.234" />
+        //< TextBlock Text = "Decimal Pattern" />
+
+        // < telerik:RadMaskedNumericInput Margin = "0,5,0,10"
+        //                                Mask = "n3.3"
+        //                                Value = "111.234" />
+        //< TextBlock Text = "Percent Pattern" />
+
+        // < telerik:RadMaskedNumericInput Margin = "0,5,0,10"
+        //                                Mask = "p3.2"
+        //                                Value = "111.234" />
+        //< TextBlock Text = "Digit Pattern - d" />
+
+        // < telerik:RadMaskedNumericInput Margin = "0,5,0,10"
+        //                                Mask = "d3"
+        //                                Value = "111.234" />
+        //< TextBlock Text = "Digit Pattern - #" />
+
+        // < telerik:RadMaskedNumericInput Margin = "0,5,0,10"
+        //                                Mask = "#3.1"
+        //                                Value = "111.234" />
         public void textBox_ValueChanged(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             //ColumnValueChangeArg arg = new ColumnValueChangeArg();
@@ -93,7 +163,7 @@ namespace MyUIGenerator.UIControlHelper
             //}
             //else
             //{
-            if ( value == null)
+            if (value == null)
                 textBox.Value = null;
             else
             {

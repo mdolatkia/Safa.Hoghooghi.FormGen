@@ -347,15 +347,12 @@ namespace MyProject_WPF
                     result += (result == "" ? "" : Environment.NewLine) + "مقدار پیش فرض ستون" + " " + column.Name + " " + "تغییر کرده است";
 
                 if ((column.NumericColumnType != null && dbColumn.NumericColumnType != null) &&
-                    (column.NumericColumnType.MaxValue != dbColumn.NumericColumnType.MaxValue
-                    || column.NumericColumnType.MinValue != dbColumn.NumericColumnType.MinValue
-                      || column.NumericColumnType.Precision != dbColumn.NumericColumnType.Precision
-                       || column.NumericColumnType.Scale != dbColumn.NumericColumnType.Scale))
+                    ((dbColumn.NumericColumnType.Precision != 0 && column.NumericColumnType.Precision != dbColumn.NumericColumnType.Precision)
+                       || (dbColumn.NumericColumnType.Scale != 0 && column.NumericColumnType.Scale != dbColumn.NumericColumnType.Scale)))
                     result += (result == "" ? "" : Environment.NewLine) + "خصوصیات عددی ستون" + " " + column.Name + " " + "تغییر کرده است";
 
                 if ((column.StringColumnType != null && dbColumn.StringColumnType != null) &&
-                    (column.StringColumnType.Format != dbColumn.StringColumnType.Format
-                   || column.StringColumnType.MaxLength != dbColumn.StringColumnType.MaxLength))
+                   (dbColumn.StringColumnType.MaxLength != 0 && column.StringColumnType.MaxLength != dbColumn.StringColumnType.MaxLength))
                     result += (result == "" ? "" : Environment.NewLine) + "خصوصیات رشته ای ستون" + " " + column.Name + " " + "تغییر کرده است";
 
                 //if (existingEntity.ColumnsReviewed == false)

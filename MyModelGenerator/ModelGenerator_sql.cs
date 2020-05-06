@@ -114,8 +114,8 @@ namespace MyModelGenerator
                     {
                         TableDrivedEntityDTO table = new TableDrivedEntityDTO();
                         table.Name = reader["TABLE_Name"].ToString();
-                        try
-                        {
+                        //try
+                        //{
                             counter++;
                             if (ItemImportingStarted != null)
                                 ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = table.Name, TotalProgressCount = count, CurrentProgress = counter });
@@ -178,7 +178,7 @@ namespace MyModelGenerator
                                     column.ColumnType = Enum_ColumnType.String;
                                     if (column.StringColumnType == null)
                                         column.StringColumnType = new StringColumnTypeDTO();
-                                    column.StringColumnType.MaxLength = (columnRow["CHARACTER_MAXIMUM_LENGTH"] == null ? 0 : Convert.ToInt32(columnRow["CHARACTER_MAXIMUM_LENGTH"]));
+                                    column.StringColumnType.MaxLength = (columnRow["CHARACTER_MAXIMUM_LENGTH"] == null || columnRow["CHARACTER_MAXIMUM_LENGTH"] == DBNull.Value ? 0 : Convert.ToInt32(columnRow["CHARACTER_MAXIMUM_LENGTH"]));
                                 }
                                 else if (IsNumericType(column))
                                 {
@@ -191,9 +191,9 @@ namespace MyModelGenerator
                                     column.ColumnType = Enum_ColumnType.Numeric;
                                     if (column.NumericColumnType == null)
                                         column.NumericColumnType = new NumericColumnTypeDTO();
-                                    if (columnRow["NUMERIC_PRECISION"] != null)
+                                    if (columnRow["NUMERIC_PRECISION"] != null && columnRow["NUMERIC_PRECISION"] != DBNull.Value)
                                         column.NumericColumnType.Precision = Convert.ToInt32(columnRow["NUMERIC_PRECISION"]);
-                                    if (columnRow["NUMERIC_SCALE"] != null)
+                                    if (columnRow["NUMERIC_SCALE"] != null && columnRow["NUMERIC_SCALE"] != DBNull.Value)
                                         column.NumericColumnType.Scale = Convert.ToInt32(columnRow["NUMERIC_SCALE"]);
                                 }
                                 else if (IsDateType(column))
@@ -260,11 +260,11 @@ namespace MyModelGenerator
 
 
                             result.Add(new TableImportItem(table, false, ""));
-                        }
-                        catch (Exception ex)
-                        {
-                            result.Add(new TableImportItem(table, true, ex.Message));
-                        }
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    result.Add(new TableImportItem(table, true, ex.Message));
+                        //}
 
                     }
 
@@ -332,7 +332,7 @@ namespace MyModelGenerator
         {
             return (column.DataType == "bigint" || column.DataType == "numeric" || column.DataType == "smallint"
                 || column.DataType == "decimal" || column.DataType == "smallmoney" || column.DataType == "int"
-                || column.DataType == "tinyint" || column.DataType == "money");
+                || column.DataType == "tinyint" || column.DataType == "money" || column.DataType == "float" || column.DataType == "double");
         }
         private bool IsDateType(ColumnDTO column)
         {

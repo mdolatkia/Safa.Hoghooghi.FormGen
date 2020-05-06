@@ -110,8 +110,8 @@ namespace ModelEntites
         public int ColumnID { set; get; }
         public int Precision { set; get; }
         public int Scale { set; get; }
-        public int MinValue { set; get; }
-        public int MaxValue { set; get; }
+        public double? MinValue { set; get; }
+        public double? MaxValue { set; get; }
 
         public DateColumnTypeDTO TTT { set; get; }
     }

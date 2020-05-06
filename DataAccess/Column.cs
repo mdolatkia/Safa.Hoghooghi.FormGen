@@ -75,7 +75,6 @@ namespace DataAccess
         public virtual ICollection<EntitySearchColumns> EntitySearchColumns { get; set; }
         public virtual ICollection<EntitySecurityCondition> EntitySecurityCondition { get; set; }
         public virtual ICollection<FormulaItems> FormulaItems { get; set; }
-        public virtual NumericColumnType NumericColumnType { get; set; }
         public virtual ICollection<TableDrivedEntity_Columns> TableDrivedEntity_Columns { get; set; }
         public virtual ICollection<TableDrivedEntityState> TableDrivedEntityState { get; set; }
         public virtual ICollection<UIEnablityDetails> UIEnablityDetails { get; set; }
@@ -84,5 +83,6 @@ namespace DataAccess
         public virtual ICollection<UniqueConstraint> UniqueConstraint { get; set; }
         public virtual DateColumnType DateColumnType { get; set; }
         public virtual StringColumnType StringColumnType { get; set; }
+        public virtual NumericColumnType NumericColumnType { get; set; }
     }
 }
