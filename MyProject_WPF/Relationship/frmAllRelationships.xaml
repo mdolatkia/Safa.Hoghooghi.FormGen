@@ -179,7 +179,7 @@
                     <telerik:RadGridView x:Name="dtgManyToMany" Grid.Row="1">
 
                     </telerik:RadGridView>
-                    <GridSplitter Grid.Row="2"></GridSplitter>
+                    <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
                     <Grid Grid.Row="3">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20"></RowDefinition>
@@ -224,7 +224,7 @@
 
                     </telerik:RadGridView>
 
-                    <GridSplitter Grid.Row="2"></GridSplitter>
+                    <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
                     <TabControl Grid.Row="3" IsSelected="True" x:Name="tabControlInheritanceRelationships" >
                         <TabItem IsSelected="True" x:Name="tabSuperToSubRelationships" Header="روابط ابرکلاس به زیرکلاس">
                             <Grid>
@@ -296,7 +296,7 @@
                     <telerik:RadGridView x:Name="dtgUnionRelationship" Grid.Row="1">
 
                     </telerik:RadGridView>
-                    <GridSplitter Grid.Row="2"></GridSplitter>
+                    <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
                     <TabControl IsSelected="True" Grid.Row="3" x:Name="tabcontrolUnionRelationships" >
                         <TabItem IsSelected="True" x:Name="tabSuperUnionToSubUnionRelationships" Header="روابط ابرکلاس به زیرکلاس">
                             <Grid>

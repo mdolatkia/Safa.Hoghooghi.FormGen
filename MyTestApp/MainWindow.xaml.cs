@@ -29,6 +29,8 @@ namespace MyTestApp
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+         
+     //       var aa = txtDate.SelectedDate.ToString();
             //LetterGenerator let = new LetterGenerator();
             //var keys=new  List<EntityInstanceProperty>();
             //keys.Add(new EntityInstanceProperty(new c) { ColumnID = 55, Value = "6" });

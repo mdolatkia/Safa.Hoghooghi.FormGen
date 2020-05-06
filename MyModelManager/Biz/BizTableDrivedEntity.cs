@@ -216,7 +216,7 @@ namespace MyModelManager
             //        .Include("Relationship.RelationshipType");
             //    }
             //    else
-                    listEntity = projectContext.TableDrivedEntity.Include("Table.DBSchema.DatabaseInformation");
+            listEntity = projectContext.TableDrivedEntity.Include("Table.DBSchema.DatabaseInformation");
             //}
             if (ID != 0)
                 listEntity = listEntity.Where(x => x.ID == ID);
@@ -362,7 +362,7 @@ namespace MyModelManager
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
                 var entities = GetEntities(projectContext, EntityColumnInfoType.WithoutColumn, EntityRelationshipInfoType.WithoutRelationships, isView)
-                    .Where(x => x.Table.DBSchema.DatabaseInformationID == databaseID ).ToList();
+                    .Where(x => x.Table.DBSchema.DatabaseInformationID == databaseID).ToList();
                 foreach (var entity in entities)
                 {
                     result.Add(entity.ID);
@@ -815,7 +815,7 @@ namespace MyModelManager
                     }
                 }
                 // ستونهای disable از لیست ستونها حذف میشوند
-                columns = columns.Where(x=>x.IsDisabled==false).OrderBy(x => x.Position).ToList();
+                columns = columns.Where(x => x.IsDisabled == false).OrderBy(x => x.Position).ToList();
                 foreach (var column in columns)
                 {
                     var columnDTO = bizColumn.ToColumnDTO(column, columnInfoType == EntityColumnInfoType.WithSimpleColumns);
@@ -878,7 +878,7 @@ namespace MyModelManager
                 //if(database.DatabaseUISetting!=null && database.DatabaseUISetting.ShowNullValue)
 
 
-                    var listSchema = new List<DBSchema>();
+                var listSchema = new List<DBSchema>();
                 foreach (var newEntity in listNew)
                 {
                     if (ItemImportingStarted != null)
@@ -970,7 +970,7 @@ namespace MyModelManager
 
             //   table.TableDrivedEntity.First(x => x.IsOrginal == true).Alias = entity.Alias;
 
-         
+
 
             table.DBSchema = dbSchema;
             foreach (var column in entity.Columns)
@@ -1010,38 +1010,55 @@ namespace MyModelManager
                 dbColumn.IsIdentity = column.IsIdentity;
                 dbColumn.Position = column.Position;
                 dbColumn.DefaultValue = column.DefaultValue;
-                if (column.StringColumnType != null)
+                //if (column.OriginalColumnType == Enum_ColumnType.None ||
+                //   column.ColumnType == Enum_ColumnType.None)
+                //{
+                //    throw (new Exception("نوع ستون" + " " + column.Name + " " + "در جدول" + " " + entity.Name + " " + "مشخص نشده است"));
+                //}
+                dbColumn.TypeEnum = Convert.ToByte(column.ColumnType);
+                dbColumn.OriginalTypeEnum = Convert.ToByte(column.OriginalColumnType);
+                if (column.ColumnType == Enum_ColumnType.String
+                    || column.ColumnType == Enum_ColumnType.Date)
                 {
-                    if (dbColumn.StringColumnType == null)
-                        dbColumn.StringColumnType = new StringColumnType();
-                    dbColumn.TypeEnum = Convert.ToByte(Enum_ColumnType.String);
-                    if (dbColumn.DateColumnType != null)
-                        projectContext.DateColumnType.Remove(dbColumn.DateColumnType);
+                    bool isString = false;
+                    bool isDate = false;
+                    if (column.ColumnType == Enum_ColumnType.Date)
+                    {
+                        isDate = true;
+                        if (column.OriginalColumnType == Enum_ColumnType.String)
+                            isString = true;
+                    }
+                    else if (column.ColumnType == Enum_ColumnType.String)
+                        isString = true;
+
+                    if (isString)
+                    {
+                        if (dbColumn.StringColumnType == null)
+                            dbColumn.StringColumnType = new StringColumnType();
+                        dbColumn.StringColumnType.MaxLength = column.StringColumnType.MaxLength;
+                    }
+                    if (isDate)
+                    {
+                        if (dbColumn.DateColumnType == null)
+                            dbColumn.DateColumnType = new  DateColumnType();
+                        dbColumn.DateColumnType.ShowMiladiDateInUI = column.DateColumnType.ShowMiladiDateInUI;
+                        dbColumn.DateColumnType.StringValueIsMiladi = column.DateColumnType.StringValueIsMiladi;
+                    }
                     if (dbColumn.NumericColumnType != null)
                         projectContext.NumericColumnType.Remove(dbColumn.NumericColumnType);
-                    dbColumn.StringColumnType.MaxLength = column.StringColumnType.MaxLength;
+
                 }
-                else if (column.NumericColumnType != null)
+                else if (column.ColumnType == Enum_ColumnType.Numeric)
                 {
-                    dbColumn.TypeEnum = Convert.ToByte(Enum_ColumnType.Numeric);
                     if (dbColumn.NumericColumnType == null)
                         dbColumn.NumericColumnType = new NumericColumnType();
                     if (dbColumn.DateColumnType != null)
                         projectContext.DateColumnType.Remove(dbColumn.DateColumnType);
                     if (dbColumn.StringColumnType != null)
                         projectContext.StringColumnType.Remove(dbColumn.StringColumnType);
+
                     dbColumn.NumericColumnType.Precision = column.NumericColumnType.Precision;
                     dbColumn.NumericColumnType.Scale = column.NumericColumnType.Scale;
-                }
-                else if (column.DateColumnType != null)
-                {
-                    if (dbColumn.DateColumnType == null)
-                        dbColumn.DateColumnType = new DateColumnType();
-                    dbColumn.TypeEnum = Convert.ToByte(Enum_ColumnType.Date);
-                    if (dbColumn.StringColumnType != null)
-                        projectContext.StringColumnType.Remove(dbColumn.StringColumnType);
-                    if (dbColumn.NumericColumnType != null)
-                        projectContext.NumericColumnType.Remove(dbColumn.NumericColumnType);
                 }
                 else
                 {
@@ -1051,11 +1068,6 @@ namespace MyModelManager
                         projectContext.StringColumnType.Remove(dbColumn.StringColumnType);
                     if (dbColumn.NumericColumnType != null)
                         projectContext.NumericColumnType.Remove(dbColumn.NumericColumnType);
-
-                    if (column.IsBoolean)
-                        dbColumn.TypeEnum = Convert.ToByte(Enum_ColumnType.Boolean);
-                    else
-                        dbColumn.TypeEnum = Convert.ToByte(Enum_ColumnType.None);
                 }
                 dbColumn.DBCalculateFormula = column.DBFormula;
 

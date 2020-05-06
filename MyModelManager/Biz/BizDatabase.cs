@@ -65,7 +65,8 @@ namespace MyModelManager
                     dbDatabase.DatabaseUISetting = new DatabaseUISetting();
 
                 dbDatabase.DatabaseUISetting.FlowDirectionLTR = databaseSetting.FlowDirectionLTR;
-                //dbDatabase.DatabaseUISetting.ShowNullValue = databaseSetting.ShowNullValue;
+              dbDatabase.DatabaseUISetting.ShowMiladiDateInUI = databaseSetting.ShowMiladiDateInUI;
+                dbDatabase.DatabaseUISetting.StringDateColumnIsMiladi = databaseSetting.StringDateColumnIsMiladi;
 
                 projectContext.SaveChanges();
                 return true;
@@ -261,7 +262,8 @@ namespace MyModelManager
             {
                 DatabaseSettingDTO result = new DatabaseSettingDTO();
                 result.FlowDirectionLTR = item.DatabaseUISetting.FlowDirectionLTR;
-                //result.ShowNullValue = item.DatabaseUISetting.ShowNullValue;
+                result.ShowMiladiDateInUI = item.DatabaseUISetting.ShowMiladiDateInUI;
+                result.StringDateColumnIsMiladi = item.DatabaseUISetting.StringDateColumnIsMiladi;
                 return result;
             }
             else

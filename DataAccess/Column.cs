@@ -38,7 +38,7 @@ namespace DataAccess
     
         public string Value { get; set; }
         public bool IsMandatory { get; set; }
-        public Nullable<byte> TypeEnum { get; set; }
+        public byte TypeEnum { get; set; }
         public bool IsCustomColumn { get; set; }
         public int ID { get; set; }
         public int TableID { get; set; }
@@ -57,6 +57,7 @@ namespace DataAccess
         public string DBCalculateFormula { get; set; }
         public Nullable<int> CustomCalculateFormulaID { get; set; }
         public bool IsNotTransferable { get; set; }
+        public byte OriginalTypeEnum { get; set; }
     
         public virtual ICollection<CodeFunction_TableDrivedEntity_Parameters> CodeFunction_TableDrivedEntity_Parameters { get; set; }
         public virtual Formula Formula { get; set; }
@@ -70,18 +71,18 @@ namespace DataAccess
         public virtual ICollection<UIColumnValue> UIColumnValue { get; set; }
         public virtual ICollection<ConditionalPermission> ConditionalPermission { get; set; }
         public virtual ICollection<DatabaseFunction_TableDrivedEntity_Columns> DatabaseFunction_TableDrivedEntity_Columns { get; set; }
-        public virtual DateColumnType DateColumnType { get; set; }
         public virtual ICollection<EntityListViewColumns> EntityListViewColumns { get; set; }
         public virtual ICollection<EntitySearchColumns> EntitySearchColumns { get; set; }
         public virtual ICollection<EntitySecurityCondition> EntitySecurityCondition { get; set; }
         public virtual ICollection<FormulaItems> FormulaItems { get; set; }
         public virtual NumericColumnType NumericColumnType { get; set; }
-        public virtual StringColumnType StringColumnType { get; set; }
         public virtual ICollection<TableDrivedEntity_Columns> TableDrivedEntity_Columns { get; set; }
         public virtual ICollection<TableDrivedEntityState> TableDrivedEntityState { get; set; }
         public virtual ICollection<UIEnablityDetails> UIEnablityDetails { get; set; }
         public virtual ICollection<RelationshipColumns> RelationshipColumns { get; set; }
         public virtual ICollection<RelationshipColumns> RelationshipColumns1 { get; set; }
         public virtual ICollection<UniqueConstraint> UniqueConstraint { get; set; }
+        public virtual DateColumnType DateColumnType { get; set; }
+        public virtual StringColumnType StringColumnType { get; set; }
     }
 }

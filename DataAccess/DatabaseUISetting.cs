@@ -16,6 +16,8 @@ namespace DataAccess
     {
         public int DatabaseInformationID { get; set; }
         public bool FlowDirectionLTR { get; set; }
+        public bool ShowMiladiDateInUI { get; set; }
+        public bool StringDateColumnIsMiladi { get; set; }
     
         public virtual DatabaseInformation DatabaseInformation { get; set; }
     }

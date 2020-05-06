@@ -46,7 +46,7 @@
                     </telerik:RadTreeView.ContextMenu>
                 </telerik:RadTreeView>
             </Grid>
-            <GridSplitter Grid.Column="1"></GridSplitter>
+            <GridSplitter VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.Column="1"></GridSplitter>
             <Grid Grid.Column="2" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120"></RowDefinition>

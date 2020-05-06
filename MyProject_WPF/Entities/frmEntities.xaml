@@ -28,7 +28,7 @@
                                 <TextBlock Text="بازاوری"></TextBlock>
                             </StackPanel>
                         </Button>
-                       
+
                     </StackPanel>
                     <!--<Button Margin="2" Width="160" HorizontalAlignment="Right" Content="اعمال قوانین موجودیتها" x:Name="btnImposeEntityRules" Click="btnImposeEntityRules_Click"></Button>-->
                     <telerik:RadGridView   x:Name="dtgRuleEntity" Grid.Row="1">
@@ -40,7 +40,9 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="*" ></RowDefinition>
+                        <RowDefinition Height="5"></RowDefinition>
+                        <RowDefinition Height="140"></RowDefinition>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button   Margin="2" Width="90"  Click="btnUpdateColumns_Click" x:Name="btnUpdateColumns">
@@ -50,59 +52,63 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                    <telerik:RadGridView x:Name="dtgColumns"   Grid.Row="1">
+                    <telerik:RadGridView x:Name="dtgColumns"   Grid.Row="1" Grid.RowSpan="2">
 
                     </telerik:RadGridView>
+                    <GridSplitter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2"></GridSplitter>
+                    <TabControl Grid.Row="3" x:Name="tabcontrolColumnType">
+                        <TabItem x:Name="tabStringColumnType" Header="نوع ستون رشته">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Margin="2"  IsEnabled="False"  Width="90" Content="ثبت" x:Name="btnUpdateStringColumnType" Click="btnUpdateStringColumnType_Click"></Button>
+                                </StackPanel>
+                                <telerik:RadGridView x:Name="dtgStringColumnType" Grid.Row="1">
+
+                                </telerik:RadGridView>
+                            </Grid>
+                        </TabItem>
+                        <TabItem  x:Name="tabNumericColumnType" Header="نوع ستون عددی">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Margin="2" IsEnabled="False" Width="90" Content="ثبت" x:Name="btnUpdateNumericColumnType" Click="btnUpdateNumericColumnType_Click"></Button>
+
+                                </StackPanel>
+                                <telerik:RadGridView x:Name="dtgNumericColumnType" Grid.Row="1">
+
+                                </telerik:RadGridView>
+                            </Grid>
+                        </TabItem>
+                        <TabItem  IsSelected="True" x:Name="tabDateColumnType" Header="نوع ستون تاریخ">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Margin="2" IsEnabled="False" Width="90" Content="ثبت" x:Name="btnUpdateDateColumnType" Click="btnUpdateDateColumnType_Click"></Button>
+
+                                </StackPanel>
+                                <telerik:RadGridView x:Name="dtgDateColumnType" Grid.Row="1">
+
+                                </telerik:RadGridView>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </TabItem>
             <TabItem IsSelected="True" x:Name="tabRelationships" Header="روابط">
                 <local:frmRelationships x:Name="formRelationships"/>
 
             </TabItem>
-            <TabItem x:Name="tabStringColumnType" Header="نوع ستون رشته">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Margin="2"  IsEnabled="False"  Width="90" Content="ثبت" x:Name="btnUpdateStringColumnType" Click="btnUpdateStringColumnType_Click"></Button>
-                    </StackPanel>
-                    <telerik:RadGridView x:Name="dtgStringColumnType" Grid.Row="1">
 
-                    </telerik:RadGridView>
-                </Grid>
-            </TabItem>
-            <TabItem  x:Name="tabNumericColumnType" Header="نوع ستون عددی">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Margin="2" IsEnabled="False" Width="90" Content="ثبت" x:Name="btnUpdateNumericColumnType" Click="btnUpdateNumericColumnType_Click"></Button>
-
-                    </StackPanel>
-                    <telerik:RadGridView x:Name="dtgNumericColumnType" Grid.Row="1">
-
-                    </telerik:RadGridView>
-                </Grid>
-            </TabItem>
-            <TabItem  IsSelected="True" x:Name="tabDateColumnType" Header="نوع ستون تاریخ">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Margin="2" IsEnabled="False" Width="90" Content="ثبت" x:Name="btnUpdateDateColumnType" Click="btnUpdateDateColumnType_Click"></Button>
-
-                    </StackPanel>
-                    <telerik:RadGridView x:Name="dtgDateColumnType" Grid.Row="1">
-
-                    </telerik:RadGridView>
-                </Grid>
-            </TabItem>
             <!--<TabItem  IsSelected="True" x:Name="tabKeyValueRange" Header="دامنه مقادیر ستونها">
          
             </TabItem>-->

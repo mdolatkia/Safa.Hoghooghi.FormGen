@@ -33,7 +33,6 @@
         <EntityTypeShape EntityType="MyProjectModel.DatabaseFunction_TableDrivedEntity_Columns" Width="1.5" PointX="21.75" PointY="150.375" />
         <EntityTypeShape EntityType="MyProjectModel.DatabaseFunctionParameter" Width="1.5" PointX="12.75" PointY="153" />
         <EntityTypeShape EntityType="MyProjectModel.DatabaseInformation" Width="1.5" PointX="3" PointY="147.25" />
-        <EntityTypeShape EntityType="MyProjectModel.DatabaseUISetting" Width="1.5" PointX="5.25" PointY="155.375" />
         <EntityTypeShape EntityType="MyProjectModel.DataLinkDefinition" Width="1.5" PointX="16.5" PointY="112" />
         <EntityTypeShape EntityType="MyProjectModel.DataLinkDefinition_EntityRelationshipTail" Width="1.5" PointX="21.75" PointY="167.25" />
         <EntityTypeShape EntityType="MyProjectModel.DataMenuDataViewRelationship" Width="1.5" PointX="21.75" PointY="202.75" />
@@ -41,7 +40,6 @@
         <EntityTypeShape EntityType="MyProjectModel.DataMenuReportRelationship" Width="1.5" PointX="21.75" PointY="206.5" />
         <EntityTypeShape EntityType="MyProjectModel.DataMenuSetting" Width="1.5" PointX="16.5" PointY="190.875" />
         <EntityTypeShape EntityType="MyProjectModel.DataViewSetting" Width="1.5" PointX="18.75" PointY="171.125" />
-        <EntityTypeShape EntityType="MyProjectModel.DateColumnType" Width="1.5" PointX="8.25" PointY="152.375" />
         <EntityTypeShape EntityType="MyProjectModel.DBSchema" Width="1.5" PointX="8.25" PointY="148.625" />
         <EntityTypeShape EntityType="MyProjectModel.DBServer" Width="1.5" PointX="0.75" PointY="147.625" />
         <EntityTypeShape EntityType="MyProjectModel.EmptySpaceUISetting" Width="1.5" PointX="18.75" PointY="158.125" />
@@ -98,7 +96,6 @@
         <EntityTypeShape EntityType="MyProjectModel.RelationshipUISetting" Width="1.5" PointX="18.75" PointY="152.25" />
         <EntityTypeShape EntityType="MyProjectModel.ReportGroups" Width="1.5" PointX="24" PointY="190.25" />
         <EntityTypeShape EntityType="MyProjectModel.SearchRepository" Width="1.5" PointX="24.75" PointY="156" />
-        <EntityTypeShape EntityType="MyProjectModel.StringColumnType" Width="1.5" PointX="8.25" PointY="146" />
         <EntityTypeShape EntityType="MyProjectModel.SubSystems" Width="1.5" PointX="3" PointY="164.75" />
         <EntityTypeShape EntityType="MyProjectModel.SubToSuperRelationshipType" Width="1.5" PointX="24" PointY="130" />
         <EntityTypeShape EntityType="MyProjectModel.SubUnionToUnionRelationshipType" Width="1.5" PointX="27" PointY="137" />
@@ -191,13 +188,11 @@
         <AssociationConnector Association="MyProjectModel.FKColumnValu491864" />
         <AssociationConnector Association="MyProjectModel.FKConditiona163674" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseFu304987" />
-        <AssociationConnector Association="MyProjectModel.FKDateColumn74546" />
         <AssociationConnector Association="MyProjectModel.FKEntityList404590" />
         <AssociationConnector Association="MyProjectModel.FKEntitySear524417" />
         <AssociationConnector Association="MyProjectModel.FKEntitySecu216788" />
         <AssociationConnector Association="MyProjectModel.FKFormulaIte729281" />
         <AssociationConnector Association="MyProjectModel.FKNumericCol878005" />
-        <AssociationConnector Association="MyProjectModel.FKStringColu936883" />
         <AssociationConnector Association="MyProjectModel.FKTableDrive108467" />
         <AssociationConnector Association="MyProjectModel.FKTableDrive277199" />
         <AssociationConnector Association="MyProjectModel.FKUIEnablity310255" />
@@ -224,7 +219,6 @@
         <AssociationConnector Association="MyProjectModel.FKDatabaseFu935636" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseIn186668" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseIn674957" />
-        <AssociationConnector Association="MyProjectModel.FKDatabaseUI703615" />
         <AssociationConnector Association="MyProjectModel.FKDBSchema138241" />
         <AssociationConnector Association="MyProjectModel.FKDataLinkDe305355" />
         <AssociationConnector Association="MyProjectModel.FKDataLinkDe790101" />
@@ -410,6 +404,12 @@
         <AssociationConnector Association="MyProjectModel.FKTransition612866" />
         <AssociationConnector Association="MyProjectModel.FKTransition636993" />
         <AssociationConnector Association="MyProjectModel.UniqueConstraint_Column" />
+        <EntityTypeShape EntityType="MyProjectModel.DatabaseUISetting" Width="1.5" PointX="5.25" PointY="150.875" />
+        <AssociationConnector Association="MyProjectModel.FKDatabaseUI703615" />
+        <EntityTypeShape EntityType="MyProjectModel.DateColumnType" Width="1.5" PointX="8.25" PointY="152" />
+        <AssociationConnector Association="MyProjectModel.FKDateColumn74546" />
+        <EntityTypeShape EntityType="MyProjectModel.StringColumnType" Width="1.5" PointX="8.25" PointY="146" />
+        <AssociationConnector Association="MyProjectModel.FKStringColu936883" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

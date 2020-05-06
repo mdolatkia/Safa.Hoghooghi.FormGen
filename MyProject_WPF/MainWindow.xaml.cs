@@ -88,7 +88,7 @@ namespace MyProject_WPF
                 datasecurityindeirectNode.MouseLeftButtonUp += DatasecurityindeirectNode_MouseLeftButtonUp;
                 //var conditionalsecurityNode = AddTreeItem(securityNode.Items, "دسترسی های شرطی", "../Images/conditionalsecurity.png");
                 //conditionalsecurityNode.MouseLeftButtonUp += ConditionalsecurityNode_MouseLeftButtonUp;
-                securityNode.IsExpanded=true;
+                securityNode.IsExpanded = true;
                 rootNode.IsExpanded = true;
             }
             else if (MyProjectManager.GetMyProjectManager.UserInfo.OrganizationPosts.Any(x => x.IsAdmin))
@@ -146,21 +146,32 @@ namespace MyProject_WPF
 
         private void DbServerNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmDBServer frm = new frmDBServer(0);
-            AddPane(frm, "مدیریت سرور پایگاه داده");
+            var title = "مدیریت سرور پایگاه داده";
+            if (!CheckPaneExists(title))
+            {
+                frmDBServer frm = new frmDBServer(0);
+                AddPane(frm, title);
+            }
         }
 
         private void AdminuserNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmUsers frm = new frmUsers(true);
-            AddPane(frm, "کاربران");
+            var title = "کاربران";
+            if (!CheckPaneExists(title))
+            {
+                frmUsers frm = new frmUsers(true);
+                AddPane(frm, title);
+            }
         }
 
         private void AdminOrganizationNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
-            frmOrganization frm = new frmOrganization(true);
-            AddPane(frm, "سازمانها ها");
+            var title = "سازمانها ها";
+            if (!CheckPaneExists(title))
+            {
+                frmOrganization frm = new frmOrganization(true);
+                AddPane(frm, title);
+            }
         }
 
         //private void ConditionalsecurityNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -171,45 +182,72 @@ namespace MyProject_WPF
 
         private void DatasecurityindeirectNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmEntitySecurityIndirect frm = new frmEntitySecurityIndirect();
-            AddPane(frm, "دسترسی موجودیت/داده غیر مستقیم");
+            var title = "دسترسی موجودیت/داده غیر مستقیم";
+            if (!CheckPaneExists(title))
+            {
+                frmEntitySecurityIndirect frm = new frmEntitySecurityIndirect();
+                AddPane(frm, title);
+            }
         }
 
         private void DatasecurityNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmEntitySecurityDirect frm = new frmEntitySecurityDirect(0);
-            AddPane(frm, "دسترسی موجودیت/داده مستقیم");
+            var title = "دسترسی موجودیت/داده مستقیم";
+            if (!CheckPaneExists(title))
+            {
+                frmEntitySecurityDirect frm = new frmEntitySecurityDirect(0);
+                AddPane(frm, title);
+            }
         }
 
         private void PermissionNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
-            frmPermission frm = new frmPermission();
-            AddPane(frm, "دسترسی ها");
+            var title = "دسترسی ها";
+            if (!CheckPaneExists(title))
+            {
+                frmPermission frm = new frmPermission();
+                AddPane(frm, title);
+            }
         }
 
         private void OrganizationNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmOrganization frm = new frmOrganization();
-            AddPane(frm, "سازمانها ها");
+            var title = "سازمانها ها";
+            if (!CheckPaneExists(title))
+            {
+                frmOrganization frm = new frmOrganization();
+                AddPane(frm, title);
+            }
         }
 
         private void OrganizationtypeNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmOrganizationType frm = new frmOrganizationType(0);
-            AddPane(frm, "نوع سازمان");
+            var title = "نوع سازمان";
+            if (!CheckPaneExists(title))
+            {
+                frmOrganizationType frm = new frmOrganizationType(0);
+                AddPane(frm, title);
+            }
         }
 
         private void RoleTypesNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmRoleType frm = new frmRoleType(0);
-            AddPane(frm, "نوع نقش");
+            var title = "نوع نقش";
+            if (!CheckPaneExists(title))
+            {
+                frmRoleType frm = new frmRoleType(0);
+                AddPane(frm, title);
+            }
         }
 
         private void UserNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmUsers frm = new frmUsers();
-            AddPane(frm, "کاربران");
+            var title = "کاربران";
+            if (!CheckPaneExists(title))
+            {
+                frmUsers frm = new frmUsers();
+                AddPane(frm, title);
+            }
         }
 
         private void DbNode_Expanded(object sender, RoutedEventArgs e)
@@ -244,24 +282,73 @@ namespace MyProject_WPF
 
         private void EntitiesNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e, DatabaseDTO database)
         {
-            frmEntities frm = new frmEntities(database.ID);
-            AddPane(frm, "موجودیتها" + " - " + database.Name);
+            var title = "موجودیتها" + " - " + database.Name;
+            if (!CheckPaneExists(title))
+            {
+                frmEntities frm = new frmEntities(database.ID);
+                AddPane(frm, title);
+            }
+            else
+            {
+                var frm = GetPaneForm(title) as frmEntities;
+                if (frm != null)
+                    frm.ActivateEntities();
+            }
         }
+
+        private UserControl GetPaneForm(string title)
+        {
+            foreach (var item in pnlForms.Items)
+            {
+                if ((item as RadPane).Header.ToString() == title)
+                {
+                    return (item as RadPane).Content as UserControl;
+                }
+            }
+            return null;
+        }
+
+        private bool CheckPaneExists(string title, bool select = true)
+        {
+            foreach (var item in pnlForms.Items)
+            {
+                if ((item as RadPane).Header.ToString() == title)
+                {
+                    if (select)
+                        (item as RadPane).IsSelected = true; ;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private void RelationshipNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e, DatabaseDTO database)
         {
-            frmAllRelationships frm = new frmAllRelationships(database);
-            AddPane(frm, "روابط" + " - " + database.Name);
+            var title = "روابط" + " - " + database.Name;
+            if (!CheckPaneExists(title))
+            {
+                frmAllRelationships frm = new frmAllRelationships(database);
+                AddPane(frm, title);
+            }
         }
         private void DbOthersNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e, DatabaseDTO database)
         {
-            frmDBViewFunctions frm = new frmDBViewFunctions(database.ID);
-            AddPane(frm, "سایر موارد" + " - " + database.Name);
+            var title = "سایر موارد" + " - " + database.Name;
+            if (!CheckPaneExists(title))
+            {
+                frmDBViewFunctions frm = new frmDBViewFunctions(database.ID);
+                AddPane(frm, title);
+            }
         }
 
         private void LetterNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmLetterSetting view = new MyProject_WPF.frmLetterSetting();
-            AddPane(view, "تنظیمات نامه");
+            var title = "تنظیمات نامه";
+            if (!CheckPaneExists(title))
+            {
+                frmLetterSetting view = new MyProject_WPF.frmLetterSetting();
+                AddPane(view, title);
+            }
         }
 
         //private void SecurityNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -272,15 +359,22 @@ namespace MyProject_WPF
 
         private void ProcessNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
-            frmProcess frm = new frmProcess(0);
-            AddPane(frm, "جریان کار");
+            var title = "جریان کار";
+            if (!CheckPaneExists(title))
+            {
+                frmProcess frm = new frmProcess(0);
+                AddPane(frm, title);
+            }
         }
 
         private void NavigationTreeNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmNavigationTree frm = new MyProject_WPF.frmNavigationTree();
-            AddPane(frm, "درخت منو");
+            var title = "درخت منو";
+            if (!CheckPaneExists(title))
+            {
+                frmNavigationTree frm = new MyProject_WPF.frmNavigationTree();
+                AddPane(frm, title);
+            }
         }
 
 
@@ -290,9 +384,13 @@ namespace MyProject_WPF
 
         private void DbConnectoinNode_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            frmDatabase frm = new frmDatabase(0);
-            frm.DatabaseUpdated += Frm_DatabaseUpdated;
-            AddPane(frm, "مدیریت پایگاه داده");
+            var title = "مدیریت پایگاه داده";
+            if (!CheckPaneExists(title))
+            {
+                frmDatabase frm = new frmDatabase(0);
+                frm.DatabaseUpdated += Frm_DatabaseUpdated;
+                AddPane(frm, title);
+            }
         }
 
         private void Frm_DatabaseUpdated(object sender, DatabaseUpdatedArg e)
@@ -958,7 +1056,6 @@ namespace MyProject_WPF
                 pane.Content = frm;
                 pane.Header = title;
                 pane.IsDockable = false;
-
                 pane.CanFloat = false;
                 pane.CanUserPin = false;
                 pnlForms.Items.Add(pane);

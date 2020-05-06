@@ -58,14 +58,15 @@ namespace ModelEntites
         //public bool ViewEnabled { get; set; }
         public bool IsReadonly { get; set; }
         public Enum_ColumnType ColumnType { set; get; }
+        public Enum_ColumnType OriginalColumnType { set; get; }
 
         public Type DotNetType { set; get; }
         public bool IsNotTransferable { get; set; }
         public bool ShowNullValue { get; set; }
-        
-        public bool IsIdentity { get; set; }
 
-        public bool IsBoolean { get; set; }
+        public bool IsIdentity { get; set; }
+     //   public bool IsStringOriginally { get; set; }
+      //  public bool IsBoolean { get; set; }
         public NumericColumnTypeDTO NumericColumnType { set; get; }
         public StringColumnTypeDTO StringColumnType { set; get; }
         public DateColumnTypeDTO DateColumnType { set; get; }
@@ -85,7 +86,7 @@ namespace ModelEntites
         public FormulaDTO CustomFormula { set; get; }
 
         public bool ColumnsAdded { get; set; }
-     //   public bool IsDescriptive { get; set; }
+        //   public bool IsDescriptive { get; set; }
     }
     public class ColumnDescriptionDTO
     {
@@ -118,10 +119,17 @@ namespace ModelEntites
     public class DateColumnTypeDTO
     {
         public int ColumnID { set; get; }
-        public bool IsPersianDate { set; get; }
+        //public int MaxLength { get; set; }
+        public bool ShowMiladiDateInUI { set; get; }
+        public bool StringValueIsMiladi { set; get; }
+        //  public bool ValueIsPersianDate { set; get; }
+    }
+    public enum GeorgianDateFormat
+    {
+        YYYYMMDD,
+        DDMMYYYY,
 
     }
-
     public class ColumnValueRangeDTO
     {
         public ColumnValueRangeDTO()
@@ -225,7 +233,7 @@ namespace ModelEntites
         public int RelationshipID { set; get; }
         public bool? Hidden { set; get; }
         public bool? Readonly { set; get; }
-    //    public int UICompositionID { set; get; }
+        //    public int UICompositionID { set; get; }
 
 
     }
@@ -257,7 +265,7 @@ namespace ModelEntites
         public string Name { set; get; }
         public string Title { set; get; }
         public string IPAddress { set; get; }
-    
+
         public List<LinkedServerDTO> LinkedServers { set; get; }
     }
 
@@ -287,13 +295,14 @@ namespace ModelEntites
         public enum_DBType DBType { set; get; }
         public bool DBHasData { get; set; }
         public DatabaseSettingDTO DatabaseSetting { get; set; }
-        
+
     }
     public class DatabaseSettingDTO
     {
         public int DatabaseInformationID { set; get; }
         public bool FlowDirectionLTR { get; set; }
-     //   public bool ShowNullValue { get; set; }
+        public bool ShowMiladiDateInUI { get; set; }
+        public bool StringDateColumnIsMiladi { get; set; }
     }
     public enum enum_DBType
     {

@@ -1,13 +1,17 @@
-﻿<Window x:Class="MyTestApp.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyTestApp"
+      xmlns:Custom="http://schemas.microsoft.com/wpf/2008/toolkit" xmlns:Views="clr-namespace:WpfPersianDatePicker.Views;assembly=WpfPersianDatePicker" x:Class="MyTestApp.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Height="33" Margin="66,61,0,0" VerticalAlignment="Top" Width="229" Click="button_Click"/>
+
+
+        <Views:PDatePicker HorizontalAlignment="Left" Name="txtDate" Margin="66,190,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

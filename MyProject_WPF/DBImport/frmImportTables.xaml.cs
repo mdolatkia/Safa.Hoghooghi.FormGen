@@ -27,6 +27,7 @@ namespace MyProject_WPF
     {
         BizTableDrivedEntity bizTableDrivedEntity = new BizTableDrivedEntity();
         DatabaseDTO Database { set; get; }
+        BizDatabase bizDatabase = new BizDatabase();
         public frmImportTables(DatabaseDTO database)
         {
             InitializeComponent();
@@ -141,7 +142,10 @@ namespace MyProject_WPF
                         if (!string.IsNullOrEmpty(tags.Item1) || !string.IsNullOrEmpty(tags.Item2))
                             WizardHelper.SetEntityAliasAndDescription(item, tags.Item1, tags.Item2);
                         foreach (var column in item.Entity.Columns)
+                        {
                             WizardHelper.SetColumnAliasAnadDescription(column, columnTags.Item1, columnTags.Item2);
+                            CheckNewColumnPersianDate(column);
+                        }
                         item.Tooltip = GetNewItemTooltip(item);
                     }
                 }
@@ -153,7 +157,10 @@ namespace MyProject_WPF
                         foreach (var item in listEdited.Where(x => x.Entity.Columns.Any(y => y.ColumnsAdded)))
                         {
                             foreach (var column in item.Entity.Columns.Where(x => x.ColumnsAdded))
+                            {
                                 WizardHelper.SetColumnAliasAnadDescription(column, tags.Item1, tags.Item2);
+                                CheckNewColumnPersianDate(column);
+                            }
                         }
                     }
                 }
@@ -212,6 +219,36 @@ namespace MyProject_WPF
                 FormIsFree(this, null);
             }
 
+        }
+
+        private void CheckNewColumnPersianDate(ColumnDTO column)
+        {
+            if (column.OriginalColumnType == Enum_ColumnType.String)
+            {
+                if (column.StringColumnType.MaxLength <= 50 &&
+                    (column.Name.ToLower().StartsWith("datetime") ||
+                    column.Name.ToLower().EndsWith("datetime") ||
+                    column.Name.ToLower().StartsWith("date") ||
+                    column.Name.ToLower().EndsWith("date") ||
+                     column.Name.ToLower().StartsWith("tarikh") ||
+                      column.Name.ToLower().EndsWith("tarikh"))
+                      )
+                {
+                    column.ColumnType = Enum_ColumnType.Date;
+                    column.DateColumnType = new DateColumnTypeDTO();
+
+                }
+            }
+
+            if (column.ColumnType == Enum_ColumnType.Date)
+            {
+                var database = bizDatabase.GetDatabase(Database.ID, true);
+                column.DateColumnType.ShowMiladiDateInUI = database.DatabaseSetting != null ? database.DatabaseSetting.ShowMiladiDateInUI : false;
+                if (column.OriginalColumnType == Enum_ColumnType.Date)
+                    column.DateColumnType.StringValueIsMiladi = true;
+                else
+                    column.DateColumnType.StringValueIsMiladi = database.DatabaseSetting != null ? database.DatabaseSetting.StringDateColumnIsMiladi : false;
+            }
         }
 
         private string GetNewItemTooltip(TableImportItem item)
@@ -309,19 +346,17 @@ namespace MyProject_WPF
                 if (column.DefaultValue != dbColumn.DefaultValue)
                     result += (result == "" ? "" : Environment.NewLine) + "مقدار پیش فرض ستون" + " " + column.Name + " " + "تغییر کرده است";
 
-                if ((column.NumericColumnType != null && dbColumn.NumericColumnType == null) ||
-                    (column.NumericColumnType == null && dbColumn.NumericColumnType != null)
-                    || ((column.NumericColumnType != null && dbColumn.NumericColumnType != null) && column.NumericColumnType.MaxValue != dbColumn.NumericColumnType.MaxValue)
-                     || ((column.NumericColumnType != null && dbColumn.NumericColumnType != null) && column.NumericColumnType.MinValue != dbColumn.NumericColumnType.MinValue)
-                      || ((column.NumericColumnType != null && dbColumn.NumericColumnType != null) && column.NumericColumnType.Precision != dbColumn.NumericColumnType.Precision)
-                       || ((column.NumericColumnType != null && dbColumn.NumericColumnType != null) && column.NumericColumnType.Scale != dbColumn.NumericColumnType.Scale))
+                if ((column.NumericColumnType != null && dbColumn.NumericColumnType != null) &&
+                    (column.NumericColumnType.MaxValue != dbColumn.NumericColumnType.MaxValue
+                    || column.NumericColumnType.MinValue != dbColumn.NumericColumnType.MinValue
+                      || column.NumericColumnType.Precision != dbColumn.NumericColumnType.Precision
+                       || column.NumericColumnType.Scale != dbColumn.NumericColumnType.Scale))
                     result += (result == "" ? "" : Environment.NewLine) + "خصوصیات عددی ستون" + " " + column.Name + " " + "تغییر کرده است";
 
-                if ((column.StringColumnType != null && dbColumn.StringColumnType == null) ||
-                  (column.StringColumnType == null && dbColumn.StringColumnType != null)
-                  || ((column.StringColumnType != null && dbColumn.StringColumnType != null) && column.StringColumnType.Format != dbColumn.StringColumnType.Format)
-                   || ((column.StringColumnType != null && dbColumn.StringColumnType != null) && column.StringColumnType.MaxLength != dbColumn.StringColumnType.MaxLength))
-                    result += (result == "" ? "" : Environment.NewLine) + "خصوصیات عددی ستون" + " " + column.Name + " " + "تغییر کرده است";
+                if ((column.StringColumnType != null && dbColumn.StringColumnType != null) &&
+                    (column.StringColumnType.Format != dbColumn.StringColumnType.Format
+                   || column.StringColumnType.MaxLength != dbColumn.StringColumnType.MaxLength))
+                    result += (result == "" ? "" : Environment.NewLine) + "خصوصیات رشته ای ستون" + " " + column.Name + " " + "تغییر کرده است";
 
                 //if (existingEntity.ColumnsReviewed == false)
                 //{
@@ -403,6 +438,7 @@ namespace MyProject_WPF
         {
             return true;
         }
+
 
         //private void btnDatabaseSetting_Click(object sender, RoutedEventArgs e)
         //{

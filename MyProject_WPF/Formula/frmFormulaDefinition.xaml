@@ -33,7 +33,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Popup>
-            <GridSplitter Grid.Column="1"></GridSplitter>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
             <telerik:RadExpressionEditor FontSize="14"  FlowDirection="LeftToRight" Grid.Column="2" x:Name="ExpressionEditor">
 
             </telerik:RadExpressionEditor>

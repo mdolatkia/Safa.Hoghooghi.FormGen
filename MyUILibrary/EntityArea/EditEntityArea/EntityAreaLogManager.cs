@@ -207,7 +207,7 @@ namespace MyUILibrary.EntityArea
                 if (item.OriginalProperties.Any(x => x.ColumnID == property.ColumnID))
                 {
                     var oldvalue = item.OriginalProperties.First(x => x.ColumnID == property.ColumnID).Value;
-                    actionLogProperty.OldValue = oldvalue == null ? "<Null>" : property.Value.ToString();
+                    actionLogProperty.OldValue = oldvalue == null ? "<Null>" : oldvalue.ToString();
                 }
                 log.LogProperties.Add(actionLogProperty);
             }

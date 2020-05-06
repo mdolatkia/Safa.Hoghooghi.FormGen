@@ -178,7 +178,9 @@ namespace MyProject_WPF
             else if (dataGrid == dtgDateColumnType)
             {
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ColumnID", "شناسه ستون", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsPersianDate", "تاریخ شمسی", false, 100, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ShowMiladiDateInUI", "نمایش تاریخ میلادی", false, 100, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("StringValueIsMiladi", "مقدار رشته ای میلادی", false, 100, GridViewColumnType.CheckBox));
+
             }
 
         }
@@ -213,6 +215,12 @@ namespace MyProject_WPF
             }
             MyProjectManager.GetMyProjectManager.CloseDialog(sender);
         }
+
+        internal void ActivateEntities()
+        {
+            tabEntities.IsSelected = true;
+        }
+
         //private void btnImportEntities_Click(object sender, RoutedEventArgs e)
         //{
         //    if (MessageBox.Show("فرایند ورود اطلاعات خودکار موجودیتها و ستونها" + Environment.NewLine + Environment.NewLine + "آیا مطمئن هستید؟", "تائید", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -243,26 +251,32 @@ namespace MyProject_WPF
 
         void dtgRuleEntity_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (dtgRuleEntity.SelectedItem != null)
+            string columnsHeader = "ستونها";
+            string realtionshipsHeader = "روابط";
+            if (dtgRuleEntity.SelectedItem != null &&
+                dtgRuleEntity.SelectedItem is TableDrivedEntityDTO)
             {
                 TableDrivedEntityDTO entity = dtgRuleEntity.SelectedItem as TableDrivedEntityDTO;
-                if (entity != null)
-                {
-                    tabColumns.Visibility = Visibility.Visible;
-                    tabRelationships.Visibility = Visibility.Visible;
 
-                    var columns = bizColumn.GetAllColumns(entity.ID, true);
-                    //بهتره ستونها کامل گرفته نشوند و تک به تک کامل شوند
-                    dtgColumns.ItemsSource = columns;
-                    SetColumnTabs();
-                    SetColumnFormulas(entity.ID);
-                    formRelationships.SetRelatoinships(entity.ID);
+                tabColumns.Visibility = Visibility.Visible;
+                tabRelationships.Visibility = Visibility.Visible;
 
-                    //var relationships = bizRelationship.GetAllRelationships(entity.ID);
-                    //dtgRelationships.ItemsSource = columns;
-                    //btnUpdateColumns.IsEnabled = true;
-                }
+                var columns = bizColumn.GetAllColumns(entity.ID, true);
+                //بهتره ستونها کامل گرفته نشوند و تک به تک کامل شوند
+                dtgColumns.ItemsSource = columns;
+                SetColumnTabs();
+                SetColumnFormulas(entity.ID);
+                formRelationships.SetRelatoinships(entity.ID);
+
+                columnsHeader = "ستونهای" + " " + "\"" + entity.Alias + "\"";
+                realtionshipsHeader = "روابط" + " " + "\"" + entity.Alias + "\"";
+                //var relationships = bizRelationship.GetAllRelationships(entity.ID);
+                //dtgRelationships.ItemsSource = columns;
+                //btnUpdateColumns.IsEnabled = true;
+
             }
+            tabColumns.Header = columnsHeader;
+            tabRelationships.Header = realtionshipsHeader;
         }
 
 
@@ -310,35 +324,46 @@ namespace MyProject_WPF
 
         private void SetColumnTabs()
         {
-            tabStringColumnType.Visibility = System.Windows.Visibility.Collapsed;
-            tabNumericColumnType.Visibility = System.Windows.Visibility.Collapsed;
-            tabDateColumnType.Visibility = System.Windows.Visibility.Collapsed;
-            //tabKeyValueRange.Visibility = System.Windows.Visibility.Collapsed;
             if (dtgColumns.SelectedItem != null)
             {
+                tabStringColumnType.Visibility = System.Windows.Visibility.Collapsed;
+                tabNumericColumnType.Visibility = System.Windows.Visibility.Collapsed;
+                tabDateColumnType.Visibility = System.Windows.Visibility.Collapsed;
+
                 var column = dtgColumns.SelectedItem as ColumnDTO;
-                //  tabKeyValueRange.Visibility = System.Windows.Visibility.Visible;
-                //tabColumnFormula.Visibility = System.Windows.Visibility.Visible;
-                btnUpdateStringColumnType.IsEnabled = true;
-                btnUpdateNumericColumnType.IsEnabled = true;
-                btnUpdateDateColumnType.IsEnabled = true;
-                //btnUpdateKeyValue.IsEnabled = true;
-                //btnImportKeyValues.IsEnabled = true;
-                //optValueComesFromTitle.IsEnabled = true;
-                //optValueComesFromValue.IsEnabled = true;
+
 
                 if (column.ColumnType == Enum_ColumnType.String)
                 {
                     tabStringColumnType.Visibility = System.Windows.Visibility.Visible;
+                    tabStringColumnType.IsSelected = true;
+                    btnUpdateStringColumnType.IsEnabled = true;
                 }
                 else if (column.ColumnType == Enum_ColumnType.Numeric)
                 {
                     tabNumericColumnType.Visibility = System.Windows.Visibility.Visible;
+                    tabNumericColumnType.IsSelected = true;
+                    btnUpdateNumericColumnType.IsEnabled = true;
                 }
                 else if (column.ColumnType == Enum_ColumnType.Date)
                 {
                     tabDateColumnType.Visibility = System.Windows.Visibility.Visible;
+                    tabDateColumnType.IsSelected = true;
+                    btnUpdateDateColumnType.IsEnabled = true;
                 }
+            }
+            else
+            {
+                tabStringColumnType.Visibility = System.Windows.Visibility.Visible;
+                tabNumericColumnType.Visibility = System.Windows.Visibility.Visible;
+                tabDateColumnType.Visibility = System.Windows.Visibility.Visible;
+                btnUpdateStringColumnType.IsEnabled = false;
+                btnUpdateNumericColumnType.IsEnabled = false;
+                btnUpdateDateColumnType.IsEnabled = false;
+                tabStringColumnType.IsSelected = true;
+                dtgStringColumnType.ItemsSource = null;
+                dtgNumericColumnType.ItemsSource = null;
+                dtgDateColumnType.ItemsSource = null;
             }
         }
 
@@ -372,9 +397,17 @@ namespace MyProject_WPF
 
         private void btnUpdateDateColumnType_Click(object sender, RoutedEventArgs e)
         {
-            btnUpdateDateColumnType.IsEnabled = false;
-            bizColumn.UpdateDateColumnType(dtgDateColumnType.ItemsSource as List<DateColumnTypeDTO>);
-            btnUpdateDateColumnType.IsEnabled = true;
+            try
+            {
+                btnUpdateDateColumnType.IsEnabled = false;
+                bizColumn.UpdateDateColumnType(dtgDateColumnType.ItemsSource as List<DateColumnTypeDTO>);
+                btnUpdateDateColumnType.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                btnUpdateDateColumnType.IsEnabled = true;
+                MessageBox.Show(ex.Message);
+            }
         }
 
 
@@ -738,10 +771,10 @@ namespace MyProject_WPF
                 var column = source.DataContext as ColumnDTO;
                 if (column.ColumnType == Enum_ColumnType.String)
                 {
-                    var convertToDateColumnMenu = AddMenu(contextMenu.Items, "تبدیل به نوع تاریخ", "", "../Images/date.png");
+                    var convertToDateColumnMenu = AddMenu(contextMenu.Items, "تبدیل به تاریخ", "", "../Images/date.png");
                     convertToDateColumnMenu.Click += (sender1, EventArgs) => ConvertToDateColumnType_Click1(sender, e, column.ID);
                 }
-                else if (column.ColumnType == Enum_ColumnType.Date)
+                else if (column.OriginalColumnType == Enum_ColumnType.String && column.ColumnType == Enum_ColumnType.Date)
                 {
                     var convertToStringColumnMenu = AddMenu(contextMenu.Items, "تبدیل به نوع رشته", "", "../Images/string.png");
                     convertToStringColumnMenu.Click += (sender1, EventArgs) => ConvertToStringColumnType_Click1(sender, e, column.ID);
@@ -764,11 +797,11 @@ namespace MyProject_WPF
         }
         void ConvertToStringColumnType_Click1(object sender, RoutedEventArgs e, int columnID)
         {
-            bizColumn.ConvertToStringColumnType(columnID);
+            bizColumn.ConvertDateColumnToStringColumnType(columnID);
         }
         void ConvertToDateColumnType_Click1(object sender, RoutedEventArgs e, int columnID)
         {
-            bizColumn.ConvertToDateColumnType(columnID);
+            bizColumn.ConvertStringColumnToDateColumnType(columnID);
         }
         void DefineColumnValueForColumn(object sender, RoutedEventArgs e, ColumnDTO column)
         {

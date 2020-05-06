@@ -56,7 +56,33 @@ namespace MyUILibrary
                 return "";
         }
 
+        public static DateTime GetMiladiDateFromShamsi(string date)
+        {
+            System.Globalization.PersianCalendar P = new System.Globalization.PersianCalendar();
 
+            string shdate = date;
+            var t = shdate.Split('/');
+            int Y = Convert.ToInt32(t[0]);
+            int M = Convert.ToInt32(t[1]);
+            int D = (t[2].Length > 2) ? Convert.ToInt32(t[2].Substring(0, 2)) : Convert.ToInt32(t[2]);
+            DateTime MDate = P.ToDateTime(Y, M, D, 0, 0, 0, 0);
+            return MDate;
+        }
+        public static string GetShamsiDateFromMiladi(DateTime date)
+        {
+            System.Globalization.PersianCalendar a = new System.Globalization.PersianCalendar();
+            // DateTime today = DateTime.Today;
+            string year = a.GetYear(date).ToString();
+            //if (year.Length == 4)
+            //    year = year.Remove(0, 2);
+            string month = a.GetMonth(date).ToString();
+            if (month.Length == 1)
+                month = "0" + month;
+            string day = a.GetDayOfMonth(date).ToString();
+            if (day.Length == 1)
+                day = "0" + day;
+            return year + "/" + month + "/" + day;
+        }
 
         //public static void SetPropertyTitleOneData(RelationshipColumnControlOneData propertyControl)
         //{

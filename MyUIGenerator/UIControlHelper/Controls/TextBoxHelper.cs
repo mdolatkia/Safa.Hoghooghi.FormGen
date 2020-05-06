@@ -128,6 +128,8 @@ namespace MyUIGenerator.UIControlHelper
         }
         public void SetBinding(EntityInstanceProperty property)
         {
+            var bindinga = textBox.GetBindingExpression(TextBox.TextProperty);
+
             Binding binding = new Binding("Value");
             binding.Mode = BindingMode.TwoWay;
             binding.Source = property;

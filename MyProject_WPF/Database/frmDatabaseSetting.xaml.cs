@@ -34,12 +34,16 @@ namespace MyProject_WPF
             txtDBTitle.Text = Message.Title;
             if (Message.DatabaseSetting == null)
                 Message.DatabaseSetting = new DatabaseSettingDTO();
-          //  chkShowNullValue.IsChecked = Message.DatabaseSetting.ShowNullValue;
+            chkFlowDirectionLTR.IsChecked = Message.DatabaseSetting.FlowDirectionLTR;
+            chkShowMiladiDateInUI.IsChecked = Message.DatabaseSetting.ShowMiladiDateInUI;
+            chkStringDateColumnIsMiladi.IsChecked = Message.DatabaseSetting.StringDateColumnIsMiladi;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-
+            Message.DatabaseSetting.FlowDirectionLTR = chkFlowDirectionLTR.IsChecked == true;
+            Message.DatabaseSetting.ShowMiladiDateInUI = chkShowMiladiDateInUI.IsChecked == true;
+            Message.DatabaseSetting.StringDateColumnIsMiladi = chkStringDateColumnIsMiladi.IsChecked == true;
             bizDatabase.SaveDatabaseSetting(Message.ID, Message.DatabaseSetting);
             MessageBox.Show("عملیات انجام شد");
             if (DatabaseUpdated != null)

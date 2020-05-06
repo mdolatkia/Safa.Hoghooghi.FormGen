@@ -6,6 +6,7 @@ using MyUILibrary.Temp;
 using ProxyLibrary;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,63 +14,37 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using WpfPersianDatePicker.Views;
 
 namespace MyUIGenerator.UIControlHelper
 {
     public class DatePickerHelper : BaseControlHelper, I_ControlHelper
     {
-        DatePicker textBox;
+        Control textBox;
         ComboBox cmbOperators;
 
         public FrameworkElement MainControl { get { return textBox; } }
         public FrameworkElement WholeControl { get { return theGrid; } }
+
+        bool ValueIsPersianDate = false;
         public DatePickerHelper(ColumnDTO correspondingTypeProperty, ColumnUISettingDTO columnSetting, List<SimpleSearchOperator> operators = null)
         {
-            //UIControlPackage package = new UIControlPackage();
-
-            //UIControlSetting controlUISetting = new UIControlSetting();
-            //controlUISetting.DesieredColumns = ColumnWidth.Normal;
-            //controlUISetting.DesieredRows = 1;
-            //if (columnSetting.IsReadOnly && columnSetting.LabelForReadOnlyText == true)
-            //{
-            //    var textBox = new TextBlock();
-
-            //    //textBox.Margin = new System.Windows.Thickness(5);
-            //    textBox.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-            //    textBox.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-
-            //    package.FrameworkElement = new FrameworkElement() { Control = textBox, UIControlSetting = columnSetting.UISetting };
-            //}
-            //else
-            //{+
-            //if (operators == null || operators.Count == 0)
-            //{
-            //    var textBox = new DatePicker();
-            //    textBox.SelectedDateChanged += (sender, e) => textBox_SelectedDateChanged(sender, e);
-            //    //textBox.IsEnabled = !columnSetting.IsReadOnly;
-            //    //if (!columnSetting.GridView)
-            //    //{
-            //    //    //textBox.Width = 200;
-            //    //    textBox.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-            //    //}
-            //    //else
-            //    textBox.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-
-            //    //   textBox.Margin = new System.Windows.Thickness(5);
-            //    //textBox.MinHeight = 24;
-            //    //textBox.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-            //    textBox.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-            //    return textBox;
-            //}
-            //else
-            //{
             theGrid = new Grid();
             theGrid.ColumnDefinitions.Add(new ColumnDefinition());
             theGrid.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-
-            textBox = new DatePicker();
+            ValueIsPersianDate = !correspondingTypeProperty.DateColumnType.StringValueIsMiladi;
+            if (!correspondingTypeProperty.DateColumnType.ShowMiladiDateInUI)
+            {
+                textBox = new PDatePicker();
+                (textBox as PDatePicker).SelectedDateChanged += DatePickerHelper_SelectedDateChanged;
+            }
+            else
+            {
+                textBox = new DatePicker();
+                (textBox as DatePicker).SelectedDateChanged += (sender, e) => textBox_SelectedDateChanged(sender, e);
+            }
             textBox.Name = "txtControl";
-            textBox.SelectedDateChanged += (sender, e) => textBox_SelectedDateChanged(sender, e);
+            //
             textBox.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
             //   textBox.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             theGrid.Children.Add(textBox);
@@ -93,21 +68,65 @@ namespace MyUIGenerator.UIControlHelper
             //return package;
         }
 
+        //private void DatePickerHelper_GotFocus(object sender, RoutedEventArgs e)
+        //{
+        //    var binding = textBox.GetBindingExpression(PDatePicker.SelectedDateProperty);
+        //    var bindinga = textBox.GetBindingExpression(PDatePicker.SelectedPersianDateProperty);
+
+
+        //}
+
+        private void DatePickerHelper_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var binding = textBox.GetBindingExpression(PDatePicker.SelectedDateProperty);
+            var bindinga = textBox.GetBindingExpression(PDatePicker.SelectedPersianDateProperty);
+        }
+
         void textBox_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            //ColumnValueChangeArg arg = new ColumnValueChangeArg();
-            //arg.NewValue = GetValue(uiControlPackage);
-            //uiControlPackage.OnValueChanged(sender, arg);
+            var binding = textBox.GetBindingExpression(PDatePicker.SelectedDateProperty);
+            var bindinga = textBox.GetBindingExpression(PDatePicker.SelectedPersianDateProperty);
         }
         public bool SetValue(object value)
         {
-            textBox.Text = value == null ? "" : value.ToString();
+            if (textBox is PDatePicker)
+            {
+                if (ValueIsPersianDate)
+                    (textBox as PDatePicker).SelectedPersianDate = value == null ? "" : value.ToString();
+                else
+                    (textBox as PDatePicker).SelectedDate = value == null ? "" : value.ToString();
+            }
+            else
+            {
+                if (ValueIsPersianDate && value != null && value.ToString() != "")
+                {
+                    var date = AgentHelper.GetMiladiDateFromShamsi(value.ToString());
+                }
+                else
+                    (textBox as DatePicker).Text = value == null ? "" : value.ToString();
+
+            }
             return true;
         }
 
         public string GetValue()
         {
-            return textBox.Text;
+            if (textBox is PDatePicker)
+            {
+                if (ValueIsPersianDate)
+                    return (textBox as PDatePicker).SelectedPersianDate;
+                else
+                    return (textBox as PDatePicker).SelectedDate?.ToString();
+            }
+            else
+            {
+                if (ValueIsPersianDate && (textBox as DatePicker).SelectedDate != null)
+                {
+                    return AgentHelper.GetShamsiDateFromMiladi((textBox as DatePicker).SelectedDate.Value);
+                }
+                else
+                    return (textBox as DatePicker).SelectedDate?.ToString();
+            }
         }
 
         public CommonOperator GetOperator()
@@ -180,8 +199,26 @@ namespace MyUIGenerator.UIControlHelper
         {
             Binding binding = new Binding("Value");
             binding.Source = property;
-            textBox.SetBinding(DatePicker.SelectedDateProperty, binding);
-
+            binding.Mode = BindingMode.TwoWay;
+            if (textBox is PDatePicker)
+            {
+                if (ValueIsPersianDate)
+                    textBox.SetBinding(PDatePicker.SelectedPersianDateProperty, binding);
+                else
+                {
+                    textBox.SetBinding(PDatePicker.SelectedDateProperty, binding);
+                }
+            }
+            else
+            {
+                if (ValueIsPersianDate)
+                {
+                    binding.Converter = new ConverterDate();
+                    textBox.SetBinding(DatePicker.SelectedDateProperty, binding);
+                }
+                else
+                    textBox.SetBinding(DatePicker.SelectedDateProperty, binding);
+            }
         }
 
         //public void AddButtonMenu(ConrolPackageMenu menu)
@@ -200,5 +237,27 @@ namespace MyUIGenerator.UIControlHelper
         //    ConrolPackageMenuArg arg = new ConrolPackageMenuArg();
         //    menu.OnMenuClicked(sender, arg);
         //}
+    }
+    public class ConverterDate : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value != null && value.ToString() != "")
+            {
+                return AgentHelper.GetMiladiDateFromShamsi(value.ToString());
+            }
+            else
+                return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value != null)
+            {
+                return AgentHelper.GetShamsiDateFromMiladi((DateTime)value);
+            }
+            else
+                return null;
+        }
     }
 }

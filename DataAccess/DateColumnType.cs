@@ -15,7 +15,8 @@ namespace DataAccess
     public partial class DateColumnType
     {
         public int ColumnID { get; set; }
-        public bool IsPersianDate { get; set; }
+        public bool ShowMiladiDateInUI { get; set; }
+        public bool StringValueIsMiladi { get; set; }
     
         public virtual Column Column { get; set; }
     }

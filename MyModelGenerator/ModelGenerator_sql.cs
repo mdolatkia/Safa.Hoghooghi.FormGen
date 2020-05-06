@@ -167,11 +167,6 @@ namespace MyModelGenerator
                                 column.IsIdentity = columnRow["IsIdentity"].ToString() == "1";
                                 column.Position = Convert.ToInt32(columnRow["ORDINAL_POSITION"].ToString());
                                 column.DefaultValue = (columnRow["COLUMN_DEFAULT"] == null ? null : columnRow["COLUMN_DEFAULT"].ToString());
-
-
-
-
-
                                 if (IsStringType(column))
                                 {
                                     //column. = Convert.ToByte(Enum_ColumnType.String);
@@ -179,7 +174,8 @@ namespace MyModelGenerator
                                     //    column.DateColumnType = null;
                                     //if (column.NumericColumnType != null)
                                     //    column.NumericColumnType = null;
-
+                                    column.OriginalColumnType = Enum_ColumnType.String;
+                                    column.ColumnType = Enum_ColumnType.String;
                                     if (column.StringColumnType == null)
                                         column.StringColumnType = new StringColumnTypeDTO();
                                     column.StringColumnType.MaxLength = (columnRow["CHARACTER_MAXIMUM_LENGTH"] == null ? 0 : Convert.ToInt32(columnRow["CHARACTER_MAXIMUM_LENGTH"]));
@@ -191,7 +187,8 @@ namespace MyModelGenerator
                                     //    column.DateColumnType = null;
                                     //if (column.StringColumnType != null)
                                     //    column.StringColumnType = null;
-
+                                    column.OriginalColumnType = Enum_ColumnType.Numeric;
+                                    column.ColumnType = Enum_ColumnType.Numeric;
                                     if (column.NumericColumnType == null)
                                         column.NumericColumnType = new NumericColumnTypeDTO();
                                     if (columnRow["NUMERIC_PRECISION"] != null)
@@ -206,13 +203,16 @@ namespace MyModelGenerator
                                     //    column.StringColumnType = null;
                                     //if (column.NumericColumnType != null)
                                     //    column.NumericColumnType = null;
-
+                                    column.OriginalColumnType = Enum_ColumnType.Date;
+                                    column.ColumnType = Enum_ColumnType.Date;
                                     if (column.DateColumnType == null)
                                         column.DateColumnType = new DateColumnTypeDTO();
                                 }
                                 else if (IsBooleanType(column))
                                 {
-                                    column.IsBoolean = true;
+                                    column.OriginalColumnType = Enum_ColumnType.Boolean;
+                                    column.ColumnType = Enum_ColumnType.Boolean;
+                                    //column.IsBoolean = true;
                                     //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Boolean);
                                     //if (column.StringColumnType != null)
                                     //    column.StringColumnType = null;
@@ -322,7 +322,7 @@ namespace MyModelGenerator
         //}
         private bool IsStringType(ColumnDTO column)
         {
-            return (column.DataType == "char" || column.DataType == "nvarchar" || column.DataType == "varchar" || column.DataType == "text");
+            return (column.DataType == "char" || column.DataType == "nchar" || column.DataType == "nvarchar" || column.DataType == "varchar" || column.DataType == "text");
         }
         private bool IsBooleanType(ColumnDTO column)
         {

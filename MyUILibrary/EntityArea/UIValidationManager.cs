@@ -10,6 +10,7 @@ using CommonDefinitions.UISettings;
 using MyUILibraryInterfaces.FormulaCalculationArea;
 using MyUILibrary.FormulaArea;
 using MyUILibrary.Temp;
+using System.Text.RegularExpressions;
 
 namespace MyUILibrary.EntityArea
 {
@@ -575,14 +576,14 @@ namespace MyUILibrary.EntityArea
         {
             if (simplePropertyControl.Column.IsMandatory == true)
             {
-                if (dataColumn.Value == null || dataColumn.Value == "")
+                if (dataColumn.Value == null || dataColumn.Value.ToString() == "")
                 {
                     if (dataItem.IsNewItem == false || simplePropertyControl.Column.IsIdentity == false)
                         AddColumnControlValidationMessage(simplePropertyControl, "مقدار دهی این خصوصیت اجباری می باشد", dataItem);
 
                 }
             }
-            if (dataColumn.Value != null && dataColumn.Value != "")
+            if (dataColumn.Value != null && dataColumn.Value.ToString() != "")
             {
                 if (simplePropertyControl.Column.StringColumnType != null)
                 {
@@ -619,6 +620,21 @@ namespace MyUILibrary.EntityArea
                         }
                     }
                 }
+                if (simplePropertyControl.Column.StringColumnType != null)
+                {
+                    if (!string.IsNullOrEmpty( simplePropertyControl.Column.StringColumnType.Format ))
+                    {
+                        Regex regex = new Regex(simplePropertyControl.Column.StringColumnType.Format);
+                        if (!regex.IsMatch(dataColumn.Value.ToString()))
+                        {
+                            string message = "فرمت این خصوصیت صحیح نمی باشد";
+                            AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
+                        }
+                    }
+                }
+
+
+
                 if (simplePropertyControl.Column.ColumnValueRange != null
                     && simplePropertyControl.Column.ColumnValueRange.Details.Any())
                 {

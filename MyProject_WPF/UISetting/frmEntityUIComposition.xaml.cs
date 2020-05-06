@@ -62,6 +62,8 @@ namespace MyProject_WPF
 
         private void SetEntityColumnOrRelationships()
         {
+           
+
             ColumnOrRelationships.Clear();
             foreach (var column in Entity.Columns.Where(x => x.DataEntryEnabled).OrderBy(x => x.Position))
             {
