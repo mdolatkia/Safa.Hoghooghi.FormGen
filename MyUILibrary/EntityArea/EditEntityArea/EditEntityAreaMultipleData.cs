@@ -436,7 +436,7 @@ namespace MyUILibrary.EntityArea
 
 
 
-        public string FetchTypePropertyControlValue(DP_DataRepository dataRepository, SimpleColumnControl SimpleColumnControlMultipleData)
+        public object FetchTypePropertyControlValue(DP_DataRepository dataRepository, SimpleColumnControl SimpleColumnControlMultipleData)
         {
             //if (AreaInitializer.DataMode == DataMode.Multiple)
             return SimpleColumnControlMultipleData.SimpleControlManager.GetValue(dataRepository);

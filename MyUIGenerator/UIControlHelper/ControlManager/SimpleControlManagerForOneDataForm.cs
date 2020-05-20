@@ -22,13 +22,13 @@ namespace MyUIGenerator.UIControlHelper
         public ColumnDTO Column { set; get; }
         public ColumnUISettingDTO ColumnUISettingDTO { set; get; }
         MenuHelper MenuHelper = new MenuHelper();
-        public SimpleControlManagerForOneDataForm(ColumnDTO column, ColumnUISettingDTO columnSetting, bool hasRangeOfValues, bool valueIsTitleOrValue, List<SimpleSearchOperator> operators = null) : base()
+        public SimpleControlManagerForOneDataForm(ColumnDTO column, ColumnUISettingDTO columnSetting, bool hasRangeOfValues, List<SimpleSearchOperator> operators = null) : base()
         {
             Column = column;
             ColumnUISettingDTO = columnSetting;
             //  RelatedControl = new List<FrameworkElement>();
             if (hasRangeOfValues)
-                MyControlHelper = ControlHelper.KeyValueControlHelper(column, valueIsTitleOrValue);
+                MyControlHelper = ControlHelper.KeyValueControlHelper(column);
             else
                 MyControlHelper = ControlHelper.GetControlHelper(column, columnSetting, operators);
         }
@@ -48,7 +48,7 @@ namespace MyUIGenerator.UIControlHelper
             return MyControlHelper.GetOperator();
         }
 
-        public string GetValue(object dataItem)
+        public object GetValue(object dataItem)
         {
             return MyControlHelper.GetValue();
         }

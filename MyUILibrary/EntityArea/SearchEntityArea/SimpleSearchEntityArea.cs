@@ -259,7 +259,7 @@ namespace MyUILibrary.EntityArea
                     propertyControl.EntitySearchColumn = searchcolumn;
                     propertyControl.Operators = GetSimpleColumnOperators(propertyControl.Column);
                     //        propertyControl.ControlPackage = new UIControlPackageForSimpleColumn();
-                    propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForOneDataForm(propertyControl.Column, GetColumnUISetting(propertyControl.Column), false, false, propertyControl.Operators, true, propertyControl.EntitySearchColumn.Alias);
+                    propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForOneDataForm(propertyControl.Column, GetColumnUISetting(propertyControl.Column), false, propertyControl.Operators, true, propertyControl.EntitySearchColumn.Alias);
                     if (!string.IsNullOrEmpty(propertyControl.EntitySearchColumn.Tooltip))
                         propertyControl.ControlManager.LabelControlManager.SetTooltip(null, propertyControl.EntitySearchColumn.Tooltip);
 
@@ -517,9 +517,9 @@ namespace MyUILibrary.EntityArea
             return quickSearchLogic;
         }
 
-        private bool PropertyHasValue(SimpleSearchColumnControl property, string value)
+        private bool PropertyHasValue(SimpleSearchColumnControl property, object value)
         {
-            return !string.IsNullOrEmpty(value)  && value.ToLower() != "0";
+            return value != null && !string.IsNullOrEmpty(value.ToString()) && value.ToString().ToLower() != "0";
         }
 
         //private bool PropertyHasValue(SearchProperty item)

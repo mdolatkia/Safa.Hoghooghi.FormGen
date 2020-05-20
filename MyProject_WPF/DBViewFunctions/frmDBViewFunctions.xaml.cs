@@ -48,29 +48,29 @@ namespace MyProject_WPF
             dataGrid.AutoGenerateColumns = false;
             //if (dataGrid == dtgViews)
             //{
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Catalog", "کاتالوگ", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("RelatedSchema", "شمای مرتبط", true, 100, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Catalog", "کاتالوگ", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("RelatedSchema", "شمای مرتبط", true,null, GridViewColumnType.Text));
             //}
             //else 
             if (dataGrid == dtgFunctions)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("FunctionName", "نام", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Title", "عنوان", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Catalog", "کاتالوگ", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("RelatedSchema", "شمای مرتبط", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ReturnType", "نوع نتیجه", true, 100, GridViewColumnType.Text));
-                //dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ValueCustomType", "نوع خاص", false, 100, GridViewColumnType.Enum, Enum.GetValues(typeof(ValueCustomType)).Cast<object>()));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("FunctionName", "نام", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Title", "عنوان", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Catalog", "کاتالوگ", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("RelatedSchema", "شمای مرتبط", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ReturnType", "نوع نتیجه", true,null, GridViewColumnType.Text));
+                //dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ValueCustomType", "نوع خاص", false,null, GridViewColumnType.Enum, Enum.GetValues(typeof(ValueCustomType)).Cast<object>()));
             }
 
             else if (dataGrid == dtgUniqueConstraint)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Table", "جدول", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Columns", "ستونها", true, 100, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Table", "جدول", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Columns", "ستونها", true,null, GridViewColumnType.Text));
             }
         }
 

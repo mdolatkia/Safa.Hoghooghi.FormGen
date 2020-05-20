@@ -65,11 +65,13 @@ namespace ModelEntites
         public bool ShowNullValue { get; set; }
 
         public bool IsIdentity { get; set; }
-     //   public bool IsStringOriginally { get; set; }
-      //  public bool IsBoolean { get; set; }
+        //   public bool IsStringOriginally { get; set; }
+        //  public bool IsBoolean { get; set; }
         public NumericColumnTypeDTO NumericColumnType { set; get; }
         public StringColumnTypeDTO StringColumnType { set; get; }
         public DateColumnTypeDTO DateColumnType { set; get; }
+        public DateTimeColumnTypeDTO DateTimeColumnType { set; get; }
+        public TimeColumnTypeDTO TimeColumnType { set; get; }
         public int ColumnValueRangeID { set; get; }
         public ColumnValueRangeDTO ColumnValueRange { set; get; }
 
@@ -119,9 +121,29 @@ namespace ModelEntites
     public class DateColumnTypeDTO
     {
         public int ColumnID { set; get; }
-        //public int MaxLength { get; set; }
         public bool ShowMiladiDateInUI { set; get; }
-        public bool StringValueIsMiladi { set; get; }
+        public bool? StringDateIsMiladi { set; get; }
+    }
+    public class DateTimeColumnTypeDTO
+    {
+        public int ColumnID { set; get; }
+        public bool ShowMiladiDateInUI { set; get; }
+        public bool HideTimePicker { set; get; }
+        public bool ShowAMPMFormat { set; get; }
+        public bool? StringDateIsMiladi { set; get; }
+        public bool? StringTimeIsMiladi { set; get; }
+        public bool? StringTimeISAMPMFormat { set; get; }
+    }
+    public class TimeColumnTypeDTO
+    {
+        public int ColumnID { set; get; }
+        //public int MaxLength { get; set; }
+        public bool ShowAMPMFormat { set; get; }
+        public bool ShowMiladiTime { set; get; }
+        public bool? StringTimeISAMPMFormat { get; set; }
+        public bool? StringTimeIsMiladi { get; set; }
+        //     public bool StringValueIsMiladi { set; get; }
+
         //  public bool ValueIsPersianDate { set; get; }
     }
     public enum GeorgianDateFormat
@@ -139,7 +161,7 @@ namespace ModelEntites
         public int ID { set; get; }
         //public int ColumnID { set; get; }
         //public int EntityID { set; get; }
-        public bool ValueFromTitleOrValue { set; get; }
+        //public bool ValueFromTitleOrValue { set; get; }
 
         public List<ColumnValueRangeDetailsDTO> Details { set; get; }
         //public string Name { get; set; }
@@ -160,7 +182,9 @@ namespace ModelEntites
         String,
         Numeric,
         Boolean,
-        Date
+        Date,
+        DateTime,
+        Time
     }
 
 

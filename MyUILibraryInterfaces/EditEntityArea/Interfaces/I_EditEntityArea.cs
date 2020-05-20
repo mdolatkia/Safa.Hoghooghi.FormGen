@@ -286,7 +286,7 @@ namespace MyUILibrary.EntityArea
         bool ShowDatasInDataView(List<DP_DataRepository> dataItems);
 
         I_View_EditEntityAreaMultiple SpecializedDataView { get; }
-        string FetchTypePropertyControlValue(DP_DataRepository dataRepository, SimpleColumnControl typePropertyControl);
+        object FetchTypePropertyControlValue(DP_DataRepository dataRepository, SimpleColumnControl typePropertyControl);
         bool ShowTypePropertyControlValue(DP_DataRepository dataItem, SimpleColumnControl typePropertyControl, string value);
         List<DP_DataRepository> GetSelectedData();
     }
@@ -683,7 +683,7 @@ namespace MyUILibrary.EntityArea
         void SetReadonly(object dataItem, bool isreadonly);
         void SetReadonly(bool isreadonly);
         bool SetValue(object dataItem, object value);
-        string GetValue(object dataItem);
+        object GetValue(object dataItem);
         void AddButtonMenu(ConrolPackageMenu menu);
         void AddButtonMenu(object dataItem, ConrolPackageMenu menu);
 

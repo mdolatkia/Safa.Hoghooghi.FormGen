@@ -80,7 +80,7 @@ namespace MyUIGenerator.UIControlHelper
             return true;
         }
 
-        public string GetValue()
+        public object GetValue()
         {
             return textBox.Text;
         }

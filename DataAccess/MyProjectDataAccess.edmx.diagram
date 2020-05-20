@@ -5,146 +5,151 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="84bc6a464cdf489191fdd2ec5ce7d5f4" Name="Diagram1" ZoomLevel="106">
-        <EntityTypeShape EntityType="MyProjectModel.ArchiveFolder" Width="1.5" PointX="16.5" PointY="105.625" />
-        <EntityTypeShape EntityType="MyProjectModel.ArchiveTag" Width="1.5" PointX="16.5" PointY="146.625" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityArchiveRelationshipTails" Width="1.5" PointX="21.75" PointY="181.375" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityLetterRelationshipTails" Width="1.5" PointX="18.75" PointY="181.375" />
-        <EntityTypeShape EntityType="MyProjectModel.ArcRelationshipGroup" Width="1.5" PointX="16.5" PointY="216.75" />
-        <EntityTypeShape EntityType="MyProjectModel.ArcRelationshipGroup_Relationship" Width="1.5" PointX="24.75" PointY="179.125" />
-        <EntityTypeShape EntityType="MyProjectModel.BackendActionActivity" Width="1.5" PointX="16.5" PointY="142.375" />
-        <EntityTypeShape EntityType="MyProjectModel.CharetReportCategories" Width="1.5" PointX="27" PointY="191.875" />
-        <EntityTypeShape EntityType="MyProjectModel.CharetReportSeries" Width="1.5" PointX="27" PointY="194.75" />
-        <EntityTypeShape EntityType="MyProjectModel.CharetReportValues" Width="1.5" PointX="24" PointY="193.75" />
-        <EntityTypeShape EntityType="MyProjectModel.CodeFunction" Width="1.5" PointX="14.25" PointY="132.875" />
-        <EntityTypeShape EntityType="MyProjectModel.CodeFunction_TableDrivedEntity" Width="1.5" PointX="22.5" PointY="146.625" />
-        <EntityTypeShape EntityType="MyProjectModel.CodeFunction_TableDrivedEntity_Parameters" Width="1.5" PointX="11.25" PointY="146.625" />
-        <EntityTypeShape EntityType="MyProjectModel.CodeFunctionParameter" Width="1.5" PointX="9" PointY="135.75" />
-        <EntityTypeShape EntityType="MyProjectModel.Column" Width="1.5" PointX="6" PointY="139.875" />
-        <EntityTypeShape EntityType="MyProjectModel.ColumnPhrase" Width="1.5" PointX="29" PointY="163.625" />
-        <EntityTypeShape EntityType="MyProjectModel.ColumnUISetting" Width="1.5" PointX="18.75" PointY="160.625" />
-        <EntityTypeShape EntityType="MyProjectModel.ColumnValue_ValidValues" Width="1.5" PointX="24" PointY="164.125" />
-        <EntityTypeShape EntityType="MyProjectModel.ColumnValueRange" Width="1.5" PointX="8.25" PointY="143.125" />
-        <EntityTypeShape EntityType="MyProjectModel.ColumnValueRangeDetails" Width="1.5" PointX="10.5" PointY="142.875" />
-        <EntityTypeShape EntityType="MyProjectModel.CrosstabReportColumns" Width="1.5" PointX="21" PointY="195.25" />
-        <EntityTypeShape EntityType="MyProjectModel.CrosstabReportRows" Width="1.5" PointX="24" PointY="197.25" />
-        <EntityTypeShape EntityType="MyProjectModel.CrosstabReportValues" Width="1.5" PointX="27" PointY="188.25" />
-        <EntityTypeShape EntityType="MyProjectModel.DatabaseFunction" Width="1.5" PointX="10.5" PointY="152.5" />
-        <EntityTypeShape EntityType="MyProjectModel.DatabaseFunction_TableDrivedEntity" Width="1.5" PointX="19.5" PointY="148.875" />
-        <EntityTypeShape EntityType="MyProjectModel.DatabaseFunction_TableDrivedEntity_Columns" Width="1.5" PointX="21.75" PointY="150.375" />
-        <EntityTypeShape EntityType="MyProjectModel.DatabaseFunctionParameter" Width="1.5" PointX="12.75" PointY="153" />
-        <EntityTypeShape EntityType="MyProjectModel.DatabaseInformation" Width="1.5" PointX="3" PointY="147.25" />
-        <EntityTypeShape EntityType="MyProjectModel.DataLinkDefinition" Width="1.5" PointX="16.5" PointY="112" />
-        <EntityTypeShape EntityType="MyProjectModel.DataLinkDefinition_EntityRelationshipTail" Width="1.5" PointX="21.75" PointY="167.25" />
-        <EntityTypeShape EntityType="MyProjectModel.DataMenuDataViewRelationship" Width="1.5" PointX="21.75" PointY="202.75" />
-        <EntityTypeShape EntityType="MyProjectModel.DataMenuGridViewRelationship" Width="1.5" PointX="21.75" PointY="210.75" />
-        <EntityTypeShape EntityType="MyProjectModel.DataMenuReportRelationship" Width="1.5" PointX="21.75" PointY="206.5" />
-        <EntityTypeShape EntityType="MyProjectModel.DataMenuSetting" Width="1.5" PointX="16.5" PointY="190.875" />
-        <EntityTypeShape EntityType="MyProjectModel.DataViewSetting" Width="1.5" PointX="18.75" PointY="171.125" />
-        <EntityTypeShape EntityType="MyProjectModel.DBSchema" Width="1.5" PointX="8.25" PointY="148.625" />
-        <EntityTypeShape EntityType="MyProjectModel.DBServer" Width="1.5" PointX="0.75" PointY="147.625" />
-        <EntityTypeShape EntityType="MyProjectModel.EmptySpaceUISetting" Width="1.5" PointX="18.75" PointY="158.125" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityChartReport" Width="1.5" PointX="21.75" PointY="198.375" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityCommand" Width="1.5" PointX="3" PointY="143.625" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityCrosstabReport" Width="1.5" PointX="18.75" PointY="199.5" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityDataLinkReport" Width="1.5" PointX="18.75" PointY="112.375" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityDataViewReport" Width="1.5" PointX="29.25" PointY="146.5" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityDeterminer" Width="1.5" PointX="16.5" PointY="137.875" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityDirectlReport" Width="1.5" PointX="24.75" PointY="140" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityExternalReport" Width="1.5" PointX="29.25" PointY="151.25" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityGridViewReport" Width="1.5" PointX="29.25" PointY="148.875" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityListReport" Width="1.5" PointX="18.75" PointY="195.5" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityListReportSubs" Width="1.5" PointX="27" PointY="204.625" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityListReportSubsColumns" Width="1.5" PointX="29.25" PointY="195" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityListView" Width="1.5" PointX="16.5" PointY="199" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityListViewColumns" Width="1.5" PointX="18.75" PointY="184.625" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityRelationshipTail" Width="1.5" PointX="16.5" PointY="219.5" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityReport" Width="1.5" PointX="22.5" PointY="139.5" />
-        <EntityTypeShape EntityType="MyProjectModel.EntitySearch" Width="1.5" PointX="16.5" PointY="181.5" />
-        <EntityTypeShape EntityType="MyProjectModel.EntitySearchableReport" Width="1.5" PointX="27" PointY="148" />
-        <EntityTypeShape EntityType="MyProjectModel.EntitySearchColumns" Width="1.5" PointX="24.75" PointY="182.625" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityState_UIActionActivity" Width="1.5" PointX="30" PointY="180.75" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityUIComposition" Width="1.5" PointX="16.5" PointY="159.25" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityUISetting" Width="1.5" PointX="18.75" PointY="166.5" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityValidation" Width="1.5" PointX="21.75" PointY="160.125" />
-        <EntityTypeShape EntityType="MyProjectModel.ExplicitOneToOneRelationshipType" Width="1.5" PointX="24" PointY="150.125" />
-        <EntityTypeShape EntityType="MyProjectModel.Formula" Width="1.5" PointX="16.5" PointY="176.5" />
-        <EntityTypeShape EntityType="MyProjectModel.FormulaItems" Width="1.5" PointX="29" PointY="158.125" />
-        <EntityTypeShape EntityType="MyProjectModel.GridViewSetting" Width="1.5" PointX="21.75" PointY="171.25" />
-        <EntityTypeShape EntityType="MyProjectModel.GroupUISetting" Width="1.5" PointX="18.75" PointY="163.375" />
-        <EntityTypeShape EntityType="MyProjectModel.ImplicitOneToOneRelationshipType" Width="1.5" PointX="24" PointY="153" />
-        <EntityTypeShape EntityType="MyProjectModel.ISARelationship" Width="1.5" PointX="21.75" PointY="122.625" />
-        <EntityTypeShape EntityType="MyProjectModel.LetterEnabledEntities" Width="1.5" PointX="16.5" PointY="174.375" />
-        <EntityTypeShape EntityType="MyProjectModel.LetterSetting" Width="1.5" PointX="16.5" PointY="133.375" />
-        <EntityTypeShape EntityType="MyProjectModel.LetterTemplate" Width="1.5" PointX="21.75" PointY="174.75" />
-        <EntityTypeShape EntityType="MyProjectModel.LetterTemplatePlainField" Width="1.5" PointX="27" PointY="179" />
-        <EntityTypeShape EntityType="MyProjectModel.LetterTemplateRelationshipField" Width="1.5" PointX="26.25" PointY="198.375" />
-        <EntityTypeShape EntityType="MyProjectModel.LetterType" Width="1.5" PointX="16.5" PointY="115.375" />
-        <EntityTypeShape EntityType="MyProjectModel.LinkedServer" Width="1.5" PointX="3" PointY="151.75" />
-        <EntityTypeShape EntityType="MyProjectModel.LogicPhrase" Width="1.5" PointX="22.5" PointY="126.875" />
-        <EntityTypeShape EntityType="MyProjectModel.MainLetterTemplate" Width="1.5" PointX="24" PointY="170" />
-        <EntityTypeShape EntityType="MyProjectModel.ManyToManyRelationshipType" Width="1.5" PointX="24.75" PointY="127.125" />
-        <EntityTypeShape EntityType="MyProjectModel.ManyToOneRelationshipType" Width="1.5" PointX="27" PointY="134" />
-        <EntityTypeShape EntityType="MyProjectModel.NavigationTree" Width="1.5" PointX="16.5" PointY="108.125" />
-        <EntityTypeShape EntityType="MyProjectModel.OneToManyRelationshipType" Width="1.5" PointX="24" PointY="136.625" />
-        <EntityTypeShape EntityType="MyProjectModel.PartialLetterTemplate" Width="1.5" PointX="24" PointY="186.75" />
-        <EntityTypeShape EntityType="MyProjectModel.Phrase" Width="1.5" PointX="31.25" PointY="159.625" />
-        <EntityTypeShape EntityType="MyProjectModel.Relationship" Width="1.5" PointX="19.5" PointY="141.625" />
-        <EntityTypeShape EntityType="MyProjectModel.RelationshipColumns" Width="1.5" PointX="24.75" PointY="143.625" />
-        <EntityTypeShape EntityType="MyProjectModel.RelationshipSearchFilter" Width="1.5" PointX="8.25" PointY="139.25" />
-        <EntityTypeShape EntityType="MyProjectModel.RelationshipType" Width="1.5" PointX="21.75" PointY="132.875" />
-        <EntityTypeShape EntityType="MyProjectModel.RelationshipUISetting" Width="1.5" PointX="18.75" PointY="152.25" />
-        <EntityTypeShape EntityType="MyProjectModel.ReportGroups" Width="1.5" PointX="24" PointY="190.25" />
-        <EntityTypeShape EntityType="MyProjectModel.SearchRepository" Width="1.5" PointX="24.75" PointY="156" />
-        <EntityTypeShape EntityType="MyProjectModel.SubSystems" Width="1.5" PointX="3" PointY="164.75" />
-        <EntityTypeShape EntityType="MyProjectModel.SubToSuperRelationshipType" Width="1.5" PointX="24" PointY="130" />
-        <EntityTypeShape EntityType="MyProjectModel.SubUnionToUnionRelationshipType" Width="1.5" PointX="27" PointY="137" />
-        <EntityTypeShape EntityType="MyProjectModel.SuperToSubRelationshipType" Width="1.5" PointX="27" PointY="131" />
-        <EntityTypeShape EntityType="MyProjectModel.TabGroupUISetting" Width="1.5" PointX="18.75" PointY="155.25" />
-        <EntityTypeShape EntityType="MyProjectModel.Table" Width="1.5" PointX="10.5" PointY="156.75" />
-        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntity" Width="1.5" PointX="14.25" PointY="138" />
-        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntity_Columns" Width="1.5" PointX="19.5" PointY="138.875" />
-        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntity_EntityCommand" Width="1.5" PointX="22.5" PointY="143.875" />
-        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntityState" Width="1.5" PointX="24.75" PointY="173.5" />
-        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntityStateValues" Width="1.5" PointX="27" PointY="182.375" />
-        <EntityTypeShape EntityType="MyProjectModel.TabPageUISetting" Width="1.5" PointX="18.75" PointY="168.875" />
-        <EntityTypeShape EntityType="MyProjectModel.UIActionActivity" Width="1.5" PointX="16.5" PointY="187.375" />
-        <EntityTypeShape EntityType="MyProjectModel.UIColumnValue" Width="1.5" PointX="21.75" PointY="163.875" />
-        <EntityTypeShape EntityType="MyProjectModel.UIColumnValueRange" Width="1.5" PointX="18.75" PointY="190.75" />
-        <EntityTypeShape EntityType="MyProjectModel.UIEnablityDetails" Width="1.5" PointX="26.75" PointY="160.625" />
-        <EntityTypeShape EntityType="MyProjectModel.UnionRelationshipType" Width="1.5" PointX="21.75" PointY="129.875" />
-        <EntityTypeShape EntityType="MyProjectModel.UnionToSubUnionRelationshipType" Width="1.5" PointX="24" PointY="133" />
-        <EntityTypeShape EntityType="MyProjectModel.UniqueConstraint" Width="1.5" PointX="12.75" PointY="156.875" />
-        <EntityTypeShape EntityType="MyProjectModel.ConditionalPermission" Width="1.5" PointX="21.75" PointY="154.375" />
-        <EntityTypeShape EntityType="MyProjectModel.ConditionalPermission_Action" Width="1.5" PointX="24" PointY="161.5" />
-        <EntityTypeShape EntityType="MyProjectModel.EntitySecurityCondition" Width="1.5" PointX="21.75" PointY="184.625" />
-        <EntityTypeShape EntityType="MyProjectModel.EntitySecurityDirect" Width="1.5" PointX="16.5" PointY="149.5" />
-        <EntityTypeShape EntityType="MyProjectModel.EntitySecurityInDirect" Width="1.5" PointX="18.75" PointY="174.375" />
-        <EntityTypeShape EntityType="MyProjectModel.Organization" Width="1.5" PointX="5.25" PointY="134" />
-        <EntityTypeShape EntityType="MyProjectModel.OrganizationPost" Width="1.5" PointX="31.5" PointY="154.25" />
-        <EntityTypeShape EntityType="MyProjectModel.OrganizationType" Width="1.5" PointX="3" PointY="137.75" />
-        <EntityTypeShape EntityType="MyProjectModel.OrganizationType_RoleType" Width="1.5" PointX="29.25" PointY="174.875" />
-        <EntityTypeShape EntityType="MyProjectModel.Permission" Width="1.5" PointX="3" PointY="140.75" />
-        <EntityTypeShape EntityType="MyProjectModel.Permission_Action" Width="1.5" PointX="5.25" PointY="136.875" />
-        <EntityTypeShape EntityType="MyProjectModel.RoleType" Width="1.5" PointX="27" PointY="212.25" />
-        <EntityTypeShape EntityType="MyProjectModel.SecurityObject" Width="1.5" PointX="0.75" PointY="143.125" />
-        <EntityTypeShape EntityType="MyProjectModel.SecuritySubject" Width="1.5" PointX="0.75" PointY="139.375" />
-        <EntityTypeShape EntityType="MyProjectModel.User" Width="1.5" PointX="29.25" PointY="154.5" />
-        <EntityTypeShape EntityType="MyProjectModel.Action" Width="1.5" PointX="18.75" PointY="203.125" />
-        <EntityTypeShape EntityType="MyProjectModel.Activity" Width="1.5" PointX="18.75" PointY="210.125" />
-        <EntityTypeShape EntityType="MyProjectModel.ActivityTarget" Width="1.5" PointX="21" PointY="216" />
-        <EntityTypeShape EntityType="MyProjectModel.ActivityTarget_RoleType" Width="1.5" PointX="23.25" PointY="216" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityGroup" Width="1.5" PointX="18.75" PointY="213.75" />
-        <EntityTypeShape EntityType="MyProjectModel.EntityGroup_Relationship" Width="1.5" PointX="21" PointY="219.25" />
-        <EntityTypeShape EntityType="MyProjectModel.Process" Width="1.5" PointX="16.5" PointY="208.125" />
-        <EntityTypeShape EntityType="MyProjectModel.State" Width="1.5" PointX="18.75" PointY="206.375" />
-        <EntityTypeShape EntityType="MyProjectModel.State_Formula" Width="1.5" PointX="21" PointY="191.875" />
-        <EntityTypeShape EntityType="MyProjectModel.StateActivity" Width="1.5" PointX="24" PointY="211.75" />
-        <EntityTypeShape EntityType="MyProjectModel.Transition" Width="1.5" PointX="24" PointY="207.25" />
-        <EntityTypeShape EntityType="MyProjectModel.TransitionAction" Width="1.5" PointX="24" PointY="202.875" />
-        <EntityTypeShape EntityType="MyProjectModel.TransitionAction_EntityGroup" Width="1.5" PointX="29.25" PointY="208.375" />
-        <EntityTypeShape EntityType="MyProjectModel.TransitionAction_Formula" Width="1.5" PointX="18.75" PointY="177.5" />
-        <EntityTypeShape EntityType="MyProjectModel.TransitionActionTarget" Width="1.5" PointX="29.25" PointY="203.25" />
-        <EntityTypeShape EntityType="MyProjectModel.TransitionActivity" Width="1.5" PointX="26.25" PointY="209.125" />
+        <EntityTypeShape EntityType="MyProjectModel.ArchiveFolder" Width="1.5" PointX="13.5" PointY="204.625" />
+        <EntityTypeShape EntityType="MyProjectModel.ArchiveTag" Width="1.5" PointX="13.5" PointY="112.25" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityArchiveRelationshipTails" Width="1.5" PointX="15.75" PointY="170.375" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityLetterRelationshipTails" Width="1.5" PointX="15.75" PointY="167.375" />
+        <EntityTypeShape EntityType="MyProjectModel.ArcRelationshipGroup" Width="1.5" PointX="13.5" PointY="226" />
+        <EntityTypeShape EntityType="MyProjectModel.ArcRelationshipGroup_Relationship" Width="1.5" PointX="21.75" PointY="184.5" />
+        <EntityTypeShape EntityType="MyProjectModel.BackendActionActivity" Width="1.5" PointX="13.5" PointY="150.75" />
+        <EntityTypeShape EntityType="MyProjectModel.CharetReportCategories" Width="1.5" PointX="24" PointY="134.875" />
+        <EntityTypeShape EntityType="MyProjectModel.CharetReportSeries" Width="1.5" PointX="25" PointY="140.75" />
+        <EntityTypeShape EntityType="MyProjectModel.CharetReportValues" Width="1.5" PointX="24" PointY="137.75" />
+        <EntityTypeShape EntityType="MyProjectModel.CodeFunction" Width="1.5" PointX="0.75" PointY="141" />
+        <EntityTypeShape EntityType="MyProjectModel.CodeFunction_TableDrivedEntity" Width="1.5" PointX="18.5" PointY="153" />
+        <EntityTypeShape EntityType="MyProjectModel.CodeFunction_TableDrivedEntity_Parameters" Width="1.5" PointX="8.25" PointY="143" />
+        <EntityTypeShape EntityType="MyProjectModel.CodeFunctionParameter" Width="1.5" PointX="6" PointY="139" />
+        <EntityTypeShape EntityType="MyProjectModel.Column" Width="1.5" PointX="6" PointY="142.875" />
+        <EntityTypeShape EntityType="MyProjectModel.ColumnPhrase" Width="1.5" PointX="27" PointY="159.625" />
+        <EntityTypeShape EntityType="MyProjectModel.ColumnUISetting" Width="1.5" PointX="15.75" PointY="137.625" />
+        <EntityTypeShape EntityType="MyProjectModel.ColumnValue_ValidValues" Width="1.5" PointX="18" PointY="179.5" />
+        <EntityTypeShape EntityType="MyProjectModel.ColumnValueRange" Width="1.5" PointX="8.25" PointY="232.25" />
+        <EntityTypeShape EntityType="MyProjectModel.ColumnValueRangeDetails" Width="1.5" PointX="10.5" PointY="231.875" />
+        <EntityTypeShape EntityType="MyProjectModel.CrosstabReportColumns" Width="1.5" PointX="22" PointY="140.875" />
+        <EntityTypeShape EntityType="MyProjectModel.CrosstabReportRows" Width="1.5" PointX="18" PointY="129.875" />
+        <EntityTypeShape EntityType="MyProjectModel.CrosstabReportValues" Width="1.5" PointX="21" PointY="137.75" />
+        <EntityTypeShape EntityType="MyProjectModel.DatabaseFunction" Width="1.5" PointX="10.5" PointY="159.75" />
+        <EntityTypeShape EntityType="MyProjectModel.DatabaseFunction_TableDrivedEntity" Width="1.5" PointX="16.5" PointY="147.25" />
+        <EntityTypeShape EntityType="MyProjectModel.DatabaseFunction_TableDrivedEntity_Columns" Width="1.5" PointX="18.75" PointY="159.5" />
+        <EntityTypeShape EntityType="MyProjectModel.DatabaseFunctionParameter" Width="1.5" PointX="12.75" PointY="160.375" />
+        <EntityTypeShape EntityType="MyProjectModel.DatabaseInformation" Width="1.5" PointX="3" PointY="150.625" />
+        <EntityTypeShape EntityType="MyProjectModel.DatabaseUISetting" Width="1.5" PointX="5.25" PointY="157.125" />
+        <EntityTypeShape EntityType="MyProjectModel.DataLinkDefinition" Width="1.5" PointX="13.5" PointY="108.875" />
+        <EntityTypeShape EntityType="MyProjectModel.DataLinkDefinition_EntityRelationshipTail" Width="1.5" PointX="15.75" PointY="151" />
+        <EntityTypeShape EntityType="MyProjectModel.DataMenuDataViewRelationship" Width="1.5" PointX="20.75" PointY="201.625" />
+        <EntityTypeShape EntityType="MyProjectModel.DataMenuGridViewRelationship" Width="1.5" PointX="18.75" PointY="204.625" />
+        <EntityTypeShape EntityType="MyProjectModel.DataMenuReportRelationship" Width="1.5" PointX="15.75" PointY="200.375" />
+        <EntityTypeShape EntityType="MyProjectModel.DataMenuSetting" Width="1.5" PointX="13.5" PointY="223.375" />
+        <EntityTypeShape EntityType="MyProjectModel.DataViewSetting" Width="1.5" PointX="18.75" PointY="140.125" />
+        <EntityTypeShape EntityType="MyProjectModel.DateColumnType" Width="1.5" PointX="8.25" PointY="235" />
+        <EntityTypeShape EntityType="MyProjectModel.DBSchema" Width="1.5" PointX="8.25" PointY="150.875" />
+        <EntityTypeShape EntityType="MyProjectModel.DBServer" Width="1.5" PointX="0.75" PointY="151" />
+        <EntityTypeShape EntityType="MyProjectModel.EmptySpaceUISetting" Width="1.5" PointX="15.75" PointY="121.375" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityChartReport" Width="1.5" PointX="18.75" PointY="117.625" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityCommand" Width="1.5" PointX="3" PointY="144" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityCrosstabReport" Width="1.5" PointX="15.75" PointY="113.75" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityDataLinkReport" Width="1.5" PointX="15.75" PointY="109.25" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityDataViewReport" Width="1.5" PointX="29.25" PointY="157.125" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityDeterminer" Width="1.5" PointX="13.5" PointY="207.125" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityDirectlReport" Width="1.5" PointX="18.75" PointY="156.375" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityExternalReport" Width="1.5" PointX="29.25" PointY="149.375" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityGridViewReport" Width="1.5" PointX="29.25" PointY="154.75" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityListReport" Width="1.5" PointX="15.75" PointY="117.75" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityListReportSubs" Width="1.5" PointX="21" PointY="156.125" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityListReportSubsColumns" Width="1.5" PointX="29.25" PointY="160.125" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityListView" Width="1.5" PointX="13.5" PointY="117.25" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityListViewColumns" Width="1.5" PointX="15.75" PointY="154.75" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityRelationshipTail" Width="1.5" PointX="13.5" PointY="190.125" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityReport" Width="1.5" PointX="16.5" PointY="142.75" />
+        <EntityTypeShape EntityType="MyProjectModel.EntitySearch" Width="1.5" PointX="13.5" PointY="181.125" />
+        <EntityTypeShape EntityType="MyProjectModel.EntitySearchableReport" Width="1.5" PointX="27" PointY="151.875" />
+        <EntityTypeShape EntityType="MyProjectModel.EntitySearchColumns" Width="1.5" PointX="15.75" PointY="173.5" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityState_UIActionActivity" Width="1.5" PointX="21" PointY="188.5" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityUIComposition" Width="1.5" PointX="13.5" PointY="128.375" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityUISetting" Width="1.5" PointX="15.75" PointY="135.25" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityValidation" Width="1.5" PointX="18.75" PointY="171.625" />
+        <EntityTypeShape EntityType="MyProjectModel.ExplicitOneToOneRelationshipType" Width="1.5" PointX="24" PointY="165.125" />
+        <EntityTypeShape EntityType="MyProjectModel.Formula" Width="1.5" PointX="13.5" PointY="196.125" />
+        <EntityTypeShape EntityType="MyProjectModel.FormulaItems" Width="1.5" PointX="26.75" PointY="165.375" />
+        <EntityTypeShape EntityType="MyProjectModel.GridViewSetting" Width="1.5" PointX="18.75" PointY="137.25" />
+        <EntityTypeShape EntityType="MyProjectModel.GroupUISetting" Width="1.5" PointX="15.75" PointY="132.125" />
+        <EntityTypeShape EntityType="MyProjectModel.ImplicitOneToOneRelationshipType" Width="1.5" PointX="24" PointY="157.75" />
+        <EntityTypeShape EntityType="MyProjectModel.ISARelationship" Width="1.5" PointX="21.75" PointY="125.375" />
+        <EntityTypeShape EntityType="MyProjectModel.LetterEnabledEntities" Width="1.5" PointX="13.5" PointY="143" />
+        <EntityTypeShape EntityType="MyProjectModel.LetterSetting" Width="1.5" PointX="3" PointY="139.625" />
+        <EntityTypeShape EntityType="MyProjectModel.LetterTemplate" Width="1.5" PointX="18.75" PointY="132.625" />
+        <EntityTypeShape EntityType="MyProjectModel.LetterTemplatePlainField" Width="1.5" PointX="21" PointY="171.25" />
+        <EntityTypeShape EntityType="MyProjectModel.LetterTemplateRelationshipField" Width="1.5" PointX="24.25" PointY="161.625" />
+        <EntityTypeShape EntityType="MyProjectModel.LetterType" Width="1.5" PointX="13.5" PointY="114.75" />
+        <EntityTypeShape EntityType="MyProjectModel.LinkedServer" Width="1.5" PointX="3" PointY="155" />
+        <EntityTypeShape EntityType="MyProjectModel.LogicPhrase" Width="1.5" PointX="19.5" PointY="184.375" />
+        <EntityTypeShape EntityType="MyProjectModel.MainLetterTemplate" Width="1.5" PointX="21" PointY="132" />
+        <EntityTypeShape EntityType="MyProjectModel.ManyToManyRelationshipType" Width="1.5" PointX="22.75" PointY="129" />
+        <EntityTypeShape EntityType="MyProjectModel.ManyToOneRelationshipType" Width="1.5" PointX="25" PointY="145.875" />
+        <EntityTypeShape EntityType="MyProjectModel.NavigationTree" Width="1.5" PointX="13.5" PointY="155.25" />
+        <EntityTypeShape EntityType="MyProjectModel.NumericColumnType" Width="1.5" PointX="8.25" PointY="229" />
+        <EntityTypeShape EntityType="MyProjectModel.OneToManyRelationshipType" Width="1.5" PointX="24" PointY="152.5" />
+        <EntityTypeShape EntityType="MyProjectModel.PartialLetterTemplate" Width="1.5" PointX="21" PointY="134.75" />
+        <EntityTypeShape EntityType="MyProjectModel.Phrase" Width="1.5" PointX="29.25" PointY="163.5" />
+        <EntityTypeShape EntityType="MyProjectModel.Relationship" Width="1.5" PointX="19.5" PointY="143" />
+        <EntityTypeShape EntityType="MyProjectModel.RelationshipColumns" Width="1.5" PointX="21.75" PointY="147" />
+        <EntityTypeShape EntityType="MyProjectModel.RelationshipSearchFilter" Width="1.5" PointX="8.25" PointY="146.625" />
+        <EntityTypeShape EntityType="MyProjectModel.RelationshipType" Width="1.5" PointX="21.75" PointY="150.75" />
+        <EntityTypeShape EntityType="MyProjectModel.RelationshipUISetting" Width="1.5" PointX="15.75" PointY="123.875" />
+        <EntityTypeShape EntityType="MyProjectModel.ReportGroups" Width="1.5" PointX="22" PointY="143.875" />
+        <EntityTypeShape EntityType="MyProjectModel.SearchRepository" Width="1.5" PointX="21.75" PointY="160.5" />
+        <EntityTypeShape EntityType="MyProjectModel.StringColumnType" Width="1.5" PointX="8.25" PointY="140.25" />
+        <EntityTypeShape EntityType="MyProjectModel.SubSystems" Width="1.5" PointX="3" PointY="173.75" />
+        <EntityTypeShape EntityType="MyProjectModel.SubToSuperRelationshipType" Width="1.5" PointX="24" PointY="148.75" />
+        <EntityTypeShape EntityType="MyProjectModel.SubUnionToUnionRelationshipType" Width="1.5" PointX="27" PointY="148.75" />
+        <EntityTypeShape EntityType="MyProjectModel.SuperToSubRelationshipType" Width="1.5" PointX="27" PointY="156.75" />
+        <EntityTypeShape EntityType="MyProjectModel.TabGroupUISetting" Width="1.5" PointX="15.75" PointY="126.875" />
+        <EntityTypeShape EntityType="MyProjectModel.Table" Width="1.5" PointX="10.5" PointY="164" />
+        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntity" Width="1.5" PointX="11.25" PointY="141.25" />
+        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntity_Columns" Width="1.5" PointX="18.5" PointY="150.125" />
+        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntity_EntityCommand" Width="1.5" PointX="13.5" PointY="140.125" />
+        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntityState" Width="1.5" PointX="18.75" PointY="175" />
+        <EntityTypeShape EntityType="MyProjectModel.TableDrivedEntityStateValues" Width="1.5" PointX="21" PointY="181.125" />
+        <EntityTypeShape EntityType="MyProjectModel.TabPageUISetting" Width="1.5" PointX="15.75" PointY="129.75" />
+        <EntityTypeShape EntityType="MyProjectModel.TimeColumnType" Width="1.5" PointX="8.25" PointY="240.5" />
+        <EntityTypeShape EntityType="MyProjectModel.UIActionActivity" Width="1.5" PointX="13.5" PointY="201.125" />
+        <EntityTypeShape EntityType="MyProjectModel.UIColumnValue" Width="1.5" PointX="15.75" PointY="178.25" />
+        <EntityTypeShape EntityType="MyProjectModel.UIColumnValueRange" Width="1.5" PointX="15.75" PointY="204.5" />
+        <EntityTypeShape EntityType="MyProjectModel.UIEnablityDetails" Width="1.5" PointX="23.75" PointY="171" />
+        <EntityTypeShape EntityType="MyProjectModel.UnionRelationshipType" Width="1.5" PointX="24.75" PointY="131.625" />
+        <EntityTypeShape EntityType="MyProjectModel.UnionToSubUnionRelationshipType" Width="1.5" PointX="30" PointY="151.75" />
+        <EntityTypeShape EntityType="MyProjectModel.UniqueConstraint" Width="1.5" PointX="12.75" PointY="164.25" />
+        <EntityTypeShape EntityType="MyProjectModel.ConditionalPermission" Width="1.5" PointX="21.75" PointY="165.875" />
+        <EntityTypeShape EntityType="MyProjectModel.ConditionalPermission_Action" Width="1.5" PointX="24" PointY="168" />
+        <EntityTypeShape EntityType="MyProjectModel.EntitySecurityCondition" Width="1.5" PointX="18.75" PointY="164.5" />
+        <EntityTypeShape EntityType="MyProjectModel.EntitySecurityDirect" Width="1.5" PointX="13.5" PointY="146.875" />
+        <EntityTypeShape EntityType="MyProjectModel.EntitySecurityInDirect" Width="1.5" PointX="15.75" PointY="164.375" />
+        <EntityTypeShape EntityType="MyProjectModel.Organization" Width="1.5" PointX="25.75" PointY="128" />
+        <EntityTypeShape EntityType="MyProjectModel.OrganizationPost" Width="1.5" PointX="32" PointY="155.375" />
+        <EntityTypeShape EntityType="MyProjectModel.OrganizationType" Width="1.5" PointX="13.5" PointY="137.125" />
+        <EntityTypeShape EntityType="MyProjectModel.OrganizationType_RoleType" Width="1.5" PointX="21.25" PointY="177.125" />
+        <EntityTypeShape EntityType="MyProjectModel.Permission" Width="1.5" PointX="3" PointY="147" />
+        <EntityTypeShape EntityType="MyProjectModel.Permission_Action" Width="1.5" PointX="5.25" PointY="154.25" />
+        <EntityTypeShape EntityType="MyProjectModel.RoleType" Width="1.5" PointX="18" PointY="223.75" />
+        <EntityTypeShape EntityType="MyProjectModel.SecurityObject" Width="1.5" PointX="0.75" PointY="146.5" />
+        <EntityTypeShape EntityType="MyProjectModel.SecuritySubject" Width="1.5" PointX="11.25" PointY="136.625" />
+        <EntityTypeShape EntityType="MyProjectModel.User" Width="1.5" PointX="29.75" PointY="145.625" />
+        <EntityTypeShape EntityType="MyProjectModel.Action" Width="1.5" PointX="15.75" PointY="216.375" />
+        <EntityTypeShape EntityType="MyProjectModel.Activity" Width="1.5" PointX="15.75" PointY="209.75" />
+        <EntityTypeShape EntityType="MyProjectModel.ActivityTarget" Width="1.5" PointX="18" PointY="212.875" />
+        <EntityTypeShape EntityType="MyProjectModel.ActivityTarget_RoleType" Width="1.5" PointX="20.25" PointY="212.875" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityGroup" Width="1.5" PointX="15.75" PointY="213.375" />
+        <EntityTypeShape EntityType="MyProjectModel.EntityGroup_Relationship" Width="1.5" PointX="18" PointY="201.875" />
+        <EntityTypeShape EntityType="MyProjectModel.Process" Width="1.5" PointX="13.5" PointY="214.625" />
+        <EntityTypeShape EntityType="MyProjectModel.State" Width="1.5" PointX="15.75" PointY="219.625" />
+        <EntityTypeShape EntityType="MyProjectModel.State_Formula" Width="1.5" PointX="18" PointY="208.25" />
+        <EntityTypeShape EntityType="MyProjectModel.StateActivity" Width="1.5" PointX="18" PointY="216.125" />
+        <EntityTypeShape EntityType="MyProjectModel.Transition" Width="1.5" PointX="21" PointY="217.125" />
+        <EntityTypeShape EntityType="MyProjectModel.TransitionAction" Width="1.5" PointX="18" PointY="219" />
+        <EntityTypeShape EntityType="MyProjectModel.TransitionAction_EntityGroup" Width="1.5" PointX="23.25" PointY="216.75" />
+        <EntityTypeShape EntityType="MyProjectModel.TransitionAction_Formula" Width="1.5" PointX="15.75" PointY="197.125" />
+        <EntityTypeShape EntityType="MyProjectModel.TransitionActionTarget" Width="1.5" PointX="20.25" PointY="221.5" />
+        <EntityTypeShape EntityType="MyProjectModel.TransitionActivity" Width="1.5" PointX="21" PointY="210.125" />
         <AssociationConnector Association="MyProjectModel.FKArchiveFol695820" />
         <AssociationConnector Association="MyProjectModel.FK_ArchiveTag_EntityArchive" />
         <AssociationConnector Association="MyProjectModel.FKEntityArch437336" />
@@ -180,6 +185,7 @@
         <AssociationConnector Association="MyProjectModel.FK_ColumnValueRange_Column" />
         <AssociationConnector Association="MyProjectModel.FK_RelationshipSearchFilter_Column" />
         <AssociationConnector Association="MyProjectModel.FK_RelationshipSearchFilter_Column1" />
+        <AssociationConnector Association="MyProjectModel.FK_StringTimeColumnType_Column" />
         <AssociationConnector Association="MyProjectModel.FK_TableDrivedEntity_Column" />
         <AssociationConnector Association="MyProjectModel.FKColumn659222" />
         <AssociationConnector Association="MyProjectModel.FKColumn689451" />
@@ -187,10 +193,13 @@
         <AssociationConnector Association="MyProjectModel.FKColumnValu491864" />
         <AssociationConnector Association="MyProjectModel.FKConditiona163674" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseFu304987" />
+        <AssociationConnector Association="MyProjectModel.FKDateColumn74546" />
         <AssociationConnector Association="MyProjectModel.FKEntityList404590" />
         <AssociationConnector Association="MyProjectModel.FKEntitySear524417" />
         <AssociationConnector Association="MyProjectModel.FKEntitySecu216788" />
         <AssociationConnector Association="MyProjectModel.FKFormulaIte729281" />
+        <AssociationConnector Association="MyProjectModel.FKNumericCol878005" />
+        <AssociationConnector Association="MyProjectModel.FKStringColu936883" />
         <AssociationConnector Association="MyProjectModel.FKTableDrive108467" />
         <AssociationConnector Association="MyProjectModel.FKTableDrive277199" />
         <AssociationConnector Association="MyProjectModel.FKUIEnablity310255" />
@@ -217,6 +226,7 @@
         <AssociationConnector Association="MyProjectModel.FKDatabaseFu935636" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseIn186668" />
         <AssociationConnector Association="MyProjectModel.FKDatabaseIn674957" />
+        <AssociationConnector Association="MyProjectModel.FKDatabaseUI703615" />
         <AssociationConnector Association="MyProjectModel.FKDBSchema138241" />
         <AssociationConnector Association="MyProjectModel.FKDataLinkDe305355" />
         <AssociationConnector Association="MyProjectModel.FKDataLinkDe790101" />
@@ -402,14 +412,8 @@
         <AssociationConnector Association="MyProjectModel.FKTransition612866" />
         <AssociationConnector Association="MyProjectModel.FKTransition636993" />
         <AssociationConnector Association="MyProjectModel.UniqueConstraint_Column" />
-        <EntityTypeShape EntityType="MyProjectModel.DatabaseUISetting" Width="1.5" PointX="5.25" PointY="150.875" />
-        <AssociationConnector Association="MyProjectModel.FKDatabaseUI703615" />
-        <EntityTypeShape EntityType="MyProjectModel.DateColumnType" Width="1.5" PointX="8.25" PointY="152" />
-        <AssociationConnector Association="MyProjectModel.FKDateColumn74546" />
-        <EntityTypeShape EntityType="MyProjectModel.StringColumnType" Width="1.5" PointX="8.25" PointY="146" />
-        <AssociationConnector Association="MyProjectModel.FKStringColu936883" />
-        <EntityTypeShape EntityType="MyProjectModel.NumericColumnType" Width="1.5" PointX="8.25" PointY="154.875" />
-        <AssociationConnector Association="MyProjectModel.FKNumericCol878005" />
+        <EntityTypeShape EntityType="MyProjectModel.DateTimeColumnType" Width="1.5" PointX="8.25" PointY="154.875" />
+        <AssociationConnector Association="MyProjectModel.FK_DateTimeColumnType_Column" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

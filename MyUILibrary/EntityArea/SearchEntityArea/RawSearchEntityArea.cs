@@ -125,7 +125,7 @@ namespace MyUILibrary.EntityArea
             {
                 columnControl.Operators = GetSimpleColumnOperators(columnControl.Column);
               //  columnControl.ControlPackage = new UIControlPackageForSimpleColumn();
-                columnControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForOneDataForm(columnControl.Column, GetColumnUISetting(columnControl.Column), false, false, columnControl.Operators, true, columnControl.Column.Alias);
+                columnControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForOneDataForm(columnControl.Column, GetColumnUISetting(columnControl.Column), false, columnControl.Operators, true, columnControl.Column.Alias);
                 var operator1 = columnControl.Operators.FirstOrDefault(x => x.Operator == GetDefaultOperator(columnControl.Column));
                 if (operator1 != null)
                     columnControl.ControlManager.SetOperator(operator1.Operator);
@@ -225,9 +225,9 @@ namespace MyUILibrary.EntityArea
             return result;
         }
 
-        private bool PropertyHasValue(SimpleSearchColumnControl property, string value)
+        private bool PropertyHasValue(SimpleSearchColumnControl property, object value)
         {
-            return !string.IsNullOrEmpty(value) && value.ToLower() != "0";
+            return value != null && !string.IsNullOrEmpty(value.ToString()) && value.ToString().ToLower() != "0";
         }
 
         //private bool PropertyHasValue(SearchProperty item)

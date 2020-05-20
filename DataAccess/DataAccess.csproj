@@ -216,6 +216,9 @@
     <Compile Include="DateColumnType.cs">
       <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
     </Compile>
+    <Compile Include="DateTimeColumnType.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBSchema.cs">
       <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
     </Compile>
@@ -551,6 +554,9 @@
       <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
     </Compile>
     <Compile Include="TabPageUISetting.cs">
+      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TimeColumnType.cs">
       <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
     </Compile>
     <Compile Include="Transition.cs">

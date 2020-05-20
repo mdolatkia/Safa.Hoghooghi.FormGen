@@ -16,7 +16,7 @@ namespace DataAccess
     {
         public int ColumnID { get; set; }
         public bool ShowMiladiDateInUI { get; set; }
-        public bool StringValueIsMiladi { get; set; }
+        public Nullable<bool> StringDateIsMiladi { get; set; }
     
         public virtual Column Column { get; set; }
     }

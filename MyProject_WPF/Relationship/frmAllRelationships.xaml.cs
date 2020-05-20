@@ -154,212 +154,212 @@ namespace MyProject_WPF
             //if (dataGrid == dtgRelationships)
             //{
 
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true, 130, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true, 130, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("RelationshipColumns", "ستونهای رابطه", true, 160, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("TypeStr", "نوع رابطه", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف دیگر اجباری", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 100, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false, 100, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DeleteOption", "حذف", false, 100, GridViewColumnType.Enum, GetDeleteOptionAsItemsSource()));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SearchInitially", "جستجوی خودکار", false, 100, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("RelationshipColumns", "ستونهای رابطه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("TypeStr", "نوع رابطه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف دیگر اجباری", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DeleteOption", "حذف", false,null, GridViewColumnType.Enum, GetDeleteOptionAsItemsSource()));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SearchInitially", "جستجوی خودکار", false,null, GridViewColumnType.CheckBox));
 
             //    dataGrid.CanUserDeleteRows = false;
             //}
             // if (dataGrid == dtgOneToMany)
             //{
 
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true, 130, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true, 130, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("MasterDetailState", "نوع رابطه یک به چند", false, 100, GridViewColumnType.Numeric));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DetailsCount", "تعداد طرف چند", false, 100, GridViewColumnType.Numeric));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف چند اجباری", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف چند", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف چند", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 100, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false, 100, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("MasterDetailState", "نوع رابطه یک به چند", false,null, GridViewColumnType.Numeric));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DetailsCount", "تعداد طرف چند", false,null, GridViewColumnType.Numeric));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف چند اجباری", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف چند", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف چند", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false,null, GridViewColumnType.CheckBox));
             //    dataGrid.CanUserDeleteRows = false;
             //}
             //else if (dataGrid == dtgManyToOne)
             //{
 
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true, 130, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true, 130, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف یک", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف یک اجباری", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف یک", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 100, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false, 100, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف یک", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف یک اجباری", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف یک", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false,null, GridViewColumnType.CheckBox));
             //    dataGrid.CanUserDeleteRows = false;
             //}
             //else if (dataGrid == dtgExplicit)
             //{
 
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true, 130, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true, 130, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف دیگر اجباری", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 100, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false, 100, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف دیگر اجباری", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false,null, GridViewColumnType.CheckBox));
             //    dataGrid.CanUserDeleteRows = false;
             //}
             //else if (dataGrid == dtgImplicit)
             //{
 
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true, 130, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true, 130, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, 100, GridViewColumnType.Text));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف دیگر اجباری", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false, 160, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 100, GridViewColumnType.CheckBox));
-            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false, 100, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true,null, GridViewColumnType.Text));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف دیگر اجباری", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false,null, GridViewColumnType.CheckBox));
+            //    dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false,null, GridViewColumnType.CheckBox));
             //    dataGrid.CanUserDeleteRows = false;
             //}
             if (dataGrid == dtgManyToMany)
             {
 
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
             }
             else if (dataGrid == dtgManyToMany_ManyToOne)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, 100, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true,null, GridViewColumnType.Text));
             }
             else if (dataGrid == dtgISARelationship)
             {
                 dataGrid.SelectionMode = SelectionMode.Extended;
 
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SuperTypeEntities", "ابر کلاسها", true, 120, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SubTypeEntities", "زیر کلاسها", true, 120, GridViewColumnType.Text));
-                //dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsGeneralization", "IsGeneralization", false, 100, GridViewColumnType.CheckBox));
-                //dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsSpecialization", "IsSpecialization", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsTolatParticipation", "شرکت پذیری کامل", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsDisjoint", "شرکت پذیری انحصاری", false, 100, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SuperTypeEntities", "ابر کلاسها", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SubTypeEntities", "زیر کلاسها", true,null, GridViewColumnType.Text));
+                //dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsGeneralization", "IsGeneralization", false,null, GridViewColumnType.CheckBox));
+                //dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsSpecialization", "IsSpecialization", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsTolatParticipation", "شرکت پذیری کامل", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsDisjoint", "شرکت پذیری انحصاری", false,null, GridViewColumnType.CheckBox));
                 dataGrid.CanUserDeleteRows = false;
             }
             else if (dataGrid == dtgSuperToSub)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false, 100, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false,null, GridViewColumnType.CheckBox));
                 dataGrid.CanUserDeleteRows = false;
             }
             else if (dataGrid == dtgSubToSuper)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false, 100, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false,null, GridViewColumnType.CheckBox));
                 dataGrid.CanUserDeleteRows = false;
             }
             else if (dataGrid == dtgUnionRelationship)
             {
                 dataGrid.SelectionMode = SelectionMode.Extended;
 
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("UnionTypeEntities", "ابراجتماع ها", true, 120, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SubUnionTypeEntities", "زیر اجتماع ها", true, 160, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsTolatParticipation", "شرکت پذیری کامل", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("UnionHoldsKeys", "کلید خارجی در ابر اجتماع", false, 130, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("UnionTypeEntities", "ابراجتماع ها", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SubUnionTypeEntities", "زیر اجتماع ها", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsTolatParticipation", "شرکت پذیری کامل", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("UnionHoldsKeys", "کلید خارجی در ابر اجتماع", false,null, GridViewColumnType.CheckBox));
                 dataGrid.CanUserDeleteRows = false;
             }
             else if (dataGrid == dtgUnionToSubUnion)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false, 100, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false,null, GridViewColumnType.CheckBox));
                 dataGrid.CanUserDeleteRows = false;
             }
             else if (dataGrid == dtgSubUnionToUnion)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true, 130, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false, 100, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationshipID", "شناسه رابطه قرینه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PairRelationship", "رابطه قرینه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity1", "موجودیت طرف اول", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideTransferable", "قابل انتقال بودن طرف دیگر", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideDirectlyCreatable", "قابلیت ایجاد مستقیم طرف یک", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Enabled", "فعال", false,null, GridViewColumnType.CheckBox));
                 dataGrid.CanUserDeleteRows = false;
             }
         }

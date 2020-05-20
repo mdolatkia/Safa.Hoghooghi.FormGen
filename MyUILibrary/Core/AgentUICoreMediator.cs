@@ -115,7 +115,7 @@ namespace MyUILibrary
         //  bool loginSucceeded = false;
         public void StartApp()
         {
-
+           
             LoginForm = UIManager.GetLoginForm();
             LoginForm.LoginRequested += LoginForm_LoginRequested;
             LoginForm.ShowForm();

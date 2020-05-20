@@ -28,7 +28,7 @@ namespace MyUIGenerator.UIControlHelper
         CommonOperator GetOperator();
         bool SetOperator( CommonOperator searchOperator);
         bool SetValue( object value);
-        string GetValue();
+        object GetValue();
         // void SetTooltip( string tooltip);
         //void ClearTooltip();
         void SetBorderColor( InfoColor color);

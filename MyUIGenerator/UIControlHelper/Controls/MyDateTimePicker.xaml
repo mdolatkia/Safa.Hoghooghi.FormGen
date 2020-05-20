@@ -1,0 +1,13 @@
+﻿<UserControl xmlns:Views="clr-namespace:WpfPersianDatePicker.Views;assembly=WpfPersianDatePicker"  x:Class="MyUIGenerator.UIControlHelper.Controls.MyDateTimePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+           FlowDirection="RightToLeft" >
+    <StackPanel Orientation="Horizontal">
+        <DatePicker Name="txtMiladiDatePicker" ></DatePicker>
+        <Views:PDatePicker  Name="txtShamsiDatePicker" />
+        <telerik:RadTimePicker Name="txtTimePicker"  InputMode="TimePicker"></telerik:RadTimePicker>
+    </StackPanel>
+</UserControl>

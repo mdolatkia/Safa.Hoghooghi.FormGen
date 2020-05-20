@@ -21,10 +21,10 @@ namespace MyUIGenerator.UIControlHelper
 
         private List<DataMessageItem> MessageItems = new List<DataMessageItem>();
         public DataGridTextColumn DataGridColumn;
-        public SimpleControlManagerForMultipleDataForm(ColumnDTO column, ColumnUISettingDTO columnUISettingDTO, bool hasRangeOfValues, bool valueIsTitleOrValue) : base()
+        public SimpleControlManagerForMultipleDataForm(ColumnDTO column, ColumnUISettingDTO columnUISettingDTO, bool hasRangeOfValues) : base()
         {
             //  RelatedControl = new List<FrameworkElement>();
-            DataGridColumn = new DataGridTextColumn(column, columnUISettingDTO, hasRangeOfValues, valueIsTitleOrValue);
+            DataGridColumn = new DataGridTextColumn(column, columnUISettingDTO, hasRangeOfValues);
         }
 
         //   public List<FrameworkElement> RelatedControl { set; get; }
@@ -57,7 +57,7 @@ namespace MyUIGenerator.UIControlHelper
 
 
         }
-        public string GetValue(object dataItem)
+        public object GetValue(object dataItem)
         {
             return DataGridColumn.GetValue(dataItem);
         }

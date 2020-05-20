@@ -232,9 +232,9 @@ namespace MyUIGenerator
 
 
 
-        public I_SimpleControlManager GenerateSimpleControlManagerForOneDataForm(ColumnDTO column, ColumnUISettingDTO columnSetting, bool hasRangeOfValues, bool valueIsTitleOrValue, List<SimpleSearchOperator> operators, bool labelControlManager, string labelText)
+        public I_SimpleControlManager GenerateSimpleControlManagerForOneDataForm(ColumnDTO column, ColumnUISettingDTO columnSetting, bool hasRangeOfValues, List<SimpleSearchOperator> operators, bool labelControlManager, string labelText)
         {
-            var controlManager = new SimpleControlManagerForOneDataForm(column, columnSetting, hasRangeOfValues, valueIsTitleOrValue, operators);
+            var controlManager = new SimpleControlManagerForOneDataForm(column, columnSetting, hasRangeOfValues, operators);
             if (labelControlManager)
             {
                 controlManager.LabelControlManager = new LabelControlManager(labelText,true);
@@ -252,9 +252,9 @@ namespace MyUIGenerator
             return controlManager;
         }
 
-        public I_SimpleControlManager GenerateSimpleControlManagerForMultipleDataForm(ColumnDTO column, ColumnUISettingDTO columnUISettingDTO, bool hasRangeOfValues, bool valueIsTitleOrValue, bool labelControlManager, string labelText)
+        public I_SimpleControlManager GenerateSimpleControlManagerForMultipleDataForm(ColumnDTO column, ColumnUISettingDTO columnUISettingDTO, bool hasRangeOfValues, bool labelControlManager, string labelText)
         {
-            var controlManager = new SimpleControlManagerForMultipleDataForm(column, columnUISettingDTO, hasRangeOfValues, valueIsTitleOrValue);
+            var controlManager = new SimpleControlManagerForMultipleDataForm(column, columnUISettingDTO, hasRangeOfValues);
             if (labelControlManager)
             {
                 controlManager.LabelControlManager = new LabelControlManager(labelText,false);

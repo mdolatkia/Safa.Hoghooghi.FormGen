@@ -92,7 +92,7 @@ namespace MyUIGenerator.UIControlHelper
             return true;
         }
 
-        public string GetValue()
+        public object GetValue()
         {
             if (checkbox.IsChecked == null)
                 return null;

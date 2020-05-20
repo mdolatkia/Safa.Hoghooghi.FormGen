@@ -116,150 +116,174 @@ namespace MyModelGenerator
                         table.Name = reader["TABLE_Name"].ToString();
                         //try
                         //{
-                            counter++;
-                            if (ItemImportingStarted != null)
-                                ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = table.Name, TotalProgressCount = count, CurrentProgress = counter });
-                            table.RelatedSchema = reader["TABLE_Schema"].ToString();
+                        counter++;
+                        if (ItemImportingStarted != null)
+                            ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = table.Name, TotalProgressCount = count, CurrentProgress = counter });
+                        table.RelatedSchema = reader["TABLE_Schema"].ToString();
 
-                            ////عنوان جدول
-                            foreach (var tableDescRow in tablesDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower()))
+                        ////عنوان جدول
+                        foreach (var tableDescRow in tablesDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower()))
+                        {
+                            if (tableDescRow != null && tableDescRow["Tag"] != null && tableDescRow["Value"] != null)
+                                table.DatabaseDescriptions.Add(new Tuple<string, string>(tableDescRow["Tag"].ToString(), tableDescRow["Value"].ToString()));
+                        }
+                        ////////
+
+                        //عنوان های ستونها
+
+                        //////
+
+                        List<string> keyColumns = new List<string>();
+                        foreach (var row in keyColumnsEnumerator.Where(x => x.Field<String>("TABLE_NAME").ToLower() == table.Name.ToLower()))
+                            keyColumns.Add(row["column_name"].ToString());
+
+
+                        foreach (var columnRow in columnsEnumerator.Where(x => x.Field<String>("TABLE_Name").ToLower() == table.Name.ToLower()).OrderBy(x => x.Field<int>("ORDINAL_POSITION")))
+                        {
+                            ColumnDTO column = new ColumnDTO();
+                            column.Name = columnRow["Column_Name"].ToString();
+                            foreach (var columnDescRow in columnDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower() && x.Field<String>("ColumnName").ToLower() == column.Name.ToLower()))
                             {
-                                if (tableDescRow != null && tableDescRow["Tag"] != null && tableDescRow["Value"] != null)
-                                    table.DatabaseDescriptions.Add(new Tuple<string, string>(tableDescRow["Tag"].ToString(), tableDescRow["Value"].ToString()));
+                                if (columnDescRow != null && columnDescRow["Tag"] != null && columnDescRow["Value"] != null)
+                                    column.DatabaseDescriptions.Add(new ColumnDescriptionDTO() { Key = columnDescRow["Tag"].ToString(), Value = columnDescRow["Value"].ToString() });
                             }
-                            ////////
+                            //if (columnDescRow != null && columnDescRow["Value"] != null)
+                            //    column.Alias = columnDescRow["Value"].ToString();
 
-                            //عنوان های ستونها
-
-                            //////
-
-                            List<string> keyColumns = new List<string>();
-                            foreach (var row in keyColumnsEnumerator.Where(x => x.Field<String>("TABLE_NAME").ToLower() == table.Name.ToLower()))
-                                keyColumns.Add(row["column_name"].ToString());
-
-
-                            foreach (var columnRow in columnsEnumerator.Where(x => x.Field<String>("TABLE_Name").ToLower() == table.Name.ToLower()).OrderBy(x => x.Field<int>("ORDINAL_POSITION")))
-                            {
-                                ColumnDTO column = new ColumnDTO();
-                                column.Name = columnRow["Column_Name"].ToString();
-                                foreach (var columnDescRow in columnDescEnumerator.Where(x => x.Field<String>("TableName").ToLower() == table.Name.ToLower() && x.Field<String>("ColumnName").ToLower() == column.Name.ToLower()))
-                                {
-                                    if (columnDescRow != null && columnDescRow["Tag"] != null && columnDescRow["Value"] != null)
-                                        column.DatabaseDescriptions.Add(new ColumnDescriptionDTO() { Key = columnDescRow["Tag"].ToString(), Value = columnDescRow["Value"].ToString() });
-                                }
-                                //if (columnDescRow != null && columnDescRow["Value"] != null)
-                                //    column.Alias = columnDescRow["Value"].ToString();
-
-                                //if (columnExtendedPropertyDataTable.Rows.Count > 0)
-                                //{
-                                //    foreach (DataRow row in columnExtendedPropertyDataTable.Rows)
-                                //    {
-                                //        if (column.Name == row["ColumnName"].ToString())
-                                //            columnDesc = row["Value"].ToString();
-                                //    }
-                                //}
-                                //if (!string.IsNullOrEmpty(columnDesc))
-                                //    column.Alias = columnDesc;
-
-                                column.DataType = columnRow["DATA_TYPE"].ToString();
-                                column.PrimaryKey = keyColumns.Contains(column.Name);
-                                column.IsNull = columnRow["is_nullable"].ToString() == "YES";
-                                column.IsIdentity = columnRow["IsIdentity"].ToString() == "1";
-                                column.Position = Convert.ToInt32(columnRow["ORDINAL_POSITION"].ToString());
-                                column.DefaultValue = (columnRow["COLUMN_DEFAULT"] == null ? null : columnRow["COLUMN_DEFAULT"].ToString());
-                                if (IsStringType(column))
-                                {
-                                    //column. = Convert.ToByte(Enum_ColumnType.String);
-                                    //if (column.DateColumnType != null)
-                                    //    column.DateColumnType = null;
-                                    //if (column.NumericColumnType != null)
-                                    //    column.NumericColumnType = null;
-                                    column.OriginalColumnType = Enum_ColumnType.String;
-                                    column.ColumnType = Enum_ColumnType.String;
-                                    if (column.StringColumnType == null)
-                                        column.StringColumnType = new StringColumnTypeDTO();
-                                    column.StringColumnType.MaxLength = (columnRow["CHARACTER_MAXIMUM_LENGTH"] == null || columnRow["CHARACTER_MAXIMUM_LENGTH"] == DBNull.Value ? 0 : Convert.ToInt32(columnRow["CHARACTER_MAXIMUM_LENGTH"]));
-                                }
-                                else if (IsNumericType(column))
-                                {
-                                    //       column.TypeEnum = Convert.ToByte(Enum_ColumnType.Numeric);
-                                    //if (column.DateColumnType != null)
-                                    //    column.DateColumnType = null;
-                                    //if (column.StringColumnType != null)
-                                    //    column.StringColumnType = null;
-                                    column.OriginalColumnType = Enum_ColumnType.Numeric;
-                                    column.ColumnType = Enum_ColumnType.Numeric;
-                                    if (column.NumericColumnType == null)
-                                        column.NumericColumnType = new NumericColumnTypeDTO();
-                                    if (columnRow["NUMERIC_PRECISION"] != null && columnRow["NUMERIC_PRECISION"] != DBNull.Value)
-                                        column.NumericColumnType.Precision = Convert.ToInt32(columnRow["NUMERIC_PRECISION"]);
-                                    if (columnRow["NUMERIC_SCALE"] != null && columnRow["NUMERIC_SCALE"] != DBNull.Value)
-                                        column.NumericColumnType.Scale = Convert.ToInt32(columnRow["NUMERIC_SCALE"]);
-                                }
-                                else if (IsDateType(column))
-                                {
-                                    //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Date);
-                                    //if (column.StringColumnType != null)
-                                    //    column.StringColumnType = null;
-                                    //if (column.NumericColumnType != null)
-                                    //    column.NumericColumnType = null;
-                                    column.OriginalColumnType = Enum_ColumnType.Date;
-                                    column.ColumnType = Enum_ColumnType.Date;
-                                    if (column.DateColumnType == null)
-                                        column.DateColumnType = new DateColumnTypeDTO();
-                                }
-                                else if (IsBooleanType(column))
-                                {
-                                    column.OriginalColumnType = Enum_ColumnType.Boolean;
-                                    column.ColumnType = Enum_ColumnType.Boolean;
-                                    //column.IsBoolean = true;
-                                    //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Boolean);
-                                    //if (column.StringColumnType != null)
-                                    //    column.StringColumnType = null;
-                                    //if (column.NumericColumnType != null)
-                                    //    column.NumericColumnType = null;
-                                    //if (column.DateColumnType == null)
-                                    //    column.DateColumnType = null;
-
-                                }
-
-                                var IsComputed = columnRow["IsComputed"];
-                                //     column.IsDBCalculatedColumn = Convert.ToBoolean(IsComputed);
-                                if (IsComputed != null && Convert.ToBoolean(IsComputed))
-                                {
-                                    if ((columnRow["Formula"]) != null)
-                                        column.DBFormula = columnRow["Formula"].ToString();
-                                }
-                                else
-                                {
-                                    column.DBFormula = "";
-                                    //column.IsDBCalculatedColumn = false;
-                                    //if (column.DBCalculatedColumn != null)
-                                    //    projectContext.DBCalculatedColumn.Remove(column.DBCalculatedColumn);
-                                }
-                                table.Columns.Add(column);
-                            }
-                            //    string queryColumns = @"Select *, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'IsIdentity') as IsIdentity 
-                            //,(select definition from  sys.computed_columns where object_id(TABLE_SCHEMA+'.'+TABLE_NAME)= sys.computed_columns.object_id and sys.computed_columns.name=Column_Name ) as Formula, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'iscomputed') as IsComputed from INFORMATION_SCHEMA.COLUMNS";
-                            //    using (SqlCommand commandFields = new SqlCommand(queryColumns + " Where TABLE_Name = '" + table.Name + "' ", testConn))
-                            //    using (SqlDataReader readerFields = commandFields.ExecuteReader())
-                            //    {
-                            //while (readerFields.Read())
+                            //if (columnExtendedPropertyDataTable.Rows.Count > 0)
                             //{
-
+                            //    foreach (DataRow row in columnExtendedPropertyDataTable.Rows)
+                            //    {
+                            //        if (column.Name == row["ColumnName"].ToString())
+                            //            columnDesc = row["Value"].ToString();
+                            //    }
                             //}
+                            //if (!string.IsNullOrEmpty(columnDesc))
+                            //    column.Alias = columnDesc;
 
-                            //if (table.ID == 0)
-                            //    projectContext.Table.Add(table);
-                            //projectContext.SaveChanges();
-                            //result.SuccessfulItems.Add(resultitem);
+                            column.DataType = columnRow["DATA_TYPE"].ToString();
+                            column.PrimaryKey = keyColumns.Contains(column.Name);
+                            column.IsNull = columnRow["is_nullable"].ToString() == "YES";
+                            column.IsIdentity = columnRow["IsIdentity"].ToString() == "1";
+                            column.Position = Convert.ToInt32(columnRow["ORDINAL_POSITION"].ToString());
+                            column.DefaultValue = (columnRow["COLUMN_DEFAULT"] == null ? null : columnRow["COLUMN_DEFAULT"].ToString());
+                            if (IsStringType(column))
+                            {
+                                //column. = Convert.ToByte(Enum_ColumnType.String);
+                                //if (column.DateColumnType != null)
+                                //    column.DateColumnType = null;
+                                //if (column.NumericColumnType != null)
+                                //    column.NumericColumnType = null;
+                                column.OriginalColumnType = Enum_ColumnType.String;
+                                column.ColumnType = Enum_ColumnType.String;
+                                if (column.StringColumnType == null)
+                                    column.StringColumnType = new StringColumnTypeDTO();
+                                column.StringColumnType.MaxLength = (columnRow["CHARACTER_MAXIMUM_LENGTH"] == null || columnRow["CHARACTER_MAXIMUM_LENGTH"] == DBNull.Value ? 0 : Convert.ToInt32(columnRow["CHARACTER_MAXIMUM_LENGTH"]));
+                            }
+                            else if (IsNumericType(column))
+                            {
+                                //       column.TypeEnum = Convert.ToByte(Enum_ColumnType.Numeric);
+                                //if (column.DateColumnType != null)
+                                //    column.DateColumnType = null;
+                                //if (column.StringColumnType != null)
+                                //    column.StringColumnType = null;
+                                column.OriginalColumnType = Enum_ColumnType.Numeric;
+                                column.ColumnType = Enum_ColumnType.Numeric;
+                                if (column.NumericColumnType == null)
+                                    column.NumericColumnType = new NumericColumnTypeDTO();
+                                if (columnRow["NUMERIC_PRECISION"] != null && columnRow["NUMERIC_PRECISION"] != DBNull.Value)
+                                    column.NumericColumnType.Precision = Convert.ToInt32(columnRow["NUMERIC_PRECISION"]);
+                                if (columnRow["NUMERIC_SCALE"] != null && columnRow["NUMERIC_SCALE"] != DBNull.Value)
+                                    column.NumericColumnType.Scale = Convert.ToInt32(columnRow["NUMERIC_SCALE"]);
+                            }
+                            else if (IsDateTimeType(column))
+                            {
+                                //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Date);
+                                //if (column.StringColumnType != null)
+                                //    column.StringColumnType = null;
+                                //if (column.NumericColumnType != null)
+                                //    column.NumericColumnType = null;
+                                column.OriginalColumnType = Enum_ColumnType.Date;
+                                column.ColumnType = Enum_ColumnType.DateTime;
+                                if (column.DateTimeColumnType == null)
+                                    column.DateTimeColumnType = new  DateTimeColumnTypeDTO();
+                            }
+                            else if (IsDateType(column))
+                            {
+                                //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Date);
+                                //if (column.StringColumnType != null)
+                                //    column.StringColumnType = null;
+                                //if (column.NumericColumnType != null)
+                                //    column.NumericColumnType = null;
+                                column.OriginalColumnType = Enum_ColumnType.Date;
+                                column.ColumnType = Enum_ColumnType.Date;
+                                if (column.DateColumnType == null)
+                                    column.DateColumnType = new DateColumnTypeDTO();
+                            }
+                            else if (IsTimeType(column))
+                            {
+                                //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Date);
+                                //if (column.StringColumnType != null)
+                                //    column.StringColumnType = null;
+                                //if (column.NumericColumnType != null)
+                                //    column.NumericColumnType = null;
+                                column.OriginalColumnType = Enum_ColumnType.Time;
+                                column.ColumnType = Enum_ColumnType.Time;
+                                if (column.TimeColumnType == null)
+                                    column.TimeColumnType = new TimeColumnTypeDTO();
+                            }
+                            else if (IsBooleanType(column))
+                            {
+                                column.OriginalColumnType = Enum_ColumnType.Boolean;
+                                column.ColumnType = Enum_ColumnType.Boolean;
+                                //column.IsBoolean = true;
+                                //   column.TypeEnum = Convert.ToByte(Enum_ColumnType.Boolean);
+                                //if (column.StringColumnType != null)
+                                //    column.StringColumnType = null;
+                                //if (column.NumericColumnType != null)
+                                //    column.NumericColumnType = null;
+                                //if (column.DateColumnType == null)
+                                //    column.DateColumnType = null;
+
+                            }
+
+                            var IsComputed = columnRow["IsComputed"];
+                            //     column.IsDBCalculatedColumn = Convert.ToBoolean(IsComputed);
+                            if (IsComputed != null && Convert.ToBoolean(IsComputed))
+                            {
+                                if ((columnRow["Formula"]) != null)
+                                    column.DBFormula = columnRow["Formula"].ToString();
+                            }
+                            else
+                            {
+                                column.DBFormula = "";
+                                //column.IsDBCalculatedColumn = false;
+                                //if (column.DBCalculatedColumn != null)
+                                //    projectContext.DBCalculatedColumn.Remove(column.DBCalculatedColumn);
+                            }
+                            table.Columns.Add(column);
+                        }
+                        //    string queryColumns = @"Select *, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'IsIdentity') as IsIdentity 
+                        //,(select definition from  sys.computed_columns where object_id(TABLE_SCHEMA+'.'+TABLE_NAME)= sys.computed_columns.object_id and sys.computed_columns.name=Column_Name ) as Formula, COLUMNPROPERTY(object_id(TABLE_SCHEMA+'.'+TABLE_NAME), COLUMN_NAME, 'iscomputed') as IsComputed from INFORMATION_SCHEMA.COLUMNS";
+                        //    using (SqlCommand commandFields = new SqlCommand(queryColumns + " Where TABLE_Name = '" + table.Name + "' ", testConn))
+                        //    using (SqlDataReader readerFields = commandFields.ExecuteReader())
+                        //    {
+                        //while (readerFields.Read())
+                        //{
+
+                        //}
+
+                        //if (table.ID == 0)
+                        //    projectContext.Table.Add(table);
+                        //projectContext.SaveChanges();
+                        //result.SuccessfulItems.Add(resultitem);
 
 
 
 
 
 
-                            result.Add(new TableImportItem(table, false, ""));
+                        result.Add(new TableImportItem(table, false, ""));
                         //}
                         //catch (Exception ex)
                         //{
@@ -281,6 +305,11 @@ namespace MyModelGenerator
             //{
             //    throw ex;
             //}
+        }
+
+        private bool IsTimeType(ColumnDTO column)
+        {
+            return (column.DataType == "time");
         }
 
 
@@ -336,7 +365,11 @@ namespace MyModelGenerator
         }
         private bool IsDateType(ColumnDTO column)
         {
-            return (column.DataType == "date" || column.DataType == "datetime");
+            return (column.DataType == "date" );
+        }
+        private bool IsDateTimeType(ColumnDTO column)
+        {
+            return ( column.DataType == "datetime");
         }
         public List<RelationshipImportItem> GetRelationships()
         {
@@ -508,7 +541,7 @@ namespace MyModelGenerator
                             foreach (var relColumn in relation.RelationshipColumns)
                             {
                                 var fkColumn = fkkeyColumnsEnumerator.FirstOrDefault(x => x["TABLE_NAME"].ToString() == relation.Entity2
-                                && x["column_name"].ToString()== relColumn.SecondSideColumn.Name);
+                                && x["column_name"].ToString() == relColumn.SecondSideColumn.Name);
                                 if (fkColumn != null && fkColumn["is_nullable"].ToString() == "YES")
                                 {
                                     hasNullFKColumn = true;

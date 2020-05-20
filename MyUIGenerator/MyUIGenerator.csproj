@@ -207,6 +207,10 @@
     <Compile Include="UIControlHelper\ControlManager\SimpleControlManagerForOneDataForm.cs" />
     <Compile Include="UIControlHelper\ControlManager\SimpleControlManagerForMultipleDataForm.cs" />
     <Compile Include="UIControlHelper\Controls\BaseControlHelper.cs" />
+    <Compile Include="UIControlHelper\Controls\DateTimePickerHelper.cs" />
+    <Compile Include="UIControlHelper\Controls\MyDateTimePicker.xaml.cs">
+      <DependentUpon>MyDateTimePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIControlHelper\MenuHelper.cs" />
     <Compile Include="UIControlHelper\Temp.cs" />
     <Compile Include="UI\Archive\frmAddArchiveItems.xaml.cs">
@@ -234,7 +238,6 @@
     <Compile Include="UIControlHelper\DataGridViewColumn.cs" />
     <Compile Include="UIControlHelper\TabHelper.cs" />
     <Compile Include="UIControlHelper\Controls\NumericTextBoxHelper.cs" />
-    <Compile Include="UIControlHelper\Controls\DatePickerHelper.cs" />
     <Compile Include="UIControlHelper\Controls\KeyValueControlHelper.cs" />
     <Compile Include="UIHelper.cs" />
     <Compile Include="UIControlHelper\ControlHelper.cs" />
@@ -415,6 +418,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UC_InfoDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIControlHelper\Controls\MyDateTimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

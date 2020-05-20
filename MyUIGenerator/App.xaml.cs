@@ -30,7 +30,9 @@ namespace MyUIGenerator
             //window.Show();
             //ReportViewerWindow2 window = new ReportViewerWindow2();
             //window.ShowDialog();
-
+            //frmTest tt = new frmTest();
+            //tt.ShowDialog();
+            //return;
             var UIManager = UIManagerGenerator.GetUIManager();
             UIManager.StartApp();
 

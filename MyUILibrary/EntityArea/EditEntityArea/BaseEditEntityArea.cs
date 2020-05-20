@@ -574,16 +574,16 @@ namespace MyUILibrary.EntityArea
 
                     //propertyControl.ControlPackage = new UIControlPackageForSimpleColumn();
                     bool hasRangeOfValues = column.ColumnValueRange != null && column.ColumnValueRange.Details.Any();
-                    bool valueIsTitleOrValue = false;
-                    if (hasRangeOfValues)
-                        valueIsTitleOrValue = column.ColumnValueRange.ValueFromTitleOrValue;
+                   // bool valueIsTitleOrValue = false;
+                    //if (hasRangeOfValues)
+                    //    valueIsTitleOrValue = column.ColumnValueRange.ValueFromTitleOrValue;
 
                     AgentHelper.SetPropertyTitle(propertyControl);
 
                     if (this is I_EditEntityAreaOneData)
-                        propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForOneDataForm(column, GetColumnUISetting(column), hasRangeOfValues, valueIsTitleOrValue, null, true, propertyControl.Alias);
+                        propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForOneDataForm(column, GetColumnUISetting(column), hasRangeOfValues, null, true, propertyControl.Alias);
                     else if (this is I_EditEntityAreaMultipleData)
-                        propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForMultipleDataForm(column, GetColumnUISetting(column), hasRangeOfValues, valueIsTitleOrValue, true, propertyControl.Alias);
+                        propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForMultipleDataForm(column, GetColumnUISetting(column), hasRangeOfValues, true, propertyControl.Alias);
 
                     var info = column.ID + "," + column.Name;
                     AddColumnControlMessage(new ColumnControlMessageItem(propertyControl, ControlOrLabelAsTarget.Label) { Key = "columninfo", Message = info });

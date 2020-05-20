@@ -86,7 +86,7 @@ namespace MyUILibrary.DataViewArea
                     else
                         propertyControl.Alias = column.Alias;
                     //     propertyControl.ControlPackage = new UIControlPackageForSimpleColumn();
-                    propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForMultipleDataForm(column.Column, GetColumnUISetting(column.Column), false, false, true, propertyControl.Alias);
+                    propertyControl.ControlManager = AgentUICoreMediator.GetAgentUICoreMediator.UIManager.GenerateSimpleControlManagerForMultipleDataForm(column.Column, GetColumnUISetting(column.Column), false, true, propertyControl.Alias);
                     //      if (propertyControl.IsPermanentReadOnly)
                     if (!string.IsNullOrEmpty(column.Tooltip))
                     {

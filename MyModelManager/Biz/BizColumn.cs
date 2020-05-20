@@ -136,37 +136,121 @@ namespace MyModelManager
             }
             return null;
         }
-
         private DateColumnTypeDTO ToDateColumTypeDTO(DataAccess.DateColumnType item)
         {
             DateColumnTypeDTO result = new DateColumnTypeDTO();
             result.ColumnID = item.ColumnID;
             result.ShowMiladiDateInUI = item.ShowMiladiDateInUI;
-            result.StringValueIsMiladi = item.StringValueIsMiladi;
+            result.StringDateIsMiladi = item.StringDateIsMiladi;
             //     result.ValueIsPersianDate = item.ValueIsPersianDate;
             return result;
         }
+        public List<TimeColumnTypeDTO> GetTimeColumType(int columnID)
+        {
+            ColumnDTO result = new ColumnDTO();
+            using (var projectContext = new DataAccess.MyProjectEntities())
+            {
+                var column = projectContext.Column.First(x => x.ID == columnID);
+                if (column.TimeColumnType != null)
+                    return GeneralHelper.CreateListFromSingleObject<TimeColumnTypeDTO>(ToTimeColumTypeDTO(column.TimeColumnType));
+            }
+            return null;
+        }
+        private TimeColumnTypeDTO ToTimeColumTypeDTO(DataAccess.TimeColumnType item)
+        {
+            TimeColumnTypeDTO result = new TimeColumnTypeDTO();
+            result.ColumnID = item.ColumnID;
+            result.ShowMiladiTime = item.ShowMiladiTime;
+            result.StringTimeIsMiladi = item.StringTimeIsMiladi;
+            result.StringTimeISAMPMFormat = item.StringTimeISAMPMFormat;
+            result.ShowAMPMFormat = item.ShowAMPMFormat;
+            //     result.ValueIsPersianDate = item.ValueIsPersianDate;
+            return result;
+        }
+        public List<DateTimeColumnTypeDTO> GetDateTimeColumType(int columnID)
+        {
+            ColumnDTO result = new ColumnDTO();
+            using (var projectContext = new DataAccess.MyProjectEntities())
+            {
+                var column = projectContext.Column.First(x => x.ID == columnID);
+                if (column.DateTimeColumnType != null)
+                    return GeneralHelper.CreateListFromSingleObject<DateTimeColumnTypeDTO>(ToDateTimeColumTypeDTO(column.DateTimeColumnType));
+            }
+            return null;
+        }
+        private DateTimeColumnTypeDTO ToDateTimeColumTypeDTO(DataAccess.DateTimeColumnType item)
+        {
+            DateTimeColumnTypeDTO result = new DateTimeColumnTypeDTO();
+            result.ColumnID = item.ColumnID;
+            result.HideTimePicker = item.HideTimePicker;
+            result.ShowAMPMFormat = item.ShowAMPMFormat;
+            result.ShowMiladiDateInUI = item.ShowMiladiDateInUI;
+            result.StringDateIsMiladi = item.StringDateIsMiladi;
+            result.StringTimeIsMiladi = item.StringTimeIsMiladi;
+            result.StringTimeISAMPMFormat = item.StringTimeISAMPMFormat;
 
-        public void ConvertDateColumnToStringColumnType(int columnID)
+            return result;
+        }
+
+
+        public void ConvertColumnToStringColumnType(int columnID)
         {
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
-                var dbColumn = projectContext.DateColumnType.First(x => x.ColumnID == columnID);
-
-                if ((Enum_ColumnType)dbColumn.Column.OriginalTypeEnum == Enum_ColumnType.Date)
+                var dbColumn = projectContext.Column.First(x => x.ID == columnID);
+                if ((Enum_ColumnType)dbColumn.OriginalTypeEnum != Enum_ColumnType.String)
                 {
-                    throw new Exception("ستون از نوع تاریخ میلادی می باشد و امکان تبدیل به نوع رشته ای ندارد");
+                    throw new Exception("ستون امکان تبدیل به نوع رشته ای ندارد");
                 }
 
-                if (dbColumn.Column.DateColumnType != null)
-                {
-                    projectContext.DateColumnType.Remove(dbColumn.Column.DateColumnType);
-                    dbColumn.Column.DateColumnType = null;
-                }
-                dbColumn.Column.TypeEnum = Convert.ToByte(Enum_ColumnType.String);
+                dbColumn.TypeEnum = Convert.ToByte(Enum_ColumnType.String);
+                RemoveColumnTypes(projectContext, dbColumn, new List<Enum_ColumnType>() { Enum_ColumnType.String });
+
                 projectContext.SaveChanges();
             }
         }
+
+
+        //public void ConvertStringTimeColumnToStringColumnType(int columnID)
+        //{
+        //    using (var projectContext = new DataAccess.MyProjectEntities())
+        //    {
+        //        var dbColumn = projectContext.TimeColumnType.First(x => x.ColumnID == columnID);
+
+        //        if ((Enum_ColumnType)dbColumn.Column.OriginalTypeEnum != Enum_ColumnType.String)
+        //        {
+        //            throw new Exception("ستون امکان تبدیل به نوع رشته ای ندارد");
+        //        }
+
+        //        if (dbColumn.Column.TimeColumnType != null)
+        //        {
+        //            projectContext.TimeColumnType.Remove(dbColumn.Column.TimeColumnType);
+        //            dbColumn.Column.TimeColumnType = null;
+        //        }
+        //        dbColumn.Column.TypeEnum = Convert.ToByte(Enum_ColumnType.String);
+        //        projectContext.SaveChanges();
+        //    }
+        //}
+        //public void ConvertStringDateTimeColumnToStringColumnType(int columnID)
+        //{
+        //    using (var projectContext = new DataAccess.MyProjectEntities())
+        //    {
+        //        var dbColumn = projectContext.TimeColumnType.First(x => x.ColumnID == columnID);
+
+        //        if ((Enum_ColumnType)dbColumn.Column.OriginalTypeEnum != Enum_ColumnType.String)
+        //        {
+        //            throw new Exception("ستون امکان تبدیل به نوع رشته ای ندارد");
+        //        }
+
+        //        if (dbColumn.Column.TimeColumnType != null)
+        //        {
+        //            projectContext.TimeColumnType.Remove(dbColumn.Column.TimeColumnType);
+        //            dbColumn.Column.TimeColumnType = null;
+        //        }
+        //        dbColumn.Column.TypeEnum = Convert.ToByte(Enum_ColumnType.String);
+        //        projectContext.SaveChanges();
+        //    }
+        //}
         public void ConvertStringColumnToDateColumnType(int columnID)
         {
             using (var projectContext = new DataAccess.MyProjectEntities())
@@ -178,13 +262,78 @@ namespace MyModelManager
 
                 var dbUISetting = dbColumn.Table.DBSchema.DatabaseInformation.DatabaseUISetting;
                 dbColumn.DateColumnType.ShowMiladiDateInUI = dbUISetting != null ? dbUISetting.ShowMiladiDateInUI : false;
-                dbColumn.DateColumnType.StringValueIsMiladi = dbUISetting != null ? dbUISetting.StringDateColumnIsMiladi : false;
+                dbColumn.DateColumnType.StringDateIsMiladi = dbUISetting != null ? dbUISetting.StringDateColumnIsMiladi : false;
                 dbColumn.TypeEnum = Convert.ToByte(Enum_ColumnType.Date);
+                RemoveColumnTypes(projectContext, dbColumn, new List<Enum_ColumnType>() { Enum_ColumnType.Date, Enum_ColumnType.String });
 
                 projectContext.SaveChanges();
             }
         }
+        public void ConvertStringColumnToTimeColumnType(int columnID)
+        {
+            using (var projectContext = new DataAccess.MyProjectEntities())
+            {
+                var dbColumn = projectContext.Column.First(x => x.ID == columnID);
 
+                if (dbColumn.TimeColumnType == null)
+                    dbColumn.TimeColumnType = new TimeColumnType();
+
+                var dbUISetting = dbColumn.Table.DBSchema.DatabaseInformation.DatabaseUISetting;
+                dbColumn.TimeColumnType.ShowMiladiTime = dbUISetting != null ? dbUISetting.ShowMiladiDateInUI : false;
+                //    dbColumn.TimeColumnType.StringValueIsMiladi = dbUISetting != null ? dbUISetting.StringDateColumnIsMiladi : false;
+
+                dbColumn.TypeEnum = Convert.ToByte(Enum_ColumnType.Time);
+                RemoveColumnTypes(projectContext, dbColumn, new List<Enum_ColumnType>() { Enum_ColumnType.Time, Enum_ColumnType.String });
+
+                projectContext.SaveChanges();
+            }
+        }
+        public void ConvertStringColumnToDateTimeColumnType(int columnID)
+        {
+            using (var projectContext = new DataAccess.MyProjectEntities())
+            {
+                var dbColumn = projectContext.Column.First(x => x.ID == columnID);
+                if (dbColumn.DateTimeColumnType == null)
+                    dbColumn.DateTimeColumnType = new DateTimeColumnType();
+
+                var dbUISetting = dbColumn.Table.DBSchema.DatabaseInformation.DatabaseUISetting;
+                dbColumn.DateTimeColumnType.ShowMiladiDateInUI = dbUISetting != null ? dbUISetting.ShowMiladiDateInUI : false;
+                dbColumn.DateTimeColumnType.StringDateIsMiladi = dbUISetting != null ? dbUISetting.StringDateColumnIsMiladi : false;
+                dbColumn.DateTimeColumnType.StringTimeIsMiladi = dbUISetting != null ? dbUISetting.StringDateColumnIsMiladi : false;
+
+                dbColumn.TypeEnum = Convert.ToByte(Enum_ColumnType.DateTime);
+                RemoveColumnTypes(projectContext, dbColumn, new List<Enum_ColumnType>() { Enum_ColumnType.DateTime, Enum_ColumnType.String });
+                projectContext.SaveChanges();
+            }
+        }
+        private void RemoveColumnTypes(MyProjectEntities projectContext, Column dbColumn, List<Enum_ColumnType> exceptionTypes)
+        {
+            if (!exceptionTypes.Contains(Enum_ColumnType.Numeric))
+            {
+                if (dbColumn.NumericColumnType != null)
+                    projectContext.NumericColumnType.Remove(dbColumn.NumericColumnType);
+            }
+            if (!exceptionTypes.Contains(Enum_ColumnType.DateTime))
+            {
+                if (dbColumn.DateTimeColumnType != null)
+                    projectContext.DateTimeColumnType.Remove(dbColumn.DateTimeColumnType);
+            }
+            if (!exceptionTypes.Contains(Enum_ColumnType.Date))
+            {
+                if (dbColumn.DateColumnType != null)
+                    projectContext.DateColumnType.Remove(dbColumn.DateColumnType);
+            }
+            if (!exceptionTypes.Contains(Enum_ColumnType.Time))
+            {
+                if (dbColumn.TimeColumnType != null)
+                    projectContext.TimeColumnType.Remove(dbColumn.TimeColumnType);
+            }
+            if (!exceptionTypes.Contains(Enum_ColumnType.String))
+            {
+                if (dbColumn.StringColumnType != null)
+                    projectContext.StringColumnType.Remove(dbColumn.StringColumnType);
+            }
+        }
         public List<ColumnDTO> GetAllColumns(int entityID, bool simple)
         {
             using (var projectContext = new DataAccess.MyProjectEntities())
@@ -336,10 +485,13 @@ namespace MyModelManager
                     result.NumericColumnType = ToNumericColumTypeDTO(item.NumericColumnType);
                 if (item.DateColumnType != null)
                     result.DateColumnType = ToDateColumTypeDTO(item.DateColumnType);
-
+                if (item.TimeColumnType != null)
+                    result.TimeColumnType = ToTimeColumTypeDTO(item.TimeColumnType);
+                if (item.DateTimeColumnType != null)
+                    result.DateTimeColumnType = ToDateTimeColumTypeDTO(item.DateTimeColumnType);
                 BizColumnValueRange bizColumnValueRange = new MyModelManager.BizColumnValueRange();
                 if (item.ColumnValueRange != null)
-                    result.ColumnValueRange = bizColumnValueRange.ToColumnValueRangeDTO(item.ColumnValueRange);
+                    result.ColumnValueRange = bizColumnValueRange.ToColumnValueRangeDTO(item.ColumnValueRange, true);
 
                 if (item.CustomCalculateFormulaID != null)
                 {
@@ -504,6 +656,7 @@ namespace MyModelManager
             }
         }
 
+
         public void UpdateDateColumnType(List<DateColumnTypeDTO> columnTypes)
         {
             using (var projectContext = new DataAccess.MyProjectEntities())
@@ -511,16 +664,71 @@ namespace MyModelManager
                 foreach (var column in columnTypes)
                 {
                     var dbColumn = projectContext.DateColumnType.First(x => x.ColumnID == column.ColumnID);
-                    if (!column.StringValueIsMiladi)
-                    {
-                        if ((Enum_ColumnType)dbColumn.Column.OriginalTypeEnum == Enum_ColumnType.Date)
-                        {
-                            throw new Exception("ستون از نوع تاریخ میلادی می باشد و گزینه مقدار شمسی به اشتباه انتخاب شده است");
-                        }
-                    }
                     dbColumn.ShowMiladiDateInUI = column.ShowMiladiDateInUI;
-                    dbColumn.StringValueIsMiladi = column.StringValueIsMiladi;
+                    if ((Enum_ColumnType)dbColumn.Column.OriginalTypeEnum == Enum_ColumnType.String)
+                        dbColumn.StringDateIsMiladi = column.StringDateIsMiladi;
+                    else
+                        dbColumn.StringDateIsMiladi = null;
 
+                }
+                projectContext.SaveChanges();
+            }
+        }
+
+        public void UpdateDateTimeColumnType(List<DateTimeColumnTypeDTO> columnTypes)
+        {
+            using (var projectContext = new DataAccess.MyProjectEntities())
+            {
+                foreach (var column in columnTypes)
+                {
+                    var dbColumn = projectContext.DateTimeColumnType.First(x => x.ColumnID == column.ColumnID);
+                    dbColumn.ShowMiladiDateInUI = column.ShowMiladiDateInUI;
+                    dbColumn.ShowAMPMFormat = column.ShowAMPMFormat;
+                    dbColumn.HideTimePicker = column.HideTimePicker;
+                    if ((Enum_ColumnType)dbColumn.Column.OriginalTypeEnum == Enum_ColumnType.String)
+                    {
+                        dbColumn.StringDateIsMiladi = column.StringDateIsMiladi;
+                        dbColumn.StringTimeISAMPMFormat = column.StringTimeISAMPMFormat;
+                        dbColumn.StringTimeIsMiladi = column.StringTimeIsMiladi;
+                    }
+                    else
+                    {
+                        dbColumn.StringDateIsMiladi = null;
+                        dbColumn.StringTimeISAMPMFormat = null;
+                        dbColumn.StringTimeIsMiladi = null;
+                    }
+
+                }
+                projectContext.SaveChanges();
+            }
+        }
+
+        public void UpdateTimeColumnType(List<TimeColumnTypeDTO> columnTypes)
+        {
+            using (var projectContext = new DataAccess.MyProjectEntities())
+            {
+                foreach (var column in columnTypes)
+                {
+                    var dbColumn = projectContext.TimeColumnType.First(x => x.ColumnID == column.ColumnID);
+                    //if (!column.StringValueIsMiladi)
+                    //{
+                    //    if ((Enum_ColumnType)dbColumn.Column.OriginalTypeEnum == Enum_ColumnType.Time)
+                    //    {
+                    //        throw new Exception("ستون از نوع زمان می باشد و گزینه مقدار شمسی به اشتباه انتخاب شده است");
+                    //    }
+                    //}
+                    dbColumn.ShowMiladiTime = column.ShowMiladiTime;
+                    dbColumn.ShowAMPMFormat = column.ShowAMPMFormat;
+                    if ((Enum_ColumnType)dbColumn.Column.OriginalTypeEnum == Enum_ColumnType.String)
+                    {
+                        dbColumn.StringTimeIsMiladi = column.StringTimeIsMiladi;
+                        dbColumn.StringTimeISAMPMFormat = column.StringTimeISAMPMFormat;
+                    }
+                    else
+                    {
+                        dbColumn.StringTimeIsMiladi = null;
+                        dbColumn.StringTimeISAMPMFormat = null;
+                    }
                 }
                 projectContext.SaveChanges();
             }

@@ -19,7 +19,6 @@ namespace DataAccess
             this.ColumnValueRangeDetails = new HashSet<ColumnValueRangeDetails>();
         }
     
-        public bool ValueFromTitleOrValue { get; set; }
         public int ID { get; set; }
     
         public virtual Column Column { get; set; }

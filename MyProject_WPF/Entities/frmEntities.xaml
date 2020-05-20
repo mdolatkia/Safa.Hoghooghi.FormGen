@@ -86,6 +86,19 @@
                                 </telerik:RadGridView>
                             </Grid>
                         </TabItem>
+                        <TabItem  IsSelected="True" x:Name="tabDateTimeColumnType" Header="نوع ستون  تاریخ/زمان">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Margin="2" IsEnabled="False" Width="90" Content="ثبت" x:Name="btnUpdateDateTimeColumnType" Click="btnUpdateDateTimeColumnType_Click"></Button>
+                                </StackPanel>
+                                <telerik:RadGridView x:Name="dtgDateTimeColumnType" Grid.Row="1">
+                                </telerik:RadGridView>
+                            </Grid>
+                        </TabItem>
                         <TabItem  IsSelected="True" x:Name="tabDateColumnType" Header="نوع ستون تاریخ">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -97,6 +110,20 @@
 
                                 </StackPanel>
                                 <telerik:RadGridView x:Name="dtgDateColumnType" Grid.Row="1">
+
+                                </telerik:RadGridView>
+                            </Grid>
+                        </TabItem>
+                        <TabItem  IsSelected="True" x:Name="tabTimeColumnType" Header="نوع ستون زمان">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Margin="2" IsEnabled="False" Width="90" Content="ثبت" x:Name="btnUpdateTimeColumnType" Click="btnUpdateTimeColumnType_Click"></Button>
+                                </StackPanel>
+                                <telerik:RadGridView x:Name="dtgTimeColumnType" Grid.Row="1">
 
                                 </telerik:RadGridView>
                             </Grid>

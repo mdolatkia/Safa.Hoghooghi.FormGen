@@ -29,7 +29,7 @@ namespace MyUIGenerator.UIControlHelper
         public ColumnUISettingDTO ColumnSetting { set; get; }
 
         bool HasRangeOfValues;
-        bool ValueIsTitleOrValue;
+     //   bool ValueIsTitleOrValue;
 
         ConrolPackageMenu CPMenu { set; get; }
         internal void GenerateMenu(ConrolPackageMenu cpMenu)
@@ -40,14 +40,14 @@ namespace MyUIGenerator.UIControlHelper
         }
 
 
-        public DataGridTextColumn(ColumnDTO column, ColumnUISettingDTO columnSetting, bool hasRangeOfValues, bool valueIsTitleOrValue)
+        public DataGridTextColumn(ColumnDTO column, ColumnUISettingDTO columnSetting, bool hasRangeOfValues)
         {
 
             ColumnSetting = columnSetting;
 
             Column = column;
             HasRangeOfValues = hasRangeOfValues;
-            ValueIsTitleOrValue = valueIsTitleOrValue;
+       //     ValueIsTitleOrValue = valueIsTitleOrValue;
             if (columnSetting != null)
             {
                 if (columnSetting.UIColumnsType == Enum_UIColumnsType.Full)
@@ -63,7 +63,7 @@ namespace MyUIGenerator.UIControlHelper
         {
             I_ControlHelper MyControlHelper = null;
             if (HasRangeOfValues)
-                MyControlHelper = ControlHelper.KeyValueControlHelper(Column, ValueIsTitleOrValue);
+                MyControlHelper = ControlHelper.KeyValueControlHelper(Column);
             else
                 MyControlHelper = ControlHelper.GetControlHelper(Column, ColumnSetting, null);
             MyControlHelper.SetReadonly(IsReadOnly);
@@ -207,7 +207,7 @@ namespace MyUIGenerator.UIControlHelper
 
             I_ControlHelper MyControlHelper = null;
             if (HasRangeOfValues)
-                MyControlHelper = ControlHelper.KeyValueControlHelper(Column, ValueIsTitleOrValue);
+                MyControlHelper = ControlHelper.KeyValueControlHelper(Column);
             else
                 MyControlHelper = ControlHelper.GetControlHelper(Column, ColumnSetting, null);
 
@@ -429,7 +429,7 @@ namespace MyUIGenerator.UIControlHelper
         //        }
         //    }
         //}
-        internal string GetValue(object dataItem)
+        internal object GetValue(object dataItem)
         {
             //var dataRow = GetDataRow(dataGrid, dataItem);
             //var dataRow = this.DataControl.GetRowForItem(dataItem);

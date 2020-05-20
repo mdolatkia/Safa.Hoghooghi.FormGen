@@ -59,8 +59,8 @@ namespace MyUILibrary
         I_RelationshipControlManager GenerateRelationshipControlManagerForOneDataForm(object view, RelationshipUISettingDTO relationshipUISetting, bool labelControlManager, string labelText);
         I_View_EditLogReportDetails GenereateViewOfEditLogReportDetails();
         I_View_ArchiveLogReportDetails GenereateViewOfArchiveLogReportDetails();
-        I_SimpleControlManager GenerateSimpleControlManagerForOneDataForm(ColumnDTO column, ColumnUISettingDTO columnSetting, bool hasRangeOfValues, bool valueIsTitleOrValue, List<SimpleSearchOperator> operators, bool labelControlManager, string labelText);
-        I_SimpleControlManager GenerateSimpleControlManagerForMultipleDataForm(ColumnDTO column, ColumnUISettingDTO columnUISettingDTO, bool hasRangeOfValues, bool valueIsTitleOrValue, bool labelControlManager, string labelText);
+        I_SimpleControlManager GenerateSimpleControlManagerForOneDataForm(ColumnDTO column, ColumnUISettingDTO columnSetting, bool hasRangeOfValues, List<SimpleSearchOperator> operators, bool labelControlManager, string labelText);
+        I_SimpleControlManager GenerateSimpleControlManagerForMultipleDataForm(ColumnDTO column, ColumnUISettingDTO columnUISettingDTO, bool hasRangeOfValues,  bool labelControlManager, string labelText);
 
         I_UICompositionContainer GenerateGroup(GroupUISettingDTO groupUISettingDTO);
 

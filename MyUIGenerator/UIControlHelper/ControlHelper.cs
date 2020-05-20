@@ -81,9 +81,9 @@ namespace MyUIGenerator.UIControlHelper
         //        return TextboxHelper;
         //}
 
-        public static I_ControlHelper KeyValueControlHelper(ColumnDTO column, bool valueIsTitleOrValue)
+        public static I_ControlHelper KeyValueControlHelper(ColumnDTO column)
         {
-            return new KeyValueControlHelper(valueIsTitleOrValue);
+            return new KeyValueControlHelper();
         }
         public static I_ControlHelper GetControlHelper(ColumnDTO column, ColumnUISettingDTO columnSetting, List<SimpleSearchOperator> operators = null)
         {
@@ -91,8 +91,10 @@ namespace MyUIGenerator.UIControlHelper
                 return new TextBoxHelper(column, columnSetting, operators);
             else if (column.ColumnType == Enum_ColumnType.Numeric)
                 return new NumericTextBoxHelper(column, columnSetting, operators);
-            else if (column.ColumnType == Enum_ColumnType.Date)
-                return new DatePickerHelper(column, columnSetting, operators);
+            else if (column.ColumnType == Enum_ColumnType.Date
+                || column.ColumnType == Enum_ColumnType.Time
+                || column.ColumnType == Enum_ColumnType.DateTime)
+                return new DateTimePickerHelper(column, columnSetting, operators);
             else if (column.ColumnType == Enum_ColumnType.Boolean)
                 return new CheckBoxHelper(column, columnSetting, operators);
             else

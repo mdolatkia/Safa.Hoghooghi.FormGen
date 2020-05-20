@@ -43,7 +43,7 @@ namespace MyModelManager
             {
                 var column = projectContext.ColumnValueRange.FirstOrDefault(x => x.ID == columnID);
                 if (column != null)
-                    return ToColumnValueRangeDTO(column);
+                    return ToColumnValueRangeDTO(column,false);
                 else
                     return null;
             }
@@ -86,10 +86,10 @@ namespace MyModelManager
             return null;
         }
 
-        public ColumnValueRangeDTO ToColumnValueRangeDTO(DataAccess.ColumnValueRange item)
+        public ColumnValueRangeDTO ToColumnValueRangeDTO(DataAccess.ColumnValueRange item, bool titleIsValueIfEmpty)
         {
             ColumnValueRangeDTO result = new ColumnValueRangeDTO();
-            result.ValueFromTitleOrValue = item.ValueFromTitleOrValue;
+            //       result.ValueFromTitleOrValue = item.ValueFromTitleOrValue;
             result.Details = new List<ColumnValueRangeDetailsDTO>();
             result.ID = item.ID;
             foreach (var rItem in item.ColumnValueRangeDetails)
@@ -97,8 +97,10 @@ namespace MyModelManager
                 var keyValueRange = new ColumnValueRangeDetailsDTO();
                 keyValueRange.ColumnValueRangeID = rItem.ColumnValueRangeID;
                 keyValueRange.ID = rItem.ID;
-                keyValueRange.KeyTitle = rItem.KeyTitle;
                 keyValueRange.Value = rItem.Value;
+                keyValueRange.KeyTitle = rItem.KeyTitle;
+                if (titleIsValueIfEmpty && string.IsNullOrEmpty(keyValueRange.KeyTitle))
+                    keyValueRange.KeyTitle = keyValueRange.Value;
                 keyValueRange.Tag1 = rItem.Tag1;
                 keyValueRange.Tag2 = rItem.Tag2;
                 result.Details.Add(keyValueRange);
@@ -114,12 +116,12 @@ namespace MyModelManager
                 if (dbColumn.ColumnValueRange == null)
                 {
                     dbColumn.ColumnValueRange = new ColumnValueRange();
-                  //  projectContext.ColumnValueRange.Add(dbColumnValueRange);
+                    //  projectContext.ColumnValueRange.Add(dbColumnValueRange);
                 }
                 //else
                 //    dbColumnValueRange = projectContext.ColumnValueRange.First(x => x.ID == message.ID);
                 //     dbColumnValueRange.ID = message.ID;
-                dbColumn.ColumnValueRange.ValueFromTitleOrValue = message.ValueFromTitleOrValue;
+                //dbColumn.ColumnValueRange.ValueFromTitleOrValue = message.ValueFromTitleOrValue;
                 while (dbColumn.ColumnValueRange.ColumnValueRangeDetails.Any())
                     projectContext.ColumnValueRangeDetails.Remove(dbColumn.ColumnValueRange.ColumnValueRangeDetails.First());
                 foreach (var keyValueRange in message.Details)

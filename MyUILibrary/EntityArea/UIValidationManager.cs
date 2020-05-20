@@ -621,7 +621,7 @@ namespace MyUILibrary.EntityArea
                     if (simplePropertyControl.Column.NumericColumnType.Precision != 0)
                     {
                         var value = Convert.ToDouble(dataColumn.Value);
-                        if(value.ToString().Replace(".","").Length> simplePropertyControl.Column.NumericColumnType.Precision)
+                        if (value.ToString().Replace(".", "").Length > simplePropertyControl.Column.NumericColumnType.Precision)
                         {
                             string message = "تعداد اعداد این خصوصیت از مقدار تعیین شده" + " " + simplePropertyControl.Column.NumericColumnType.Precision + " " + "بیشتر می باشد";
                             AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
@@ -667,22 +667,22 @@ namespace MyUILibrary.EntityArea
                     }
                     else
                         validValueRange = simplePropertyControl.Column.ColumnValueRange.Details;
-                    if (simplePropertyControl.Column.ColumnValueRange.ValueFromTitleOrValue)
+                    //if (simplePropertyControl.Column.ColumnValueRange.ValueFromTitleOrValue)
+                    //{
+                    //    if (!validValueRange.Any(x => x.KeyTitle == dataColumn.Value))
+                    //    {
+                    //        string message = "مقدار این خصوصیت در لیست مقادیر مجاز نمی باشد";
+                    //        AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
+                    //    }
+                    //}
+                    //else
+                    //{
+                    if (!validValueRange.Any(x => x.Value == dataColumn.Value.ToString()))
                     {
-                        if (!validValueRange.Any(x => x.KeyTitle == dataColumn.Value))
-                        {
-                            string message = "مقدار این خصوصیت در لیست مقادیر مجاز نمی باشد";
-                            AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
-                        }
+                        string message = "مقدار این خصوصیت در لیست مقادیر مجاز نمی باشد";
+                        AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
                     }
-                    else
-                    {
-                        if (!validValueRange.Any(x => x.Value == dataColumn.Value))
-                        {
-                            string message = "مقدار این خصوصیت در لیست مقادیر مجاز نمی باشد";
-                            AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
-                        }
-                    }
+                    //}
                 }
             }
         }

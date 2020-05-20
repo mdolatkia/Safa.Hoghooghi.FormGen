@@ -19,12 +19,12 @@ namespace MyUIGenerator
     /// <summary>
     /// Interaction logic for frmTest.xaml
     /// </summary>
-    public partial class frmTest : View_GridContainer
+    public partial class frmTest : Window
     {
-        public frmTest(short count) : base(count)
+        public frmTest() 
         {
             InitializeComponent();
-            grdArea.Children.Add(ContentScrollViewer as UIElement);
+            //grdArea.Children.Add(ContentScrollViewer as UIElement);
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

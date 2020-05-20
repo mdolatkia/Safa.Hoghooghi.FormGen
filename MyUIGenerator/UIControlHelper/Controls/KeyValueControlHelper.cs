@@ -23,9 +23,9 @@ namespace MyUIGenerator.UIControlHelper
 
         public FrameworkElement MainControl { get { return combo; } }
         public FrameworkElement WholeControl { get { return theGrid; } }
-        public KeyValueControlHelper(bool valueIsTitleOrValue)
+        public KeyValueControlHelper()
         {
-            ValueIsTitleOrValue = valueIsTitleOrValue;
+        //    ValueIsTitleOrValue = valueIsTitleOrValue;
             theGrid = new Grid();
             theGrid.VerticalAlignment = System.Windows.VerticalAlignment.Center;
 
@@ -65,7 +65,7 @@ namespace MyUIGenerator.UIControlHelper
             //}
 
         }
-        bool ValueIsTitleOrValue { set; get; }
+        //bool ValueIsTitleOrValue { set; get; }
         //public List<ColumnKeyValueRangeDetailsDTO> KeyValues { get; private set; }
 
         //public FrameworkElement GenerateControl(ColumnDTO correspondingTypeProperty, ColumnUISettingDTO columnSetting, List<SimpleSearchOperator> operators = null)
@@ -114,15 +114,15 @@ namespace MyUIGenerator.UIControlHelper
         {
             //var control = uiControl;
 
-            if (ValueIsTitleOrValue)
-                combo.Text = value==null?"":value.ToString();
-            else
-            {
+            //if (ValueIsTitleOrValue)
+            //    combo.Text = value==null?"":value.ToString();
+            //else
+            //{
                 if (value == null)
                     combo.SelectedValue = null;
                 else
                     combo.SelectedValue = Convert.ToInt32(value);
-            }
+            //}
             //if (columnSetting != null)
             //{
             //    if (columnSetting.IsReadOnly)
@@ -135,7 +135,7 @@ namespace MyUIGenerator.UIControlHelper
             return true;
         }
 
-        public string GetValue()
+        public object GetValue()
         {
             //var control = uiControl;
             //if (control is TextBlock)
@@ -161,9 +161,9 @@ namespace MyUIGenerator.UIControlHelper
                 text = combo.Text;
             if (combo.SelectedValue != null)
                 value = combo.SelectedValue.ToString();
-            if (ValueIsTitleOrValue)
-                return text;
-            else
+            //if (ValueIsTitleOrValue)
+            //    return text;
+            //else
                 return value;
             //else
             //    if (combo.SelectedValue != null)
@@ -243,9 +243,9 @@ namespace MyUIGenerator.UIControlHelper
         {
             Binding binding = new Binding("Value");
             binding.Source = property;
-            if (ValueIsTitleOrValue)
-                combo.SetBinding(ComboBox.TextProperty, binding);
-            else
+            //if (ValueIsTitleOrValue)
+            //    combo.SetBinding(ComboBox.TextProperty, binding);
+            //else
                 combo.SetBinding(ComboBox.SelectedValueProperty, binding);
 
 

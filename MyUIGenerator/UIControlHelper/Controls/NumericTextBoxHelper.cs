@@ -73,7 +73,7 @@ namespace MyUIGenerator.UIControlHelper
                     //رقم اعشار نمیگذارد و سه رقم سه رقم جدا میکند
                     textBox.FormatString = "n0";
                 }
-                بیشتر تست شود از نوع خود مقدار بایند شده به این کنترل
+                //بیشتر تست شود از نوع خود مقدار بایند شده به این کنترل
                 //بعدا یک خصوصیت اضافه شود که جدا نکند مثل شماره شناسنامه
                
             // سه رقم سه رقم جدا نمیکند  
@@ -182,7 +182,7 @@ namespace MyUIGenerator.UIControlHelper
             return true;
         }
 
-        public string GetValue()
+        public object GetValue()
         {
             //FrameworkElement control;
             //control = (uiControl as Grid).Children[0] as RadMaskedNumericInput;

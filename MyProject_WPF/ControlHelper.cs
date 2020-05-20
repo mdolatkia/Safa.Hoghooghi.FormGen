@@ -17,7 +17,7 @@ namespace MyProject_WPF
         {
             return GenerateGridviewColumn(fieldName, header, false, null, GridViewColumnType.Text);
         }
-        public static GridViewBoundColumnBase GenerateGridviewColumn(string fieldName, string header, bool readOnly, int? width, GridViewColumnType columnType, IEnumerable itemsSource = null)
+        public static GridViewBoundColumnBase GenerateGridviewColumn(string fieldName, string header, bool readOnly,int? width, GridViewColumnType columnType, IEnumerable itemsSource = null)
         {
             var columnw = new GridViewHyperlinkColumn();
 

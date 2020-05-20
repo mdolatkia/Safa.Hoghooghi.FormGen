@@ -53,6 +53,7 @@ namespace DataAccess
         public virtual DbSet<DatabaseFunction_TableDrivedEntity_Columns> DatabaseFunction_TableDrivedEntity_Columns { get; set; }
         public virtual DbSet<DatabaseFunctionParameter> DatabaseFunctionParameter { get; set; }
         public virtual DbSet<DatabaseInformation> DatabaseInformation { get; set; }
+        public virtual DbSet<DatabaseUISetting> DatabaseUISetting { get; set; }
         public virtual DbSet<DataLinkDefinition> DataLinkDefinition { get; set; }
         public virtual DbSet<DataLinkDefinition_EntityRelationshipTail> DataLinkDefinition_EntityRelationshipTail { get; set; }
         public virtual DbSet<DataMenuDataViewRelationship> DataMenuDataViewRelationship { get; set; }
@@ -60,6 +61,7 @@ namespace DataAccess
         public virtual DbSet<DataMenuReportRelationship> DataMenuReportRelationship { get; set; }
         public virtual DbSet<DataMenuSetting> DataMenuSetting { get; set; }
         public virtual DbSet<DataViewSetting> DataViewSetting { get; set; }
+        public virtual DbSet<DateColumnType> DateColumnType { get; set; }
         public virtual DbSet<DBSchema> DBSchema { get; set; }
         public virtual DbSet<DBServer> DBServer { get; set; }
         public virtual DbSet<EmptySpaceUISetting> EmptySpaceUISetting { get; set; }
@@ -105,6 +107,7 @@ namespace DataAccess
         public virtual DbSet<ManyToManyRelationshipType> ManyToManyRelationshipType { get; set; }
         public virtual DbSet<ManyToOneRelationshipType> ManyToOneRelationshipType { get; set; }
         public virtual DbSet<NavigationTree> NavigationTree { get; set; }
+        public virtual DbSet<NumericColumnType> NumericColumnType { get; set; }
         public virtual DbSet<OneToManyRelationshipType> OneToManyRelationshipType { get; set; }
         public virtual DbSet<PartialLetterTemplate> PartialLetterTemplate { get; set; }
         public virtual DbSet<Phrase> Phrase { get; set; }
@@ -115,6 +118,7 @@ namespace DataAccess
         public virtual DbSet<RelationshipUISetting> RelationshipUISetting { get; set; }
         public virtual DbSet<ReportGroups> ReportGroups { get; set; }
         public virtual DbSet<SearchRepository> SearchRepository { get; set; }
+        public virtual DbSet<StringColumnType> StringColumnType { get; set; }
         public virtual DbSet<SubSystems> SubSystems { get; set; }
         public virtual DbSet<SubToSuperRelationshipType> SubToSuperRelationshipType { get; set; }
         public virtual DbSet<SubUnionToUnionRelationshipType> SubUnionToUnionRelationshipType { get; set; }
@@ -127,6 +131,7 @@ namespace DataAccess
         public virtual DbSet<TableDrivedEntityState> TableDrivedEntityState { get; set; }
         public virtual DbSet<TableDrivedEntityStateValues> TableDrivedEntityStateValues { get; set; }
         public virtual DbSet<TabPageUISetting> TabPageUISetting { get; set; }
+        public virtual DbSet<TimeColumnType> TimeColumnType { get; set; }
         public virtual DbSet<UIActionActivity> UIActionActivity { get; set; }
         public virtual DbSet<UIColumnValue> UIColumnValue { get; set; }
         public virtual DbSet<UIColumnValueRange> UIColumnValueRange { get; set; }
@@ -165,9 +170,6 @@ namespace DataAccess
         public virtual DbSet<TransitionAction_Formula> TransitionAction_Formula { get; set; }
         public virtual DbSet<TransitionActionTarget> TransitionActionTarget { get; set; }
         public virtual DbSet<TransitionActivity> TransitionActivity { get; set; }
-        public virtual DbSet<DatabaseUISetting> DatabaseUISetting { get; set; }
-        public virtual DbSet<DateColumnType> DateColumnType { get; set; }
-        public virtual DbSet<StringColumnType> StringColumnType { get; set; }
-        public virtual DbSet<NumericColumnType> NumericColumnType { get; set; }
+        public virtual DbSet<DateTimeColumnType> DateTimeColumnType { get; set; }
     }
 }

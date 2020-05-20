@@ -112,7 +112,8 @@ namespace MyProject_WPF
             SetGridViewColumns(dtgStringColumnType);
             SetGridViewColumns(dtgNumericColumnType);
             SetGridViewColumns(dtgDateColumnType);
-
+            SetGridViewColumns(dtgTimeColumnType);
+            SetGridViewColumns(dtgDateTimeColumnType);
         }
 
         private void SetGridViewColumns(RadGridView dataGrid)
@@ -122,23 +123,23 @@ namespace MyProject_WPF
 
             if (dataGrid == dtgRuleEntity)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("RelatedSchema", "شمای مرتبط", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("RelatedSchema", "شمای مرتبط", true, null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", false, null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, null, GridViewColumnType.Text));
                 //dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Criteria", "شرط", false, 200, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IndependentDataEntry", "ورود اطلاعات مستقل", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("BatchDataEntry", "ورود اطلاعات دسته ای", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsDataReference", "مرجع داده", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsDisabled", "غیر فعال", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsStructurReferencee", "مرجع ساختاری", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsAssociative", "جدول واسط", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SelectAsComboBox", "جستجوی کمبو", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SearchInitially", "جستجوی خودکار", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("LoadArchiveRelatedItems", "نمایش آرشیو مرتبط", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("LoadLetterRelatedItems", "نمایش نامه های مرتبط", false, 160, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Color", "رنگ مرتبط", false, 160, GridViewColumnType.Color));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IndependentDataEntry", "ورود اطلاعات مستقل", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("BatchDataEntry", "ورود اطلاعات دسته ای", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsDataReference", "مرجع داده", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsDisabled", "غیر فعال", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsStructurReferencee", "مرجع ساختاری", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsAssociative", "جدول واسط", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SelectAsComboBox", "جستجوی کمبو", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("SearchInitially", "جستجوی خودکار", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("LoadArchiveRelatedItems", "نمایش آرشیو مرتبط", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("LoadLetterRelatedItems", "نمایش نامه های مرتبط", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Color", "رنگ مرتبط", false, null, GridViewColumnType.Color));
                 //MyStaticLookupColumn lookup = new MyStaticLookupColumn();
                 //lookup.DisplayMemberPath = "Name";
                 //lookup.SelectedValueMemberPath = "ID";
@@ -147,22 +148,22 @@ namespace MyProject_WPF
             }
             else if (dataGrid == dtgColumns)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PrimaryKey", "کلید اصلی", true, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsIdentity", "شماره خودکار", true, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsNull", "مقدار Null", true, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsMandatory", "اجباری", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DefaultValue", "مقدار پیش فرض", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ShowNullValue", "نمایش مقدار Null", false, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataType", "نوع داده", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Position", "موقعیت", false, 100, GridViewColumnType.Numeric));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsDisabled", "غیر فعال", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsNotTransferable", "غیر قابل انتقال", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DBFormula", "فرمول پایگاه داده", true, 100, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ID", "شناسه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Name", "نام", true, null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Alias", "عنوان", false, null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("PrimaryKey", "کلید اصلی", true,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsIdentity", "شماره خودکار", true,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsNull", "مقدار Null", true,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsMandatory", "اجباری", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DefaultValue", "مقدار پیش فرض", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ShowNullValue", "نمایش مقدار Null", false,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataType", "نوع داده", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Position", "موقعیت", false,null, GridViewColumnType.Numeric));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsDisabled", "غیر فعال", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DataEntryEnabled", "قابلیت ورود اطلاعات", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsReadonly", "فقط خواندنی", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsNotTransferable", "غیر قابل انتقال", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("DBFormula", "فرمول پایگاه داده", true,null, GridViewColumnType.Text));
 
                 formulaColumn = new MyStaticLookupColumn();
                 formulaColumn.DataMemberBinding = new Binding("CustomFormulaID");
@@ -172,33 +173,53 @@ namespace MyProject_WPF
                 formulaColumn.EditItemClicked += formulaColumn_EditItemClicked;
                 dataGrid.Columns.Add(formulaColumn);
 
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Description", "توضیحات", false, 100, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Description", "توضیحات", false,null, GridViewColumnType.Text));
 
                 //    dataGrid.Columns MyStaticLookupColumn DataMemberBinding = "{Binding RelationshipTailID}"  x: Name = "colRelationshipTail" Header = "رشته رابطه" ></ MyCommonWPFControls:MyStaticLookupColumn >
 
             }
             else if (dataGrid == dtgStringColumnType)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ColumnID", "شناسه ستون", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("MaxLength", "حداکثر طول", false, 100, GridViewColumnType.Numeric));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Format", "فرمت", false, 200, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ColumnID", "شناسه ستون", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("MaxLength", "حداکثر طول", false,null, GridViewColumnType.Numeric));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Format", "فرمت", false, null, GridViewColumnType.Text));
             }
             else if (dataGrid == dtgNumericColumnType)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ColumnID", "شناسه ستون", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Precision", "رقم صحیح", false, 100, GridViewColumnType.Numeric));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Scale", "رقم اعشار", false, 200, GridViewColumnType.Numeric));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("MinValue", "مقدار کمینه", false, 100, GridViewColumnType.Numeric));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("MaxValue", "مقدار بیشینه", false, 200, GridViewColumnType.Numeric));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ColumnID", "شناسه ستون", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Precision", "رقم صحیح", false,null, GridViewColumnType.Numeric));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Scale", "رقم اعشار", false, null, GridViewColumnType.Numeric));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("MinValue", "مقدار کمینه", false,null, GridViewColumnType.Numeric));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("MaxValue", "مقدار بیشینه", false, null, GridViewColumnType.Numeric));
             }
             else if (dataGrid == dtgDateColumnType)
             {
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ColumnID", "شناسه ستون", true, 100, GridViewColumnType.Text));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ShowMiladiDateInUI", "نمایش تاریخ میلادی", false, 100, GridViewColumnType.CheckBox));
-                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("StringValueIsMiladi", "مقدار رشته ای میلادی", false, 100, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ColumnID", "شناسه ستون", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ShowMiladiDateInUI", "نمایش تاریخ میلادی", false,null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("StringDateIsMiladi", "مقدار رشته ای میلادی", false,null, GridViewColumnType.CheckBox));
 
             }
+            else if (dataGrid == dtgTimeColumnType)
+            {
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ColumnID", "شناسه ستون", true, null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ShowAMPMFormat", "نمایش به فرمت 12 ساعته", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ShowMiladiTime", "نمایش زمان میلادی", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("StringTimeIsMiladi", "مقدار رشته ای میلادی", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("StringTimeISAMPMFormat", "مقدار رشته ای 12 ساعته", false, null, GridViewColumnType.CheckBox));
 
+            }
+            else if (dataGrid == dtgDateTimeColumnType)
+            {
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ColumnID", "شناسه ستون", true, null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ShowMiladiDateInUI", "نمایش تاریخ میلادی", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("HideTimePicker", "مخفی نمودن زمان", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ShowAMPMFormat", "نمایش 12 ساعته", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("StringDateIsMiladi", "مقدار رشته ای تاریخ میلادی", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("StringTimeIsMiladi", "مقدار رشته ای زمان میلادی", false, null, GridViewColumnType.CheckBox));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("StringTimeISAMPMFormat", "مقدار رشته ای 12 ساعته", false, null, GridViewColumnType.CheckBox));
+
+
+            }
         }
         private void formulaColumn_EditItemClicked(object sender, EditItemClickEventArg e)
         {
@@ -323,7 +344,14 @@ namespace MyProject_WPF
                     {
                         dtgDateColumnType.ItemsSource = bizColumn.GetDateColumType(column.ID);
                     }
-
+                    else if (column.ColumnType == Enum_ColumnType.Time)
+                    {
+                        dtgTimeColumnType.ItemsSource = bizColumn.GetTimeColumType(column.ID);
+                    }
+                    else if (column.ColumnType == Enum_ColumnType.DateTime)
+                    {
+                        dtgDateTimeColumnType.ItemsSource = bizColumn.GetDateTimeColumType(column.ID);
+                    }
                     //var columnKeyValue = bizColumn.GetColumnKeyValue(column.ID);
                     //var formulaDTO = bizColumn.GetCustomCalculationFormula(column.ID);
                     //tabColumnFormula.DataContext = formulaDTO;
@@ -345,7 +373,7 @@ namespace MyProject_WPF
                 tabStringColumnType.Visibility = System.Windows.Visibility.Collapsed;
                 tabNumericColumnType.Visibility = System.Windows.Visibility.Collapsed;
                 tabDateColumnType.Visibility = System.Windows.Visibility.Collapsed;
-
+                tabTimeColumnType.Visibility = System.Windows.Visibility.Collapsed;
                 var column = dtgColumns.SelectedItem as ColumnDTO;
 
 
@@ -367,19 +395,37 @@ namespace MyProject_WPF
                     tabDateColumnType.IsSelected = true;
                     btnUpdateDateColumnType.IsEnabled = true;
                 }
+                else if (column.ColumnType == Enum_ColumnType.Time)
+                {
+                    tabTimeColumnType.Visibility = System.Windows.Visibility.Visible;
+                    tabTimeColumnType.IsSelected = true;
+                    btnUpdateTimeColumnType.IsEnabled = true;
+                }
+                else if (column.ColumnType == Enum_ColumnType.DateTime)
+                {
+                    tabDateTimeColumnType.Visibility = System.Windows.Visibility.Visible;
+                    tabDateTimeColumnType.IsSelected = true;
+                    btnUpdateDateTimeColumnType.IsEnabled = true;
+                }
             }
             else
             {
                 tabStringColumnType.Visibility = System.Windows.Visibility.Visible;
                 tabNumericColumnType.Visibility = System.Windows.Visibility.Visible;
                 tabDateColumnType.Visibility = System.Windows.Visibility.Visible;
+                tabTimeColumnType.Visibility = System.Windows.Visibility.Visible;
+                tabDateTimeColumnType.Visibility = System.Windows.Visibility.Visible;
                 btnUpdateStringColumnType.IsEnabled = false;
                 btnUpdateNumericColumnType.IsEnabled = false;
                 btnUpdateDateColumnType.IsEnabled = false;
+                btnUpdateTimeColumnType.IsEnabled = false;
+                btnUpdateDateTimeColumnType.IsEnabled = false;
                 tabStringColumnType.IsSelected = true;
                 dtgStringColumnType.ItemsSource = null;
                 dtgNumericColumnType.ItemsSource = null;
                 dtgDateColumnType.ItemsSource = null;
+                dtgTimeColumnType.ItemsSource = null;
+                dtgDateTimeColumnType.ItemsSource = null;
             }
         }
 
@@ -426,7 +472,34 @@ namespace MyProject_WPF
             }
         }
 
-
+        private void btnUpdateTimeColumnType_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                btnUpdateTimeColumnType.IsEnabled = false;
+                bizColumn.UpdateTimeColumnType(dtgTimeColumnType.ItemsSource as List<TimeColumnTypeDTO>);
+                btnUpdateTimeColumnType.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                btnUpdateTimeColumnType.IsEnabled = true;
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void btnUpdateDateTimeColumnType_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                btnUpdateDateTimeColumnType.IsEnabled = false;
+                bizColumn.UpdateDateTimeColumnType(dtgDateTimeColumnType.ItemsSource as List<DateTimeColumnTypeDTO>);
+                btnUpdateDateTimeColumnType.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                btnUpdateDateTimeColumnType.IsEnabled = true;
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         void dtgRuleEntity_ContextMenuOpening(object sender, RoutedEventArgs e)
         {
@@ -785,21 +858,40 @@ namespace MyProject_WPF
                 //RadMenuSeparatorItem separator = new RadMenuSeparatorItem();
                 //contextMenu.Items.Add(separator);
                 var column = source.DataContext as ColumnDTO;
+
+                var columnValueRangeMenu = AddMenu(contextMenu.Items, "تعریف لیست مقادیر", "", "../Images/columnrule.png");
+                columnValueRangeMenu.Click += (sender1, EventArgs) => DefineColumnValueForColumn(sender, e, column);
+
                 if (column.ColumnType == Enum_ColumnType.String)
                 {
                     var convertToDateColumnMenu = AddMenu(contextMenu.Items, "تبدیل به تاریخ", "", "../Images/date.png");
                     convertToDateColumnMenu.Click += (sender1, EventArgs) => ConvertToDateColumnType_Click1(sender, e, column.ID);
+
+                    var convertToTimeColumnMenu = AddMenu(contextMenu.Items, "تبدیل به زمان", "", "../Images/date.png");
+                    convertToTimeColumnMenu.Click += (sender1, EventArgs) => ConvertToTimeColumnType_Click1(sender, e, column.ID);
+
+                    var convertToDateTimeColumnMenu = AddMenu(contextMenu.Items, "تبدیل به تاریخ زمان", "", "../Images/date.png");
+                    convertToDateTimeColumnMenu.Click += (sender1, EventArgs) => ConvertToDateTimeColumnType_Click1(sender, e, column.ID);
+
                 }
-                else if (column.OriginalColumnType == Enum_ColumnType.String && column.ColumnType == Enum_ColumnType.Date)
+                else if (column.OriginalColumnType == Enum_ColumnType.String && column.ColumnType != Enum_ColumnType.String)
                 {
                     var convertToStringColumnMenu = AddMenu(contextMenu.Items, "تبدیل به نوع رشته", "", "../Images/string.png");
                     convertToStringColumnMenu.Click += (sender1, EventArgs) => ConvertToStringColumnType_Click1(sender, e, column.ID);
                 }
 
+                //if (column.ColumnType == Enum_ColumnType.String)
+                //{
+                   
+                //}
+                //else if (column.OriginalColumnType == Enum_ColumnType.String && column.ColumnType == Enum_ColumnType.Time)
+                //{
+                //    var convertToStringColumnMenu = AddMenu(contextMenu.Items, "تبدیل به نوع رشته", "", "../Images/date.png");
+                //    convertToStringColumnMenu.Click += (sender1, EventArgs) => ConvertTimeToStringColumnType_Click1(sender, e, column.ID);
+                //}
                 //var columnRuleMenu = AddMenu(contextMenu.Items, "اصلاح شروط بری ستون", "", "../Images/columnrule.png");
                 //columnRuleMenu.Click += (sender1, EventArgs) => ConvertToDateColumnType_Click1RuleOnValue(sender, e, column.ID);
-                var columnValueRangeMenu = AddMenu(contextMenu.Items, "تعریف لیست مقادیر", "", "../Images/columnrule.png");
-                columnValueRangeMenu.Click += (sender1, EventArgs) => DefineColumnValueForColumn(sender, e, column);
+
 
                 //var columnValueRangeRempveMenu = AddMenu(contextMenu.Items, "حذف لیست مقادیر", "", "../Images/columnrule.png");
                 //columnValueRangeRempveMenu.Click += (sender1, EventArgs) => RemoveColumnValueForColumn(sender, e, column);
@@ -811,13 +903,31 @@ namespace MyProject_WPF
             }
             MyProjectHelper.SetContectMenuVisibility(contextMenu);
         }
+
+
         void ConvertToStringColumnType_Click1(object sender, RoutedEventArgs e, int columnID)
         {
-            bizColumn.ConvertDateColumnToStringColumnType(columnID);
+            bizColumn.ConvertColumnToStringColumnType(columnID);
         }
+        //void ConvertTimeToStringColumnType_Click1(object sender, RoutedEventArgs e, int columnID)
+        //{
+        //    bizColumn.ConvertStringTimeColumnToStringColumnType(columnID);
+        //}
+        //void ConvertDateTimeToStringColumnType_Click1(object sender, RoutedEventArgs e, int columnID)
+        //{
+        //    bizColumn.ConvertStringDateTimeColumnToStringColumnType(columnID);
+        //}
         void ConvertToDateColumnType_Click1(object sender, RoutedEventArgs e, int columnID)
         {
             bizColumn.ConvertStringColumnToDateColumnType(columnID);
+        }
+        void ConvertToTimeColumnType_Click1(object sender, RoutedEventArgs e, int columnID)
+        {
+            bizColumn.ConvertStringColumnToTimeColumnType(columnID);
+        }
+        void ConvertToDateTimeColumnType_Click1(object sender, RoutedEventArgs e, int columnID)
+        {
+            bizColumn.ConvertStringColumnToDateTimeColumnType(columnID);
         }
         void DefineColumnValueForColumn(object sender, RoutedEventArgs e, ColumnDTO column)
         {
@@ -901,20 +1011,7 @@ namespace MyProject_WPF
             });
         }
 
-        private void btnUpdateRelationships_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnUpdateRelationships_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnRefreshRelationship_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+      
     }
 
 

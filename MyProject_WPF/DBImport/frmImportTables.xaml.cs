@@ -89,135 +89,135 @@ namespace MyProject_WPF
         }
         private async void SetImportedInfo()
         {
-            try
-            {
-                FormIsBusy(this, null);
-                //به این که میرسه برمیگرده به تردی که این متود اسینک رو صدا زده که اینجا ترد یو آی میباشد
-                // بنابراین کارهای یو آی را که تا اینجا غیر فعال کردن فرم می باشد انجام میدهد
-                // زمانی که متود زیر کامل شد بر میگرده به ادامه این کد
-                var result = await GetTablesAndColumnInfo();
+            //try
+            //{
+            FormIsBusy(this, null);
+            //به این که میرسه برمیگرده به تردی که این متود اسینک رو صدا زده که اینجا ترد یو آی میباشد
+            // بنابراین کارهای یو آی را که تا اینجا غیر فعال کردن فرم می باشد انجام میدهد
+            // زمانی که متود زیر کامل شد بر میگرده به ادامه این کد
+            var result = await GetTablesAndColumnInfo();
 
-                listNew = new List<TableImportItem>();
-                listEdited = new List<TableImportItem>();
-                listDeleted = new List<TableImportItem>();
-                listExisting = new List<TableImportItem>();
-                listException = new List<TableImportItem>();
-                var originalEntities = bizTableDrivedEntity.GetOrginalEntities(Database.ID, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithoutRelationships, false);
-                foreach (var item in result.Where(x => x.Exception == false))
+            listNew = new List<TableImportItem>();
+            listEdited = new List<TableImportItem>();
+            listDeleted = new List<TableImportItem>();
+            listExisting = new List<TableImportItem>();
+            listException = new List<TableImportItem>();
+            var originalEntities = bizTableDrivedEntity.GetOrginalEntities(Database.ID, EntityColumnInfoType.WithFullColumns, EntityRelationshipInfoType.WithoutRelationships, false);
+            foreach (var item in result.Where(x => x.Exception == false))
+            {
+                if (originalEntities.Any(x => x.Name.ToLower() == item.Entity.Name.ToLower()))
                 {
-                    if (originalEntities.Any(x => x.Name.ToLower() == item.Entity.Name.ToLower()))
+                    //باید اصلاح شود که موجودیت ارث بری داخلی همه ستونهای جدول را بگیرد و نه اختصاصی شده ها را
+                    var existingEntity = originalEntities.First(x => x.Name.ToLower() == item.Entity.Name.ToLower());
+                    if (!existingEntity.IsDisabled)
                     {
-                        //باید اصلاح شود که موجودیت ارث بری داخلی همه ستونهای جدول را بگیرد و نه اختصاصی شده ها را
-                        var existingEntity = originalEntities.First(x => x.Name.ToLower() == item.Entity.Name.ToLower());
-                        if (!existingEntity.IsDisabled)
+                        var diff = EntityIsModified(item, existingEntity);
+                        if (!string.IsNullOrEmpty(diff))
                         {
-                            var diff = EntityIsModified(item, existingEntity);
-                            if (!string.IsNullOrEmpty(diff))
-                            {
-                                item.Entity.Alias = existingEntity.Alias;
-                                item.Entity.Description = existingEntity.Description;
-                                item.Selected = true;
-                                item.Tooltip = diff;
-                                listEdited.Add(item);
-                            }
-                            else
-                            {
-                                item.Entity = existingEntity;
-                                listExisting.Add(item);
-                            }
+                            item.Entity.Alias = existingEntity.Alias;
+                            item.Entity.Description = existingEntity.Description;
+                            item.Selected = true;
+                            item.Tooltip = diff;
+                            listEdited.Add(item);
+                        }
+                        else
+                        {
+                            item.Entity = existingEntity;
+                            listExisting.Add(item);
                         }
                     }
-                    else
-                    {
-                        item.Selected = true;
-                        listNew.Add(item);
-                    }
                 }
-                if (listNew.Any())
+                else
                 {
-                    var columnTags = WizardHelper.GetColumnsAliasAndDescriptions(listNew.SelectMany(x => x.Entity.Columns).ToList());
-                    var tags = WizardHelper.GetTablesAliasAndDescriptions(listNew.Select(x => x.Entity).ToList());
-                    foreach (var item in listNew)
+                    item.Selected = true;
+                    listNew.Add(item);
+                }
+            }
+            if (listNew.Any())
+            {
+                var columnTags = WizardHelper.GetColumnsAliasAndDescriptions(listNew.SelectMany(x => x.Entity.Columns).ToList());
+                var tags = WizardHelper.GetTablesAliasAndDescriptions(listNew.Select(x => x.Entity).ToList());
+                foreach (var item in listNew)
+                {
+                    if (!string.IsNullOrEmpty(tags.Item1) || !string.IsNullOrEmpty(tags.Item2))
+                        WizardHelper.SetEntityAliasAndDescription(item, tags.Item1, tags.Item2);
+                    foreach (var column in item.Entity.Columns)
                     {
-                        if (!string.IsNullOrEmpty(tags.Item1) || !string.IsNullOrEmpty(tags.Item2))
-                            WizardHelper.SetEntityAliasAndDescription(item, tags.Item1, tags.Item2);
-                        foreach (var column in item.Entity.Columns)
+                        WizardHelper.SetColumnAliasAnadDescription(column, columnTags.Item1, columnTags.Item2);
+                        CheckNewColumnPersianDate(column);
+                    }
+                    item.Tooltip = GetNewItemTooltip(item);
+                }
+            }
+            if (listEdited.Any(x => x.Entity.Columns.Any(y => y.ColumnsAdded)))
+            {
+                var tags = WizardHelper.GetColumnsAliasAndDescriptions(listEdited.SelectMany(x => x.Entity.Columns).Where(y => y.ColumnsAdded).ToList());
+                if (!string.IsNullOrEmpty(tags.Item1) || !string.IsNullOrEmpty(tags.Item2))
+                {
+                    foreach (var item in listEdited.Where(x => x.Entity.Columns.Any(y => y.ColumnsAdded)))
+                    {
+                        foreach (var column in item.Entity.Columns.Where(x => x.ColumnsAdded))
                         {
-                            WizardHelper.SetColumnAliasAnadDescription(column, columnTags.Item1, columnTags.Item2);
+                            WizardHelper.SetColumnAliasAnadDescription(column, tags.Item1, tags.Item2);
                             CheckNewColumnPersianDate(column);
                         }
-                        item.Tooltip = GetNewItemTooltip(item);
                     }
                 }
-                if (listEdited.Any(x => x.Entity.Columns.Any(y => y.ColumnsAdded)))
-                {
-                    var tags = WizardHelper.GetColumnsAliasAndDescriptions(listEdited.SelectMany(x => x.Entity.Columns).Where(y => y.ColumnsAdded).ToList());
-                    if (!string.IsNullOrEmpty(tags.Item1) || !string.IsNullOrEmpty(tags.Item2))
-                    {
-                        foreach (var item in listEdited.Where(x => x.Entity.Columns.Any(y => y.ColumnsAdded)))
-                        {
-                            foreach (var column in item.Entity.Columns.Where(x => x.ColumnsAdded))
-                            {
-                                WizardHelper.SetColumnAliasAnadDescription(column, tags.Item1, tags.Item2);
-                                CheckNewColumnPersianDate(column);
-                            }
-                        }
-                    }
-                }
-                foreach (var item in result.Where(x => x.Exception == true))
-                {
-                    listException.Add(item);
-                }
-                //var existingEntities = GetOrginalEntities;
-                foreach (var item in originalEntities.Where(x => !x.IsDisabled && !result.Any(y => y.Entity.Name == x.Name)))
-                {
-                    listDeleted.Add(new TableImportItem(item, "", true));
-                }
-
-                //var result = await GenerateDefaultEntitiesAndColumns();
-                //نتیجه خط بالا که برگشت ادامه کار طی میشود
-                //    ManageLogs(result, lstTables);
-
-                //if (listNew.Count > 0)
-                //    SetNewEntitiesProperties(listNew);
-                dtgNewTables.ItemsSource = listNew;
-                dtgEditTables.ItemsSource = listEdited;
-                dtgDeletedTables.ItemsSource = listDeleted;
-                dtgExceptionTables.ItemsSource = listException;
-                dtgExistingTables.ItemsSource = listExisting;
-
-                if (listException.Any())
-                    tabExceptionTables.Visibility = Visibility.Visible;
-                else
-                    tabExceptionTables.Visibility = Visibility.Collapsed;
-
-                tabNewTables.Foreground = listNew.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
-                tabEditTables.Foreground = listEdited.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
-                tabDeletedTables.Foreground = listDeleted.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
-                tabExceptionTables.Foreground = listException.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
-                tabExistingTables.Foreground = listExisting.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
-
-                if (listNew.Any())
-                    tabNewTables.IsSelected = true;
-                else if (listEdited.Any())
-                    tabEditTables.IsSelected = true;
-                else if (listDeleted.Any())
-                    tabDeletedTables.IsSelected = true;
-                else if (listException.Any())
-                    tabExceptionTables.IsSelected = true;
-                else if (listExisting.Any())
-                    tabExistingTables.IsSelected = true;
-
-                btnInsert.IsEnabled = listNew.Any() || listEdited.Any() || listDeleted.Any();
             }
-            catch (Exception ex)
+            foreach (var item in result.Where(x => x.Exception == true))
             {
-                MessageBox.Show("خطا در پردازش اطلاعات" + Environment.NewLine + ex.Message);
+                listException.Add(item);
             }
-            finally
+            //var existingEntities = GetOrginalEntities;
+            foreach (var item in originalEntities.Where(x => !x.IsDisabled && !result.Any(y => y.Entity.Name == x.Name)))
             {
-                FormIsFree(this, null);
+                listDeleted.Add(new TableImportItem(item, "", true));
             }
+
+            //var result = await GenerateDefaultEntitiesAndColumns();
+            //نتیجه خط بالا که برگشت ادامه کار طی میشود
+            //    ManageLogs(result, lstTables);
+
+            //if (listNew.Count > 0)
+            //    SetNewEntitiesProperties(listNew);
+            dtgNewTables.ItemsSource = listNew;
+            dtgEditTables.ItemsSource = listEdited;
+            dtgDeletedTables.ItemsSource = listDeleted;
+            dtgExceptionTables.ItemsSource = listException;
+            dtgExistingTables.ItemsSource = listExisting;
+
+            if (listException.Any())
+                tabExceptionTables.Visibility = Visibility.Visible;
+            else
+                tabExceptionTables.Visibility = Visibility.Collapsed;
+
+            tabNewTables.Foreground = listNew.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+            tabEditTables.Foreground = listEdited.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+            tabDeletedTables.Foreground = listDeleted.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+            tabExceptionTables.Foreground = listException.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+            tabExistingTables.Foreground = listExisting.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+
+            if (listNew.Any())
+                tabNewTables.IsSelected = true;
+            else if (listEdited.Any())
+                tabEditTables.IsSelected = true;
+            else if (listDeleted.Any())
+                tabDeletedTables.IsSelected = true;
+            else if (listException.Any())
+                tabExceptionTables.IsSelected = true;
+            else if (listExisting.Any())
+                tabExistingTables.IsSelected = true;
+
+            btnInsert.IsEnabled = listNew.Any() || listEdited.Any() || listDeleted.Any();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("خطا در پردازش اطلاعات" + Environment.NewLine + ex.Message);
+            //}
+            //finally
+            //{
+            FormIsFree(this, null);
+            //}
 
         }
 
@@ -227,8 +227,14 @@ namespace MyProject_WPF
             {
                 if (column.StringColumnType.MaxLength <= 50 &&
                     (column.Name.ToLower().StartsWith("datetime") ||
-                    column.Name.ToLower().EndsWith("datetime") ||
-                    column.Name.ToLower().StartsWith("date") ||
+                    column.Name.ToLower().EndsWith("datetime"))
+                      )
+                {
+                    column.ColumnType = Enum_ColumnType.DateTime;
+                    column.DateTimeColumnType = new DateTimeColumnTypeDTO();
+                }
+                else if (column.StringColumnType.MaxLength <= 50 &&
+                    (column.Name.ToLower().StartsWith("date") ||
                     column.Name.ToLower().EndsWith("date") ||
                      column.Name.ToLower().StartsWith("tarikh") ||
                       column.Name.ToLower().EndsWith("tarikh"))
@@ -238,16 +244,39 @@ namespace MyProject_WPF
                     column.DateColumnType = new DateColumnTypeDTO();
 
                 }
+                else if (column.StringColumnType.MaxLength <= 20 &&
+                   (column.Name.ToLower().StartsWith("time") ||
+                   column.Name.ToLower().EndsWith("time") ||
+                   column.Name.ToLower().StartsWith("time") ||
+                   column.Name.ToLower().EndsWith("time") ||
+                    column.Name.ToLower().StartsWith("zaman") ||
+                     column.Name.ToLower().EndsWith("zaman"))
+                     )
+                {
+                    column.ColumnType = Enum_ColumnType.Time;
+                    column.TimeColumnType = new TimeColumnTypeDTO();
+                }
             }
-
-            if (column.ColumnType == Enum_ColumnType.Date)
+            if (column.ColumnType == Enum_ColumnType.DateTime)
+            {
+                var database = bizDatabase.GetDatabase(Database.ID, true);
+                column.DateTimeColumnType.ShowMiladiDateInUI = database.DatabaseSetting != null ? database.DatabaseSetting.ShowMiladiDateInUI : false;
+            }
+            else if (column.ColumnType == Enum_ColumnType.Date)
             {
                 var database = bizDatabase.GetDatabase(Database.ID, true);
                 column.DateColumnType.ShowMiladiDateInUI = database.DatabaseSetting != null ? database.DatabaseSetting.ShowMiladiDateInUI : false;
-                if (column.OriginalColumnType == Enum_ColumnType.Date)
-                    column.DateColumnType.StringValueIsMiladi = true;
-                else
-                    column.DateColumnType.StringValueIsMiladi = database.DatabaseSetting != null ? database.DatabaseSetting.StringDateColumnIsMiladi : false;
+                if (column.OriginalColumnType == Enum_ColumnType.String)
+                    column.DateColumnType.StringDateIsMiladi = database.DatabaseSetting != null ? database.DatabaseSetting.StringDateColumnIsMiladi : false;
+            }
+            else if (column.ColumnType == Enum_ColumnType.Time)
+            {
+                var database = bizDatabase.GetDatabase(Database.ID, true);
+                column.TimeColumnType.ShowMiladiTime = database.DatabaseSetting != null ? database.DatabaseSetting.ShowMiladiDateInUI : false;
+                if (column.OriginalColumnType == Enum_ColumnType.String)
+                {
+                    column.TimeColumnType.StringTimeIsMiladi = database.DatabaseSetting != null ? database.DatabaseSetting.StringDateColumnIsMiladi : false;
+                }
             }
         }
 

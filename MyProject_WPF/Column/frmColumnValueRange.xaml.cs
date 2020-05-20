@@ -52,32 +52,33 @@ namespace MyProject_WPF
 
         private void SetGridViewColumns()
         {
-            dtgColumnKeyValue.Columns.Add(ControlHelper.GenerateGridviewColumn("Value", "مقدار", false, 100, GridViewColumnType.Numeric));
-            dtgColumnKeyValue.Columns.Add(ControlHelper.GenerateGridviewColumn("KeyTitle", "عنوان/کلید", false, 200, GridViewColumnType.Text));
-            dtgColumnKeyValue.Columns.Add(ControlHelper.GenerateGridviewColumn("Tag1", "مشخصه یک", false, 200, GridViewColumnType.Text));
-            dtgColumnKeyValue.Columns.Add(ControlHelper.GenerateGridviewColumn("Tag2", "مشخصه دو", false, 200, GridViewColumnType.Text));
+            dtgColumnKeyValue.Columns.Add(ControlHelper.GenerateGridviewColumn("Value", "مقدار", false, null, GridViewColumnType.Numeric));
+            dtgColumnKeyValue.Columns.Add(ControlHelper.GenerateGridviewColumn("KeyTitle", "عنوان/کلید", false, null, GridViewColumnType.Text));
+            dtgColumnKeyValue.Columns.Add(ControlHelper.GenerateGridviewColumn("Tag1", "مشخصه یک", false, null, GridViewColumnType.Text));
+            dtgColumnKeyValue.Columns.Add(ControlHelper.GenerateGridviewColumn("Tag2", "مشخصه دو", false, null, GridViewColumnType.Text));
         }
-
         private void btnUpdateKeyValue_Click(object sender, RoutedEventArgs e)
         {
-            Message.ValueFromTitleOrValue = optValueComesFromTitle.IsChecked == true;
+            //Message.ValueFromTitleOrValue = optValueComesFromTitle.IsChecked == true;
             var id = bizColumnValueRange.UpdateColumnValueRange(Message);
             if (ItemSaved != null)
                 ItemSaved(this, new MyProject_WPF.SavedItemArg() { ID = Message.ID });
+
+            MessageBox.Show("اطلاعات ثبت شد");
         }
         private void ShowMessage()
         {
-            optValueComesFromTitle.IsChecked = Message.ValueFromTitleOrValue;
-            optValueComesFromValue.IsChecked = !Message.ValueFromTitleOrValue;
+           // optValueComesFromTitle.IsChecked = Message.ValueFromTitleOrValue;
+          //  optValueComesFromValue.IsChecked = !Message.ValueFromTitleOrValue;
             dtgColumnKeyValue.ItemsSource = Message.Details;
         }
         private void btnImportKeyValues_Click(object sender, RoutedEventArgs e)
         {
-            if (optValueComesFromTitle.IsChecked == false && optValueComesFromValue.IsChecked == false)
-            {
-                MessageBox.Show("لطفا نوع جایگذاری مقادیر ستون در عنوان یا مقدار را مشخص نمایید");
-                return;
-            }
+            //if (optValueComesFromTitle.IsChecked == false && optValueComesFromValue.IsChecked == false)
+            //{
+            //    MessageBox.Show("لطفا نوع جایگذاری مقادیر ستون در عنوان یا مقدار را مشخص نمایید");
+            //    return;
+            //}
             BizDatabase bizDatabase = new BizDatabase();
             BizColumn bizColumn = new BizColumn();
             var column = bizColumn.GetColumn(ColumnID, true);
@@ -94,7 +95,7 @@ namespace MyProject_WPF
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
-
+            MyProjectManager.GetMyProjectManager.CloseDialog(this);
         }
 
         private void btnRemoveKeyValue_Click(object sender, RoutedEventArgs e)
