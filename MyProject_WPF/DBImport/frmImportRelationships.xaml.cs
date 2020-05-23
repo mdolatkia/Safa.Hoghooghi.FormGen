@@ -117,6 +117,27 @@ namespace MyProject_WPF
                 if (!string.IsNullOrEmpty(tooltip))
                     ToolTipService.SetToolTip(e.Row, tooltip);
 
+                if(Database.Name.ToLower().StartsWith("DBProductService".ToLower()))
+                {
+                    if (item.Relationship.Entity1 == "GenericPerson" && item.Relationship.Entity2 == "Customer")
+                        item.Relationship.OrginalRelationshipGroup = "GenericPerson_Customer";
+
+                    if (item.Relationship.Entity1 == "ServiceItem" && item.Relationship.Entity2 == "ServiceConclusionItem")
+                    {
+                        item.Relationship.OrginalTypeEnum = Enum_OrginalRelationshipType.SubUnionToUnion;
+                        item.Relationship.OrginalRelationshipGroup = "Union_ServiceConclusionItem";
+                    }
+                    if (item.Relationship.Entity1 == "ServiceAdditionalItem" && item.Relationship.Entity2 == "ServiceConclusionItem")
+                    {
+                        item.Relationship.OrginalTypeEnum = Enum_OrginalRelationshipType.SubUnionToUnion;
+                        item.Relationship.OrginalRelationshipGroup = "Union_ServiceConclusionItem";
+                    }
+
+                    if (item.Relationship.Entity1 == "ServiceRequest" && item.Relationship.Entity2 == "ServiceRequestReview")
+                        item.Relationship.OrginalTypeEnum = Enum_OrginalRelationshipType.OneToOne;
+                    if (item.Relationship.Entity1 == "ServiceRequest" && item.Relationship.Entity2 == "ServiceConclusion")
+                        item.Relationship.OrginalTypeEnum = Enum_OrginalRelationshipType.OneToOne;
+                }
             }
         }
 

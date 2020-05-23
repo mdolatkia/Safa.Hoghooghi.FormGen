@@ -129,9 +129,47 @@ namespace MyProject_WPF
                 if (!string.IsNullOrEmpty(tooltip))
                     ToolTipService.SetToolTip(e.Row, tooltip);
 
-                //if (!string.IsNullOrEmpty(tableImportItem.Tooltip))
-                //    ToolTipService.SetToolTip(e.Row, tableImportItem.Tooltip);
-                var cell = e.Row.Cells.FirstOrDefault(x => x.Column.Name == "colRelationshipsSuspicious"
+                if (Database.Name.ToLower().StartsWith("DBProductService".ToLower()))
+                {
+                    if(tableImportItem.Entity.Name== "GenericPersonAddress")
+                    {
+                        tableImportItem.Entity.IndependentDataEntry = false;
+                        tableImportItem.Relationships.First(x => x.Entity1 == "GenericPerson").Select = true;
+                    }
+                    else if(tableImportItem.Entity.Name == "ProductItem")
+                    {
+                        tableImportItem.Entity.IndependentDataEntry = false;
+                        tableImportItem.Relationships.First(x => x.Entity1 == "ServiceRequest").Select = true;
+                    }
+                    else if (tableImportItem.Entity.Name == "ServiceAdditionalItem")
+                    {
+                        tableImportItem.Entity.IndependentDataEntry = false;
+                        tableImportItem.Relationships.First(x => x.Entity1 == "ServiceConclusionItem").Select = true;
+                    }
+                    else if (tableImportItem.Entity.Name == "RequestProductPart")
+                    {
+                        tableImportItem.Entity.IndependentDataEntry = false;
+                        tableImportItem.Relationships.First(x => x.Entity1 == "ServiceItem").Select = true;
+                    }
+                    else if (tableImportItem.Entity.Name == "ServiceConclusionItem")
+                    {
+                        tableImportItem.Entity.IndependentDataEntry = false;
+                        tableImportItem.Relationships.First(x => x.Entity1 == "ServiceConclusion").Select = true;
+                    }
+                    else if (tableImportItem.Entity.Name == "ServiceRequest_RequestType")
+                    {
+                        tableImportItem.Entity.IndependentDataEntry = false;
+                        tableImportItem.Relationships.First(x => x.Entity1 == "ServiceRequest").Select = true;
+                    }
+                    else if (tableImportItem.Entity.Name == "ServiceRequestReviewItems")
+                    {
+                        tableImportItem.Entity.IndependentDataEntry = false;
+                        tableImportItem.Relationships.First(x => x.Entity1 == "ServiceRequestReview").Select = true;
+                    }
+                }
+                    //if (!string.IsNullOrEmpty(tableImportItem.Tooltip))
+                    //    ToolTipService.SetToolTip(e.Row, tableImportItem.Tooltip);
+                    var cell = e.Row.Cells.FirstOrDefault(x => x.Column.Name == "colRelationshipsSuspicious"
                  || x.Column.Name == "colRelationshipsNonSuspicious");
                 if (cell != null)
                     DecideCellEnabled(tableImportItem, cell);

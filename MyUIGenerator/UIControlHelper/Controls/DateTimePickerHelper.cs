@@ -155,31 +155,41 @@ namespace MyUIGenerator.UIControlHelper
         }
         public bool SetValue(object value)
         {
+            DateConverterParameter param = GetConverterParameter();
+            DateTime? dateTime = ReadValueFromProperty(value, param);
+            (textBox as MyDateTimePicker).SelectedDateTime = dateTime;
+            return true;
+        }
+
+        public static DateTime? ReadValueFromProperty(object value, DateConverterParameter param)
+        {
             DateTime? dateTime = null;
-            if (value != null)
+            if (value != null && value.ToString() != "")
             {
-                if (valueIsString)
+                if (param.valueIsString)
                 {
-                    if (!hasnotDatePicker)
+                    if (!param.hasnotDatePicker)
                     {
                         string stringdate = null;
-                        if (hasnotTimePicker)
+                        if (param.hasnotTimePicker)
                             stringdate = value.ToString();
                         else
                             stringdate = value.ToString().Split(' ')[0];
-                        if (stringDateIsMiladi == false)
-                            dateTime = AgentHelper.GetMiladiDateFromShamsi(value.ToString());
+                        if (param.stringDateIsMiladi == false)
+                            dateTime = AgentHelper.GetMiladiDateFromShamsi(stringdate);
                         else
-                            dateTime = (DateTime?)value;
+                            dateTime = Convert.ToDateTime(stringdate);
                     }
-                    if (!hasnotTimePicker)
+                    if (!param.hasnotTimePicker)
                     {
                         string stringtime = null;
-                        if (hasnotDatePicker)
+                        if (param.hasnotDatePicker)
                             stringtime = value.ToString();
                         else
-                            stringtime = value.ToString().Split(' ')[1];
-                        if (stringTimeIsMiladi == false && stringTimeISAMPMFormat == true)
+                        {
+                            stringtime = value.ToString().Split(" ".ToCharArray(), 2)[1];
+                        }
+                        if (param.stringTimeIsMiladi == false && param.stringTimeISAMPMFormat == true)
                             stringtime = stringtime.Replace("ق.ظ", "AM").Replace("ب.ظ", "PM");
 
                         DateTime time;
@@ -188,67 +198,60 @@ namespace MyUIGenerator.UIControlHelper
                             if (dateTime == null)
                                 dateTime = time;
                             else
-                                dateTime.Value.Add(time.TimeOfDay);
+                                dateTime= dateTime.Value.Add(time.TimeOfDay);
                         }
                     }
                 }
                 else
                 {
-                    dateTime = (DateTime)value;
+                    dateTime = Convert.ToDateTime(value);
                 }
             }
-               (textBox as MyDateTimePicker).SelectedDateTime = dateTime;
-            return true;
+            return dateTime;
+
+
         }
 
         public object GetValue()
         {
-            if ((textBox as MyDateTimePicker).SelectedDateTime != null && valueIsString)
+            return ReadValueFromControl((textBox as MyDateTimePicker).SelectedDateTime, GetConverterParameter());
+
+        }
+
+        public static object ReadValueFromControl(DateTime? selectedDateTime, DateConverterParameter param)
+        {
+            if (selectedDateTime != null && param.valueIsString)
             {
-                var selectedDateTime = (textBox as MyDateTimePicker).SelectedDateTime.Value;
                 var date = "";
                 var time = "";
-                if (!hasnotDatePicker)
+                if (!param.hasnotDatePicker)
                 {
-                    if (stringDateIsMiladi == false)
-                        date = AgentHelper.GetShamsiDateFromMiladi(selectedDateTime);
+                    if (param.stringDateIsMiladi == false)
+                        date = AgentHelper.GetShamsiDateFromMiladi(selectedDateTime.Value);
                     else
-                        date = selectedDateTime.ToString();
+                        date = selectedDateTime.Value.ToShortDateString();
                 }
-                if (!hasnotTimePicker)
+                if (!param.hasnotTimePicker)
                 {
-                    if (stringTimeISAMPMFormat == true)
+                    if (param.stringTimeISAMPMFormat == true)
                     {
-                        if (stringTimeIsMiladi == false)
+                        if (param.stringTimeIsMiladi == true)
                         {
-                            time = (textBox as MyDateTimePicker).SelectedTime.Value.TimeOfDay.ToString("hh:mm tt").ToUpper().Replace("am", "ق.ظ").Replace("pm", "ب.ظ");
+                            time = selectedDateTime.Value.ToString("hh:mm tt").ToUpper().Replace("AM", "ق.ظ").Replace("PM", "ب.ظ");
                         }
                         else
                         {
-                            time = (textBox as MyDateTimePicker).SelectedTime.Value.TimeOfDay.ToString("hh:mm tt");
+                            time = selectedDateTime.Value.ToString("hh:mm tt");
                         }
                     }
                     else
-                        time = (textBox as MyDateTimePicker).SelectedDateTime.Value.TimeOfDay.ToString("hh:mm:ss");
+                        time = selectedDateTime.Value.ToString("hh:mm:ss");
                 }
-                return date + (!string.IsNullOrEmpty(time) ? "" : " ") + time;
+                return date + (!string.IsNullOrEmpty(time) ? " " : "") + time;
             }
             else
             {
-                return (textBox as MyDateTimePicker).SelectedDateTime;
-                //DateTime? date = null;
-                //DateTime? time = null;
-                //if (!hasnotDatePicker)
-                //    date = (textBox as MyDateTimePicker).MiladiDate;
-                //if (!hasnotTimePicker)
-                //    time = (textBox as MyDateTimePicker).SelectedTime;
-                //if (date != null && time != null)
-                //    return date.Value.Add(time.Value.TimeOfDay);
-                //else if (date != null)
-                //    return date.Value;
-                //else if (time != null)
-                //    return time.Value;
-                //else return null;
+                return selectedDateTime;
             }
 
         }
@@ -324,35 +327,58 @@ namespace MyUIGenerator.UIControlHelper
             Binding binding = new Binding("Value");
             binding.Source = property;
             binding.Mode = BindingMode.TwoWay;
+            binding.Converter = new ConverterDate();
+            DateConverterParameter param = GetConverterParameter();
+            binding.ConverterParameter = param;
             (textBox as MyDateTimePicker).SetBinding(MyDateTimePicker.SelectedDateTimeProperty, binding);
-            پارامتر بشن خصوصیات بالا و در کانورتر از همون گت و ست استفاده یشه
+            //پارامتر بشن خصوصیات بالا و در کانورتر از همون گت و ست استفاده یشه
+
+
             if (valueIsString)
             {
-                if (!hasnotDatePicker && !hasnotTimePicker)
-                {
+                //if (!hasnotDatePicker && !hasnotTimePicker)
+                //{
 
-                }
-                else if (!hasnotDatePicker)
-                {
-                    if (stringDateIsMiladi == false)
-                        binding.Converter = new ConverterDateOnlyShamsi();
-                    binding.con
-                }
-                else if (!hasnotTimePicker)
-                {
-                    if (stringTimeISAMPMFormat == true)
-                    {
-                        if (stringTimeIsMiladi == false)
-                            binding.Converter = new ConverterTimeOnlyAMPMShamsi();
-                        else
-                            binding.Converter = new ConverterTimeOnlyAMPM();
-                    }
-                    else
-                        binding.Converter = new ConverterTimeOnlyLong();
+                //}
+                //else if (!hasnotDatePicker)
+                //{
+                //    if (stringDateIsMiladi == false)
+                //        binding.Converter = new ConverterDateOnlyShamsi();
+                //    binding.con
+                //}
+                //else if (!hasnotTimePicker)
+                //{
+                //if (stringTimeISAMPMFormat == true)
+                //{
+                //    if (stringTimeIsMiladi == false)
+                //        binding.Converter = new ConverterTimeOnlyAMPMShamsi();
+                //    else
+                //        binding.Converter = new ConverterTimeOnlyAMPM();
+                //}
+                //else
+                //    binding.Converter = new ConverterTimeOnlyLong();
 
-                }
+                //}
             }
 
+        }
+
+        private DateConverterParameter GetConverterParameter()
+        {
+            DateConverterParameter param = new UIControlHelper.DateConverterParameter();
+            param.hasnotDatePicker = hasnotDatePicker;
+            param.hasnotTimePicker = hasnotTimePicker;
+            param.hideMiladiDatePicker = hideMiladiDatePicker;
+            param.hideShamsiDatePicker = hideShamsiDatePicker;
+            param.hideTimePicker = hideTimePicker;
+            param.showAMPMFormat = showAMPMFormat;
+            param.showMiladiDate = showMiladiDate;
+            param.showMiladiTime = showMiladiTime;
+            param.stringDateIsMiladi = stringDateIsMiladi;
+            param.stringTimeISAMPMFormat = stringTimeISAMPMFormat;
+            param.stringTimeIsMiladi = stringTimeIsMiladi;
+            param.valueIsString = valueIsString;
+            return param;
         }
 
         //public void AddButtonMenu(ConrolPackageMenu menu)
@@ -372,6 +398,22 @@ namespace MyUIGenerator.UIControlHelper
         //    menu.OnMenuClicked(sender, arg);
         //}
     }
+    public class ConverterDate : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var cParam = parameter as DateConverterParameter;
+            DateTime? dateTime = DateTimePickerHelper.ReadValueFromProperty(value, cParam);
+            return dateTime;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var cParam = parameter as DateConverterParameter;
+            return DateTimePickerHelper.ReadValueFromControl((DateTime?)value, cParam);
+        }
+    }
+
     public class ConverterDateOnlyShamsi : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -452,5 +494,21 @@ namespace MyUIGenerator.UIControlHelper
             else
                 return null;
         }
+    }
+
+    public class DateConverterParameter
+    {
+        public bool? stringDateIsMiladi;
+        public bool? stringTimeIsMiladi;
+        public bool valueIsString = false;
+        public bool? stringTimeISAMPMFormat;
+        public bool hasnotTimePicker;
+        public bool hideTimePicker;
+        public bool hideMiladiDatePicker;
+        public bool hideShamsiDatePicker;
+        public bool hasnotDatePicker;
+        public bool showAMPMFormat;
+        public bool showMiladiTime;
+        public bool showMiladiDate;
     }
 }

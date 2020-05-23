@@ -140,6 +140,131 @@ namespace MyModelManager
 
             }
         }
+
+        public void SetCustomSettings(int databaseID)
+        {
+            using (var projectContext = new DataAccess.MyProjectEntities())
+            {
+                var dbDatabase = projectContext.DatabaseInformation.First(x => x.ID == databaseID);
+                var genericPerson = projectContext.TableDrivedEntity.First(x => x.Name == "GenericPerson" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if(genericPerson!=null)
+                {
+                    var emailColumn = genericPerson.Table.Column.First(x => x.Name == "EmailAddress");
+                    if(emailColumn!=null)
+                        emailColumn.StringColumnType.Format= @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+                }
+                var serviceConclusion = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceConclusion" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (serviceConclusion != null)
+                {
+                    var userRateColumn = serviceConclusion.Table.Column.First(x => x.Name == "UserRate");
+                    if (userRateColumn != null)
+                    {
+                        userRateColumn.NumericColumnType.MinValue = 1;
+                        userRateColumn.NumericColumnType.MaxValue = 5;
+                    }
+                    var stringUpdateDateTime = serviceConclusion.Table.Column.First(x => x.Name == "UpdateDateTime");
+                    if (stringUpdateDateTime != null)
+                    {
+                        stringUpdateDateTime.DateTimeColumnType.ShowMiladiDateInUI = true;
+                        stringUpdateDateTime.DateTimeColumnType.HideTimePicker = true;
+                        stringUpdateDateTime.DateTimeColumnType.StringDateIsMiladi = true;
+                        stringUpdateDateTime.DateTimeColumnType.StringTimeIsMiladi = false;
+                        stringUpdateDateTime.DateTimeColumnType.StringTimeISAMPMFormat = true;
+                        stringUpdateDateTime.DateTimeColumnType.ShowAMPMFormat = true;
+                    }
+                }
+                var requestProductPart = projectContext.TableDrivedEntity.First(x => x.Name == "RequestProductPart" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (requestProductPart != null)
+                {
+                    var dateTimeColumn = requestProductPart.Table.Column.First(x => x.Name == "DateTime");
+                    if (dateTimeColumn != null)
+                        dateTimeColumn.DateTimeColumnType.ShowMiladiDateInUI = true;
+                    var stringDateTimeColumn = requestProductPart.Table.Column.First(x => x.Name == "StringDateTime");
+                    if (stringDateTimeColumn != null)
+                    {
+                        stringDateTimeColumn.DateTimeColumnType.StringDateIsMiladi = true;
+                        stringDateTimeColumn.DateTimeColumnType.StringTimeIsMiladi = true;
+                        stringDateTimeColumn.DateTimeColumnType.StringTimeISAMPMFormat = true;
+                        stringDateTimeColumn.DateTimeColumnType.ShowAMPMFormat = true;
+                    }
+                }
+                var serviceItem = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceItem" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (serviceItem != null)
+                {
+                    var updateDateColumn = serviceItem.Table.Column.First(x => x.Name == "UpdateDate");
+                    if (updateDateColumn != null)
+                        updateDateColumn.DateColumnType.ShowMiladiDateInUI = true;
+                    var updateTimeColumn = serviceItem.Table.Column.First(x => x.Name == "UpdateTime");
+                    if (updateTimeColumn != null)
+                    {
+                    }
+                }
+                var serviceRequest = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceRequest" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (serviceRequest != null)
+                {
+                    var persianDateColumn = serviceRequest.Table.Column.First(x => x.Name == "PersianDate");
+                    if (persianDateColumn != null)
+                        persianDateColumn.DateColumnType.ShowMiladiDateInUI = true;
+                    var timeColumn = serviceRequest.Table.Column.First(x => x.Name == "Time");
+                    if (timeColumn != null)
+                    {
+                        timeColumn.TimeColumnType.ShowAMPMFormat = true;
+                        timeColumn.TimeColumnType.StringTimeISAMPMFormat = true;
+                        timeColumn.TimeColumnType.StringTimeIsMiladi = false;
+                        timeColumn.TimeColumnType.ShowMiladiTime = true;
+                    }
+                }
+                var srviceRequestReview = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceRequestReview" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (srviceRequestReview != null)
+                {
+                    var autoDateColumn = srviceRequestReview.Table.Column.First(x => x.Name == "AutoDate");
+                    if (autoDateColumn != null)
+                        autoDateColumn.DateColumnType.StringDateIsMiladi = true;
+                    var autoTimeColumn = srviceRequestReview.Table.Column.First(x => x.Name == "AutoTime");
+                    if (autoTimeColumn != null)
+                    {
+                        autoTimeColumn.TimeColumnType.ShowAMPMFormat = true;
+                        autoTimeColumn.TimeColumnType.StringTimeIsMiladi = true;
+                        autoTimeColumn.TimeColumnType.StringTimeISAMPMFormat = true;
+                    }
+                }
+                var realPerson = projectContext.TableDrivedEntity.First(x => x.Name == "RealPerson" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (realPerson != null)
+                {
+
+                }
+                var employee = projectContext.TableDrivedEntity.First(x => x.Name == "Employee" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (employee != null)
+                {
+                    var employeeRoleColumn = employee.Table.Column.First(x => x.Name == "EmployeeRole");
+                    if (employeeRoleColumn != null)
+                    {
+                        if(employeeRoleColumn.ColumnValueRange==null)
+                        {
+                            employeeRoleColumn.ColumnValueRange = new ColumnValueRange();
+                        }
+                        employeeRoleColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "1", KeyTitle = "مدیر" });
+                        employeeRoleColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "2", KeyTitle = "کارشناس" });
+                    }
+                }
+                var office = projectContext.TableDrivedEntity.First(x => x.Name == "Office" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (office != null)
+                {
+                    var workshopLevelColumn = office.Table.Column.First(x => x.Name == "WorkshopLevel");
+                    if (workshopLevelColumn != null)
+                    {
+                        if (workshopLevelColumn.ColumnValueRange == null)
+                        {
+                            workshopLevelColumn.ColumnValueRange = new ColumnValueRange();
+                        }
+                        workshopLevelColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "سطح1" });
+                        workshopLevelColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "سطح2" });
+                    }
+                }
+                projectContext.SaveChanges();
+            }
+        }
+
         public bool EntityWithoutSetting(int databaseID)
         {
             using (var projectContext = new DataAccess.MyProjectEntities())

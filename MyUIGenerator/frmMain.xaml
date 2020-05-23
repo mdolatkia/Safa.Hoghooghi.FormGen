@@ -90,9 +90,9 @@
                 </telerik:RadPaneGroup>
             </telerik:RadSplitContainer>-->
 
-            <telerik:RadSplitContainer  InitialPosition="DockedBottom">
-                <telerik:RadPaneGroup x:Name="grpInfo" >
-                    <telerik:RadPane x:Name="pnlInfo" CanUserClose="False" Header="Info"/>
+            <telerik:RadSplitContainer   InitialPosition="DockedBottom">
+                <telerik:RadPaneGroup   x:Name="grpInfo" >
+                    <telerik:RadPane IsPinned="False" x:Name="pnlInfo" CanUserClose="False" Header="Info"/>
 
                 </telerik:RadPaneGroup>
             </telerik:RadSplitContainer>

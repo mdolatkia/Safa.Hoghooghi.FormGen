@@ -110,13 +110,34 @@ namespace MyProject_WPF
             foreach (var item in databases)
             {
                 var dbNode = AddTreeItem(dbDataEntryNode.Items, item.Title, "../Images/database.png", item);
-                var contextMenu = GetContextMenu(dbNode, "استخراج منابع");
-                contextMenu.ItemClick += (sender, e) => ContextMenu_ItemClick(sender, e, item);
+                var contextMenu = GetMenu(dbNode, "استخراج منابع");
+                contextMenu.Click += (sender, e) => ContextMenu_ItemClick(sender, e, item);
                 dbNode.Items.Add("Loading...");
                 dbNode.Expanded += DbNode_Expanded;
+
+                if (item.Name.ToLower().StartsWith("DBProductService".ToLower()))
+                {
+                    var customSettingsContextMenu = GetMenu(dbNode, "تنظیمات اختصاصی");
+                    customSettingsContextMenu.Click += (sender, e) => customSettingContextMenu_ItemClick(sender, e, item);
+                }
+
+
+
             }
         }
-
+        private void customSettingContextMenu_ItemClick(object sender, Telerik.Windows.RadRoutedEventArgs e, DatabaseDTO db)
+        {
+            BizEntitySettings bizEntitySettings = new BizEntitySettings();
+            //try
+            //{
+                bizEntitySettings.SetCustomSettings(db.ID);
+                MessageBox.Show("تنظیمات اختصاصی انجام شد");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+        }
         private void ContextMenu_ItemClick(object sender, Telerik.Windows.RadRoutedEventArgs e, DatabaseDTO db)
         {
             var frm = new DatabaseImportWizard(db.ID);
@@ -128,7 +149,7 @@ namespace MyProject_WPF
 
         }
 
-        private RadContextMenu GetContextMenu(RadTreeViewItem dbNode, string header)
+        private RadMenuItem GetMenu(RadTreeViewItem dbNode, string header)
         {
             var menu = RadContextMenu.GetContextMenu(dbNode);
 
@@ -140,7 +161,7 @@ namespace MyProject_WPF
             RadMenuItem item = new RadMenuItem();
             item.Header = header;
             menu.Items.Add(item);
-            return menu;
+            return item;
         }
 
 

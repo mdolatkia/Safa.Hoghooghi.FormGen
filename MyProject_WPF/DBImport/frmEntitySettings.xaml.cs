@@ -39,6 +39,7 @@ namespace MyProject_WPF
             InitializeComponent();
             Database = database;
             bizEntitySettings.ItemImportingStarted += BizEntityUIComposition_ItemImportingStarted;
+
             //bizEntityUIComposition.ItemImportingStarted += BizEntityUIComposition_ItemImportingStarted;
             //bizEntityListView.ItemImportingStarted += BizEntityUIComposition_ItemImportingStarted;
             //bizEntitySearch.ItemImportingStarted += BizEntityUIComposition_ItemImportingStarted;
@@ -61,7 +62,7 @@ namespace MyProject_WPF
             CheckFromState();
         }
 
-      
+
 
         private void BizEntityUIComposition_ItemImportingStarted(object sender, ItemImportingStartedArg e)
         {
@@ -84,7 +85,7 @@ namespace MyProject_WPF
                 chkInitialSearch.IsChecked = false;
                 chkInitialSearch.Foreground = new SolidColorBrush(Colors.Black);
                 await UpdateDefaultSettingsInModel();
-                MessageBox.Show("انتقال اطلاعات انجام شد");
+                MessageBox.Show("تنظیمات اولیه اطلاعات انجام شد");
                 chkUiComposition.IsChecked = true;
                 chkUiComposition.Foreground = new SolidColorBrush(Colors.Green);
                 chkListView.IsChecked = true;
@@ -93,7 +94,7 @@ namespace MyProject_WPF
                 chkListSearch.Foreground = new SolidColorBrush(Colors.Green);
                 chkInitialSearch.IsChecked = true;
                 chkInitialSearch.Foreground = new SolidColorBrush(Colors.Green);
-
+         
             }
             catch (Exception ex)
             {
