@@ -31,9 +31,9 @@ namespace MyModelManager
             ISARelationshipDTO result = new ISARelationshipDTO();
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
-                var isaRelationship = projectContext.ISARelationship.FirstOrDefault(x => x.InternalTable == true &&  x.SuperToSubRelationshipType.Any(y=>y.RelationshipType.Relationship.TableDrivedEntityID1== baseEntityID));
-                if(isaRelationship!=null)
-                return ToISARelationshipDTO(isaRelationship);
+                var isaRelationship = projectContext.ISARelationship.FirstOrDefault(x => x.InternalTable == true && x.SuperToSubRelationshipType.Any(y => y.RelationshipType.Relationship.TableDrivedEntityID1 == baseEntityID));
+                if (isaRelationship != null)
+                    return ToISARelationshipDTO(isaRelationship);
                 else
                     return null;
             }
@@ -62,6 +62,8 @@ namespace MyModelManager
             result.IsGeneralization = item.IsGeneralization == true;
             result.IsTolatParticipation = item.IsTolatParticipation;
             result.IsDisjoint = item.IsDisjoint;
+            if (item.SuperToSubRelationshipType.Any())
+                result.SuperEntityID = item.SuperToSubRelationshipType.First().RelationshipType.Relationship.TableDrivedEntityID1;
             result.SuperTypeEntities = "";
             foreach (var superType in item.SuperToSubRelationshipType)
             {
@@ -156,6 +158,8 @@ namespace MyModelManager
             Mapper.Initialize(cfg => cfg.CreateMap<RelationshipDTO, SuperToSubRelationshipDTO>());
             var result = AutoMapper.Mapper.Map<RelationshipDTO, SuperToSubRelationshipDTO>(baseRelationship);
             result.ISARelationship = ToISARelationshipDTO(item.ISARelationship);
+            result.DeterminerColumnValue = item.DeterminerColumnValue;
+            result.DeterminerColumnID = item.DeterminerColumnID ?? 0;
             return result;
         }
 
@@ -186,7 +190,8 @@ namespace MyModelManager
             Mapper.Initialize(cfg => cfg.CreateMap<RelationshipDTO, SubToSuperRelationshipDTO>());
             var result = AutoMapper.Mapper.Map<RelationshipDTO, SubToSuperRelationshipDTO>(baseRelationship);
             result.ISARelationship = ToISARelationshipDTO(item.ISARelationship);
-
+            result.DeterminerColumnValue = item.RelationshipType.Relationship.Relationship2.RelationshipType.SuperToSubRelationshipType.DeterminerColumnValue;
+            result.DeterminerColumnID = item.RelationshipType.Relationship.Relationship2.RelationshipType.SuperToSubRelationshipType.DeterminerColumnID ?? 0;
             return result;
         }
 
@@ -203,6 +208,11 @@ namespace MyModelManager
                     //dbRelationship.RelationshipType.IsOtherSideTransferable = relationship.IsOtherSideTransferable;
                     dbRelationship.RelationshipType.Relationship.Name = relationship.Name;
                     dbRelationship.RelationshipType.Relationship.Alias = relationship.Alias;
+                    dbRelationship.DeterminerColumnValue = relationship.DeterminerColumnValue;
+                    if (relationship.DeterminerColumnID != 0)
+                        dbRelationship.DeterminerColumnID = relationship.DeterminerColumnID;
+                    else
+                        dbRelationship.DeterminerColumnID = null;
                 }
                 projectContext.SaveChanges();
             }

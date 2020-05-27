@@ -100,6 +100,7 @@ namespace ModelEntites
         public int ColumnID { set; get; }
         public string Format { set; get; }
         public int MaxLength { set; get; }
+        public int? MinLength { get; set; }
     }
 
     public class NumericColumnTypeDTO
@@ -354,7 +355,7 @@ namespace ModelEntites
         public bool IsGeneralization { set; get; }
         public bool IsTolatParticipation { set; get; }
         public bool IsDisjoint { set; get; }
-
+        public int SuperEntityID { set; get; }
         public string SuperTypeEntities { set; get; }
 
         public string SubTypeEntities { set; get; }
@@ -558,10 +559,14 @@ namespace ModelEntites
     public class SuperToSubRelationshipDTO : RelationshipDTO
     {
         public ISARelationshipDTO ISARelationship { set; get; }
+        public int DeterminerColumnID { set; get; }
+        public string DeterminerColumnValue { set; get; }
     }
     public class SubToSuperRelationshipDTO : RelationshipDTO
     {
         public ISARelationshipDTO ISARelationship { set; get; }
+        public int DeterminerColumnID { set; get; }
+        public string DeterminerColumnValue { set; get; }
     }
 
     public class ManyToManyRelationshipDTO
@@ -1019,10 +1024,12 @@ namespace ModelEntites
         public string SubTypeEntities { set; get; }
         public bool IsTolatParticipation { set; get; }
         public bool UnionHoldsKeys { set; get; }
-
+        public int SuperEntityID { get; set; }
     }
     public class UnionToSubUnionRelationshipDTO : RelationshipDTO
     {
+        public int DeterminerColumnID { get; set; }
+        public string DeterminerColumnValue { get; set; }
         public UnionRelationshipDTO UnionRelationship { set; get; }
     }
     public class SubUnionToSuperUnionRelationshipDTO : RelationshipDTO

@@ -19,7 +19,9 @@ namespace DataAccess
             this.CodeFunction_TableDrivedEntity_Parameters = new HashSet<CodeFunction_TableDrivedEntity_Parameters>();
             this.RelationshipSearchFilter = new HashSet<RelationshipSearchFilter>();
             this.RelationshipSearchFilter1 = new HashSet<RelationshipSearchFilter>();
+            this.SuperToSubRelationshipType = new HashSet<SuperToSubRelationshipType>();
             this.TableDrivedEntity = new HashSet<TableDrivedEntity>();
+            this.UnionToSubUnionRelationshipType = new HashSet<UnionToSubUnionRelationshipType>();
             this.ColumnPhrase = new HashSet<ColumnPhrase>();
             this.UIColumnValue = new HashSet<UIColumnValue>();
             this.ConditionalPermission = new HashSet<ConditionalPermission>();
@@ -62,10 +64,13 @@ namespace DataAccess
         public virtual ICollection<CodeFunction_TableDrivedEntity_Parameters> CodeFunction_TableDrivedEntity_Parameters { get; set; }
         public virtual Formula Formula { get; set; }
         public virtual ColumnValueRange ColumnValueRange { get; set; }
+        public virtual DateTimeColumnType DateTimeColumnType { get; set; }
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter { get; set; }
         public virtual ICollection<RelationshipSearchFilter> RelationshipSearchFilter1 { get; set; }
         public virtual TimeColumnType TimeColumnType { get; set; }
+        public virtual ICollection<SuperToSubRelationshipType> SuperToSubRelationshipType { get; set; }
         public virtual ICollection<TableDrivedEntity> TableDrivedEntity { get; set; }
+        public virtual ICollection<UnionToSubUnionRelationshipType> UnionToSubUnionRelationshipType { get; set; }
         public virtual Table Table { get; set; }
         public virtual SecurityObject SecurityObject { get; set; }
         public virtual ICollection<ColumnPhrase> ColumnPhrase { get; set; }
@@ -85,6 +90,5 @@ namespace DataAccess
         public virtual ICollection<RelationshipColumns> RelationshipColumns { get; set; }
         public virtual ICollection<RelationshipColumns> RelationshipColumns1 { get; set; }
         public virtual ICollection<UniqueConstraint> UniqueConstraint { get; set; }
-        public virtual DateTimeColumnType DateTimeColumnType { get; set; }
     }
 }

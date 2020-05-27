@@ -16,8 +16,10 @@ namespace DataAccess
     {
         public int ID { get; set; }
         public int ISARelationshipID { get; set; }
-        public Nullable<bool> Dummy { get; set; }
+        public Nullable<int> DeterminerColumnID { get; set; }
+        public string DeterminerColumnValue { get; set; }
     
+        public virtual Column Column { get; set; }
         public virtual ISARelationship ISARelationship { get; set; }
         public virtual RelationshipType RelationshipType { get; set; }
     }

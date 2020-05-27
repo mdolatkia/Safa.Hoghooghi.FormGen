@@ -237,7 +237,7 @@ namespace MyUIGenerator
             var controlManager = new SimpleControlManagerForOneDataForm(column, columnSetting, hasRangeOfValues, operators);
             if (labelControlManager)
             {
-                controlManager.LabelControlManager = new LabelControlManager(labelText,true);
+                controlManager.LabelControlManager = new LabelControlManager(labelText, true);
             }
             return controlManager;
         }
@@ -257,7 +257,7 @@ namespace MyUIGenerator
             var controlManager = new SimpleControlManagerForMultipleDataForm(column, columnUISettingDTO, hasRangeOfValues);
             if (labelControlManager)
             {
-                controlManager.LabelControlManager = new LabelControlManager(labelText,false);
+                controlManager.LabelControlManager = new LabelControlManager(labelText, false);
             }
             return controlManager;
         }
@@ -1235,13 +1235,38 @@ namespace MyUIGenerator
 
         public bool ControlIsVisible(object control)
         {
-          
+
             return (control as UIElement).Visibility == Visibility.Visible;
         }
 
         public void SetContaierVisiblity(object control, bool visible)
         {
+            if (!visible && (control as UIElement) is TabItem)
+            {
+                if ((control as TabItem).IsSelected)
+                {
+                    var tabControl = (control as TabItem).Parent as TabControl;
+                  //  TabItem otherTab = null;
+                    foreach (var item in tabControl.Items)
+                    {
+                        if (item is TabItem && item != control)
+                        {
+
+                            if ((item as TabItem).Visibility == Visibility.Visible)
+                            {
+                                (item as TabItem).IsSelected = true;
+                                break;
+                            }
+
+                        }
+                    }
+                  
+                     
+                }
+            }
             (control as UIElement).Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+
+
         }
     }
 

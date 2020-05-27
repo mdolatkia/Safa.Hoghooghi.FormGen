@@ -299,7 +299,9 @@ namespace MyUILibrary.EntityArea
                 AgentUICoreMediator.GetAgentUICoreMediator.UIManager.SetContaierVisiblity(container.UIItem, true);
             }
             else
+            {
                 AgentUICoreMediator.GetAgentUICoreMediator.UIManager.SetContaierVisiblity(container.UIItem, false);
+            }
             if (container.ParentItem != null)
                 CheckContainerVisiblity(container.ParentItem);
         }

@@ -25,6 +25,8 @@ namespace MyUILibrary.EntityArea
 
         public event EventHandler<DisableEnableChangedArg> DisableEnableChanged;
         public event EventHandler DataViewGenerated;
+        public event EventHandler UIGenerated;
+
         public abstract void DataItemVisiblity(object data, bool visiblity);
         public abstract void DataItemEnablity(object data, bool visiblity);
         public abstract bool AddData(DP_DataRepository data, bool showDataInDataView);
@@ -461,6 +463,8 @@ namespace MyUILibrary.EntityArea
             {
                 GenerateTempView();
             }
+            if (UIGenerated != null)
+                UIGenerated(this, null);
         }
 
         private void GenerateTempView()
@@ -867,6 +871,10 @@ namespace MyUILibrary.EntityArea
                                 return ParentIsSubToSuperSkipCondition(relationshipColumnControl);
                             }
                         }
+                    }
+                    else
+                    {
+
                     }
                 }
                

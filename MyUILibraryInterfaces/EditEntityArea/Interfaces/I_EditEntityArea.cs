@@ -19,7 +19,7 @@ namespace MyUILibrary.EntityArea
         event EventHandler<EditAreaGeneratedArg> RelationshipAreaGenerated;
         //event EventHandler<EditAreaDataItemLoadedArg> DataItemLoaded;
         event EventHandler<EditAreaDataItemLoadedArg> DataItemShown;
-
+        event EventHandler UIGenerated;
         event EventHandler DataViewGenerated;
         TableDrivedEntityDTO DataEntryEntity { get; }
         //I_UIActionActivityManager ActionActivityManager { set; get; }

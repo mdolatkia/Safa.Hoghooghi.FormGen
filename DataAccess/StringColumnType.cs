@@ -17,6 +17,7 @@ namespace DataAccess
         public int ColumnID { get; set; }
         public int MaxLength { get; set; }
         public string Format { get; set; }
+        public Nullable<int> MinLength { get; set; }
     
         public virtual Column Column { get; set; }
     }

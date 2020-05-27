@@ -17,7 +17,7 @@ namespace MyProject_WPF
         {
             return GenerateGridviewColumn(fieldName, header, false, null, GridViewColumnType.Text);
         }
-        public static GridViewBoundColumnBase GenerateGridviewColumn(string fieldName, string header, bool readOnly,int? width, GridViewColumnType columnType, IEnumerable itemsSource = null)
+        public static GridViewBoundColumnBase GenerateGridviewColumn(string fieldName, string header, bool readOnly, int? width, GridViewColumnType columnType, IEnumerable itemsSource = null)
         {
             var columnw = new GridViewHyperlinkColumn();
 
@@ -52,6 +52,12 @@ namespace MyProject_WPF
             else if (columnType == GridViewColumnType.Enum)
             {
                 column = new GridViewComboBoxColumn();
+                (column as GridViewComboBoxColumn).ItemsSource = itemsSource;
+            }
+            else if (columnType == GridViewColumnType.ComboBox)
+            {
+                column = new GridViewComboBoxColumn();
+            
                 (column as GridViewComboBoxColumn).ItemsSource = itemsSource;
             }
             //column.Name = fieldName;
@@ -107,6 +113,21 @@ namespace MyProject_WPF
                 return text;
             }
             else return null;
+        }
+
+
+        internal static void AddComboColumnItemsSource(RadGridView dtgSuperToSub, string columnName, IEnumerable enumerable, string displayMember , string valueMember )
+        {
+            if (dtgSuperToSub.Columns[columnName] != null)
+            {
+                var column = dtgSuperToSub.Columns[columnName] as GridViewComboBoxColumn;
+                if (column != null)
+                {
+                    column.DisplayMemberPath = displayMember;
+                    column.SelectedValueMemberPath = valueMember;
+                    column.ItemsSource = enumerable;
+                }
+            }
         }
     }
 

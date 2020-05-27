@@ -198,6 +198,7 @@ namespace MyProject_WPF
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Entity2", "موجودیت طرف دوم", true, null, GridViewColumnType.Text));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("RelationshipColumns", "ستونهای رابطه", true,null, GridViewColumnType.Text));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("TypeStr", "نوع رابطه", true,null, GridViewColumnType.Text));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsNotSkippable", "غیر قابل صرف نظر", false, null, GridViewColumnType.CheckBox));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsNotTransferable", "غیر قابل انتقال", false,null, GridViewColumnType.CheckBox));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideMandatory", "طرف دیگر اجباری", false,null, GridViewColumnType.CheckBox));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("IsOtherSideCreatable", "قابلیت ایجاد طرف دیگر", false,null, GridViewColumnType.CheckBox));

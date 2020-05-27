@@ -17,32 +17,8 @@ namespace MyFormulaFunctionStateFunctionLibrary
 
         public StateResult GetStateResult(int StateFunctionID, DP_DataRepository mainDataItem, DR_Requester requester)
         {
-            StateResult result = new StateResult();
             var state = bizStateFunction.GetEntityState(StateFunctionID, true);
-            if (state.ColumnID != 0)
-            {
-                DataitemRelatedColumnValueHandler dataitemRelatedColumnValueHandler = new MyFormulaFunctionStateFunctionLibrary.DataitemRelatedColumnValueHandler();
-                var value = dataitemRelatedColumnValueHandler.GetValueSomeHow(requester, mainDataItem, state.RelationshipTail, state.ColumnID);
-                if (state.Values.Any(x => x.Value == value))
-                {
-                    result.Result = state.EntityStateOperator == Enum_EntityStateOperator.Equals;
-                }
-                else
-                    result.Result = state.EntityStateOperator == Enum_EntityStateOperator.NotEquals;
-
-            }
-            else if (state.FormulaID != 0)
-            {
-                FormulaFunctionHandler FormulaFunctionHandler = new FormulaFunctionHandler();
-                var value = FormulaFunctionHandler.CalculateFormula(state.FormulaID, mainDataItem, requester);
-                if (state.Values.Any(x => x.Value == value.Result.ToString()))
-                {
-                    result.Result = state.EntityStateOperator == Enum_EntityStateOperator.Equals;
-                }
-                else
-                    result.Result = state.EntityStateOperator == Enum_EntityStateOperator.NotEquals;
-            }
-            return result;
+            return GetStateResult(state, mainDataItem, requester);
             //////    var parameters = new List<object>();
             //////    var StateFunction = bizStateFunction.GetStateFunction(StateFunctionID);
             //////    if (StateFunction.ParamType == ModelEntites.Enum_StateFunctionParamType.OneDataItem)
@@ -66,7 +42,31 @@ namespace MyFormulaFunctionStateFunctionLibrary
             //////    }
             //////    return GetStateFunctionResult(StateFunction, parameters);
         }
+        public StateResult GetStateResult(EntityStateDTO state, DP_DataRepository mainDataItem, DR_Requester requester)
+        {
+            StateResult result = new StateResult();
 
+            if (state.ColumnID != 0)
+            {
+                DataitemRelatedColumnValueHandler dataitemRelatedColumnValueHandler = new MyFormulaFunctionStateFunctionLibrary.DataitemRelatedColumnValueHandler();
+                var value = dataitemRelatedColumnValueHandler.GetValueSomeHow(requester, mainDataItem, state.RelationshipTail, state.ColumnID);
+                if (state.EntityStateOperator == Enum_EntityStateOperator.Equals)
+                    result.Result = state.Values.Any(x => x.Value.Equals(value));
+                else
+                    result.Result = !state.Values.Any(x => x.Value.Equals(value));
+            }
+            else if (state.FormulaID != 0)
+            {
+                FormulaFunctionHandler FormulaFunctionHandler = new FormulaFunctionHandler();
+                var value = FormulaFunctionHandler.CalculateFormula(state.FormulaID, mainDataItem, requester);
+                if (state.EntityStateOperator == Enum_EntityStateOperator.Equals)
+                    result.Result = state.Values.Any(x => x.Value.Equals(value.Result));
+                else
+                    result.Result = !state.Values.Any(x => x.Value.Equals(value.Result));
+            }
+            return result;
+
+        }
 
         //private StateFunctionResult GetStateFunctionResult(StateFunctionDTO StateFunction, List<object> parameters)
         //{

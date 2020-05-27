@@ -596,6 +596,15 @@ namespace MyUILibrary.EntityArea
                             AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
                         }
                     }
+                    if (simplePropertyControl.Column.StringColumnType.MinLength != 0
+                       && simplePropertyControl.Column.StringColumnType.MinLength != null)
+                    {
+                        if (dataColumn.Value.ToString().Length < simplePropertyControl.Column.StringColumnType.MinLength)
+                        {
+                            string message = "حداقل طول این خصوصیت" + " " + simplePropertyControl.Column.StringColumnType.MinLength + " " + "کاراکتر می باشد";
+                            AddColumnControlValidationMessage(simplePropertyControl, message, dataItem);
+                        }
+                    }
                 }
 
                 if (simplePropertyControl.Column.NumericColumnType != null)

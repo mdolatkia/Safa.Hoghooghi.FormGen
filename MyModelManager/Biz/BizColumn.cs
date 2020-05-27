@@ -102,6 +102,7 @@ namespace MyModelManager
             result.ColumnID = item.ColumnID;
             result.Format = item.Format;
             result.MaxLength = item.MaxLength;
+            result.MinLength = item.MinLength;
             return result;
         }
         public List<NumericColumnTypeDTO> GetNumericColumType(int columnID)
@@ -575,6 +576,7 @@ namespace MyModelManager
                 {
                     var dbColumn = projectContext.StringColumnType.First(x => x.ColumnID == column.ColumnID);
                     dbColumn.MaxLength = column.MaxLength;
+                    dbColumn.MinLength = column.MinLength;
                     dbColumn.Format = column.Format;
                 }
                 projectContext.SaveChanges();

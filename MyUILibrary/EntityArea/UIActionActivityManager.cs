@@ -20,7 +20,77 @@ namespace MyUILibrary.EntityArea
             EditArea = editArea;
             //EditArea.DataItemLoaded += EditArea_DataItemLoaded;
             EditArea.DataItemShown += EditArea_DataItemShown;
+            EditArea.UIGenerated += EditArea_UIGenerated;
             //     EditArea.DataItemUnShown += EditArea_DataItemUnShown;
+
+        }
+
+        private void EditArea_UIGenerated(object sender, EventArgs e)
+        {
+            CheckISAandUnionDeterminerStates();
+        }
+
+        private void CheckISAandUnionDeterminerStates()
+        {
+            if (EditArea.RelationshipColumnControls.Any(x => x.Relationship.TypeEnum == Enum_RelationshipType.SuperToSub))
+            {
+                foreach (var item in EditArea.RelationshipColumnControls.Where(x => x.Relationship.TypeEnum == Enum_RelationshipType.SuperToSub))
+                {
+                    var superToSubRel = item.Relationship as SuperToSubRelationshipDTO;
+                    if (superToSubRel.DeterminerColumnID != 0 && !string.IsNullOrEmpty(superToSubRel.DeterminerColumnValue))
+                    {
+                        var state = new EntityStateDTO();
+                        state.ID = -1 * superToSubRel.ID;
+                        state.ColumnID = superToSubRel.DeterminerColumnID;
+                        state.Values.Add(new EntityStateValueDTO() { Value = superToSubRel.DeterminerColumnValue });
+                        state.EntityStateOperator = Enum_EntityStateOperator.NotEquals;
+                        var actionActivity = new UIActionActivityDTO();
+                        actionActivity.ID = -1 * superToSubRel.ID;
+                        actionActivity.Type = Enum_ActionActivityType.UIEnablity;
+                        actionActivity.UIEnablityDetails.Add(new UIEnablityDetailsDTO() { Hidden = true, RelationshipID = superToSubRel.ID });
+                        state.ActionActivities.Add(actionActivity);
+                        EditArea.EntityStates.Add(state);
+                    }
+                }
+            }
+            if (EditArea.AreaInitializer.SourceRelation != null && EditArea.AreaInitializer.SourceRelation.Relationship.TypeEnum == Enum_RelationshipType.SubToSuper)
+            {
+
+                var subToSuperRel = EditArea.AreaInitializer.SourceRelation.Relationship as SubToSuperRelationshipDTO;
+                if (subToSuperRel.DeterminerColumnID != 0 && !string.IsNullOrEmpty(subToSuperRel.DeterminerColumnValue))
+                {
+                  
+ 
+                    var state = new EntityStateDTO();
+                    state.ID = -1 * subToSuperRel.ID;
+                    state.ColumnID = subToSuperRel.DeterminerColumnID;
+                    state.Values.Add(new EntityStateValueDTO() { Value = subToSuperRel.DeterminerColumnValue });
+                    state.EntityStateOperator = Enum_EntityStateOperator.NotEquals;
+                    var actionActivity = new UIActionActivityDTO();
+                    actionActivity.ID = -1 * subToSuperRel.ID;
+                    actionActivity.Type = Enum_ActionActivityType.UIEnablity;
+                    actionActivity.UIEnablityDetails.Add(new UIEnablityDetailsDTO() { Hidden = true, RelationshipID = subToSuperRel.PairRelationshipID });
+                    state.ActionActivities.Add(actionActivity);
+                    EditArea.EntityStates.Add(state);
+
+
+                    شرط اگر داده جدید باشد
+                    var setDeterminerState = new EntityStateDTO();
+                    setDeterminerState.ID = -2 * subToSuperRel.ID;
+                    setDeterminerState.ColumnID = subToSuperRel.DeterminerColumnID;
+                    setDeterminerState.Values.Add(new EntityStateValueDTO() { Value = "!@#$#" });
+                    setDeterminerState.EntityStateOperator = Enum_EntityStateOperator.NotEquals;
+                    var setDeterminerActionActivity = new UIActionActivityDTO();
+                    setDeterminerActionActivity.ID = -2 * subToSuperRel.ID;
+                    setDeterminerActionActivity.Type = Enum_ActionActivityType.ColumnValue;
+                    setDeterminerActionActivity.UIColumnValue.Add(new UIColumnValueDTO() { ColumnID = subToSuperRel.DeterminerColumnID, ExactValue = subToSuperRel.DeterminerColumnValue });
+                    setDeterminerState.ActionActivities.Add(setDeterminerActionActivity);
+                    EditArea.EntityStates.Add(setDeterminerState);
+
+                }
+
+            }
+
         }
 
         bool statesSet = false;
@@ -81,12 +151,12 @@ namespace MyUILibrary.EntityArea
             if (EditArea.EntityStates == null || EditArea.EntityStates.Count == 0)
                 return;
             SetEntityStates();
-
-            CheckAndImposeEntityStates(e.DataItem, false, ActionActivitySource.OnShowData);
             foreach (var state in EditArea.EntityStates)
             {
                 CheckDataItemChangeMonitors(e.DataItem, state);
             }
+            CheckAndImposeEntityStates(e.DataItem, false, ActionActivitySource.OnShowData);
+          
         }
 
         //private void CheckParentReadonlyTail(DP_DataRepository data)
@@ -314,7 +384,7 @@ namespace MyUILibrary.EntityArea
         private bool CheckEntityState(DP_DataRepository dataItem, EntityStateDTO state)
         {
             bool stateIsValid = false;
-            var stateResult = AgentUICoreMediator.GetAgentUICoreMediator.StateManager.CalculateState(state.ID, dataItem, AgentUICoreMediator.GetAgentUICoreMediator.GetRequester());
+            var stateResult = AgentUICoreMediator.GetAgentUICoreMediator.StateManager.CalculateState(state, dataItem, AgentUICoreMediator.GetAgentUICoreMediator.GetRequester());
             if (string.IsNullOrEmpty(stateResult.Message))
             {
                 stateIsValid = stateResult.Result;
@@ -433,7 +503,7 @@ namespace MyUILibrary.EntityArea
         {
             var dataItem = dataAndState.DataItem;
             List<BaseColumnControl> hiddenControls = new List<BaseColumnControl>();
-            foreach (var state in entityStates)
+            foreach (var state in entityStates.ToList())
             {
                 foreach (var item in state.ActionActivities)
                 {

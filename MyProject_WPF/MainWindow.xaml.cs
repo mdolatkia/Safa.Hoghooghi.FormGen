@@ -1193,7 +1193,8 @@ namespace MyProject_WPF
         Command,
         Color,
         Link,
-        Enum
+        Enum,
+        ComboBox
     }
 
 }

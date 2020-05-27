@@ -901,6 +901,7 @@
           <Property Name="ColumnID" Type="int" Nullable="false" />
           <Property Name="MaxLength" Type="int" Nullable="false" />
           <Property Name="Format" Type="varchar(max)" />
+          <Property Name="MinLength" Type="int" />
         </EntityType>
         <EntityType Name="SubSystems">
           <Key>
@@ -932,7 +933,8 @@
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="ISARelationshipID" Type="int" Nullable="false" />
-          <Property Name="Dummy" Type="bit" />
+          <Property Name="DeterminerColumnID" Type="int" />
+          <Property Name="DeterminerColumnValue" Type="varchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="TabGroupUISetting">
           <Key>
@@ -1089,7 +1091,8 @@
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="UnionRelationshipTypeID" Type="int" Nullable="false" />
-          <Property Name="Dummy" Type="bit" />
+          <Property Name="DeterminerColumnID" Type="int" />
+          <Property Name="DeterminerColumnValue" Type="varchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="UniqueConstraint">
           <Key>
@@ -2077,6 +2080,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SuperToSubRelationshipType_Column">
+          <End Role="Column" Type="Self.Column" Multiplicity="0..1" />
+          <End Role="SuperToSubRelationshipType" Type="Self.SuperToSubRelationshipType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Column">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SuperToSubRelationshipType">
+              <PropertyRef Name="DeterminerColumnID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TableDrivedEntity_Column">
           <End Role="Column" Type="Self.Column" Multiplicity="0..1" />
           <End Role="TableDrivedEntity" Type="Self.TableDrivedEntity" Multiplicity="*" />
@@ -2170,6 +2185,18 @@
             </Principal>
             <Dependent Role="UIEnablityDetails">
               <PropertyRef Name="UIActionActivityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnionToSubUnionRelationshipType_Column">
+          <End Role="Column" Type="Self.Column" Multiplicity="0..1" />
+          <End Role="UnionToSubUnionRelationshipType" Type="Self.UnionToSubUnionRelationshipType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Column">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnionToSubUnionRelationshipType">
+              <PropertyRef Name="DeterminerColumnID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4937,6 +4964,10 @@
             <End Role="Column" EntitySet="Column" />
             <End Role="TimeColumnType" EntitySet="TimeColumnType" />
           </AssociationSet>
+          <AssociationSet Name="FK_SuperToSubRelationshipType_Column" Association="Self.FK_SuperToSubRelationshipType_Column">
+            <End Role="Column" EntitySet="Column" />
+            <End Role="SuperToSubRelationshipType" EntitySet="SuperToSubRelationshipType" />
+          </AssociationSet>
           <AssociationSet Name="FK_TableDrivedEntity_Column" Association="Self.FK_TableDrivedEntity_Column">
             <End Role="Column" EntitySet="Column" />
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
@@ -4968,6 +4999,10 @@
           <AssociationSet Name="FK_UIEnablityDetails_UIActionActivity" Association="Self.FK_UIEnablityDetails_UIActionActivity">
             <End Role="UIActionActivity" EntitySet="UIActionActivity" />
             <End Role="UIEnablityDetails" EntitySet="UIEnablityDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnionToSubUnionRelationshipType_Column" Association="Self.FK_UnionToSubUnionRelationshipType_Column">
+            <End Role="Column" EntitySet="Column" />
+            <End Role="UnionToSubUnionRelationshipType" EntitySet="UnionToSubUnionRelationshipType" />
           </AssociationSet>
           <AssociationSet Name="FKAction739424" Association="Self.FKAction739424">
             <End Role="Process" EntitySet="Process" />
@@ -5808,6 +5843,7 @@
           <EntitySet Name="DataMenuSetting" EntityType="MyProjectModel.DataMenuSetting" />
           <EntitySet Name="DataViewSetting" EntityType="MyProjectModel.DataViewSetting" />
           <EntitySet Name="DateColumnType" EntityType="MyProjectModel.DateColumnType" />
+          <EntitySet Name="DateTimeColumnType" EntityType="MyProjectModel.DateTimeColumnType" />
           <EntitySet Name="DBSchema" EntityType="MyProjectModel.DBSchema" />
           <EntitySet Name="DBServer" EntityType="MyProjectModel.DBServer" />
           <EntitySet Name="EmptySpaceUISetting" EntityType="MyProjectModel.EmptySpaceUISetting" />
@@ -6048,6 +6084,10 @@
             <End Role="Column" EntitySet="Column" />
             <End Role="ColumnValueRange" EntitySet="ColumnValueRange" />
           </AssociationSet>
+          <AssociationSet Name="FK_DateTimeColumnType_Column" Association="MyProjectModel.FK_DateTimeColumnType_Column">
+            <End Role="Column" EntitySet="Column" />
+            <End Role="DateTimeColumnType" EntitySet="DateTimeColumnType" />
+          </AssociationSet>
           <AssociationSet Name="FK_RelationshipSearchFilter_Column" Association="MyProjectModel.FK_RelationshipSearchFilter_Column">
             <End Role="Column" EntitySet="Column" />
             <End Role="RelationshipSearchFilter" EntitySet="RelationshipSearchFilter" />
@@ -6060,9 +6100,17 @@
             <End Role="Column" EntitySet="Column" />
             <End Role="TimeColumnType" EntitySet="TimeColumnType" />
           </AssociationSet>
+          <AssociationSet Name="FK_SuperToSubRelationshipType_Column" Association="MyProjectModel.FK_SuperToSubRelationshipType_Column">
+            <End Role="Column" EntitySet="Column" />
+            <End Role="SuperToSubRelationshipType" EntitySet="SuperToSubRelationshipType" />
+          </AssociationSet>
           <AssociationSet Name="FK_TableDrivedEntity_Column" Association="MyProjectModel.FK_TableDrivedEntity_Column">
             <End Role="Column" EntitySet="Column" />
             <End Role="TableDrivedEntity" EntitySet="TableDrivedEntity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnionToSubUnionRelationshipType_Column" Association="MyProjectModel.FK_UnionToSubUnionRelationshipType_Column">
+            <End Role="Column" EntitySet="Column" />
+            <End Role="UnionToSubUnionRelationshipType" EntitySet="UnionToSubUnionRelationshipType" />
           </AssociationSet>
           <AssociationSet Name="FKColumn659222" Association="MyProjectModel.FKColumn659222">
             <End Role="Table" EntitySet="Table" />
@@ -6964,11 +7012,6 @@
             <End Role="UniqueConstraint" EntitySet="UniqueConstraint" />
             <End Role="Column" EntitySet="Column" />
           </AssociationSet>
-          <EntitySet Name="DateTimeColumnType" EntityType="MyProjectModel.DateTimeColumnType" />
-          <AssociationSet Name="FK_DateTimeColumnType_Column" Association="MyProjectModel.FK_DateTimeColumnType_Column">
-            <End Role="Column" EntitySet="Column" />
-            <End Role="DateTimeColumnType" EntitySet="DateTimeColumnType" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ArchiveFolder">
           <Key>
@@ -7163,10 +7206,13 @@
           <NavigationProperty Name="CodeFunction_TableDrivedEntity_Parameters" Relationship="MyProjectModel.FKCodeFuncti70133" FromRole="Column" ToRole="CodeFunction_TableDrivedEntity_Parameters" />
           <NavigationProperty Name="Formula" Relationship="MyProjectModel.FK_Column_Formula" FromRole="Column" ToRole="Formula" />
           <NavigationProperty Name="ColumnValueRange" Relationship="MyProjectModel.FK_ColumnValueRange_Column" FromRole="Column" ToRole="ColumnValueRange" />
+          <NavigationProperty Name="DateTimeColumnType" Relationship="MyProjectModel.FK_DateTimeColumnType_Column" FromRole="Column" ToRole="DateTimeColumnType" />
           <NavigationProperty Name="RelationshipSearchFilter" Relationship="MyProjectModel.FK_RelationshipSearchFilter_Column" FromRole="Column" ToRole="RelationshipSearchFilter" />
           <NavigationProperty Name="RelationshipSearchFilter1" Relationship="MyProjectModel.FK_RelationshipSearchFilter_Column1" FromRole="Column" ToRole="RelationshipSearchFilter" />
           <NavigationProperty Name="TimeColumnType" Relationship="MyProjectModel.FK_StringTimeColumnType_Column" FromRole="Column" ToRole="TimeColumnType" />
+          <NavigationProperty Name="SuperToSubRelationshipType" Relationship="MyProjectModel.FK_SuperToSubRelationshipType_Column" FromRole="Column" ToRole="SuperToSubRelationshipType" />
           <NavigationProperty Name="TableDrivedEntity" Relationship="MyProjectModel.FK_TableDrivedEntity_Column" FromRole="Column" ToRole="TableDrivedEntity" />
+          <NavigationProperty Name="UnionToSubUnionRelationshipType" Relationship="MyProjectModel.FK_UnionToSubUnionRelationshipType_Column" FromRole="Column" ToRole="UnionToSubUnionRelationshipType" />
           <NavigationProperty Name="Table" Relationship="MyProjectModel.FKColumn659222" FromRole="Column" ToRole="Table" />
           <NavigationProperty Name="SecurityObject" Relationship="MyProjectModel.FKColumn689451" FromRole="Column" ToRole="SecurityObject" />
           <NavigationProperty Name="ColumnPhrase" Relationship="MyProjectModel.FKColumnPhra124715" FromRole="Column" ToRole="ColumnPhrase" />
@@ -7186,7 +7232,6 @@
           <NavigationProperty Name="RelationshipColumns" Relationship="MyProjectModel.Relationship_FirstEntityColumns" FromRole="Column" ToRole="RelationshipColumns" />
           <NavigationProperty Name="RelationshipColumns1" Relationship="MyProjectModel.Relationship_SecondEntityColumns" FromRole="Column" ToRole="RelationshipColumns" />
           <NavigationProperty Name="UniqueConstraint" Relationship="MyProjectModel.UniqueConstraint_Column" FromRole="Column" ToRole="UniqueConstraint" />
-          <NavigationProperty Name="DateTimeColumnType" Relationship="MyProjectModel.FK_DateTimeColumnType_Column" FromRole="Column" ToRole="DateTimeColumnType" />
         </EntityType>
         <EntityType Name="ColumnPhrase">
           <Key>
@@ -7438,6 +7483,19 @@
           <Property Name="ShowMiladiDateInUI" Type="Boolean" Nullable="false" />
           <Property Name="StringDateIsMiladi" Type="Boolean" />
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FKDateColumn74546" FromRole="DateColumnType" ToRole="Column" />
+        </EntityType>
+        <EntityType Name="DateTimeColumnType">
+          <Key>
+            <PropertyRef Name="ColumnID" />
+          </Key>
+          <Property Name="ColumnID" Type="Int32" Nullable="false" />
+          <Property Name="ShowMiladiDateInUI" Type="Boolean" Nullable="false" />
+          <Property Name="HideTimePicker" Type="Boolean" Nullable="false" />
+          <Property Name="ShowAMPMFormat" Type="Boolean" Nullable="false" />
+          <Property Name="StringDateIsMiladi" Type="Boolean" />
+          <Property Name="StringTimeIsMiladi" Type="Boolean" />
+          <Property Name="StringTimeISAMPMFormat" Type="Boolean" />
+          <NavigationProperty Name="Column" Relationship="MyProjectModel.FK_DateTimeColumnType_Column" FromRole="DateTimeColumnType" ToRole="Column" />
         </EntityType>
         <EntityType Name="DBSchema">
           <Key>
@@ -8187,6 +8245,7 @@
           <Property Name="ColumnID" Type="Int32" Nullable="false" />
           <Property Name="MaxLength" Type="Int32" Nullable="false" />
           <Property Name="Format" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MinLength" Type="Int32" />
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FKStringColu936883" FromRole="StringColumnType" ToRole="Column" />
         </EntityType>
         <EntityType Name="SubSystems">
@@ -8224,7 +8283,9 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="ISARelationshipID" Type="Int32" Nullable="false" />
-          <Property Name="Dummy" Type="Boolean" />
+          <Property Name="DeterminerColumnID" Type="Int32" />
+          <Property Name="DeterminerColumnValue" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Column" Relationship="MyProjectModel.FK_SuperToSubRelationshipType_Column" FromRole="SuperToSubRelationshipType" ToRole="Column" />
           <NavigationProperty Name="ISARelationship" Relationship="MyProjectModel.FKSuperToSub515953" FromRole="SuperToSubRelationshipType" ToRole="ISARelationship" />
           <NavigationProperty Name="RelationshipType" Relationship="MyProjectModel.FKSuperToSub305547" FromRole="SuperToSubRelationshipType" ToRole="RelationshipType" />
         </EntityType>
@@ -8386,9 +8447,9 @@
           <Property Name="ColumnID" Type="Int32" Nullable="false" />
           <Property Name="ShowAMPMFormat" Type="Boolean" Nullable="false" />
           <Property Name="ShowMiladiTime" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Column" Relationship="MyProjectModel.FK_StringTimeColumnType_Column" FromRole="TimeColumnType" ToRole="Column" />
           <Property Name="StringTimeIsMiladi" Type="Boolean" />
           <Property Name="StringTimeISAMPMFormat" Type="Boolean" />
+          <NavigationProperty Name="Column" Relationship="MyProjectModel.FK_StringTimeColumnType_Column" FromRole="TimeColumnType" ToRole="Column" />
         </EntityType>
         <EntityType Name="UIActionActivity">
           <Key>
@@ -8458,7 +8519,9 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="UnionRelationshipTypeID" Type="Int32" Nullable="false" />
-          <Property Name="Dummy" Type="Boolean" />
+          <Property Name="DeterminerColumnID" Type="Int32" />
+          <Property Name="DeterminerColumnValue" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Column" Relationship="MyProjectModel.FK_UnionToSubUnionRelationshipType_Column" FromRole="UnionToSubUnionRelationshipType" ToRole="Column" />
           <NavigationProperty Name="RelationshipType" Relationship="MyProjectModel.FKUnionToSub14902" FromRole="UnionToSubUnionRelationshipType" ToRole="RelationshipType" />
           <NavigationProperty Name="UnionRelationshipType" Relationship="MyProjectModel.FKUnionToSub933310" FromRole="UnionToSubUnionRelationshipType" ToRole="UnionRelationshipType" />
         </EntityType>
@@ -9259,6 +9322,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DateTimeColumnType_Column">
+          <End Type="MyProjectModel.Column" Role="Column" Multiplicity="1" />
+          <End Type="MyProjectModel.DateTimeColumnType" Role="DateTimeColumnType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Column">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DateTimeColumnType">
+              <PropertyRef Name="ColumnID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RelationshipSearchFilter_Column">
           <End Type="MyProjectModel.Column" Role="Column" Multiplicity="1" />
           <End Type="MyProjectModel.RelationshipSearchFilter" Role="RelationshipSearchFilter" Multiplicity="*" />
@@ -9295,6 +9370,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SuperToSubRelationshipType_Column">
+          <End Type="MyProjectModel.Column" Role="Column" Multiplicity="0..1" />
+          <End Type="MyProjectModel.SuperToSubRelationshipType" Role="SuperToSubRelationshipType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Column">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SuperToSubRelationshipType">
+              <PropertyRef Name="DeterminerColumnID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TableDrivedEntity_Column">
           <End Type="MyProjectModel.Column" Role="Column" Multiplicity="0..1" />
           <End Type="MyProjectModel.TableDrivedEntity" Role="TableDrivedEntity" Multiplicity="*" />
@@ -9303,6 +9390,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="TableDrivedEntity">
+              <PropertyRef Name="DeterminerColumnID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnionToSubUnionRelationshipType_Column">
+          <End Type="MyProjectModel.Column" Role="Column" Multiplicity="0..1" />
+          <End Type="MyProjectModel.UnionToSubUnionRelationshipType" Role="UnionToSubUnionRelationshipType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Column">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UnionToSubUnionRelationshipType">
               <PropertyRef Name="DeterminerColumnID" />
             </Dependent>
           </ReferentialConstraint>
@@ -11999,31 +12098,6 @@
           <End Type="MyProjectModel.UniqueConstraint" Role="UniqueConstraint" Multiplicity="*" />
           <End Type="MyProjectModel.Column" Role="Column" Multiplicity="*" />
         </Association>
-        <EntityType Name="DateTimeColumnType">
-          <Key>
-            <PropertyRef Name="ColumnID" />
-          </Key>
-          <Property Name="ColumnID" Type="Int32" Nullable="false" />
-          <Property Name="ShowMiladiDateInUI" Type="Boolean" Nullable="false" />
-          <Property Name="HideTimePicker" Type="Boolean" Nullable="false" />
-          <Property Name="ShowAMPMFormat" Type="Boolean" Nullable="false" />
-          <Property Name="StringDateIsMiladi" Type="Boolean" />
-          <Property Name="StringTimeIsMiladi" Type="Boolean" />
-          <Property Name="StringTimeISAMPMFormat" Type="Boolean" />
-          <NavigationProperty Name="Column" Relationship="MyProjectModel.FK_DateTimeColumnType_Column" FromRole="DateTimeColumnType" ToRole="Column" />
-        </EntityType>
-        <Association Name="FK_DateTimeColumnType_Column">
-          <End Type="MyProjectModel.Column" Role="Column" Multiplicity="1" />
-          <End Type="MyProjectModel.DateTimeColumnType" Role="DateTimeColumnType" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Column">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DateTimeColumnType">
-              <PropertyRef Name="ColumnID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12413,6 +12487,19 @@
             <EntityTypeMapping TypeName="MyProjectModel.DateColumnType">
               <MappingFragment StoreEntitySet="DateColumnType">
                 <ScalarProperty Name="StringDateIsMiladi" ColumnName="StringDateIsMiladi" />
+                <ScalarProperty Name="ShowMiladiDateInUI" ColumnName="ShowMiladiDateInUI" />
+                <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DateTimeColumnType">
+            <EntityTypeMapping TypeName="MyProjectModel.DateTimeColumnType">
+              <MappingFragment StoreEntitySet="DateTimeColumnType">
+                <ScalarProperty Name="StringTimeISAMPMFormat" ColumnName="StringTimeISAMPMFormat" />
+                <ScalarProperty Name="StringTimeIsMiladi" ColumnName="StringTimeIsMiladi" />
+                <ScalarProperty Name="StringDateIsMiladi" ColumnName="StringDateIsMiladi" />
+                <ScalarProperty Name="ShowAMPMFormat" ColumnName="ShowAMPMFormat" />
+                <ScalarProperty Name="HideTimePicker" ColumnName="HideTimePicker" />
                 <ScalarProperty Name="ShowMiladiDateInUI" ColumnName="ShowMiladiDateInUI" />
                 <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
               </MappingFragment>
@@ -13001,6 +13088,7 @@
           <EntitySetMapping Name="StringColumnType">
             <EntityTypeMapping TypeName="MyProjectModel.StringColumnType">
               <MappingFragment StoreEntitySet="StringColumnType">
+                <ScalarProperty Name="MinLength" ColumnName="MinLength" />
                 <ScalarProperty Name="Format" ColumnName="Format" />
                 <ScalarProperty Name="MaxLength" ColumnName="MaxLength" />
                 <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
@@ -13037,7 +13125,8 @@
           <EntitySetMapping Name="SuperToSubRelationshipType">
             <EntityTypeMapping TypeName="MyProjectModel.SuperToSubRelationshipType">
               <MappingFragment StoreEntitySet="SuperToSubRelationshipType">
-                <ScalarProperty Name="Dummy" ColumnName="Dummy" />
+                <ScalarProperty Name="DeterminerColumnValue" ColumnName="DeterminerColumnValue" />
+                <ScalarProperty Name="DeterminerColumnID" ColumnName="DeterminerColumnID" />
                 <ScalarProperty Name="ISARelationshipID" ColumnName="ISARelationshipID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -13208,7 +13297,8 @@
           <EntitySetMapping Name="UnionToSubUnionRelationshipType">
             <EntityTypeMapping TypeName="MyProjectModel.UnionToSubUnionRelationshipType">
               <MappingFragment StoreEntitySet="UnionToSubUnionRelationshipType">
-                <ScalarProperty Name="Dummy" ColumnName="Dummy" />
+                <ScalarProperty Name="DeterminerColumnValue" ColumnName="DeterminerColumnValue" />
+                <ScalarProperty Name="DeterminerColumnID" ColumnName="DeterminerColumnID" />
                 <ScalarProperty Name="UnionRelationshipTypeID" ColumnName="UnionRelationshipTypeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -13544,19 +13634,6 @@
               <ScalarProperty Name="ID" ColumnName="UniqueConstraintID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="DateTimeColumnType">
-            <EntityTypeMapping TypeName="MyProjectModel.DateTimeColumnType">
-              <MappingFragment StoreEntitySet="DateTimeColumnType">
-                <ScalarProperty Name="StringTimeISAMPMFormat" ColumnName="StringTimeISAMPMFormat" />
-                <ScalarProperty Name="StringTimeIsMiladi" ColumnName="StringTimeIsMiladi" />
-                <ScalarProperty Name="StringDateIsMiladi" ColumnName="StringDateIsMiladi" />
-                <ScalarProperty Name="ShowAMPMFormat" ColumnName="ShowAMPMFormat" />
-                <ScalarProperty Name="HideTimePicker" ColumnName="HideTimePicker" />
-                <ScalarProperty Name="ShowMiladiDateInUI" ColumnName="ShowMiladiDateInUI" />
-                <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

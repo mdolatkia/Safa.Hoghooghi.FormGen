@@ -23,6 +23,11 @@ namespace MyFormulaManagerService
             StateHandler handler = new StateHandler();
             return handler.GetStateResult(stateID, mainDataItem,requester);
         }
+        public StateResult CalculateState(EntityStateDTO state, DP_DataRepository mainDataItem, DR_Requester requester)
+        {
+            StateHandler handler = new StateHandler();
+            return handler.GetStateResult(state, mainDataItem, requester);
+        }
 
         //public FormulaDTO GetFormula(int formulaID)
         //{

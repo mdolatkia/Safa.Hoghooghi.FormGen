@@ -47,6 +47,8 @@ namespace MyModelManager
             result.ID = item.ID;
             result.IsTolatParticipation = item.IsTolatParticipation;
             result.UnionHoldsKeys = item.UnionHoldsKeys;
+            if (item.UnionToSubUnionRelationshipType.Any())
+                result.SuperEntityID = item.UnionToSubUnionRelationshipType.First().RelationshipType.Relationship.TableDrivedEntityID1;
             result.SuperTypeEntities = "";
             foreach (var superType in item.UnionToSubUnionRelationshipType)
             {
@@ -130,7 +132,7 @@ namespace MyModelManager
         }
 
 
-        public UnionToSubUnionRelationshipDTO ToSuperUnionToSubUnionRelationshipDTO(UnionToSubUnionRelationshipType item, RelationshipDTO baseRelationship=null)
+        public UnionToSubUnionRelationshipDTO ToSuperUnionToSubUnionRelationshipDTO(UnionToSubUnionRelationshipType item, RelationshipDTO baseRelationship = null)
         {
             BizRelationship biz = new MyModelManager.BizRelationship();
             if (baseRelationship == null)
@@ -138,6 +140,8 @@ namespace MyModelManager
             Mapper.Initialize(cfg => cfg.CreateMap<RelationshipDTO, UnionToSubUnionRelationshipDTO>());
             var result = AutoMapper.Mapper.Map<RelationshipDTO, UnionToSubUnionRelationshipDTO>(baseRelationship);
             result.UnionRelationship = ToUnionRelationshipDTO(item.UnionRelationshipType);
+            result.DeterminerColumnValue = item.DeterminerColumnValue;
+            result.DeterminerColumnID = item.DeterminerColumnID ?? 0;
             return result;
         }
 
@@ -160,7 +164,7 @@ namespace MyModelManager
             }
             return result;
         }
-        public SubUnionToSuperUnionRelationshipDTO ToSubUnionToSuperUnionRelationshipDTO(SubUnionToUnionRelationshipType item, RelationshipDTO baseRelationship=null)
+        public SubUnionToSuperUnionRelationshipDTO ToSubUnionToSuperUnionRelationshipDTO(SubUnionToUnionRelationshipType item, RelationshipDTO baseRelationship = null)
         {
             BizRelationship biz = new MyModelManager.BizRelationship();
             if (baseRelationship == null)
@@ -184,6 +188,11 @@ namespace MyModelManager
                     //dbRelationship.RelationshipType.IsOtherSideTransferable = relationship.IsOtherSideTransferable;
                     dbRelationship.RelationshipType.Relationship.Name = relationship.Name;
                     dbRelationship.RelationshipType.Relationship.Alias = relationship.Alias;
+                    dbRelationship.DeterminerColumnValue = relationship.DeterminerColumnValue;
+                    if (relationship.DeterminerColumnID != 0)
+                        dbRelationship.DeterminerColumnID = relationship.DeterminerColumnID;
+                    else
+                        dbRelationship.DeterminerColumnID = null;
                 }
                 projectContext.SaveChanges();
             }

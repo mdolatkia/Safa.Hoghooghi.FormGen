@@ -147,11 +147,22 @@ namespace MyModelManager
             {
                 var dbDatabase = projectContext.DatabaseInformation.First(x => x.ID == databaseID);
                 var genericPerson = projectContext.TableDrivedEntity.First(x => x.Name == "GenericPerson" && x.Table.DBSchema.DatabaseInformationID == databaseID);
-                if(genericPerson!=null)
+                if (genericPerson != null)
                 {
                     var emailColumn = genericPerson.Table.Column.First(x => x.Name == "EmailAddress");
-                    if(emailColumn!=null)
-                        emailColumn.StringColumnType.Format= @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+                    if (emailColumn != null)
+                        emailColumn.StringColumnType.Format = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+
+                    var typeColumn = genericPerson.Table.Column.First(x => x.Name == "Type");
+                    if (typeColumn != null)
+                    {
+                        if (typeColumn.ColumnValueRange == null)
+                        {
+                            typeColumn.ColumnValueRange = new ColumnValueRange();
+                            typeColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "1", KeyTitle = "حقیقی" });
+                            typeColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "2", KeyTitle = "حقوقی" });
+                        }
+                    }
                 }
                 var serviceConclusion = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceConclusion" && x.Table.DBSchema.DatabaseInformationID == databaseID);
                 if (serviceConclusion != null)
@@ -239,12 +250,13 @@ namespace MyModelManager
                     var employeeRoleColumn = employee.Table.Column.First(x => x.Name == "EmployeeRole");
                     if (employeeRoleColumn != null)
                     {
-                        if(employeeRoleColumn.ColumnValueRange==null)
+                        if (employeeRoleColumn.ColumnValueRange == null)
                         {
                             employeeRoleColumn.ColumnValueRange = new ColumnValueRange();
+
+                            employeeRoleColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "1", KeyTitle = "مدیر" });
+                            employeeRoleColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "2", KeyTitle = "کارشناس" });
                         }
-                        employeeRoleColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "1", KeyTitle = "مدیر" });
-                        employeeRoleColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "2", KeyTitle = "کارشناس" });
                     }
                 }
                 var office = projectContext.TableDrivedEntity.First(x => x.Name == "Office" && x.Table.DBSchema.DatabaseInformationID == databaseID);
@@ -256,9 +268,34 @@ namespace MyModelManager
                         if (workshopLevelColumn.ColumnValueRange == null)
                         {
                             workshopLevelColumn.ColumnValueRange = new ColumnValueRange();
+
+                            workshopLevelColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "سطح1" });
+                            workshopLevelColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "سطح2" });
                         }
-                        workshopLevelColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "سطح1" });
-                        workshopLevelColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "سطح2" });
+                    }
+                    var codeColumn = office.Table.Column.First(x => x.Name == "Code");
+                    if (codeColumn != null)
+                    {
+                        codeColumn.StringColumnType.MaxLength = 3;
+                        codeColumn.StringColumnType.MinLength = 3;
+                    }
+                }
+
+                var region = projectContext.TableDrivedEntity.First(x => x.Name == "Region" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (region != null)
+                {
+                    var typeColumn = region.Table.Column.First(x => x.Name == "Type");
+                    if (typeColumn != null)
+                    {
+                        if (typeColumn.ColumnValueRange == null)
+                        {
+                            typeColumn.ColumnValueRange = new ColumnValueRange();
+
+                            typeColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "کشور" });
+                            typeColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "استان" });
+                            typeColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "شهر" });
+
+                        }
                     }
                 }
                 projectContext.SaveChanges();

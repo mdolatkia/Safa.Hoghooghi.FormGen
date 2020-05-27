@@ -182,6 +182,7 @@ namespace MyProject_WPF
             {
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("ColumnID", "شناسه ستون", true,null, GridViewColumnType.Text));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("MaxLength", "حداکثر طول", false,null, GridViewColumnType.Numeric));
+                dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("MinLength", "حداقل طول", false, null, GridViewColumnType.Numeric));
                 dataGrid.Columns.Add(ControlHelper.GenerateGridviewColumn("Format", "فرمت", false, null, GridViewColumnType.Text));
             }
             else if (dataGrid == dtgNumericColumnType)
