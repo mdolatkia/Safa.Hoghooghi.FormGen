@@ -57,7 +57,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
                             var firstSideValue = fprop.Value;
                             BizColumn bizColumn = new BizColumn();
                             var sColumn = bizColumn.GetColumn(rProperty.SecondSideColumnID, true);
-                            propertyInfo.RelationshipPropertyInfo.Properties.Add(new EntityInstanceProperty(sColumn) {  Value = firstSideValue });
+                            propertyInfo.RelationshipPropertyInfo.Properties.Add(new EntityInstanceProperty(sColumn) { Value = firstSideValue });
                         }
                     }
                 }
@@ -100,7 +100,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
                         //}
                         //else
                         //{
-                        propertyInfo.Value = MyDataHelper.GetPropertyValue(property.Value, column.DotNetType);
+                        propertyInfo.Value = property.Value;// MyDataHelper.GetPropertyValue(property.Value, column.DotNetType);
                         //}
                     }
                     propertyInfo.ValueSearched = true;
@@ -234,13 +234,25 @@ namespace MyFormulaFunctionStateFunctionLibrary
             }
             if (parentPropetyInfo == null)
             {
-                //Helper
-                MyPropertyInfo helperPropertyInfo = GeneratePropertyInfo(entity, PropertyType.Helper, parentPropetyInfo, 0, "Helper", null, formulaObject);
-                helperPropertyInfo.Type = typeof(FormulaHepler);
-                //فانکشنها در تعریف  فرمول همینجا مقدار میگیرند 
-                helperPropertyInfo.Value = new FormulaHepler();
-                helperPropertyInfo.ValueSearched = true;
-                m_properties.Add(helperPropertyInfo.Name, helperPropertyInfo);
+                MyPropertyInfo numericHelperPropertyInfo = GeneratePropertyInfo(entity, PropertyType.Helper, parentPropetyInfo, 0, "NumericHelper", null, formulaObject);
+                numericHelperPropertyInfo.Type = typeof(NumericHelper);
+                numericHelperPropertyInfo.Value = new NumericHelper();
+                numericHelperPropertyInfo.ValueSearched = true;
+                m_properties.Add(numericHelperPropertyInfo.Name, numericHelperPropertyInfo);
+
+                //StringHelper
+                MyPropertyInfo stringHelperPropertyInfo = GeneratePropertyInfo(entity, PropertyType.Helper, parentPropetyInfo, 0, "StringHelper", null, formulaObject);
+                stringHelperPropertyInfo.Type = typeof(StringHelper);
+                stringHelperPropertyInfo.Value = new StringHelper();
+                stringHelperPropertyInfo.ValueSearched = true;
+                m_properties.Add(stringHelperPropertyInfo.Name, stringHelperPropertyInfo);
+
+                MyPropertyInfo persinaDateHelperPropertyInfo = GeneratePropertyInfo(entity, PropertyType.Helper, parentPropetyInfo, 0, "PersianDateHelper", null, formulaObject);
+                persinaDateHelperPropertyInfo.Type = typeof(PersianDateHelper);
+                persinaDateHelperPropertyInfo.Value = new PersianDateHelper();
+                persinaDateHelperPropertyInfo.ValueSearched = true;
+                m_properties.Add(persinaDateHelperPropertyInfo.Name, persinaDateHelperPropertyInfo);
+
             }
             return m_properties;
         }
@@ -284,13 +296,25 @@ namespace MyFormulaFunctionStateFunctionLibrary
         }
         public static object GetPropertyDefaultValue(MyPropertyInfo propertyInfo)
         {
-            if (propertyInfo.Type == typeof(int) || propertyInfo.Type == typeof(long) ||
-                propertyInfo.Type == typeof(short) || propertyInfo.Type == typeof(double) ||
-                propertyInfo.Type == typeof(float) || propertyInfo.Type == typeof(decimal))
+
+            if (propertyInfo.Type == typeof(long) || propertyInfo.Type == typeof(long?)
+                    || propertyInfo.Type == typeof(int?) || propertyInfo.Type == typeof(int)
+                           || propertyInfo.Type == typeof(short?) || propertyInfo.Type == typeof(short)
+                             || propertyInfo.Type == typeof(byte?) || propertyInfo.Type == typeof(byte))
                 return 1;
+            else if (propertyInfo.Type == typeof(double?) || propertyInfo.Type == typeof(double))
+                return (double)1;
+            else if (propertyInfo.Type == typeof(decimal?) || propertyInfo.Type == typeof(decimal))
+                return (decimal)1;
+            else if (propertyInfo.Type == typeof(float?) || propertyInfo.Type == typeof(float))
+                return (float)1;
+            else if (propertyInfo.Type == typeof(Guid) || propertyInfo.Type == typeof(Guid?))
+                return propertyInfo.Name;
             else if (propertyInfo.Type == typeof(string))
                 return propertyInfo.Name;
-            else if (propertyInfo.Type == typeof(bool))
+            else if (propertyInfo.Type == typeof(DateTime) || propertyInfo.Type == typeof(DateTime?))
+                return DateTime.Now;
+            else if (propertyInfo.Type == typeof(bool?) || propertyInfo.Type == typeof(bool))
                 return true;
 
             return propertyInfo.Name;

@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="MyUIGenerator.View.UC_ViewFilePanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Height="40" Width="250">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="imgDownload" Source="../../images/archive.png" MouseLeftButtonUp="imgDownload_MouseLeftButtonUp" Cursor="Hand"></Image>
+        <Image x:Name="imgSave" Source="../../images/save.png" Grid.Column="1" MouseLeftButtonUp="imgSave_MouseLeftButtonUp" Cursor="Hand"></Image>
+        <Image x:Name="imgPrevious" Source="../../images/arrowup.png" Grid.Column="2" MouseLeftButtonUp="imgPrevious_MouseLeftButtonUp" Cursor="Hand"></Image>
+        <Image x:Name="imgNext" Source="../../images/arrowdown.png" Grid.Column="3" MouseLeftButtonUp="imgNext_MouseLeftButtonUp" Cursor="Hand"></Image>
+    </Grid>
+</UserControl>

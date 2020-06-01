@@ -94,7 +94,7 @@ namespace MyUIGenerator.UIControlHelper
             else if (column.ColumnType == Enum_ColumnType.Date
                 || column.ColumnType == Enum_ColumnType.Time
                 || column.ColumnType == Enum_ColumnType.DateTime)
-                return new DateTimePickerHelper(column, columnSetting, operators);
+                return null;// new DateTimePickerHelper(column, columnSetting, operators);
             else if (column.ColumnType == Enum_ColumnType.Boolean)
                 return new CheckBoxHelper(column, columnSetting, operators);
             else

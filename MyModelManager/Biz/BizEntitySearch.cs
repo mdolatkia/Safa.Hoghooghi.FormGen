@@ -278,7 +278,7 @@ namespace MyModelManager
                 {
                     var newrelationship = entity.Relationships.First(z => z.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && z.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ID));
                     if (newrelationship.TypeEnum == Enum_RelationshipType.SubToSuper
-                        || newrelationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                        || newrelationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion)
                     {
                         if (!reviewedFKRels.Any(x => x.ID == newrelationship.ID))
                         {
@@ -292,7 +292,7 @@ namespace MyModelManager
                                 {
                                     isaID = (newrelationship as SubToSuperRelationshipDTO).ISARelationship.ID;
                                 }
-                                else if (newrelationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                                else if (newrelationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion)
                                 {
                                     uinonID = (newrelationship as UnionToSubUnionRelationshipDTO).UnionRelationship.ID;
                                 }
@@ -331,7 +331,7 @@ namespace MyModelManager
 
             foreach (var newrelationship in entity.Relationships.Where(x => x.MastertTypeEnum == Enum_MasterRelationshipType.FromPrimartyToForeign))
             {
-                if (newrelationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys
+                if (newrelationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion
                     || (newrelationship.TypeEnum == Enum_RelationshipType.SuperToSub && (newrelationship as SuperToSubRelationshipDTO).ISARelationship.IsTolatParticipation))
                 {
                     //جلوگیری از لوپ
@@ -343,7 +343,7 @@ namespace MyModelManager
                         {
                             isaID = (newrelationship as SuperToSubRelationshipDTO).ISARelationship.ID;
                         }
-                        else if (newrelationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                        else if (newrelationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion)
                         {
                             uinonID = (newrelationship as SubUnionToSuperUnionRelationshipDTO).UnionRelationship.ID;
                         }
@@ -370,11 +370,11 @@ namespace MyModelManager
             else
             {
                 var lastRel = relationships.Last();
-                if (lastRel.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                if (lastRel.TypeEnum == Enum_RelationshipType.UnionToSubUnion)
                 {
                     return (lastRel as UnionToSubUnionRelationshipDTO).UnionRelationship.ID;
                 }
-                else if (lastRel.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                else if (lastRel.TypeEnum == Enum_RelationshipType.SubUnionToUnion)
                 {
                     return (lastRel as SubUnionToSuperUnionRelationshipDTO).UnionRelationship.ID;
                 }
@@ -425,7 +425,7 @@ namespace MyModelManager
             resultColumn.ColumnID = column.ID;
             resultColumn.Column = column;
             resultColumn.CreateRelationshipTailPath = relationshipPath;
-            resultColumn.AllRelationshipsAreSubToSuper = relationships != null && relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper || x.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys);
+            resultColumn.AllRelationshipsAreSubToSuper = relationships != null && relationships.All(x => x.TypeEnum == Enum_RelationshipType.SubToSuper || x.TypeEnum == Enum_RelationshipType.SubUnionToUnion);
             string entityAlias = "";
             if (relationships == null || relationships.Count == 0)
                 entityAlias = "";
@@ -447,7 +447,7 @@ namespace MyModelManager
             list.Reverse();
             foreach (var rel in list)
             {
-                if (rel.TypeEnum != Enum_RelationshipType.SubToSuper && rel.TypeEnum != Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                if (rel.TypeEnum != Enum_RelationshipType.SubToSuper && rel.TypeEnum != Enum_RelationshipType.SubUnionToUnion)
                     return rel;
             }
             return null;

@@ -8,39 +8,111 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProxyLibrary;
-
+using System.Data;
 
 namespace MyModelManager
 {
     public class BizColumn
     {
-        public Type GetColumnDotNetType(int columnID)
+        //public Type GetColumnDotNetType(int columnID)
+        //{
+        //    using (var projectContext = new DataAccess.MyProjectEntities())
+        //    {
+        //        var column = projectContext.Column.First(x => x.ID == columnID);
+        //        return GetColumnDotNetType(column.DataType, column.IsNull);
+        //    }
+        //}
+        public Type GetColumnDotNetType(string type, bool isNullable)
         {
-            using (var projectContext = new DataAccess.MyProjectEntities())
+            switch (type)
             {
-                var column = projectContext.Column.First(x => x.ID == columnID);
-                return GetColumnDotNetType(column.DataType);
+                case "bigint":
+                    return isNullable ? typeof(long?) : typeof(long);
+
+                case "binary":
+                case "image":
+                case "timestamp":
+                case "varbinary":
+                    return typeof(byte[]);
+
+                case "bit":
+                    return isNullable ? typeof(bool?) : typeof(bool);
+
+                case "char":
+                case "nchar":
+                case "ntext":
+                case "nvarchar":
+                case "text":
+                case "varchar":
+                case "xml":
+                    return typeof(string);
+
+                case "datetime":
+                case "smalldatetime":
+                case "date":
+                case "time":
+                case "datetime2":
+                    return isNullable ? typeof(DateTime?) : typeof(DateTime);
+
+                case "decimal":
+                case "money":
+                case "smallmoney":
+                    return isNullable ? typeof(decimal?) : typeof(decimal);
+
+                case "float":
+                    return isNullable ? typeof(double?) : typeof(double);
+
+                case "int":
+                    return isNullable ? typeof(int?) : typeof(int);
+
+                case "real":
+                    return isNullable ? typeof(float?) : typeof(float);
+
+                case "uniqueidentifier":
+                    return isNullable ? typeof(Guid?) : typeof(Guid);
+
+                case "smallint":
+                    return isNullable ? typeof(short?) : typeof(short);
+
+                case "tinyint":
+                    return isNullable ? typeof(byte?) : typeof(byte);
+
+                case "variant":
+                case "udt":
+                    return typeof(object);
+
+                case "structured":
+                    return typeof(DataTable);
+
+                case "datetimeoffset":
+                    return isNullable ? typeof(DateTimeOffset?) : typeof(DateTimeOffset);
+
+                default:
+                    throw new Exception("sqltype");
             }
+
+            //if (type == "char" || type == "nvarchar" || type == "varchar" || type == "text")
+            //    return typeof(string);
+            //else if (type == "bigint" || type == "numeric" || type == "smallint"
+            //    || type == "smallmoney" || type == "int"
+            //    || type == "tinyint" || type == "money")
+            //    return typeof(int);
+            //else if (type == "decimal")
+            //    return typeof(decimal);
+            //else if (type == "double")
+            //    return typeof(Nullable<double>);
+            //else if (type == "float")
+            //    return typeof(Nullable<double>);
+            //else if (type == "date" || type == "datetime")
+            //    return typeof(string);
+            //else if (type == "bit")
+            //    return typeof(bool);
+            //return null;
         }
-        public Type GetColumnDotNetType(ColumnDTO column)
-        {
-            return GetColumnDotNetType(column.DataType);
-        }
-        public Type GetColumnDotNetType(string type)
-        {
-            type = type.Trim();
-            if (type == "char" || type == "nvarchar" || type == "varchar" || type == "text")
-                return typeof(string);
-            else if (type == "bigint" || type == "numeric" || type == "smallint"
-                || type == "decimal" || type == "smallmoney" || type == "int"
-                || type == "tinyint" || type == "money")
-                return typeof(int);
-            else if (type == "date" || type == "datetime")
-                return typeof(string);
-            else if (type == "bit")
-                return typeof(bool);
-            return null;
-        }
+        //public Type GetColumnDotNetType(string type)
+        //{
+
+        //}
         public List<ColumnDTO> GetTableColumns(int tableID, bool simple)
         {
             List<ColumnDTO> result = new List<ColumnDTO>();
@@ -475,7 +547,7 @@ namespace MyModelManager
             result.DBFormula = item.DBCalculateFormula;
             // result.IsDBCalculatedColumn = !string.IsNullOrEmpty(result.DBFormula);
             result.IsReadonly = item.IsReadonly;
-            result.DotNetType = GetColumnDotNetType(result.DataType);
+            result.DotNetType = GetColumnDotNetType(item.DataType, item.IsNull);
 
             result.CustomFormulaID = item.CustomCalculateFormulaID ?? 0;
             if (!simple)

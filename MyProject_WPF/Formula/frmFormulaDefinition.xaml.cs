@@ -64,17 +64,22 @@ namespace MyProject_WPF
             ExpressionEditor.Loaded += ExpressionEditor_Loaded;
 
             SetEditEntityArea();
+            ExpressionEditor.ExpressionChanged += ExpressionEditor_ExpressionChanged;
+        }
 
+        private void ExpressionEditor_ExpressionChanged(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        {
+            var aa = ExpressionEditor.Expression;
+            var bb = ExpressionEditor.IsExpressionValid;
         }
 
         private void SetEditEntityArea()
         {
-            MyUILibrary.AgentUICoreMediator.GetAgentUICoreMediator.SetUIManager(new UIManager());
+            //MyUILibrary.AgentUICoreMediator.GetAgentUICoreMediator.SetUIManager(new UIManager());
             var userInfo = new MyUILibrary.UserInfo();
             userInfo.AdminSecurityInfo = new MyUILibrary.AdminSecurityInfo() { IsActive = true, ByPassSecurity = true };
             MyUILibrary.AgentUICoreMediator.GetAgentUICoreMediator.UserInfo = userInfo;
-
-
+            
             EditEntityAreaInitializer editEntityAreaInitializer1 = new EditEntityAreaInitializer();
             editEntityAreaInitializer1.EntityID = EntityID;
             editEntityAreaInitializer1.IntracionMode = CommonDefinitions.UISettings.IntracionMode.Select;
@@ -87,7 +92,6 @@ namespace MyProject_WPF
                 grdSelectData.Children.Add(EditEntityArea.TemporaryDisplayView as UIElement);
             }
         }
-
         DispatcherTimer selectionTimer = new DispatcherTimer();
         private void SetTimers()
         {
@@ -95,7 +99,6 @@ namespace MyProject_WPF
             selectionTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
             selectionTimer.Tick += SelectionTimer_Tick;
         }
-
         private void SelectionTimer_Tick(object sender, EventArgs e)
         {
             //کل متن را انتخاب میکند
@@ -103,19 +106,25 @@ namespace MyProject_WPF
             var document = richTextBox.Document;
             DocumentTextSearch search = new DocumentTextSearch(document);
             List<Telerik.Windows.Documents.TextSearch.TextRange> rangesTrackingDocumentChanges = new List<Telerik.Windows.Documents.TextSearch.TextRange>();
-            foreach (var textRange in search.FindAll(selectionText))
+            try
             {
-                Telerik.Windows.Documents.TextSearch.TextRange newRange = new Telerik.Windows.Documents.TextSearch.TextRange(new DocumentPosition(textRange.StartPosition, true), new DocumentPosition(textRange.EndPosition, true));
-                rangesTrackingDocumentChanges.Add(newRange);
-            }
+                foreach (var textRange in search.FindAll(selectionText))
+                {
+                    Telerik.Windows.Documents.TextSearch.TextRange newRange = new Telerik.Windows.Documents.TextSearch.TextRange(new DocumentPosition(textRange.StartPosition, true), new DocumentPosition(textRange.EndPosition, true));
+                    rangesTrackingDocumentChanges.Add(newRange);
+                }
 
+            }
+            catch
+            {
+
+            }
             foreach (var textRange in rangesTrackingDocumentChanges)
             {
                 richTextBox.Document.Selection.SetSelectionStart(textRange.StartPosition);
                 richTextBox.Document.Selection.AddSelectionEnd(textRange.EndPosition);
             }
         }
-
         private void ExpressionEditor_Loaded(object sender, RoutedEventArgs e)
         {
             if (!_loaded)

@@ -14,6 +14,7 @@ using System.Windows.Media;
 
 namespace MyFormulaFunctionStateFunctionLibrary
 {
+    //یچیزی مثل Type رو بصورت داینامیک شبیه سازی میکند
     public class FormulaObject : INotifyPropertyChanged, ICustomTypeDescriptor
     {
         public event PropertyChangedEventHandler PropertySetChanged;

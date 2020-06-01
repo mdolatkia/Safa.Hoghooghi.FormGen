@@ -103,6 +103,8 @@ namespace MyModelManager
             UIColumnValueDTO result = new UIColumnValueDTO();
             result.ColumnID = item.ColumnID;
             result.ExactValue = item.ExactValue;
+            result.EvenIsNotNew = item.EvenIsNotNew;
+            result.EvenHasValue = item.EvenHasValue;
             //     result.EntityRelationshipTailID = item.EntityRelationshipTailID ?? 0;
             //BizEntityRelationshipTail bizEntityRelationshipTail = new BizEntityRelationshipTail();
             //if (result.EntityRelationshipTailID != 0)
@@ -172,8 +174,11 @@ namespace MyModelManager
                         dbColumnValue.ColumnID = item.ColumnID;
 
                         dbColumnValue.ExactValue = item.ExactValue;
-                        while (dbColumnValue.ColumnValue_ValidValues.Any())
-                            dbColumnValue.ColumnValue_ValidValues.Remove(dbColumnValue.ColumnValue_ValidValues.First());
+                        dbColumnValue.EvenIsNotNew = item.EvenIsNotNew;
+                        dbColumnValue.EvenHasValue = item.EvenHasValue;
+
+                        //while (dbColumnValue.ColumnValue_ValidValues.Any())
+                        //    dbColumnValue.ColumnValue_ValidValues.Remove(dbColumnValue.ColumnValue_ValidValues.First());
                         //foreach (var value in UIActionActivity.ColumnValue.ValidValues)
                         //    dbColumnValue.ColumnValue_ValidValues.Add(new ColumnValue_ValidValues() { ValidValue = value.Value });
 

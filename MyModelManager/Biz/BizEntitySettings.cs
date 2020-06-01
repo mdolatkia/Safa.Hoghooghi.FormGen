@@ -146,6 +146,13 @@ namespace MyModelManager
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
                 var dbDatabase = projectContext.DatabaseInformation.First(x => x.ID == databaseID);
+                var realPerson = projectContext.TableDrivedEntity.First(x => x.Name == "RealPerson" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (realPerson != null)
+                {
+
+                }
+                var legalPerson = projectContext.TableDrivedEntity.First(x => x.Name == "LegalPerson" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+
                 var genericPerson = projectContext.TableDrivedEntity.First(x => x.Name == "GenericPerson" && x.Table.DBSchema.DatabaseInformationID == databaseID);
                 if (genericPerson != null)
                 {
@@ -163,7 +170,84 @@ namespace MyModelManager
                             typeColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "2", KeyTitle = "حقوقی" });
                         }
                     }
+                    if (realPerson != null)
+                    {
+                        var relaitonship = projectContext.Relationship.FirstOrDefault(x => x.TableDrivedEntityID1 == genericPerson.ID && x.TableDrivedEntityID2 == realPerson.ID);
+                        if (typeColumn != null && relaitonship != null && relaitonship.RelationshipType != null && relaitonship.RelationshipType.SuperToSubRelationshipType != null)
+                        {
+                            if (relaitonship.RelationshipType.SuperToSubRelationshipType.DeterminerColumnID == null)
+                            {
+                                relaitonship.RelationshipType.SuperToSubRelationshipType.DeterminerColumnID = typeColumn.ID;
+                                relaitonship.RelationshipType.SuperToSubRelationshipType.DeterminerColumnValue = "1";
+                            }
+                        }
+                    }
+                    if (legalPerson != null)
+                    {
+                        var relaitonship = projectContext.Relationship.FirstOrDefault(x => x.TableDrivedEntityID1 == genericPerson.ID && x.TableDrivedEntityID2 == legalPerson.ID);
+                        if (typeColumn != null && relaitonship != null && relaitonship.RelationshipType != null && relaitonship.RelationshipType.SuperToSubRelationshipType != null)
+                        {
+                            if (relaitonship.RelationshipType.SuperToSubRelationshipType.DeterminerColumnID == null)
+                            {
+                                relaitonship.RelationshipType.SuperToSubRelationshipType.DeterminerColumnID = typeColumn.ID;
+                                relaitonship.RelationshipType.SuperToSubRelationshipType.DeterminerColumnValue = "2";
+                            }
+                        }
+                    }
                 }
+
+                var serviceItem = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceItem" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (serviceItem != null)
+                {
+                    var updateDateColumn = serviceItem.Table.Column.First(x => x.Name == "UpdateDate");
+                    if (updateDateColumn != null)
+                        updateDateColumn.DateColumnType.ShowMiladiDateInUI = true;
+                    var updateTimeColumn = serviceItem.Table.Column.First(x => x.Name == "UpdateTime");
+                    if (updateTimeColumn != null)
+                    {
+                    }
+                }
+
+                var serviceAdditionalItem = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceAdditionalItem" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                var serviceConclusionItem = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceConclusionItem" && x.Table.DBSchema.DatabaseInformationID == databaseID);
+                if (serviceConclusionItem != null)
+                {
+                    var typeColumn = serviceConclusionItem.Table.Column.First(x => x.Name == "Type");
+                    if (typeColumn != null)
+                    {
+                        if (typeColumn.ColumnValueRange == null)
+                        {
+                            typeColumn.ColumnValueRange = new ColumnValueRange();
+                            typeColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "1", KeyTitle = "سرویس" });
+                            typeColumn.ColumnValueRange.ColumnValueRangeDetails.Add(new ColumnValueRangeDetails() { Value = "2", KeyTitle = "خدمات اضافی" });
+                        }
+                    }
+                    if (serviceItem != null)
+                    {
+                        var relaitonship = projectContext.Relationship.FirstOrDefault(x => x.TableDrivedEntityID1 == serviceConclusionItem.ID && x.TableDrivedEntityID2 == serviceItem.ID);
+                        if (typeColumn != null && relaitonship != null && relaitonship.RelationshipType != null && relaitonship.RelationshipType.UnionToSubUnionRelationshipType != null)
+                        {
+                            if (relaitonship.RelationshipType.UnionToSubUnionRelationshipType.DeterminerColumnID == null)
+                            {
+                                relaitonship.RelationshipType.UnionToSubUnionRelationshipType.DeterminerColumnID = typeColumn.ID;
+                                relaitonship.RelationshipType.UnionToSubUnionRelationshipType.DeterminerColumnValue = "1";
+                            }
+                        }
+                    }
+                    if (serviceAdditionalItem != null)
+                    {
+                        var relaitonship = projectContext.Relationship.FirstOrDefault(x => x.TableDrivedEntityID1 == serviceConclusionItem.ID && x.TableDrivedEntityID2 == serviceAdditionalItem.ID);
+                        if (typeColumn != null && relaitonship != null && relaitonship.RelationshipType != null && relaitonship.RelationshipType.UnionToSubUnionRelationshipType != null)
+                        {
+                            if (relaitonship.RelationshipType.UnionToSubUnionRelationshipType.DeterminerColumnID == null)
+                            {
+                                relaitonship.RelationshipType.UnionToSubUnionRelationshipType.DeterminerColumnID = typeColumn.ID;
+                                relaitonship.RelationshipType.UnionToSubUnionRelationshipType.DeterminerColumnValue = "1";
+                            }
+                        }
+                    }
+                }
+
                 var serviceConclusion = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceConclusion" && x.Table.DBSchema.DatabaseInformationID == databaseID);
                 if (serviceConclusion != null)
                 {
@@ -199,17 +283,7 @@ namespace MyModelManager
                         stringDateTimeColumn.DateTimeColumnType.ShowAMPMFormat = true;
                     }
                 }
-                var serviceItem = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceItem" && x.Table.DBSchema.DatabaseInformationID == databaseID);
-                if (serviceItem != null)
-                {
-                    var updateDateColumn = serviceItem.Table.Column.First(x => x.Name == "UpdateDate");
-                    if (updateDateColumn != null)
-                        updateDateColumn.DateColumnType.ShowMiladiDateInUI = true;
-                    var updateTimeColumn = serviceItem.Table.Column.First(x => x.Name == "UpdateTime");
-                    if (updateTimeColumn != null)
-                    {
-                    }
-                }
+             
                 var serviceRequest = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceRequest" && x.Table.DBSchema.DatabaseInformationID == databaseID);
                 if (serviceRequest != null)
                 {
@@ -239,11 +313,7 @@ namespace MyModelManager
                         autoTimeColumn.TimeColumnType.StringTimeISAMPMFormat = true;
                     }
                 }
-                var realPerson = projectContext.TableDrivedEntity.First(x => x.Name == "RealPerson" && x.Table.DBSchema.DatabaseInformationID == databaseID);
-                if (realPerson != null)
-                {
 
-                }
                 var employee = projectContext.TableDrivedEntity.First(x => x.Name == "Employee" && x.Table.DBSchema.DatabaseInformationID == databaseID);
                 if (employee != null)
                 {

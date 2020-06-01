@@ -1054,6 +1054,8 @@
           <Property Name="ColumnID" Type="int" Nullable="false" />
           <Property Name="ExactValue" Type="varchar(max)" />
           <Property Name="UIActionActivityID" Type="int" Nullable="false" />
+          <Property Name="EvenIsNotNew" Type="bit" Nullable="false" />
+          <Property Name="EvenHasValue" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UIColumnValueRange">
           <Key>
@@ -8476,6 +8478,8 @@
           <NavigationProperty Name="Column" Relationship="MyProjectModel.FKColumnValu491864" FromRole="UIColumnValue" ToRole="Column" />
           <NavigationProperty Name="ColumnValue_ValidValues" Relationship="MyProjectModel.FKColumnValu435541" FromRole="UIColumnValue" ToRole="ColumnValue_ValidValues" />
           <NavigationProperty Name="UIActionActivity" Relationship="MyProjectModel.FKColumnValu201622" FromRole="UIColumnValue" ToRole="UIActionActivity" />
+          <Property Name="EvenIsNotNew" Type="Boolean" Nullable="false" />
+          <Property Name="EvenHasValue" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="UIColumnValueRange">
           <Key>
@@ -13254,6 +13258,8 @@
           <EntitySetMapping Name="UIColumnValue">
             <EntityTypeMapping TypeName="MyProjectModel.UIColumnValue">
               <MappingFragment StoreEntitySet="UIColumnValue">
+                <ScalarProperty Name="EvenHasValue" ColumnName="EvenHasValue" />
+                <ScalarProperty Name="EvenIsNotNew" ColumnName="EvenIsNotNew" />
                 <ScalarProperty Name="UIActionActivityID" ColumnName="UIActionActivityID" />
                 <ScalarProperty Name="ExactValue" ColumnName="ExactValue" />
                 <ScalarProperty Name="ColumnID" ColumnName="ColumnID" />

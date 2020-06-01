@@ -1,0 +1,79 @@
+﻿<UserControl xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"  x:Class="MyUIGenerator.View.UC_EditLogDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"  xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls" 
+             d:DesignHeight="500" d:DesignWidth="800" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border Margin="2" Grid.Row="0" BorderThickness="1" CornerRadius="3" BorderBrush="Black">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="3">
+                <Button Content="خروج" Name="btnExit" Click="btnExit_Click" Grid.Row="3"  Width="100" Grid.Column="5"></Button>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="1">
+            <!--<Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Left" Text="ستونها"></TextBlock>-->
+            <TabControl>
+                <TabControl.Items>
+                    <TabItem Header="ستونها">
+                        <telerik:RadGridView SelectionChanged="dtgColumns_SelectionChanged" Grid.Row="2" AutoGenerateColumns="False" x:Name="dtgColumns" >
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn  Header="شناسه" DataMemberBinding="{Binding Path=ID}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="شناسه ستون" DataMemberBinding="{Binding Path=ColumnID}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  Header="نام ستون" DataMemberBinding="{Binding Path=vwColumnName}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  Header="عنوان ستون" DataMemberBinding="{Binding Path=vwColumnAlias}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn x:Name="colOldValue"  Header="مقدار قدیمی" DataMemberBinding="{Binding Path=OldValue}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  Header="مقدار جدید" DataMemberBinding="{Binding Path=NewValue}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  Header="شناسه فرمول" DataMemberBinding="{Binding Path=FormulaID}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  Header="خطای فرمول" DataMemberBinding="{Binding Path=FormulaException}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  Header="سایر اطلاعات" DataMemberBinding="{Binding Path=Info}" ></telerik:GridViewDataColumn>
+
+                            </telerik:RadGridView.Columns>
+
+                        </telerik:RadGridView>
+                    </TabItem>
+                    <TabItem x:Name="tabColumnParameters" Header="پارامترهای فرمول">
+                        <telerik:RadGridView Grid.Row="2" AutoGenerateColumns="False" x:Name="dtgColumnFormulaParamters" >
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn  Header="شناسه" DataMemberBinding="{Binding Path=ID}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="رشته رابطه" DataMemberBinding="{Binding Path=RelationshipPropertyTail}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  Header="نام پارامتر" DataMemberBinding="{Binding Path=ParameterName}" ></telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn  Header="مقدار پارامتر" DataMemberBinding="{Binding Path=ParameterValue}" ></telerik:GridViewDataColumn>
+
+                            </telerik:RadGridView.Columns>
+
+                        </telerik:RadGridView>
+                    </TabItem>
+                </TabControl.Items>
+          
+            </TabControl>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Left" Text="خطاها"></TextBlock>
+            <telerik:RadGridView Grid.Row="2" AutoGenerateColumns="False" x:Name="dtgExceptions" >
+                <telerik:RadGridView.Columns>
+                    <telerik:GridViewDataColumn  Header="شناسه" DataMemberBinding="{Binding Path=ID}" ></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn Header="خطای ذخیره سازی داده" DataMemberBinding="{Binding Path=DataUpdateExceptionMessage}" ></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="خطای روال قبل از ذخیره سازی" DataMemberBinding="{Binding Path=BeforeSaveActionExceptionMessage}" ></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn  Header="خطای روال بعد از ذخیره سازی" DataMemberBinding="{Binding Path=AfterSaveActionExceptionMessage}" ></telerik:GridViewDataColumn>
+                    <!--<telerik:GridViewDataColumn  Header="خطای روال محاسبات فرمول" DataMemberBinding="{Binding Path=ForumulaUsageExceptionMessage}" ></telerik:GridViewDataColumn>-->
+                    <telerik:GridViewDataColumn  Header="پرس و جوی بروزرسانی" DataMemberBinding="{Binding Path=DataUpdateQuery}" ></telerik:GridViewDataColumn>
+                </telerik:RadGridView.Columns>
+
+            </telerik:RadGridView>
+        </Grid>
+    </Grid>
+</UserControl>

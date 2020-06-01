@@ -348,7 +348,7 @@ namespace ProxyLibrary
         public void AddChangeMonitor(string generalKey, string usageKey, string restTail, int columnID = 0, DP_DataRepository dataToCall = null)
         {
             if (string.IsNullOrEmpty(restTail) && columnID == 0)
-                throw new Exception("sdfsdfsdf");
+                return;
             if (dataToCall == null)
                 dataToCall = this;
 
@@ -634,13 +634,18 @@ namespace ProxyLibrary
                         {
                             if (ParantChildRelationshipInfo != null)
                             {
-                                if (ParantChildRelationshipInfo.Relationship.PairRelationshipID.ToString() == firstRel)
-                                {
-                                    ParantChildRelationshipInfo.SourceData.AddChangeMonitor(item.GeneralKey, item.UsageKey, Rest, item.columnID, item.DataToCall);
-                                    ChangeMonitorItems.Remove(item);
-                                    observerSet = true;
+                                //مطمئن نیستم این چک ستون درست باشه بعداً اضافه شده. بیشتر بررسی شود و چون وقتی ستون مدنظر نباشد
+                                // و تغییر رابطه بخواد مونیتور بشه چم کردن پرنتها بیهوده است. چون پرنت عوض شه کلا همه چی عوض میشه
+                                //if (item.columnID != 0)
+                                //{
+                                    if (ParantChildRelationshipInfo.Relationship.PairRelationshipID.ToString() == firstRel)
+                                    {
+                                        ParantChildRelationshipInfo.SourceData.AddChangeMonitor(item.GeneralKey, item.UsageKey, Rest, item.columnID, item.DataToCall);
+                                        ChangeMonitorItems.Remove(item);
+                                        observerSet = true;
 
-                                }
+                                    }
+                                //}
                             }
                         }
                     }

@@ -1,0 +1,155 @@
+﻿<UserControl xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls"  x:Class="MyProject_WPF.frmProcess"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyProject_WPF" 
+         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        mc:Ignorable="d"    d:DesignHeight="300" d:DesignWidth="700"
+        >
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="نام جریان کار"></TextBlock>
+            <TextBox Width="300" x:Name="txtName" HorizontalAlignment="Left" Grid.Column="1"></TextBox>
+            <Button x:Name="btnTransition" Content="تبدیل حالات" Grid.Column="2" HorizontalAlignment="Right" Width="120" Click="btnTransition_Click"></Button>
+            <TextBlock Text="نوع موجودیت مرتبط" Grid.Row="2"></TextBlock>
+            <MyCommonWPFControls:MySearchLookup Width="300" HorizontalAlignment="Left" x:Name="lokEntities" Grid.Row="2" Grid.Column="1" />
+        </Grid>
+        <TabControl x:Name="tabControlMain" Grid.Row="1">
+            <!--<TabItem Header="راهبران">
+                <telerik:RadGridView  AutoGenerateColumns="False" x:Name="dtgAdminRoleTypes" >
+                    <telerik:RadGridView.Columns>
+                        <MyCommonWPFControls:MyStaticLookupColumn DataMemberBinding="{Binding ID}"  x:Name="colRoleType" Header="نوع نقش"></MyCommonWPFControls:MyStaticLookupColumn>
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </TabItem>-->
+            <!--<TabItem Header="نقش ها">
+                    <telerik:RadGridView Grid.Row="1" AutoGenerateColumns="False" NewRowPosition="Top" x:Name="dtgRoles" >
+                        --><!--<telerik:RadContextMenu.ContextMenu  >
+                            <telerik:RadContextMenu>
+                                <telerik:RadMenuItem x:Name="mnuAddNewGroup" Header="افزودن گروه" Click="mnuAddNewGroup_Click"></telerik:RadMenuItem>
+                                <telerik:RadMenuItem x:Name="mnuEditGroup" Header="اصلاح گروه" Click="mnuEditGroup_Click"></telerik:RadMenuItem>
+                            </telerik:RadContextMenu>
+                        </telerik:RadContextMenu.ContextMenu  >--><!--
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewComboBoxColumn Header="نقش" DataMemberBinding="{Binding ID}" />
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+            </TabItem>-->
+            <!--<TabItem Header="شروع کنندگان">
+
+
+                <telerik:RadGridView Grid.Row="1" AutoGenerateColumns="False" NewRowPosition="Top" x:Name="dtgInitializerRoles" >
+                    --><!--<telerik:RadContextMenu.ContextMenu  >
+                            <telerik:RadContextMenu>
+                                <telerik:RadMenuItem x:Name="mnuAddNewGroup" Header="افزودن گروه" Click="mnuAddNewGroup_Click"></telerik:RadMenuItem>
+                                <telerik:RadMenuItem x:Name="mnuEditGroup" Header="اصلاح گروه" Click="mnuEditGroup_Click"></telerik:RadMenuItem>
+                            </telerik:RadContextMenu>
+                        </telerik:RadContextMenu.ContextMenu  >--><!--
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewComboBoxColumn Header="نقش" DataMemberBinding="{Binding ID}" />
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </TabItem>-->
+            <TabItem Header="حالات">
+
+                <telerik:RadGridView AutoGenerateColumns="False" IsReadOnly="True"   x:Name="dtgStates" >
+                    <telerik:RadContextMenu.ContextMenu  >
+                        <telerik:RadContextMenu>
+                            <telerik:RadMenuItem x:Name="mnuAddNewState" Header="افزودن حالت" Click="mnuAddNewState_Click"></telerik:RadMenuItem>
+                            <telerik:RadMenuItem x:Name="mnuEditState" Header="اصلاح حالت" Click="mnuEditState_Click"></telerik:RadMenuItem>
+                        </telerik:RadContextMenu>
+                    </telerik:RadContextMenu.ContextMenu  >
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn  Header="نوع" DataMemberBinding="{Binding StateType}" />
+                        <telerik:GridViewDataColumn Header="نام" DataMemberBinding="{Binding Name}" />
+                        <telerik:GridViewDataColumn Header="توضیحات" DataMemberBinding="{Binding Description}" />
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </TabItem>
+    
+            <TabItem  Header="اقدامات">
+              
+                    <telerik:RadGridView AutoGenerateColumns="False" IsReadOnly="True"  x:Name="dtgActions" >
+                        <telerik:RadContextMenu.ContextMenu  >
+                            <!--منو تکراری است با فرم سلکت - کد کلی بشود-->
+                        <telerik:RadContextMenu>
+                            <telerik:RadMenuItem x:Name="mnuAddNewAction" Header="افزودن فعالیت" Click="mnuAddNewAction_Click"></telerik:RadMenuItem>
+                            <telerik:RadMenuItem x:Name="mnuEditAction" Header="اصلاح فعالیت" Click="mnuEditAction_Click"></telerik:RadMenuItem>
+                        </telerik:RadContextMenu>
+                        </telerik:RadContextMenu.ContextMenu  >
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn Header="نوع" DataMemberBinding="{Binding ActionType.Name}" />
+                            <telerik:GridViewDataColumn Header="نام" DataMemberBinding="{Binding Name}" />
+                            <telerik:GridViewDataColumn Header="توضیحات" DataMemberBinding="{Binding Description}" />
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                 
+            </TabItem>
+            <TabItem Header="فعالیتها">
+                <telerik:RadGridView  AutoGenerateColumns="False" IsReadOnly="True" x:Name="dtgActivities" >
+                    <telerik:RadContextMenu.ContextMenu  >
+                        <telerik:RadContextMenu>
+                            <telerik:RadMenuItem x:Name="mnuAddNewActivity" Header="افزودن فعالیت" Click="mnuAddNewActivity_Click">
+                            </telerik:RadMenuItem>
+                            <telerik:RadMenuItem x:Name="mnuEditActivity" Header="اصلاح فعالیت" Click="mnuEditActivity_Click"></telerik:RadMenuItem>
+                        </telerik:RadContextMenu>
+                    </telerik:RadContextMenu.ContextMenu  >
+                    <!---->
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn Header="نوع" DataMemberBinding="{Binding ActivityType.Name}" />
+                            <telerik:GridViewDataColumn Header="نام" DataMemberBinding="{Binding Name}" />
+                            <telerik:GridViewDataColumn Header="توضیحات" DataMemberBinding="{Binding Description}" />
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+            </TabItem>
+            <TabItem x:Name="tabForm" Header="گروه فرمها">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <telerik:RadGridView AutoGenerateColumns="False"  x:Name="dtgEntityGroup" >
+                        <!--<telerik:RadContextMenu.ContextMenu  >
+                            --><!--منو تکراری است با فرم سلکت - کد کلی بشود--><!--
+                            <telerik:RadContextMenu>
+                                <telerik:RadMenuItem x:Name="mnuAddNewEntityGroup" Header="افزودن فعالیت" Click="mnuAddNewEntityGroup_Click"></telerik:RadMenuItem>
+                                <telerik:RadMenuItem x:Name="mnuEditEntityGroup" Header="اصلاح فعالیت" Click="mnuEditEntityGroup_Click"></telerik:RadMenuItem>
+                            </telerik:RadContextMenu>
+                        </telerik:RadContextMenu.ContextMenu  >-->
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn Header="نام" DataMemberBinding="{Binding Name}" />
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Left" Text="فرمها"></TextBlock>
+                    <telerik:RadGridView Grid.Row="2" ShowGroupPanel="False" AutoGenerateColumns="False"  x:Name="dtgRelationshipTails" >
+                        <telerik:RadGridView.Columns>
+                            <MyCommonWPFControls:MyStaticLookupColumn Header="رابطه" x:Name="colRelationshipTail"  DataMemberBinding="{Binding RelationshipTailID}" />
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="2" >
+            <Button x:Name="btnSearch" Width="90" Content="جستجو" Click="btnSearch_Click"></Button>
+            <Button x:Name="btnNew" Width="90" Content="جدید" Click="btnNew_Click"></Button>
+            <Button x:Name="btnSave" Width="90"  Content="ثبت" Click="btnSave_Click"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

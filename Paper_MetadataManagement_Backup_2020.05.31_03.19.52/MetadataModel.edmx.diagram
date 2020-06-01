@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="670959df55ca40eaa253af6f6d26a187" Name="Diagram1">
+        <EntityTypeShape EntityType="MyIdeaModel.Column" Width="1.5" PointX="9.75" PointY="17.125" />
+        <EntityTypeShape EntityType="MyIdeaModel.ColumnKeyValue" Width="1.5" PointX="12" PointY="24.875" />
+        <EntityTypeShape EntityType="MyIdeaModel.ColumnKeyValueRange" Width="1.5" PointX="14.25" PointY="24.75" />
+        <EntityTypeShape EntityType="MyIdeaModel.DatabaseInformation" Width="1.5" PointX="3" PointY="15.25" />
+        <EntityTypeShape EntityType="MyIdeaModel.DateColumnType" Width="1.5" PointX="12" PointY="22.375" />
+        <EntityTypeShape EntityType="MyIdeaModel.DBSchema" Width="1.5" PointX="5.25" PointY="15.375" />
+        <EntityTypeShape EntityType="MyIdeaModel.DBServer" Width="1.5" PointX="0.75" PointY="15.375" />
+        <EntityTypeShape EntityType="MyIdeaModel.ImplicitOneToOneRelationshipType" Width="1.5" PointX="16.5" PointY="16.125" />
+        <EntityTypeShape EntityType="MyIdeaModel.ISARelationship" Width="1.5" PointX="14.25" PointY="7.375" />
+        <EntityTypeShape EntityType="MyIdeaModel.ManyToManyRelationshipType" Width="1.5" PointX="17.25" PointY="5.75" />
+        <EntityTypeShape EntityType="MyIdeaModel.ManyToOneRelationshipType" Width="1.5" PointX="19.5" PointY="8.75" />
+        <EntityTypeShape EntityType="MyIdeaModel.OneToManyRelationshipType" Width="1.5" PointX="16.5" PointY="26.25" />
+        <EntityTypeShape EntityType="MyIdeaModel.Relationship" Width="1.5" PointX="12" PointY="9.375" />
+        <EntityTypeShape EntityType="MyIdeaModel.RelationshipColumns" Width="1.5" PointX="14.25" PointY="15.875" />
+        <EntityTypeShape EntityType="MyIdeaModel.RelationshipType" Width="1.5" PointX="14.25" PointY="10.875" />
+        <EntityTypeShape EntityType="MyIdeaModel.StringColumnType" Width="1.5" PointX="12" PointY="19.875" />
+        <EntityTypeShape EntityType="MyIdeaModel.SubToSuperRelationshipType" Width="1.5" PointX="16.5" PointY="8.625" />
+        <EntityTypeShape EntityType="MyIdeaModel.SubUnionToUnionRelationshipType" Width="1.5" PointX="19.5" PointY="11.625" />
+        <EntityTypeShape EntityType="MyIdeaModel.SuperToSubRelationshipType" Width="1.5" PointX="19.5" PointY="14.625" />
+        <EntityTypeShape EntityType="MyIdeaModel.Table" Width="1.5" PointX="7.5" PointY="14.75" />
+        <EntityTypeShape EntityType="MyIdeaModel.TableDrivedEntity" Width="1.5" PointX="9.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MyIdeaModel.UnionRelationshipType" Width="1.5" PointX="17.25" PointY="18.5" />
+        <EntityTypeShape EntityType="MyIdeaModel.UnionToSubUnionRelationshipType" Width="1.5" PointX="16.5" PointY="11.625" />
+        <AssociationConnector Association="MyIdeaModel.FKColumn659222" />
+        <AssociationConnector Association="MyIdeaModel.FKColumnKeyV956181" />
+        <AssociationConnector Association="MyIdeaModel.FKDateColumn74546" />
+        <AssociationConnector Association="MyIdeaModel.FKStringColu936883" />
+        <AssociationConnector Association="MyIdeaModel.Relationship_FirstEntityColumns" />
+        <AssociationConnector Association="MyIdeaModel.Relationship_SecondEntityColumns" />
+        <AssociationConnector Association="MyIdeaModel.FKColumnKeyV918647" />
+        <AssociationConnector Association="MyIdeaModel.FKDatabaseIn186668" />
+        <AssociationConnector Association="MyIdeaModel.FKDBSchema138241" />
+        <AssociationConnector Association="MyIdeaModel.FKTable824924" />
+        <AssociationConnector Association="MyIdeaModel.FKImplicitOn720517" />
+        <AssociationConnector Association="MyIdeaModel.FKSubToSuper88193" />
+        <AssociationConnector Association="MyIdeaModel.FKSuperToSub515953" />
+        <AssociationConnector Association="MyIdeaModel.FKManyToOneR998042" />
+        <AssociationConnector Association="MyIdeaModel.FKManyToOneR336195" />
+        <AssociationConnector Association="MyIdeaModel.FKOneToManyR245498" />
+        <AssociationConnector Association="MyIdeaModel.FKRelationsh250123" />
+        <AssociationConnector Association="MyIdeaModel.FKRelationsh250124" />
+        <AssociationConnector Association="MyIdeaModel.FKRelationsh639988" />
+        <AssociationConnector Association="MyIdeaModel.FKRelationsh685437" />
+        <AssociationConnector Association="MyIdeaModel.FKRelationsh827735" />
+        <AssociationConnector Association="MyIdeaModel.FKSubToSuper672991" />
+        <AssociationConnector Association="MyIdeaModel.FKSubUnionTo818068" />
+        <AssociationConnector Association="MyIdeaModel.FKSuperToSub305547" />
+        <AssociationConnector Association="MyIdeaModel.FKUnionToSub14902" />
+        <AssociationConnector Association="MyIdeaModel.FKSubUnionTo235113" />
+        <AssociationConnector Association="MyIdeaModel.FKTableDrive311898" />
+        <AssociationConnector Association="MyIdeaModel.FKUnionToSub933310" />
+        <EntityTypeShape EntityType="MyIdeaModel.ExplicitOneToOneRelationshipType" Width="1.5" PointX="16.5" PointY="3" />
+        <AssociationConnector Association="MyIdeaModel.FKExplicitOn408720" />
+        <EntityTypeShape EntityType="MyIdeaModel.NumericColumnType" Width="1.5" PointX="12" PointY="17" />
+        <AssociationConnector Association="MyIdeaModel.FKNumericCol878005" />
+        <AssociationConnector Association="MyIdeaModel.TableDrivedEntity_Columns" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

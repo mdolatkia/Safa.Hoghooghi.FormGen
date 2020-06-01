@@ -41,9 +41,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Telerik.Windows.Controls.Expressions, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+    <Reference Include="Telerik.Windows.Controls.Expressions, Version=2020.2.513.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Componenets\Telerik\Telerik.Windows.Controls.Expressions.dll</HintPath>
+      <HintPath>..\lib\RCWPF\2020.2.513.45\Telerik.Windows.Controls.Expressions.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>

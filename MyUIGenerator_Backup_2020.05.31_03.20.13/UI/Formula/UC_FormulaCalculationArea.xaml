@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="MyUIGenerator.View.UC_FormulaCalculationArea"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="600" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock >فرمول</TextBlock>
+        <TextBox x:Name="txtFormula" FlowDirection="LeftToRight" Grid.Column="1"></TextBox>
+        <TextBlock Grid.Row="1" >مقدار</TextBlock>
+        <TextBox Grid.Row="1" x:Name="txtResult" Grid.Column="1"></TextBox>
+        <TextBlock Grid.Row="2" VerticalAlignment="Top">جزئیات</TextBlock>
+
+        <TabControl Grid.Column="1" Grid.Row="2">
+            <TabItem Header="پارامترها" x:Name="tabParameters">
+                <telerik:RadTreeView x:Name="treeData" />
+            </TabItem>
+            <TabItem Header="خطا" x:Name="tabException">
+                <TextBox x:Name="txtException"> </TextBox>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="110" Content="خروج" Click="btnClose_Click" x:Name="btnClose"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -18,6 +18,7 @@ using MyDataSearchManagerBusiness;
 using System.ComponentModel;
 using MyCodeFunctionLibrary;
 using MyDatabaseFunctionLibrary;
+using MyFormulaFunctionStateFunctionLibrary;
 
 namespace MyFormulaFunctionStateFunctionLibrary
 {
@@ -144,6 +145,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
                             }
                         }
                     }
+  
                     else if (relatedDataItems.Any())
                     {
                         var newObject = FormulaInstanceInternalHelper.GetNewFormulaObject(e.PropertyInfo);
@@ -336,12 +338,24 @@ namespace MyFormulaFunctionStateFunctionLibrary
         {
             try
             {
-                var expression = GetExpression(expressionStr);
+                //  expressionStr = "OTORELLegalPerson.cl_Name";
+                //  Param_0.GetProperties().Find("OTORELCustomer", False)
+                // var aa = (MainFormulaObject.GetProperties().Find("OTORELLegalPerson", false).GetValue(MainFormulaObject) as ICustomTypeDescriptor).GetProperties().Find("cl_Name", false).GetValue((ICustomTypeDescriptor)(MainFormulaObject.GetProperties().Find("OTORELLegalPerson", false).GetValue(MainFormulaObject)));
 
+                var aa = MainFormulaObject.GetProperties().Find("cl_TotalPrice", false);
+                var bb =aa.GetValue(MainFormulaObject);
+
+                var expression = GetExpression(expressionStr);
                 dynamic dynamicExpression = expression;
+
                 dynamic compiledExpression = dynamicExpression.Compile();
 
                 bool hasParameters = dynamicExpression.Parameters.Count > 0;
+
+                //aa aaa = new aa();
+                //var Param_0 = aaa.GetType();
+
+                //  var expressiona=a      Param_0.GetProperties().First(x=>x.Name== "Helper").GetValue(Param_0)).StringHelper.GetPropertyString(Convert(Param_0.GetProperties().Find("OTORELLegalPerson", False).GetValue(Param_0)))}
 
                 return hasParameters ? compiledExpression(MainFormulaObject) : compiledExpression();
             }
@@ -366,7 +380,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             //اینجا اکسپشن را درست برنمیگردونه چون try  داره
             editor.TryParse(expressionStr, out expressionResult);
             return expressionResult;
-
+       
         }
 
         public List<FormulaItemDTO> GetFormulaItems(string expressionStr)
@@ -385,6 +399,18 @@ namespace MyFormulaFunctionStateFunctionLibrary
         FormulaDefinitionWithKeyValues,
         FormulaCalculation
     }
+    //public class aa
+    //{
+    //    public aa()
+    //    {
+    //        Helper = new MyFormulaFunctionStateFunctionLibrary.FormulaHepler();
+    //    }
+    //    public FormulaHepler Helper { set; get; }
+    //    public bb bbb { set; get; }
+    //}
+    //public class bb
+    //{
 
+    //}
 
 }

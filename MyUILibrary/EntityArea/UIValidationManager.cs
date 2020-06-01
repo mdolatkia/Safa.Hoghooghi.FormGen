@@ -362,7 +362,7 @@ namespace MyUILibrary.EntityArea
         {
             foreach (var relationshipControl in EditArea.RelationshipColumnControls)
             {
-                if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion)
                 {
                     var childRel = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
                     if (!childRel.IsHidden)
@@ -427,7 +427,7 @@ namespace MyUILibrary.EntityArea
                 var childRel = data.ChildRelationshipInfos.First(x => x.Relationship.ID == relationshipControl.Relationship.ID);
                 if (!childRel.IsHidden)
                 {
-                    if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                    if (relationshipControl.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion)
                     {
                         var unionID = (relationshipControl.Relationship as UnionToSubUnionRelationshipDTO).UnionRelationship.ID;
                         Tuple<UnionRelationshipDTO, List<RelationshipColumnControl>> unionRelationship = null;

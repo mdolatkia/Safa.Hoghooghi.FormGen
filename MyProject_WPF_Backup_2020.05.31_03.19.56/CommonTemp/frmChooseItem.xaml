@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="MyProject_WPF.frmChooseItem"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         Height="600" Width="860"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+        </Grid.RowDefinitions>
+        <telerik:RadGridView  x:Name="dtgItems" >
+
+        </telerik:RadGridView>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Click="btnSelect_Click" Margin="4" Width="110" Content="انتخاب" x:Name="btnSelect"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

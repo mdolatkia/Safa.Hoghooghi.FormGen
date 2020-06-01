@@ -27,10 +27,71 @@ namespace MyUILibrary.EntityArea
 
         private void EditArea_UIGenerated(object sender, EventArgs e)
         {
-            CheckISAandUnionDeterminerStates();
+            CheckISADeterminerStates();
+            CheckUnionDeterminerStates();
         }
 
-        private void CheckISAandUnionDeterminerStates()
+        private void CheckUnionDeterminerStates()
+        {
+            if (EditArea.RelationshipColumnControls.Any(x => x.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion))
+            {
+                foreach (var item in EditArea.RelationshipColumnControls.Where(x => x.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion))
+                {
+                    var superToSubRel = item.Relationship as UnionToSubUnionRelationshipDTO;
+                    if (superToSubRel.DeterminerColumnID != 0 && !string.IsNullOrEmpty(superToSubRel.DeterminerColumnValue))
+                    {
+                        var state = new EntityStateDTO();
+                        state.ID = -1 * superToSubRel.ID;
+                        state.ColumnID = superToSubRel.DeterminerColumnID;
+                        state.Values.Add(new EntityStateValueDTO() { Value = superToSubRel.DeterminerColumnValue });
+                        state.EntityStateOperator = Enum_EntityStateOperator.NotEquals;
+                        var actionActivity = new UIActionActivityDTO();
+                        actionActivity.ID = -1 * superToSubRel.ID;
+                        actionActivity.Type = Enum_ActionActivityType.UIEnablity;
+                        actionActivity.UIEnablityDetails.Add(new UIEnablityDetailsDTO() { Hidden = true, RelationshipID = superToSubRel.ID });
+                        state.ActionActivities.Add(actionActivity);
+                        EditArea.EntityStates.Add(state);
+                    }
+                }
+            }
+            if (EditArea.AreaInitializer.SourceRelation != null && EditArea.AreaInitializer.SourceRelation.Relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion)
+            {
+
+                var subToSuperRel = EditArea.AreaInitializer.SourceRelation.Relationship as SubUnionToSuperUnionRelationshipDTO;
+                if (subToSuperRel.DeterminerColumnID != 0 && !string.IsNullOrEmpty(subToSuperRel.DeterminerColumnValue))
+                {
+                    var state = new EntityStateDTO();
+                    state.ID = -1 * subToSuperRel.ID;
+                    state.ColumnID = subToSuperRel.DeterminerColumnID;
+                    state.Values.Add(new EntityStateValueDTO() { Value = subToSuperRel.DeterminerColumnValue });
+                    state.EntityStateOperator = Enum_EntityStateOperator.NotEquals;
+                    var actionActivity = new UIActionActivityDTO();
+                    actionActivity.ID = -1 * subToSuperRel.ID;
+                    actionActivity.Type = Enum_ActionActivityType.UIEnablity;
+                    actionActivity.UIEnablityDetails.Add(new UIEnablityDetailsDTO() { Hidden = true, RelationshipID = subToSuperRel.PairRelationshipID });
+                    state.ActionActivities.Add(actionActivity);
+                    EditArea.EntityStates.Add(state);
+
+
+                    //شرط اگر داده جدید باشد
+                    var setDeterminerState = new EntityStateDTO();
+                    setDeterminerState.ID = -2 * subToSuperRel.ID;
+                    setDeterminerState.ColumnID = subToSuperRel.DeterminerColumnID;
+                    setDeterminerState.Values.Add(new EntityStateValueDTO() { Value = "!@#$#" });
+                    setDeterminerState.EntityStateOperator = Enum_EntityStateOperator.NotEquals;
+                    var setDeterminerActionActivity = new UIActionActivityDTO();
+                    setDeterminerActionActivity.ID = -2 * subToSuperRel.ID;
+                    setDeterminerActionActivity.Type = Enum_ActionActivityType.ColumnValue;
+                    setDeterminerActionActivity.UIColumnValue.Add(new UIColumnValueDTO() { ColumnID = subToSuperRel.DeterminerColumnID, ExactValue = subToSuperRel.DeterminerColumnValue, EvenHasValue = true });
+                    setDeterminerState.ActionActivities.Add(setDeterminerActionActivity);
+                    EditArea.EntityStates.Add(setDeterminerState);
+
+                }
+
+            }
+        }
+
+        private void CheckISADeterminerStates()
         {
             if (EditArea.RelationshipColumnControls.Any(x => x.Relationship.TypeEnum == Enum_RelationshipType.SuperToSub))
             {
@@ -59,8 +120,6 @@ namespace MyUILibrary.EntityArea
                 var subToSuperRel = EditArea.AreaInitializer.SourceRelation.Relationship as SubToSuperRelationshipDTO;
                 if (subToSuperRel.DeterminerColumnID != 0 && !string.IsNullOrEmpty(subToSuperRel.DeterminerColumnValue))
                 {
-                  
- 
                     var state = new EntityStateDTO();
                     state.ID = -1 * subToSuperRel.ID;
                     state.ColumnID = subToSuperRel.DeterminerColumnID;
@@ -74,7 +133,7 @@ namespace MyUILibrary.EntityArea
                     EditArea.EntityStates.Add(state);
 
 
-                    شرط اگر داده جدید باشد
+                    //شرط اگر داده جدید باشد
                     var setDeterminerState = new EntityStateDTO();
                     setDeterminerState.ID = -2 * subToSuperRel.ID;
                     setDeterminerState.ColumnID = subToSuperRel.DeterminerColumnID;
@@ -83,7 +142,7 @@ namespace MyUILibrary.EntityArea
                     var setDeterminerActionActivity = new UIActionActivityDTO();
                     setDeterminerActionActivity.ID = -2 * subToSuperRel.ID;
                     setDeterminerActionActivity.Type = Enum_ActionActivityType.ColumnValue;
-                    setDeterminerActionActivity.UIColumnValue.Add(new UIColumnValueDTO() { ColumnID = subToSuperRel.DeterminerColumnID, ExactValue = subToSuperRel.DeterminerColumnValue });
+                    setDeterminerActionActivity.UIColumnValue.Add(new UIColumnValueDTO() { ColumnID = subToSuperRel.DeterminerColumnID, ExactValue = subToSuperRel.DeterminerColumnValue,EvenHasValue=true });
                     setDeterminerState.ActionActivities.Add(setDeterminerActionActivity);
                     EditArea.EntityStates.Add(setDeterminerState);
 

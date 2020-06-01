@@ -752,7 +752,7 @@ namespace MyModelManager
                     var dbRelationship = rels.Item1;
                     var dbReverseRelationship = rels.Item2;
 
-                    dbRelationship.TypeEnum = Convert.ToByte(Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys);
+                    dbRelationship.TypeEnum = Convert.ToByte(Enum_RelationshipType.SubUnionToUnion);
                     dbRelationship.RelationshipType = new RelationshipType();
                     dbRelationship.RelationshipType.SubUnionToUnionRelationshipType = new SubUnionToUnionRelationshipType();
                     //dbReverseRelationship.RelationshipType.IsOtherSideMandatory = true;
@@ -761,7 +761,7 @@ namespace MyModelManager
                     dbRelationship.RelationshipType.PKToFKDataEntryEnabled = true;
                     //dbRelationship.RelationshipType.IsOtherSideTransferable = true;
 
-                    dbReverseRelationship.TypeEnum = Convert.ToByte(Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys);
+                    dbReverseRelationship.TypeEnum = Convert.ToByte(Enum_RelationshipType.UnionToSubUnion);
                     dbReverseRelationship.RelationshipType = new RelationshipType();
                     dbReverseRelationship.RelationshipType.UnionToSubUnionRelationshipType = new UnionToSubUnionRelationshipType();
                     //dbRelationship.RelationshipType.IsOtherSideMandatory = false;
@@ -2115,7 +2115,7 @@ namespace MyModelManager
                     || relationship.TypeEnum == Enum_RelationshipType.ImplicitOneToOne
                     || relationship.TypeEnum == Enum_RelationshipType.SuperToSub
                     //|| relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_SubUnionHoldsKeys
-                    || relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                    || relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion)
                 {
                     dbPKtoFKRelationship = projectContext.Relationship.First(x => x.ID == relationship.ID);
                     dbFKtoPKRelationship = projectContext.Relationship.First(x => x.RelationshipID == dbPKtoFKRelationship.ID);
@@ -2174,18 +2174,18 @@ namespace MyModelManager
                     dbFKtoPKRelationship.RelationshipType.SubToSuperRelationshipType.ISARelationshipID = isaRelationshipID;
                     dbFKtoPKRelationship.TypeEnum = Convert.ToByte(Enum_RelationshipType.SubToSuper);
                 }
-                else if (targetRaltionshipType == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys
-                    || targetRaltionshipType == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                else if (targetRaltionshipType == Enum_RelationshipType.UnionToSubUnion
+                    || targetRaltionshipType == Enum_RelationshipType.SubUnionToUnion)
                 {
                     dbPKtoFKRelationship.RelationshipType.SubUnionToUnionRelationshipType = new SubUnionToUnionRelationshipType();
                     dbPKtoFKRelationship.RelationshipType.IsOtherSideCreatable = true;
                     dbPKtoFKRelationship.RelationshipType.SubUnionToUnionRelationshipType.UnionRelationshipTypeID = unionRelationshipID;
-                    dbPKtoFKRelationship.TypeEnum = Convert.ToByte(Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys);
+                    dbPKtoFKRelationship.TypeEnum = Convert.ToByte(Enum_RelationshipType.SubUnionToUnion);
 
                     dbFKtoPKRelationship.RelationshipType.UnionToSubUnionRelationshipType = new UnionToSubUnionRelationshipType();
                     dbFKtoPKRelationship.RelationshipType.IsOtherSideCreatable = true;
                     dbFKtoPKRelationship.RelationshipType.UnionToSubUnionRelationshipType.UnionRelationshipTypeID = unionRelationshipID;
-                    dbFKtoPKRelationship.TypeEnum = Convert.ToByte(Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys);
+                    dbFKtoPKRelationship.TypeEnum = Convert.ToByte(Enum_RelationshipType.UnionToSubUnion);
                 }
                 //else if (targetRaltionshipType == Enum_RelationshipType.SubUnionToUnion_SubUnionHoldsKeys
                 //    || targetRaltionshipType == Enum_RelationshipType.UnionToSubUnion_SubUnionHoldsKeys)
@@ -2826,11 +2826,11 @@ namespace MyModelManager
                 return "ابرکلاس به زیرکلاس";
             //else if (item == Enum_RelationshipType.SubUnionToUnion_SubUnionHoldsKeys)
             //    return "زیراجتماع به ابراجتماع_کلید در زیراجتماع";
-            else if (item == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+            else if (item == Enum_RelationshipType.SubUnionToUnion)
                 return "زیراجتماع به ابراجتماع_کلید در ابراجتماع";
             //else if (item == Enum_RelationshipType.UnionToSubUnion_SubUnionHoldsKeys)
             //    return "ابراجتماع به زیرجتماع_کلید در زیراجتماع";
-            else if (item == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+            else if (item == Enum_RelationshipType.UnionToSubUnion)
                 return "ابراجتماع به زیرجتماع_کلید در ابراجتماع";
             return "نامشخص";
         }

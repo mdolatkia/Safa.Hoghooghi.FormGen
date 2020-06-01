@@ -1,0 +1,37 @@
+﻿<UserControl xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls"  x:Class="MyProject_WPF.frmRelationshipFilter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyProject_WPF"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        mc:Ignorable="d"
+        d:DesignHeight="300"  d:DesignWidth="600" MinHeight="200">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid >
+           
+        
+            <!--<Button x:Name="btnSearchRelationshipTail"  Width="120" Height="20" Content="افزودن زنجیره رابطه ..." Grid.Column="2" Click="btnSearchRelationshipTail_Click"></Button>-->
+            <!--<TextBlock Grid.Row="2" Text="ستونها" VerticalAlignment="Top"></TextBlock>-->
+            <telerik:RadGridView Grid.Row="2" AutoGenerateColumns="False" CanUserDeleteRows="True" CanUserInsertRows="True" Grid.Column="1"  x:Name="dtgRelationshipFilterColumns" >
+                <telerik:RadGridView.Columns>
+                    <MyCommonWPFControls:MyStaticLookupColumn  Width="200" EditItemEnabled="True" NewItemEnabled="True" x:Name="colValueRelationshipTail" Header="رابطه مقدار" DataMemberBinding="{Binding ValueRelationshipTailID}" />
+                    <telerik:GridViewComboBoxColumn Width="100" x:Name="colValueColumns" Header="ستون مقدار" ItemsSourceBinding="{Binding vwValueColumns}" DataMemberBinding="{Binding ValueColumnID}" />
+                    <!--<MyCommonWPFControls:MyStaticLookupColumn EditItemEnabled="True" NewItemEnabled="True" x:Name="colSearchRelationshipTail" Header="رابطه جستجو" DataMemberBinding="{Binding SearchRelationshipTailID}" />-->
+                    <telerik:GridViewComboBoxColumn Width="100" x:Name="colSearchColumns" Header="ستون جستجو" ItemsSourceBinding="{Binding vwSearchColumns}" DataMemberBinding="{Binding SearchColumnID}" />
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+            <!--<TextBlock Grid.Row="3"  Text="وضعیت"></TextBlock>
+            <CheckBox  Grid.Row="3" Grid.Column="1" x:Name="chkEnable"></CheckBox>-->
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <!--<Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="لیست فیلترها" x:Name="btnList" Click="btnList_Click"></Button>-->
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="ثبت و انتخاب" x:Name="btnSaveAndSelect" Click="btnSaveAndSelect_Click"></Button>
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="بازگشت" x:Name="btnReturn" Click="btnReturn_Click"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

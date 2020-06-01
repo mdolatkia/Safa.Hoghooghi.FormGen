@@ -1,0 +1,35 @@
+﻿<Window x:Class="MyUIGenerator.Login.frmLogin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyUIGenerator.Login"
+        mc:Ignorable="d"
+        Title="frmLogin" Height="150" Width="400" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" MinHeight="15"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="نام کاربری"></TextBlock>
+            <TextBox Width="200" Text="kia" Style="{DynamicResource TextBoxStyle}" Grid.Column="1" x:Name="txtUserName"></TextBox>
+            <TextBlock Grid.Row="1" Text="کلمه عبور"></TextBlock>
+            <TextBox Width="200" Text="1" Style="{DynamicResource TextBoxStyle}" Grid.Row="1" Grid.Column="1" x:Name="txtPassword"></TextBox>
+        </Grid>
+        <TextBlock Grid.Row="2" x:Name="lblMessage"></TextBlock>
+        <StackPanel Grid.Row="3" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button Width="100"  x:Name="btnLogin" Content="ورود" Click="btnLogin_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

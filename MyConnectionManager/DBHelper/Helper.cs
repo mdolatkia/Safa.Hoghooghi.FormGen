@@ -44,7 +44,7 @@ namespace MyConnectionManager
         public static bool DataItemPrimaryKeysHaveValue(DP_DataRepository dataItem)
         {
             var keyProperties = dataItem.KeyProperties;
-            return keyProperties.Any() && keyProperties.All(x => x.Value!=null && !string.IsNullOrEmpty(x.Value.ToString()));
+            return keyProperties.Any() && keyProperties.All(x => x.Value != null && !string.IsNullOrEmpty(x.Value.ToString()));
         }
 
         public static bool DataItemNonPrimaryKeysHaveValues(DP_DataRepository dataItem)
@@ -52,20 +52,22 @@ namespace MyConnectionManager
             return dataItem.GetProperties().Where(x => !x.IsKey).Any(x => x.Value != null && !string.IsNullOrEmpty(x.Value.ToString()));
         }
 
-        public static object GetPropertyValue(object value, Type dotNetType)
-        {//درست شود
-            try
-            {
-                if (value == null )
-                    return null;
-                else
-                    return Convert.ChangeType(value, dotNetType);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
+        //public static object GetPropertyValue(object value, Type dotNetType)
+        //{//درست شود
+        //    try
+        //    {
+        //        if (value == null)
+        //            return null;
+        //        else if (dotNetType == null)
+        //            return value;
+        //        else
+        //            return Convert.ChangeType(value, dotNetType);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
 
         //public static List<DP_DataRepository> GetDataItems(int entityID, List<EntityInstanceProperty> properties)
         //{

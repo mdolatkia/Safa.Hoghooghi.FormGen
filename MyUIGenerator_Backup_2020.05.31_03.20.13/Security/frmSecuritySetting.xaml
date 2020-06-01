@@ -1,0 +1,86 @@
+﻿<Window x:Class="MyUIGenerator.Security.frmSecuritySetting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyUIGenerator.Login"
+        mc:Ignorable="d"
+        Title="frmLogin" Height="500" Width="600" FlowDirection="RightToLeft" WindowStartupLocation="CenterScreen" >
+    <Grid>
+        <TabControl>
+            <TabControl.Items>
+                <TabItem Header="تنظیمات امنیتی">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <!--<TextBlock Text="سازمان جاری"></TextBlock>
+                            <ComboBox Width="200" Grid.Column="1" x:Name="cmbAssignedOrganization"></ComboBox>-->
+                            <TextBlock Grid.Row="1" Text="پستها"></TextBlock>
+                            <ListBox Width="200"  Grid.Row="1" Grid.Column="1" x:Name="lstAssignedRoles"></ListBox>
+                        </Grid>
+                      
+                        <StackPanel Grid.Row="3" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button Width="100"  x:Name="btnConfirmAssignedOrganization" Content="تایید" Click="btnConfirmAssignedOrganization_Click"></Button>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabAdmin" Header="تنظیمات راهبری">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="lblByPassSecurity" Text="حذف امنیت"></TextBlock>
+                            <CheckBox x:Name="chkByPassSecurity" Grid.Column="1"></CheckBox>
+                            <TextBlock Grid.Row="1" Text="جستجوی پست"></TextBlock>
+                            <TextBox  Grid.Row="1" TextChanged="cmbAdminOrganization_TextChanged" HorizontalAlignment="Left" Width="200" Grid.Column="1" x:Name="txtSearch"></TextBox>
+                            <TextBlock Grid.Row="2" VerticalAlignment="Top" Text="نتیجه جستجو"></TextBlock>
+                            <ListBox Width="200"  Grid.Row="2" Grid.Column="1" SelectionMode="Extended" x:Name="lstSearchedPosts">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <CheckBox Content="{Binding Name}" IsChecked="{Binding Selected}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <Button Grid.Row="2" x:Name="btnAddSearchedPostToConfirmed" Click="btnAddSearchedPostToConfirmed_Click" Width="60" Grid.Column="2" Content="--"></Button>
+                            <ListBox Width="200"  Grid.Row="2" Grid.Column="3" x:Name="lstConfirmedPosts">
+                                
+                            </ListBox>
+                        </Grid>
+                        
+                        <StackPanel Grid.Row="3" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button Width="100"  x:Name="btnConfirmAdmindOrganization" Content="تایید" Click="btnConfirmAdmindOrganization_Click"></Button>
+                            <Button Width="100"  x:Name="btnClose" Content="بازگشت" Click="btnClose_Click"></Button>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl.Items>
+        </TabControl>
+      
+    </Grid>
+</Window>

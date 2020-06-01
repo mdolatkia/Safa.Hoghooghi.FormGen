@@ -1,0 +1,23 @@
+﻿<Window x:Class="MyUIGenerator.UI.View.frmReportViewer1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MyUIGenerator.UI.View"
+    xmlns:tr="http://schemas.telerik.com/wpf"
+    xmlns:telerikReporting="clr-namespace:Telerik.Reporting;assembly=Telerik.Reporting"
+    Title="Report Viewer Window">
+
+    <Grid x:Name="LayoutRoot">
+        <Grid Margin="20" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <tr:ReportViewer  Grid.Row="0" Error="ReportViewer1_Error" x:Name="ReportViewer1" HorizontalAlignment="Stretch">
+
+
+            </tr:ReportViewer>
+
+
+
+        </Grid>
+    </Grid>
+</Window>

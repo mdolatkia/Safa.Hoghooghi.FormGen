@@ -1,0 +1,64 @@
+﻿<UserControl  x:Class="MyProject_WPF.frmLinekedServer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyProject_WPF"  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d"  xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls"
+           Background="WhiteSmoke" FlowDirection="RightToLeft">
+    <Grid d:DesignWidth="380" Margin="5"  d:DesignHeight="600" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" ></RowDefinition>
+            <RowDefinition Height="auto" ></RowDefinition>
+            <RowDefinition Height="30" ></RowDefinition>
+        </Grid.RowDefinitions>
+        <telerik:RadGridView ShowGroupPanel="False" x:Name="dtgItems" MinHeight="150" AutoGenerateColumns="False"  >
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="نام" DataMemberBinding="{Binding Name}" />
+                <telerik:GridViewDataColumn Header="سرور مبدأ" DataMemberBinding="{Binding SourceDBServerName}" />
+                <telerik:GridViewDataColumn Header="عنوان سرور مبدأ" DataMemberBinding="{Binding SourceDBServerTitle}" />
+                <telerik:GridViewDataColumn Header="سرور مقصد" DataMemberBinding="{Binding TargetDBServerName}" />
+                <telerik:GridViewDataColumn Header="عنوان سرور مقصد" DataMemberBinding="{Binding TargetDBServerTitle}" />
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <Grid  Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" ></RowDefinition>
+                <RowDefinition Height="auto" ></RowDefinition>
+                <RowDefinition Height="auto" ></RowDefinition>
+                <RowDefinition Height="auto" ></RowDefinition>
+                <RowDefinition Height="auto" ></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Text="نام سرور مبدأ :" Grid.Row="0"  VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="نام سرور مقصد :" Grid.Row="1"  VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="عنوان:" Grid.Row="2"   VerticalAlignment="Center"></TextBlock>
+
+            <TextBlock  Grid.Row="0" Grid.Column="1" Background="LightGray" x:Name="lblSourceServer" HorizontalAlignment="Stretch"/>
+            <MyCommonWPFControls:MyStaticLookup  Grid.Row="1" Grid.Column="1" x:Name="lokTargetServer" HorizontalAlignment="Stretch"/>
+            <TextBox x:Name="txtTitle"   Grid.Row="2"  HorizontalAlignment="Stretch"  Grid.Column="1"  ></TextBox>
+        </Grid>
+        <Grid Grid.Row="2">
+            <StackPanel Grid.Row="4" Grid.Column="1"  HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button x:Name="btnSave" Margin="2" Width="110"    Click="btnSave_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\save.png"  />
+                        <TextBlock Text="ثبت"></TextBlock>
+                    </StackPanel>
+                </Button>
+              
+                <Button x:Name="btnNew" Margin="2" Width="110" Click="btnNew_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\addnew.png"  />
+                        <TextBlock Text="جدید"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <!--<Button Content="بازگشت"  Click="btnClose_Click" Margin="2" Width="100" HorizontalAlignment="Left"  x:Name="btnClose"></Button>-->
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</UserControl>

@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using MyGeneralLibrary;
+using System.ComponentModel;
 
 namespace MyFormulaFunctionStateFunctionLibrary
 {
@@ -22,22 +23,66 @@ namespace MyFormulaFunctionStateFunctionLibrary
     {
         public FormulaHepler()
         {
-            StringHelper = new StringHelper();
-            PersianDateHelper = new PersianDate();
+
         }
-        public StringHelper StringHelper { set; get; }
-        public PersianDate PersianDateHelper { set; get; }
+        //StringHelper _StringHelper;
+        //public StringHelper StringHelper
+        //{
+        //    get
+        //    {
+        //        if (_StringHelper == null)
+        //            _StringHelper = new StringHelper();
+        //        return _StringHelper;
+        //    }
+        //}
+        //PersianDateHelper _PersianDateHelper;
+        //public PersianDateHelper PersianDateHelper
+        //{
+        //    get
+        //    {
+        //        if (_PersianDateHelper == null)
+        //            _PersianDateHelper = new PersianDateHelper();
+        //        return _PersianDateHelper;
+        //    }
+        //}
+
 
         public static Type IsHelperType(string theWord)
         {
             if (!string.IsNullOrEmpty(theWord))
             {
                 if (theWord.ToLower() == "PersianDateHelper".ToLower())
-                    return typeof(PersianDate);
+                    return typeof(PersianDateHelper);
                 else if (theWord.ToLower() == "StringHelper".ToLower())
                     return typeof(StringHelper);
+                else if (theWord.ToLower() == "NumericHelper".ToLower())
+                    return typeof(NumericHelper);
             }
             return null;
+        }
+    }
+    public class NumericHelper
+    {
+        public double IsNull(object value,double resValue)
+        {
+            if (value == null)
+                return resValue;
+            else
+                return Convert.ToDouble(value);
+        }
+        public int IsNull(object value, int resValue)
+        {
+            if (value == null)
+                return resValue;
+            else
+                return Convert.ToInt32(value);
+        }
+        public long IsNull(object value, long resValue)
+        {
+            if (value == null)
+                return resValue;
+            else
+                return Convert.ToInt64(value);
         }
     }
     public class StringHelper
@@ -46,9 +91,55 @@ namespace MyFormulaFunctionStateFunctionLibrary
         {
             return String.IsNullOrEmpty(str);
         }
+        //public string GetPropertiesString(ICustomTypeDescriptor obj, string delimiter, params string[] list)
+        //{
+        //    string result = "";
+        //    foreach (var item in list)
+        //    {
+        //        var res = FollowPropertyPath(obj, item);
+        //        return result += (result == "" ? "" : delimiter) + (res == null ? "" : res.ToString());
+        //    }
+        //    return result;
+        //}
+        public string Trim(string value)
+        {
+            if (value == null)
+                return null;
+            else
+                return value.Trim();
+        }
+        public string GetPropertyString(ICustomTypeDescriptor obj, string propertyPath)
+        {
+            var res = FollowPropertyPath(obj, propertyPath);
+            return res == null ? "" : res.ToString();
+        }
+
+        public static object FollowPropertyPath(ICustomTypeDescriptor value, string path)
+        {
+            //Type currentType = value.GetType();
+            if (value == null)
+                return null;
+            object rValue = null;
+            foreach (string propertyName in path.Split('.'))
+            {
+                var property = value.GetProperties().Find(propertyName, true);
+                if (property == null)
+                    return null;
+                else
+                {
+                    rValue = property.GetValue(value);
+                    if (value == null)
+                        return null;
+                    else if (rValue is ICustomTypeDescriptor)
+                        value = (rValue as ICustomTypeDescriptor);
+                }
+                //currentType = property.PropertyType;
+            }
+            return rValue;
+        }
     }
 
-    public class PersianDate
+    public class PersianDateHelper
     {
         public string Today
         {
@@ -129,6 +220,6 @@ namespace MyFormulaFunctionStateFunctionLibrary
     //public interface Helper
     //{
     //    event EventHandler<string> ValueDefined
-        
+
     //}
 }

@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="MyProject_WPF.frmAddActivity" xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyProject_WPF"
+        mc:Ignorable="d"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+       d:DesignHeight="600"  d:DesignWidth="600">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+          
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+               
+            </Grid.RowDefinitions>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="نام فعالیت"></TextBlock>
+                <TextBox x:Name="txtName" Grid.Column="1"></TextBox>
+                <TextBlock Text="نوع فعالیت" Grid.Column="2"></TextBlock>
+                <ComboBox Width="180" x:Name="cmbType" Grid.Column="3"></ComboBox>
+                <TextBlock Text="نام فعالیت" Grid.Row="1"></TextBlock>
+                <TextBox x:Name="txtDescription" Grid.Row="1" Grid.ColumnSpan="3" Height="80" Grid.Column="1"></TextBox>
+            </Grid>
+           
+            <TabControl Grid.Row="2">
+                <TabItem Header="اهداف">
+                    <telerik:RadGridView AutoGenerateColumns="False"  x:Name="dtgActivityTargets" >
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewComboBoxColumn Header="هدف" DataMemberBinding="{Binding TargetType}" />
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                </TabItem>
+                <TabItem x:Name="tabRoles"  Header="نوع نقشهای طرف">
+                    <telerik:RadGridView Grid.Row="4" AutoGenerateColumns="False"  x:Name="dtgTargetRoles" >
+                        <telerik:RadGridView.Columns>
+                            <MyCommonWPFControls:MyStaticLookupColumn DataMemberBinding="{Binding ID}"  x:Name="colRoleTypes" Header="نوع نقش"></MyCommonWPFControls:MyStaticLookupColumn>
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                </TabItem>
+            </TabControl>
+          
+          
+           
+        </Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="2" >
+            <Button x:Name="btnSave" Width="90"  Content="ثبت" Click="btnSave_Click"></Button>
+            <Button x:Name="btnNew" Width="90" Content="جدید" Click="btnNew_Click"></Button>
+            <Button x:Name="btnClose" Width="90" Content="بازگشت" Click="btnClose_Click"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

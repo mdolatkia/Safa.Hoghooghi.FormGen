@@ -23,6 +23,8 @@ namespace DataAccess
         public int ColumnID { get; set; }
         public string ExactValue { get; set; }
         public int UIActionActivityID { get; set; }
+        public bool EvenIsNotNew { get; set; }
+        public bool EvenHasValue { get; set; }
     
         public virtual Column Column { get; set; }
         public virtual ICollection<ColumnValue_ValidValues> ColumnValue_ValidValues { get; set; }

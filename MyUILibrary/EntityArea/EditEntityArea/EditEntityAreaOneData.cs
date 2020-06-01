@@ -446,7 +446,7 @@ namespace MyUILibrary.EntityArea
                     result = false;
             }
             if (result)
-                OnDataItemShown(new EditAreaDataItemLoadedArg() { DataItem = specificDate, InEditMode = false });
+                OnDataItemShown(new EditAreaDataItemLoadedArg() { DataItem = specificDate, InEditMode = true });
             CheckRelationshipReadonlyEnablity();
             return result;
 

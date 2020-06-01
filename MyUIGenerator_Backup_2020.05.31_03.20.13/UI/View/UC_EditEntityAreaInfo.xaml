@@ -1,0 +1,149 @@
+﻿<UserControl x:Class="MyUIGenerator.View.UC_EditEntityAreaInfo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+            MinHeight="500" MinWidth="800">
+    <Grid Background="#FFDAE9F3">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="320"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border  CornerRadius="2" Margin="3" BorderBrush="Black" BorderThickness="1" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label FontWeight="Bold" Content="TemplateEntityName : " Grid.Row="0"></Label>
+                <Label HorizontalAlignment="Left" x:Name="lblTemplateEntityName"  Grid.Row="0" Grid.Column="1"></Label>
+
+                <Label FontWeight="Bold"  Content="FormComposed : " Grid.Row="0" Grid.Column="2"></Label>
+                <CheckBox IsEnabled="False" HorizontalAlignment="Left"  VerticalAlignment="Center" x:Name="chkFormComposed" Grid.Row="0" Grid.Column="3"></CheckBox>
+
+                <Label FontWeight="Bold"  Content="DataCount : " Grid.Row="0" Grid.Column="4"></Label>
+                <Label HorizontalAlignment="Left"  x:Name="lblDataCount" Grid.Row="0" Grid.Column="5"></Label>
+
+                <Label FontWeight="Bold"  Content="DataMode : " Grid.Row="1"></Label>
+                <Label HorizontalAlignment="Left"  x:Name="lblDataMode"  Grid.Row="1" Grid.Column="1"></Label>
+
+                <Label FontWeight="Bold"  Content="DirectionMode : " Grid.Row="1" Grid.Column="2"></Label>
+                <Label HorizontalAlignment="Left"  x:Name="lblDirectionMode" Grid.Row="1" Grid.Column="3"></Label>
+
+                <Label FontWeight="Bold"  Content="IntracionMode : " Grid.Row="1" Grid.Column="4"></Label>
+                <Label HorizontalAlignment="Left"  x:Name="lblIntracionMode" Grid.Row="1" Grid.Column="5"></Label>
+            </Grid>
+        </Border>
+        <Border Margin="3" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Grid.Row="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label FontWeight="Bold"  Content="SourceEntityName : " Grid.Row="0"></Label>
+                <Label HorizontalAlignment="Left"  x:Name="lblSourceEntityName"  Grid.Row="0" Grid.Column="1"></Label>
+
+                <Label FontWeight="Bold"  Content="SourceRalationType : " Grid.Row="0" Grid.Column="2"></Label>
+                <Label HorizontalAlignment="Left"  x:Name="lblSourceRalationType" Grid.Row="0" Grid.Column="3"></Label>
+
+                <Label FontWeight="Bold"  Content="SourceRalationName : " Grid.Row="0" Grid.Column="4"></Label>
+                <Label HorizontalAlignment="Left"  x:Name="lblSourceRalationName" Grid.Row="0" Grid.Column="5"></Label>
+
+                <Label FontWeight="Bold"  Content="relationIsMandatory : " Grid.Row="1"></Label>
+                <CheckBox HorizontalAlignment="Left"  IsEnabled="False"  VerticalAlignment="Center" x:Name="chkrelationIsMandatory"  Grid.Row="1" Grid.Column="1"></CheckBox>
+            </Grid>
+        </Border>
+        <TabControl Background="#FFDAE9F3" Grid.Row="3">
+            <TabControl.Items>
+                <TabItem Header="Data Items">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="160"></RowDefinition>
+                            <RowDefinition Height="160"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Border Margin="3" CornerRadius="2" BorderBrush="Black" BorderThickness="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label FontWeight="Bold"  Content="Data : " Grid.Row="0"></Label>
+                                <telerik:RadGridView IsReadOnly="True" ShowGroupPanel="False" AutoGenerateColumns="True" x:Name="dtgData"  Grid.Row="1" ></telerik:RadGridView>
+                            </Grid>
+                        </Border>
+                        <Border Margin="3" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Grid.Row="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label FontWeight="Bold"  Content="Related Data : " Grid.Row="0"></Label>
+                                <telerik:RadGridView IsReadOnly="True"  ShowGroupPanel="False" AutoGenerateColumns="True" x:Name="dtgRelatedData"  Grid.Row="1" ></telerik:RadGridView>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Removed Data Items">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="160"></RowDefinition>
+                            <RowDefinition Height="160"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Border Margin="3" CornerRadius="2" BorderBrush="Black" BorderThickness="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label FontWeight="Bold"  Content="Data : " Grid.Row="0"></Label>
+                                <telerik:RadGridView  IsReadOnly="True"  ShowGroupPanel="False" AutoGenerateColumns="True" x:Name="dtgDataRemoved"  Grid.Row="1" ></telerik:RadGridView>
+                            </Grid>
+                        </Border>
+                        <Border Margin="3" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Grid.Row="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label FontWeight="Bold"  Content="Related Data : " Grid.Row="0"></Label>
+                                <telerik:RadGridView  IsReadOnly="True" ShowGroupPanel="False" AutoGenerateColumns="True" x:Name="dtgRelatedDataRemoved"  Grid.Row="1" ></telerik:RadGridView>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Skipped Relationships">
+                    <telerik:RadGridView  IsReadOnly="True"  ShowGroupPanel="False" AutoGenerateColumns="True" x:Name="dtgSkippedRelationships"  Grid.Row="1" ></telerik:RadGridView>
+                </TabItem>
+            </TabControl.Items>
+        </TabControl>
+    </Grid>
+</UserControl>

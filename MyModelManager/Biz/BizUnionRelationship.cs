@@ -172,6 +172,8 @@ namespace MyModelManager
             Mapper.Initialize(cfg => cfg.CreateMap<RelationshipDTO, SubUnionToSuperUnionRelationshipDTO>());
             var result = AutoMapper.Mapper.Map<RelationshipDTO, SubUnionToSuperUnionRelationshipDTO>(baseRelationship);
             result.UnionRelationship = ToUnionRelationshipDTO(item.UnionRelationshipType);
+            result.DeterminerColumnValue = item.RelationshipType.Relationship.Relationship2.RelationshipType.UnionToSubUnionRelationshipType.DeterminerColumnValue;
+            result.DeterminerColumnID = item.RelationshipType.Relationship.Relationship2.RelationshipType.UnionToSubUnionRelationshipType.DeterminerColumnID ?? 0;
             return result;
         }
 

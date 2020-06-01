@@ -1115,6 +1115,10 @@ namespace MyUILibrary.EntityArea
     }
     public class EditAreaDataItemLoadedArg : EventArgs
     {
+        public EditAreaDataItemLoadedArg()
+        {
+
+        }
         public bool InEditMode { set; get; }
         public DP_DataRepository DataItem { set; get; }
     }

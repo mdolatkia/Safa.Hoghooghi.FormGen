@@ -578,7 +578,7 @@ namespace MyUILibrary.EntityArea
 
                     //propertyControl.ControlPackage = new UIControlPackageForSimpleColumn();
                     bool hasRangeOfValues = column.ColumnValueRange != null && column.ColumnValueRange.Details.Any();
-                   // bool valueIsTitleOrValue = false;
+                    // bool valueIsTitleOrValue = false;
                     //if (hasRangeOfValues)
                     //    valueIsTitleOrValue = column.ColumnValueRange.ValueFromTitleOrValue;
 
@@ -862,7 +862,7 @@ namespace MyUILibrary.EntityArea
                         if (!mandatory)
                         {
                             if (AreaInitializer.SourceRelation.Relationship.TypeEnum != Enum_RelationshipType.SubToSuper
-                                && AreaInitializer.SourceRelation.Relationship.TypeEnum != Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                                && AreaInitializer.SourceRelation.Relationship.TypeEnum != Enum_RelationshipType.SubUnionToUnion)
                             {
                                 return ParentIsNotSubToSuperSkipCondition(relationshipColumnControl);
                             }
@@ -877,7 +877,7 @@ namespace MyUILibrary.EntityArea
 
                     }
                 }
-               
+
             }
             return false;
         }
@@ -911,10 +911,10 @@ namespace MyUILibrary.EntityArea
                         }
                     }
                 }
-                if (AreaInitializer.SourceRelation.Relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                if (AreaInitializer.SourceRelation.Relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion)
                 {
                     var parentUnionRelationship = (AreaInitializer.SourceRelation.Relationship as SubUnionToSuperUnionRelationshipDTO).UnionRelationship;
-                    if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+                    if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.UnionToSubUnion)
                     {
                         var unionRelationship = (relationshipColumnControl.Relationship as UnionToSubUnionRelationshipDTO).UnionRelationship;
                         if (unionRelationship.ID == parentUnionRelationship.ID)
@@ -942,8 +942,8 @@ namespace MyUILibrary.EntityArea
         {
             if (relationshipColumnControl.Relationship.TypeEnum != Enum_RelationshipType.SuperToSub
                && relationshipColumnControl.Relationship.TypeEnum != Enum_RelationshipType.SubToSuper
-               && relationshipColumnControl.Relationship.TypeEnum != Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys
-               && relationshipColumnControl.Relationship.TypeEnum != Enum_RelationshipType.UnionToSubUnion_UnionHoldsKeys)
+               && relationshipColumnControl.Relationship.TypeEnum != Enum_RelationshipType.SubUnionToUnion
+               && relationshipColumnControl.Relationship.TypeEnum != Enum_RelationshipType.UnionToSubUnion)
             {
                 return relationshipColumnControl.Relationship.IsOtherSideMandatory;
             }
@@ -965,7 +965,7 @@ namespace MyUILibrary.EntityArea
                     else
                         return false;
                 }
-                else if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion_UnionHoldsKeys)
+                else if (relationshipColumnControl.Relationship.TypeEnum == Enum_RelationshipType.SubUnionToUnion)
                 {
                     var unionRelationship = (relationshipColumnControl.Relationship as SubUnionToSuperUnionRelationshipDTO).UnionRelationship;
                     return unionRelationship.IsTolatParticipation;
@@ -2332,7 +2332,7 @@ namespace MyUILibrary.EntityArea
             //خیلی ایده آل نیست
             //برای اینه که وضعیتها اونم فقط توحالتی که رابطه فارن گه پرنت باشه چک بشه که اگه لازم بود دور ویو تمپ قرمز بشه 
             foreach (var dataItem in relatedData)
-                OnDataItemShown(new EditAreaDataItemLoadedArg() { DataItem = dataItem, InEditMode = true });
+                OnDataItemShown(new EditAreaDataItemLoadedArg() { DataItem = dataItem, InEditMode = false    });
 
         }
 
@@ -3108,9 +3108,15 @@ namespace MyUILibrary.EntityArea
 
                 foreach (var columnValue in uIColumnValue)
                 {
+                    if (!columnValue.EvenIsNotNew && !dataItem.IsNewItem)
+                        continue;
+
                     var column = dataItem.GetProperty(columnValue.ColumnID);
                     if (column != null)
                     {
+                        if (!columnValue.EvenHasValue && !AgentHelper.ValueIsEmpty(column))
+                            continue;
+
                         //اینجا باید بیزینسی ریدونلی شدن داده هم تست شود
                         if (RelationshipColumnControls.Any(x => x.Relationship.MastertTypeEnum == Enum_MasterRelationshipType.FromForeignToPrimary && !x.Relationship.IsReadonly && x.Relationship.RelationshipColumns.Any(y => y.FirstSideColumnID == column.ColumnID)))
                         {

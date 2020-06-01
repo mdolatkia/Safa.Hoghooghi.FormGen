@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="MyUIGenerator.View.frmRequestFile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         mc:Ignorable="d"
+       d:DesignHeight="400" d:DesignWidth="600">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition ></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock VerticalAlignment="Top" Text="لیست فایلها"></TextBlock>
+            <telerik:RadGridView  Grid.Column="1" SelectionChanged="dtgFiles_SelectionChanged" x:Name="dtgFiles">
+            </telerik:RadGridView>
+            <Grid x:Name="grdAddFile" Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox  IsReadOnly="True"   x:Name="txtFilePath" ></TextBox>
+                <Button  Grid.Column="1"  Content="انتخاب فایل" Click="btnChooseFile_Click" x:Name="btnChooseFile"></Button>
+            </Grid>
+            <Grid x:Name="grdExistingFile" Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox IsReadOnly="True"  x:Name="txtFileName" ></TextBox>
+                <Button  Grid.Column="1"  Content="دریافت فایل" Click="btnViewFile_Click" x:Name="btnViewFile"></Button>
+            </Grid>
+            <TextBlock  Grid.Row="1" Text="فایل"></TextBlock>
+        
+            <TextBlock Grid.Row="2" Text="توضیحات"></TextBlock>
+            <TextBox  Grid.Row="2"  Grid.Column="1" Height="80" x:Name="txtFileDesc"></TextBox>
+
+
+        </Grid>
+        <StackPanel HorizontalAlignment="Right" Grid.Row="3" Orientation="Horizontal" >
+            <Button Content="ثبت" x:Name="btnSave" Click="btnSave_Click" Width="100"></Button>
+            <Button Content="جدید" x:Name="btnNew" Click="btnNew_Click" Width="100"></Button>
+            <Button Content="بازگشت" x:Name="btnExit" Click="btnExit_Click" Width="100"></Button>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

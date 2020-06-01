@@ -1169,7 +1169,7 @@ namespace MyDataSearchManagerBusiness
                     var property = new EntityInstanceProperty(column);
                     //property.Name = column.Name;
                     if (reader[i] != DBNull.Value)
-                        property.Value = reader[i].ToString();
+                        property.Value = reader[i];//.ToString();
                     else
                         property.Value = null;
                     result.AddProperty(column, property.Value);
@@ -1264,9 +1264,9 @@ namespace MyDataSearchManagerBusiness
                     var column = listColumnsItem.Item2;
                     // string columnName = reader.Table.Columns[i].ColumnName;
 
-                    string value = "";
+                    object value;
                     if (reader[i] != DBNull.Value)
-                        value = reader[i].ToString();
+                        value = reader[i];//.ToString();
                     else
                         value = null;
 

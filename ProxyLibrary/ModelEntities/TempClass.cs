@@ -208,6 +208,8 @@ namespace ModelEntites
         public int ID { set; get; }
         public string ExactValue { set; get; }
         public int ColumnID { set; get; }
+        public bool EvenHasValue { set; get; }
+        public bool EvenIsNotNew { set; get; }
         // public int EntityRelationshipTailID { set; get; }
         // public EntityRelationshipTailDTO EntityRelationshipTail { set; get; }
 
@@ -512,8 +514,8 @@ namespace ModelEntites
         ImplicitOneToOne,
         SubToSuper,
         SuperToSub,
-        SubUnionToUnion_UnionHoldsKeys,
-        UnionToSubUnion_UnionHoldsKeys,
+        SubUnionToUnion,
+        UnionToSubUnion,
         TableToView,
         ViewToTable
         //ViewToView
@@ -1035,6 +1037,8 @@ namespace ModelEntites
     public class SubUnionToSuperUnionRelationshipDTO : RelationshipDTO
     {
         public UnionRelationshipDTO UnionRelationship { set; get; }
+        public int DeterminerColumnID { get; set; }
+        public string DeterminerColumnValue { get; set; }
     }
 
 

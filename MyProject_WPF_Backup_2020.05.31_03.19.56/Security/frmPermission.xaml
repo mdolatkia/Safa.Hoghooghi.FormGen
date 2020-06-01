@@ -1,0 +1,83 @@
+﻿<UserControl FlowDirection="RightToLeft" xmlns:MyProject_WPF="clr-namespace:MyProject_WPF"  x:Class="MyProject_WPF.frmPermission"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+        d:DesignHeight="700" d:DesignWidth="700"
+         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <telerik:RadDocking HasDocumentHost="False" AllowDragReorder="False" >
+            <telerik:RadSplitContainer Orientation="Vertical"  Width="300" InitialPosition="DockedLeft" >
+                <telerik:RadPaneGroup x:Name="pnlObjectList">
+                    <telerik:RadPane Header="لیست منابع" CanUserClose="False">
+                        <TabControl>
+                            <TabControl.Items>
+                                <TabItem Header="وابسته به پایگاه داده">
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="35"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid Background="LightGray">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="پایگاه داده :"></TextBlock>
+                                            <MyCommonWPFControls:MyStaticLookup HorizontalAlignment="Left" Width="300" x:Name="lokDatabase" Grid.Column="1" NewItemEnabled="False"/>
+                                            <!--<Button x:Name="btnChangeDB" Grid.Column="2" Width="90" Content="تغییر پایگاه داده" Click="btnChangeDB_Click"></Button>-->
+                                        </Grid>
+                                        <Grid Grid.Row="1" x:Name="grdDatabaseTree">
+
+                                        </Grid>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="دسترسی های کلی">
+                                    <Grid x:Name="grdSubSystemTree">
+                                        <telerik:RadTreeView IsLineEnabled="True" x:Name="treeSubSystems">
+
+                                        </telerik:RadTreeView>
+                                    </Grid>
+                                </TabItem>
+                            </TabControl.Items>
+                        </TabControl>
+
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+
+            <telerik:RadSplitContainer   Orientation="Vertical" Width="400" InitialPosition="DockedLeft" >
+                <telerik:RadPaneGroup x:Name="pnlSubjectList">
+
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+            <telerik:RadSplitContainer   Orientation="Vertical"  InitialPosition="DockedLeft" >
+                <telerik:RadPaneGroup x:Name="pnlActionList">
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+
+
+            <!--<telerik:RadSplitContainer InitialPosition="DockedBottom" >
+                
+            </telerik:RadSplitContainer>-->
+
+        </telerik:RadDocking>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button x:Name="btnSaveRoleActions" Width="110"  Click="btnSaveRoleActions_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="20" Source="..\Images\save.png"  />
+                    <TextBlock Text="ثبت"></TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
