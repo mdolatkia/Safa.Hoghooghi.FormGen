@@ -42,7 +42,6 @@ namespace DataAccess
         public virtual DbSet<Column> Column { get; set; }
         public virtual DbSet<ColumnPhrase> ColumnPhrase { get; set; }
         public virtual DbSet<ColumnUISetting> ColumnUISetting { get; set; }
-        public virtual DbSet<ColumnValue_ValidValues> ColumnValue_ValidValues { get; set; }
         public virtual DbSet<ColumnValueRange> ColumnValueRange { get; set; }
         public virtual DbSet<ColumnValueRangeDetails> ColumnValueRangeDetails { get; set; }
         public virtual DbSet<CrosstabReportColumns> CrosstabReportColumns { get; set; }

@@ -23,7 +23,7 @@ namespace MyUIGenerator
     public partial class UC_Message : UserControl
     {
         List<ResultDetail> Details = null;
-        //UIManager UIManager;
+        UIManager UIManager;
         public UC_Message(UIManager uiMnager,string message, List<ResultDetail> details)
         {
             InitializeComponent();

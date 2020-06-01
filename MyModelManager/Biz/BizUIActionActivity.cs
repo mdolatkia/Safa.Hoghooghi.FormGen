@@ -141,8 +141,8 @@ namespace MyModelManager
                 //}
                 //else
 
-                    cItem.ColumnID = dbitem.ColumnID.Value;
-                
+                cItem.ColumnID = dbitem.ColumnID.Value;
+
 
             }
             cItem.ID = dbitem.ID;

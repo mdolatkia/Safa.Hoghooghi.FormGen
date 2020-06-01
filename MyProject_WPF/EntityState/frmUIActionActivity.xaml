@@ -66,8 +66,6 @@
                             <telerik:RadGridView.Columns>
                                 <telerik:GridViewComboBoxColumn x:Name="colColumnValueColumn" Header="انتخاب ستون" DataMemberBinding="{Binding ColumnID}" />
                                 <telerik:GridViewDataColumn Header="مقدار" DataMemberBinding="{Binding ExactValue}" />
-                                <telerik:GridViewDataColumn Header="حتی با داشتن مقدار" DataMemberBinding="{Binding EvenHasValue}" />
-                                <telerik:GridViewDataColumn Header="حتی با جدید نبودن قلم داده" DataMemberBinding="{Binding EvenIsNotNew}" />
                             </telerik:RadGridView.Columns>
                         </telerik:RadGridView> 
                         <!--<TextBox Grid.Row="2" HorizontalAlignment="Left" x:Name="txtColumnValue" Width="230" Grid.Column="1"></TextBox>-->

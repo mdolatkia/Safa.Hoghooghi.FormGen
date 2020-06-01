@@ -142,7 +142,7 @@ namespace MyUILibrary.EntityArea
                     var setDeterminerActionActivity = new UIActionActivityDTO();
                     setDeterminerActionActivity.ID = -2 * subToSuperRel.ID;
                     setDeterminerActionActivity.Type = Enum_ActionActivityType.ColumnValue;
-                    setDeterminerActionActivity.UIColumnValue.Add(new UIColumnValueDTO() { ColumnID = subToSuperRel.DeterminerColumnID, ExactValue = subToSuperRel.DeterminerColumnValue,EvenHasValue=true });
+                    setDeterminerActionActivity.UIColumnValue.Add(new UIColumnValueDTO() { ColumnID = subToSuperRel.DeterminerColumnID, ExactValue = subToSuperRel.DeterminerColumnValue, EvenHasValue = true });
                     setDeterminerState.ActionActivities.Add(setDeterminerActionActivity);
                     EditArea.EntityStates.Add(setDeterminerState);
 
@@ -215,7 +215,7 @@ namespace MyUILibrary.EntityArea
                 CheckDataItemChangeMonitors(e.DataItem, state);
             }
             CheckAndImposeEntityStates(e.DataItem, false, ActionActivitySource.OnShowData);
-          
+
         }
 
         //private void CheckParentReadonlyTail(DP_DataRepository data)

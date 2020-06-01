@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="MyUIGenerator.View.frmRequestNote"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         mc:Ignorable="d"
+       d:DesignHeight="400" d:DesignWidth="600">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition ></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock VerticalAlignment="Top" Text="لیست یادداشتها"></TextBlock>
+            <telerik:RadGridView  Grid.Column="1" SelectionChanged="dtgNotes_SelectionChanged" AutoGenerateColumns="False" x:Name="dtgNotes">
+                <telerik:RadGridView.Columns>
+                    <telerik:GridViewDataColumn Header="شناسه" DataMemberBinding="{Binding ID}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn Header="عنوان" DataMemberBinding="{Binding NoteTitle}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn Header="تاریخ ایجاد" DataMemberBinding="{Binding Date}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn Header="ایجاد کننده" DataMemberBinding="{Binding UserFullName}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn Header="متن" DataMemberBinding="{Binding Note}"></telerik:GridViewDataColumn>
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+            <TextBlock  Grid.Row="1"  Text="شناسه" ></TextBlock>
+            <TextBox  Grid.Row="1" Width="120" IsReadOnly="True" HorizontalAlignment="Left" x:Name="txtID" Grid.Column="1"></TextBox>
+            <TextBlock  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Name="lblMessage" Foreground="DarkRed" ></TextBlock>
+            <TextBlock  Grid.Row="2" Text="عنوان"></TextBlock>
+            <TextBox  Grid.Row="2" x:Name="txtNoteTitle" Grid.Column="1"></TextBox>
+            <TextBlock Grid.Row="3" Text="متن یادداشت"></TextBlock>
+            <TextBox  Grid.Row="3"  Grid.Column="1" Height="80" x:Name="txtNote"></TextBox>
+
+
+        </Grid>
+        <StackPanel HorizontalAlignment="Right" Grid.Row="3" Orientation="Horizontal" >
+            <Button Content="ثبت" x:Name="btnSave" Click="btnSave_Click" Width="100"></Button>
+            <Button Content="جدید" x:Name="btnNew" Click="btnNew_Click" Width="100"></Button>
+            <Button Content="بازگشت" x:Name="btnExit" Click="btnExit_Click" Width="100"></Button>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

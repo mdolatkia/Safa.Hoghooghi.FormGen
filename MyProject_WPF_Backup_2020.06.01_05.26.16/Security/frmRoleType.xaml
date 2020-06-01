@@ -1,0 +1,49 @@
+﻿<UserControl FlowDirection="RightToLeft"   x:Class="MyProject_WPF.frmRoleType"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+     Background="WhiteSmoke"
+         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
+    <Grid Margin="5" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="*"></RowDefinition>
+            <RowDefinition  Height="10"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition  Width="*"></ColumnDefinition>
+                <!--<ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition  Width="150"></ColumnDefinition>-->
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" VerticalAlignment="Top" Text="انواع نقش"></TextBlock>
+            <telerik:RadGridView AutoGenerateColumns="False" x:Name="dtgItems" Grid.Column="1" Height="350">
+                <telerik:RadGridView.Columns>
+                    <telerik:GridViewDataColumn Header="نوع نقش" DataMemberBinding="{Binding Path=Name}"></telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn Header="سوپر ادمین" DataMemberBinding="{Binding Path=IsSuperAdmin}"></telerik:GridViewDataColumn>
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+        </Grid>
+
+        <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button x:Name="btnSave" Margin="2" Width="110"    Click="btnSave_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="20" Source="..\Images\save.png"  />
+                    <TextBlock Text="ثبت"></TextBlock>
+                </StackPanel>
+            </Button>
+            <!--<Button x:Name="btnSearch" Margin="2" Width="110"   Content="جستجو" Click="btnSearch_Click"></Button>-->
+            <!--<Button x:Name="btnNew" Margin="2" Width="110"  Content="جدید" Click="btnNew_Click"></Button>-->
+        </StackPanel>
+
+    </Grid>
+</UserControl>

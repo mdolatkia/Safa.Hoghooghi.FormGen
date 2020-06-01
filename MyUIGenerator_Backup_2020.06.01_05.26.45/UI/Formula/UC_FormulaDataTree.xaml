@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="MyUIGenerator.View.UC_FormulaDataTree"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="600" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="txtTitle">متن</TextBlock>
+        <StackPanel   Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="90" Content="بله" Click="btnYes_Click" x:Name="btnYes"></Button>
+            <Button Width="90" Content="خیر" Click="btnNo_Click" x:Name="btnNo"></Button>
+        </StackPanel>
+        <telerik:RadTreeView x:Name="treeData" Grid.Row="1"/>
+
+    </Grid>
+</UserControl>

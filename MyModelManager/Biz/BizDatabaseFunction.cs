@@ -115,7 +115,7 @@ namespace MyModelManager
             //if (cItem.ValueCustomType != null)
             //    result.ValueCustomType = (ValueCustomType)cItem.ValueCustomType;
             result.Type = (Enum_DatabaseFunctionType)cItem.Type;
-            result.DotNetType = bizColumn.GetColumnDotNetType(cItem.ReturnType,false);
+            result.DotNetType = bizColumn.GetColumnDotNetType(cItem.ReturnType, false);
             result.Title = cItem.Title;
             result.Enable = cItem.Enable;
             //if (result.Title == null)
@@ -136,7 +136,7 @@ namespace MyModelManager
             List<DatabaseFunctionColumnDTO> result = new List<DatabaseFunctionColumnDTO>();
             foreach (var column in cItem.DatabaseFunctionParameter)
             {
-                result.Add(new DatabaseFunctionColumnDTO() { ID = column.ID, DataType = column.DataType, Enable = column.Enable, ParameterName = column.ParamName, DotNetType = bizColumn.GetColumnDotNetType(column.DataType,false) });
+                result.Add(new DatabaseFunctionColumnDTO() { ID = column.ID, DataType = column.DataType, Enable = column.Enable, ParameterName = column.ParamName, DotNetType = bizColumn.GetColumnDotNetType(column.DataType, false) });
             }
             return result;
         }
@@ -199,7 +199,7 @@ namespace MyModelManager
                 foreach (var newEntity in listNew)
                 {
                     if (ItemImportingStarted != null)
-                        ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = "Creating" + " " + newEntity.FunctionName, TotalProgressCount = listNew.Count, CurrentProgress = listNew.IndexOf(newEntity)+1 });
+                        ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = "Creating" + " " + newEntity.FunctionName, TotalProgressCount = listNew.Count, CurrentProgress = listNew.IndexOf(newEntity) + 1 });
                     UpdateEntityInModel(projectContext, databaseID, newEntity);
                 }
                 foreach (var editEntity in listEdit)
@@ -310,7 +310,7 @@ namespace MyModelManager
                     item.ColumnID = column.ColumnID.Value;
                 if (column.FixedParamID != null)
                     item.FixedParam = (Enum_FixedParam)column.FixedParamID;
-                item.FunctionColumnDotNetType = bizColumn.GetColumnDotNetType(column.DatabaseFunctionParameter.DataType,false);
+                item.FunctionColumnDotNetType = bizColumn.GetColumnDotNetType(column.DatabaseFunctionParameter.DataType, false);
                 item.FunctionColumnParamName = column.DatabaseFunctionParameter.ParamName;
                 result.Add(item);
             }

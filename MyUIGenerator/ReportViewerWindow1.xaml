@@ -11,12 +11,12 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!--<tr:ReportViewer Grid.Row="0" x:Name="ReportViewer1" HorizontalAlignment="Stretch" EnableAccessibility="True"
+            <tr:ReportViewer Grid.Row="0" x:Name="ReportViewer1" HorizontalAlignment="Stretch" EnableAccessibility="True"
 							 ReportEngineConnection="engine=RestService;uri=http://localhost:25667/api/reports/">
               <tr:ReportViewer.ReportSource>
                 <telerikReporting:UriReportSource Uri="MyReportRestServices.Report1, MyReportRestServices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
               </tr:ReportViewer.ReportSource>
-            </tr:ReportViewer>-->
+            </tr:ReportViewer>
 
         </Grid>
     </Grid>

@@ -1,0 +1,68 @@
+﻿<UserControl xmlns:View="clr-namespace:MyUIGenerator.View"  x:Class="MyUIGenerator.View.frmDataLink"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:primitives="clr-namespace:Telerik.Windows.Controls.Diagrams.Primitives;assembly=Telerik.Windows.Controls.Diagrams"
+             mc:Ignorable="d" 
+              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+             d:DesignHeight="300" d:DesignWidth="900" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFDADADA" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Background="#FF12678F"  HorizontalAlignment="Stretch" x:Name="grdSelect" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="لینکها"  ></TextBlock>
+            <Grid x:Name="grdDataLink"  Grid.Column="1"></Grid>
+            <!--<ComboBox  x:Name="cmbDataLinks" Grid.Column="1" HorizontalAlignment="Stretch" ></ComboBox>-->
+        </Grid>
+        <Grid Background="#FF12678F" Grid.Row="1" HorizontalAlignment="Stretch" x:Name="grdSetting" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="lblFirstSide" Text="موجودیت سمت اول" Grid.Column="0"></TextBlock>
+            <TextBlock  Name="lblSecondSide" Text="موجودیت سمت دوم" Grid.Column="2"></TextBlock>
+            <Button x:Name="btnConfirm" Content="تایید" Width="80" Grid.Column="6" Click="btnConfirm_Click"></Button>
+            <Button x:Name="btnRefresh" Content="مرتب" Width="80" Grid.Column="7" Click="btnRefresh_Click"></Button>
+        </Grid>
+      
+        <Grid Grid.Row="2" x:Name="grdDiagram">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="191*"/>
+                <ColumnDefinition Width="34*"/>
+            </Grid.ColumnDefinitions>
+            <!--<Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+            </Grid.ColumnDefinitions>-->
+
+            <telerik:RadDiagram primitives:BackgroundGrid.IsGridVisible="False" primitives:BackgroundPageGrid.IsGridVisible="False" FlowDirection="LeftToRight" x:Name="diagram"
+								BorderThickness="1" Grid.ColumnSpan="2" />
+
+        </Grid>
+    </Grid>
+</UserControl>

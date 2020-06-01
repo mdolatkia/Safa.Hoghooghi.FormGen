@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="MyProject_WPF.frmImportViews"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800" FlowDirection="RightToLeft" Background="LightYellow">
+    <Grid  >
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="imgJob" Source="../Images/view.png"></Image>
+            <TextBlock Grid.Column="1" FontSize="16" HorizontalAlignment="Left">بروزرسانی نماها</TextBlock>
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Column="2">
+                <Button Width="120" x:Name="btnExtract" Margin="2" Click="btnExtract_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\view.png"  />
+                        <TextBlock Text="استخراج نماها"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Width="120" x:Name="btnInsert" Margin="2" Click="btnInsert_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\save.png"  />
+                        <TextBlock Text="ثبت"></TextBlock>
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+        </Grid>
+        <TabControl Grid.Row="1">
+            <TabItem x:Name="tabNewViews" Header="نماهای جدید">
+                <telerik:RadGridView x:Name="dtgNewViews" AutoGenerateColumns="False" >
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewCheckBoxColumn AutoSelectOnEdit="True"  EditTriggers="CellClick"  Header="انتخاب" DataMemberBinding="{Binding Selected}"></telerik:GridViewCheckBoxColumn>
+                        <telerik:GridViewDataColumn IsReadOnly="True" Header="نام" DataMemberBinding="{Binding Entity.Name}"></telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn IsReadOnly="True" Header="شمای مرتبط" DataMemberBinding="{Binding Entity.RelatedSchema}"></telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn Header="عنوان" DataMemberBinding="{Binding Entity.Alias}"></telerik:GridViewDataColumn>
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </TabItem>
+            <TabItem x:Name="tabEditViews" Header="نماهای اصلاح شده">
+                <telerik:RadGridView x:Name="dtgEditViews"  AutoGenerateColumns="False">
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewCheckBoxColumn AutoSelectOnEdit="True"  EditTriggers="CellClick"  Header="انتخاب" DataMemberBinding="{Binding Selected}"></telerik:GridViewCheckBoxColumn>
+                        <telerik:GridViewDataColumn IsReadOnly="True" Header="نام" DataMemberBinding="{Binding Entity.Name}"></telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn IsReadOnly="True" Header="شمای مرتبط" DataMemberBinding="{Binding Entity.RelatedSchema}"></telerik:GridViewDataColumn>
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </TabItem>
+            <TabItem x:Name="tabDeletedViews" Header="نماهای حذف شده">
+                <telerik:RadGridView x:Name="dtgDeletedViews" AutoGenerateColumns="False" >
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewCheckBoxColumn AutoSelectOnEdit="True"  EditTriggers="CellClick"  Header="انتخاب" DataMemberBinding="{Binding Selected}"></telerik:GridViewCheckBoxColumn>
+                        <telerik:GridViewDataColumn IsReadOnly="True" Header="نام" DataMemberBinding="{Binding Entity.Name}"></telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn IsReadOnly="True" Header="شمای مرتبط" DataMemberBinding="{Binding Entity.RelatedSchema}"></telerik:GridViewDataColumn>
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </TabItem>
+            <TabItem x:Name="tabExceptionViews" Visibility="Collapsed" Header="نماهای دارای خطا">
+                <telerik:RadGridView x:Name="dtgExceptionViews"  IsReadOnly="True" AutoGenerateColumns="False">
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn Header="نام" DataMemberBinding="{Binding Entity.Name}"></telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn Header="شمای مرتبط" DataMemberBinding="{Binding Entity.RelatedSchema}"></telerik:GridViewDataColumn>
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </TabItem>
+            <TabItem x:Name="tabExistingViews"  Header="نماهای بدون تغییر">
+                <telerik:RadGridView x:Name="dtgExistingViews" IsReadOnly="True" AutoGenerateColumns="False">
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn Header="نام" DataMemberBinding="{Binding Entity.Name}"></telerik:GridViewDataColumn>
+                        <telerik:GridViewDataColumn Header="شمای مرتبط" DataMemberBinding="{Binding Entity.RelatedSchema}"></telerik:GridViewDataColumn>
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

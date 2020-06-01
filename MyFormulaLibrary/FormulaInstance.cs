@@ -145,7 +145,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
                             }
                         }
                     }
-  
+
                     else if (relatedDataItems.Any())
                     {
                         var newObject = FormulaInstanceInternalHelper.GetNewFormulaObject(e.PropertyInfo);
@@ -343,7 +343,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
                 // var aa = (MainFormulaObject.GetProperties().Find("OTORELLegalPerson", false).GetValue(MainFormulaObject) as ICustomTypeDescriptor).GetProperties().Find("cl_Name", false).GetValue((ICustomTypeDescriptor)(MainFormulaObject.GetProperties().Find("OTORELLegalPerson", false).GetValue(MainFormulaObject)));
 
                 var aa = MainFormulaObject.GetProperties().Find("cl_TotalPrice", false);
-                var bb =aa.GetValue(MainFormulaObject);
+                var bb = aa.GetValue(MainFormulaObject);
 
                 var expression = GetExpression(expressionStr);
                 dynamic dynamicExpression = expression;
@@ -380,7 +380,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             //اینجا اکسپشن را درست برنمیگردونه چون try  داره
             editor.TryParse(expressionStr, out expressionResult);
             return expressionResult;
-       
+
         }
 
         public List<FormulaItemDTO> GetFormulaItems(string expressionStr)

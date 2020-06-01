@@ -1,0 +1,104 @@
+﻿<Window x:Class="WPF_MyIdea.frmMain"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Data Entry Application"  WindowState="Maximized"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        
+        <DockPanel FlowDirection="LeftToRight" LastChildFill="False" Background="#FFF3F3F3">
+            <ToolBar  x:Name="toolbar" ToolTip="امنیت" Band="1" BandIndex="1" >
+             
+                <!--<Button Margin="5,0,5,0" x:Name="btnSecuritySettings" Click="btnSecuritySettings_Click" ToolTip="تنظیمات امنیتی">
+                    <Image Source="images\security.png"  />
+                </Button>-->
+
+
+            <!--</ToolBar>
+            <ToolBar x:Name="toolbar" ToolTip="جریان کار">-->
+
+                <!--<Button x:Name="btnCreateWorkflow" Margin="5,0,5,0" Click="btnCreateWorkflow_Click" >
+                    <Image Source="images\createworkflow.png" ToolTip="ایجاد جریان کار" />
+                </Button>-->
+               
+
+            </ToolBar>
+        </DockPanel>
+
+
+        <Grid x:Name="grdUserInfo" Grid.Row="1" Margin="2" Background="#FFD7DADA" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="نام کاربر" x:Name="lblUserName"></TextBlock>
+            <TextBox Width="200" IsEnabled="False" Style="{DynamicResource TextBoxStyle}" Grid.Column="1" IsReadOnly="True" x:Name="txtUserName"></TextBox>
+            <TextBlock Text="واحد سازمانی"  Grid.Column="2" x:Name="lblOrganization" ></TextBlock>
+            <TextBox Width="300" IsEnabled="False" Grid.Column="3" Style="{DynamicResource TextBoxStyle}"  IsReadOnly="True" x:Name="txtOrganization"></TextBox>
+            <TextBlock Text="نقشها" Grid.Column="4" x:Name="lblRoles"></TextBlock>
+            <TextBox Width="300" IsEnabled="False"  Grid.Column="5" Style="{DynamicResource TextBoxStyle}"  IsReadOnly="True" x:Name="txtRoles"/>
+
+        </Grid>
+        <telerik:RadDocking Grid.Row="2">
+            <telerik:RadDocking.DocumentHost>
+                <telerik:RadSplitContainer>
+                    <telerik:RadPaneGroup x:Name="pnlForms">
+
+                    </telerik:RadPaneGroup>
+                </telerik:RadSplitContainer>
+            </telerik:RadDocking.DocumentHost>
+
+            <telerik:RadSplitContainer InitialPosition="DockedLeft">
+                <telerik:RadPaneGroup>
+                    <telerik:RadPane CanUserClose="False" Header="Entities">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="auto"></ColumnDefinition>
+                                    <ColumnDefinition ></ColumnDefinition>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Margin="2" Name="txtSearch" Grid.Column="1"  TextChanged="txtSearch_TextChanged"></TextBox>
+                                <TextBlock  Text="جستجو"></TextBlock>
+                                <Image Grid.Column="2" Source="Images/remove.png" Margin="2" Name="imgRemopveSearch" MouseLeftButtonUp="imgRemopveSearch_MouseLeftButtonUp"></Image>
+                            </Grid>
+                            <telerik:RadTreeView IsLineEnabled="True"  Grid.Row="1" x:Name="treeNavigatoin"  />
+                            <telerik:RadTreeView IsLineEnabled="True" Grid.Row="1" x:Name="treeSearchNavigation" Visibility="Collapsed" />
+                        </Grid>
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+
+            <!--<telerik:RadSplitContainer InitialPosition="DockedRight">
+                <telerik:RadPaneGroup>
+                    <telerik:RadPane Header="Properties"/>
+                    <telerik:RadPane Header="Solution Explorer"/>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>-->
+
+            <telerik:RadSplitContainer   InitialPosition="DockedBottom">
+                <telerik:RadPaneGroup   x:Name="grpInfo" >
+                    <telerik:RadPane IsPinned="False" x:Name="pnlInfo" CanUserClose="False" Header="Info"/>
+
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+
+
+        </telerik:RadDocking>
+
+    </Grid>
+</Window>

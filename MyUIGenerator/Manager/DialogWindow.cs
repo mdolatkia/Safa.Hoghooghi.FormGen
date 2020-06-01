@@ -22,11 +22,11 @@ namespace MyUIGenerator
             if (WindowClosed != null)
                 WindowClosed(sender, null);
         }
-        //private void Window_Closed(object sender, WindowClosedEventArgs e)
-        //{
-        //    if (WindowClosed != null)
-        //        WindowClosed(sender, null);
-        //}
+        private void Window_Closed(object sender, WindowClosedEventArgs e)
+        {
+            if (WindowClosed != null)
+                WindowClosed(sender, null);
+        }
         public void ShowDialog(object view, string title, Enum_WindowSize windowSize = Enum_WindowSize.None, bool hideMaximizeButton = false)
         {
             ShowWindow(view, title, windowSize, hideMaximizeButton, true);

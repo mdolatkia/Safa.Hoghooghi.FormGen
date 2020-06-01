@@ -2332,7 +2332,7 @@ namespace MyUILibrary.EntityArea
             //خیلی ایده آل نیست
             //برای اینه که وضعیتها اونم فقط توحالتی که رابطه فارن گه پرنت باشه چک بشه که اگه لازم بود دور ویو تمپ قرمز بشه 
             foreach (var dataItem in relatedData)
-                OnDataItemShown(new EditAreaDataItemLoadedArg() { DataItem = dataItem, InEditMode = false    });
+                OnDataItemShown(new EditAreaDataItemLoadedArg() { DataItem = dataItem, InEditMode = false });
 
         }
 

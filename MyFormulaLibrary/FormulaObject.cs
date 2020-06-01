@@ -202,8 +202,8 @@ namespace MyFormulaFunctionStateFunctionLibrary
             //{
             //try
             //{
-                (component as FormulaObject).OnPropertyGetCalled((component as FormulaObject), new PropertyGetArg() { PropertyInfo = _dictionary[_key] });
-                return _dictionary[_key].Value;
+            (component as FormulaObject).OnPropertyGetCalled((component as FormulaObject), new PropertyGetArg() { PropertyInfo = _dictionary[_key] });
+            return _dictionary[_key].Value;
             //}
             //catch(Exception ex)
             //{
@@ -342,7 +342,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
     //    public string AddYears(int value)
     //    { return GeneralHelper.GetShamsiDate(MiladiDate.AddYears(value)); }
     //}
-   
+
     //public static class MyExtensions
     //{
     //    public static bool WordCount(this FormulaObject str)

@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="MyUIGenerator.View.UC_UpdateConfirm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyUIGenerator.UI.View"
+             mc:Ignorable="d" 
+            Height="120" Width="400" Background="WhiteSmoke">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="lblTitle" HorizontalAlignment="Center" VerticalAlignment="Center" Text="شما در حال ذخیره اطلاعات هستید"></TextBlock>
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Height="25" x:Name="btnYes" Click="btnYes_Click" Width="100" Content="بله"></Button>
+                <Button Height="25" x:Name="btnNo" Click="btnNo_Click" Width="100" Content="خیر"></Button>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Height="25"  x:Name="btnDataTree" Click="btnDataTree_Click" Width="80" Content="درخت داده"></Button>
+                <!--<Button Height="25" Width="70" Click="Button_Click" Content="s"></Button>-->
+            </StackPanel>
+          
+        </Grid>
+    </Grid>
+</UserControl>

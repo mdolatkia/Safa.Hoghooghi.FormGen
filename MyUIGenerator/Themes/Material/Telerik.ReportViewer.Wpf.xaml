@@ -25,14 +25,14 @@
     <sys:String x:Key="GlyphSave"></sys:String>
     <sys:String x:Key="GlyphListUnordered"></sys:String>
     <sys:String x:Key="GlyphFilter"></sys:String>
- 
+
     <!-- Material -->
 
     <telerikReporting:VisibilityConverter x:Key="VisibilityConverter" />
     <telerikReporting:ScaleFactorConverter x:Key="ScaleFactorConverter" />
     <telerikReporting:MultivalueParameterConverter x:Key="MultivalueParameterConverter" />
 
-    <!--<Style TargetType="{x:Type telerikInput:RadComboBox}" BasedOn="{StaticResource {x:Type telerikInput:RadComboBox}}" x:Key="ZoomComboBoxStyle">
+    <Style TargetType="{x:Type telerikInput:RadComboBox}" BasedOn="{StaticResource {x:Type telerikInput:RadComboBox}}" x:Key="ZoomComboBoxStyle">
         <Setter Property="Margin" Value="10 0 3 0"/>
         <Setter Property="MinWidth" Value="100"/>
         <Setter Property="MinHeight" Value="36"/>
@@ -60,8 +60,8 @@
                 <Setter Property="mat:MaterialAssist.ShadowDepth" Value="Depth0" />
             </Trigger>
         </Style.Triggers>
-    </Style>-->
-    <!--<Style TargetType="{x:Type telerikNav:RadTreeView}" BasedOn="{StaticResource {x:Type telerikNav:RadTreeView}}" x:Key="DocumentMapTreeViewStyle">
+    </Style>
+    <Style TargetType="{x:Type telerikNav:RadTreeView}" BasedOn="{StaticResource {x:Type telerikNav:RadTreeView}}" x:Key="DocumentMapTreeViewStyle">
         <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="0" />
@@ -80,7 +80,7 @@
         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
     </Style>
 
-    <Style x:Key="ReportingDialogBox" TargetType="telerikReporting:DialogBox">
+    <Style TargetType="telerikReporting:DialogBox">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="telerikReporting:DialogBox">
@@ -93,7 +93,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ReportingErrorStatus" TargetType="telerikReporting:ErrorStatus">
+    <Style TargetType="telerikReporting:ErrorStatus">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="telerikReporting:ErrorStatus">
@@ -148,20 +148,20 @@
 
     <telerikReporting:ReportParameterEditorTemplateSelector x:Key="ReportParameterEditorTemplateSelector">
         <telerikReporting:ReportParameterEditorTemplateSelector.Templates>
-            --><!-- 
+            <!-- 
                                                 Note:
                                                 Order the templates from most specific to most general (less specific).
                                                 The 1st template that matches the parameter is picked 
                                             -->
 
-            <!-- BOOLEAN --><!--
+            <!-- BOOLEAN -->
             <DataTemplate >
                 <telerikReporting:ParameterContentControl Style="{StaticResource ParameterEditorStyle}" Type="System.Boolean">
                     <CheckBox IsChecked="{Binding Value, Mode=TwoWay}" />
                 </telerikReporting:ParameterContentControl>
             </DataTemplate>
 
-            --><!-- MULTIVALUE + AVAILABLE VALUES --><!--
+            <!-- MULTIVALUE + AVAILABLE VALUES -->
             <DataTemplate >
                 <telerikReporting:ParameterContentControl Style="{StaticResource ParameterEditorStyle}" AvailableValues="true" Multivalue="True">
                     <telerikInput:RadComboBox Width="200" 
@@ -186,7 +186,7 @@
                 </telerikReporting:ParameterContentControl>
             </DataTemplate>
 
-            --><!-- MULTIVALUE + NO AVAILABLE VALUES --><!--
+            <!-- MULTIVALUE + NO AVAILABLE VALUES -->
             <DataTemplate >
                 <telerikReporting:ParameterContentControl Style="{StaticResource ParameterEditorStyle}" Multivalue="True" AvailableValues="False">
                     <TextBox Text="{Binding Value, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, Converter={StaticResource MultivalueParameterConverter}}"
@@ -194,7 +194,7 @@
                 </telerikReporting:ParameterContentControl>
             </DataTemplate>
 
-            --><!-- AVAILABLE VALUES --><!--
+            <!-- AVAILABLE VALUES -->
             <DataTemplate>
                 <telerikReporting:ParameterContentControl Style="{StaticResource ParameterEditorStyle}" AvailableValues="true">
                     <telerikInput:RadComboBox Width="200" 
@@ -209,7 +209,7 @@
                 </telerikReporting:ParameterContentControl>
             </DataTemplate>
 
-            --><!-- DATETIME --><!--
+            <!-- DATETIME -->
             <DataTemplate>
                 <telerikReporting:ParameterContentControl Style="{StaticResource ParameterEditorStyle}" Type="System.DateTime">
                     <telerikInput:RadDatePicker Width="200" 
@@ -217,7 +217,7 @@
                 </telerikReporting:ParameterContentControl>
             </DataTemplate>
 
-            --><!-- GENERIC EDITOR --><!--
+            <!-- GENERIC EDITOR -->
             <DataTemplate>
                 <telerikReporting:ParameterContentControl Style="{StaticResource ParameterEditorStyle}" 
                                                Multivalue="False">
@@ -244,7 +244,7 @@
         <Setter Property="Margin" Value="16" />
     </Style>
 
-    <Style  x:Key="ReportingReportViewer"  TargetType="telerikReporting:ReportViewer">
+    <Style TargetType="telerikReporting:ReportViewer">
         <Setter Property="Background" Value="{telerik:MaterialResource ResourceKey=AlternativeBrush}" />
         <Setter Property="BorderBrush" Value="{telerik:MaterialResource ResourceKey=DividerBrush}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -266,7 +266,7 @@
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                --><!-- Toolbar --><!--
+                                <!-- Toolbar -->
                                 <telerikNav:RadToolBar Grid.Row="0" Margin="0">
                                     <telerikControls:RadButton x:Name="Nav_Back"
                                                                    Command="{Binding NavigateBackCommand}"
@@ -415,7 +415,7 @@
                                                                 Command="{Binding PageSetupCommand}"
                                                                 Margin="0"
                                                                 Padding="0"
-                                                                ToolTipService.ShowOnDisabled="True">                                                                  
+                                                                ToolTipService.ShowOnDisabled="True">
                                         <TextBlock Style="{StaticResource CustomTextBlockStyle}">
                                             <Run Text="{StaticResource GlyphPageProperties}" />
                                         </TextBlock>
@@ -514,7 +514,7 @@
                                     </telerikControls:RadToggleButton>
                                 </telerikNav:RadToolBar>
 
-                                --><!-- Parameters Area --><!--
+                                <!-- Parameters Area -->
                                 <Border Grid.Row="1" 
                                         x:Name="ParametersAreaPane" 
                                         Visibility="{Binding IsParametersAreaVisible, Converter={StaticResource VisibilityConverter}}">
@@ -570,7 +570,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    --><!-- Document Map --><!--
+                                    <!-- Document Map -->
                                     <Border Grid.Column="0" 
                                             x:Name="DocumentMapPane" 
                                             HorizontalAlignment="Stretch"
@@ -591,7 +591,7 @@
                                         </Border>
                                     </Border>
 
-                                    --><!-- Grid splitter --><!--
+                                    <!-- Grid splitter -->
                                     <GridSplitter Grid.Column="1"
                                                   HorizontalAlignment="Center"
                                                   Width="3"
@@ -601,7 +601,7 @@
                                                   BorderThickness="0"
                                                   Visibility="{Binding IsDocumentMapVisible, Converter={StaticResource VisibilityConverter}}" />
 
-                                    --><!-- Viewer Area --><!--
+                                    <!-- Viewer Area -->
                                     <Border Grid.Column="2"
                                                 BorderThickness="1"
                                                 Background="{telerik:MaterialResource ResourceKey=MainBrush}"
@@ -644,7 +644,7 @@
                                                 </ContentControl>
                                             </ScrollViewer>
 
-                                            --><!-- Progress --><!--
+                                            <!-- Progress -->
                                             <telerikReporting:DialogBox x:Name="ViewerProgressMessage"
                                                                     Visibility="{Binding IsInProgress, Converter={StaticResource VisibilityConverter}}">
                                                 <Grid Margin="20">
@@ -663,7 +663,7 @@
                                                 </Grid>
                                             </telerikReporting:DialogBox>
 
-                                            --><!-- Error message --><!--
+                                            <!-- Error message -->
                                             <TextBox x:Name="ViewerError" 
                                                          Visibility="{Binding HasError, Converter={StaticResource VisibilityConverter}}"
                                                          Text="{Binding ErrorMessage, Mode=OneWay}"
@@ -678,7 +678,7 @@
                                                          VerticalAlignment="Stretch"
                                                          HorizontalAlignment="Stretch" />
 
-                                            --><!-- Export dialog --><!--
+                                            <!-- Export dialog -->
                                             <telerikReporting:DialogBox x:Name="ExportDialog" 
                                                                     Visibility="{Binding ShowExportDialog, Converter={StaticResource VisibilityConverter}}">
                                                 <Grid Width="300" Height="120">
@@ -713,7 +713,7 @@
                                     </Border>
                                 </Grid>
 
-                                --><!-- Status Area --><!--
+                                <!-- Status Area -->
                                 <Grid  Grid.Row="5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
@@ -750,5 +750,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>-->
+    </Style>
 </ResourceDictionary>

@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="MyProject_WPF.frmEntitySecurityIndirect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:MyCommonWPFControls="clr-namespace:MyCommonWPFControls;assembly=MyCommonWPFControls"
+        mc:Ignorable="d"
+        FlowDirection="RightToLeft" Background="WhiteSmoke">
+    <Grid Height="150"  Margin="5" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Text="موجودیت"></TextBlock>
+            <MyCommonWPFControls:MySearchLookup x:Name="lokEntities" HorizontalAlignment="Stretch" Grid.Row="0"  Grid.Column="1" ></MyCommonWPFControls:MySearchLookup>
+            <TextBlock Grid.Row="2" Text="مسیر دسترسی"></TextBlock>
+            <ComboBox  Grid.Row="2" x:Name="cmbRelationshipTail" HorizontalAlignment="Stretch" Grid.Column="1"></ComboBox>
+            <Button Grid.Row="2" x:Name="btnRelationshipTail"    Content="افزودن زنجیره رابطه ..." Grid.Column="2" Click="btnRelationshipTail_Click"></Button>
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" x:Name="btnSave" Click="btnSave_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="20" Source="..\Images\save.png"  />
+                    <TextBlock Text="ثبت"></TextBlock>
+                </StackPanel>
+            </Button>
+            <!--<Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="بازگشت" x:Name="btnReturn" Click="btnReturn_Click"></Button>-->
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -81,7 +81,7 @@ namespace MyProject_WPF
                     listAllEntitis = await GetOrginalEntities();
                     //List<TableImportItem> listNewSuspicious = new List<TableImportItem>();
                     //List<TableImportItem> listNewNonSuspicious = new List<TableImportItem>();
-                    foreach (var entity in listAllEntitis.Where(x =>! x.IsDisabled && x.IsDataReference == null))
+                    foreach (var entity in listAllEntitis.Where(x => !x.IsDisabled && x.IsDataReference == null))
                     {
                         var item = new TableImportItem(entity, false, "");
                         SetInfo(item);
@@ -129,7 +129,7 @@ namespace MyProject_WPF
         {
             return Task.Run(() =>
             {
-                var result = bizTableDrivedEntity.GetOrginalEntities(Database.ID, EntityColumnInfoType.WithSimpleColumns, EntityRelationshipInfoType.WithRelationships,false);
+                var result = bizTableDrivedEntity.GetOrginalEntities(Database.ID, EntityColumnInfoType.WithSimpleColumns, EntityRelationshipInfoType.WithRelationships, false);
                 return result;
             });
         }

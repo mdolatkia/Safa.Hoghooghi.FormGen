@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="MyProject_WPF.frmEntityIsIndependent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800" FlowDirection="RightToLeft" Background="LightYellow">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"  Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition  Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="imgJob" Source="../Images/form.png"></Image>
+            <TextBlock Grid.Column="1" FontSize="16" HorizontalAlignment="Left">تعیین موجودیت های ورود اطلاعات مستقل</TextBlock>
+            <TextBlock Visibility="Collapsed"   x:Name="lblMessage" Grid.Column="2" Foreground="Red"  HorizontalAlignment="Left"></TextBlock>
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Column="3">
+                <Button Width="120" x:Name="btnExtract" Margin="2" Click="btnExtract_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\view.png"  />
+                        <TextBlock Text="استخراج موجودیتهای مستقل"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Width="120" x:Name="btnInsert" Margin="2" Click="btnInsert_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Source="..\Images\save.png"  />
+                        <TextBlock Text="ثبت"></TextBlock>
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+        </Grid>
+        <telerik:RadGridView x:Name="dtgTables" Grid.Row="1" AutoGenerateColumns="False" >
+            <telerik:RadGridView.Columns>
+                <!--<telerik:GridViewCheckBoxColumn AutoSelectOnEdit="True"  EditTriggers="CellClick"  Header="انتخاب" DataMemberBinding="{Binding Selected}"></telerik:GridViewDataColumn>-->
+                <telerik:GridViewDataColumn IsReadOnly="True" Header="نام" DataMemberBinding="{Binding Entity.Name}"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn IsReadOnly="True" Header="شمای مرتبط" DataMemberBinding="{Binding Entity.RelatedSchema}"></telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn IsReadOnly="True" Header="عنوان" DataMemberBinding="{Binding Entity.Alias}"></telerik:GridViewDataColumn>
+
+                <!--<telerik:GridViewDataColumn Header="جدول پایه" DataMemberBinding="{Binding Entity.IsDataReference}"></telerik:GridViewDataColumn>
+                            <telerik:GridViewDataColumn Header="جدول واسط" DataMemberBinding="{Binding Entity.IsAssociative}"></telerik:GridViewDataColumn>-->
+                <telerik:GridViewDataColumn Header="ورود اطلاعات مستقل"  x:Name="colIndependentDataEntryNonSuspicious" DataMemberBinding="{Binding Entity.IndependentDataEntry}"></telerik:GridViewDataColumn>
+                <!--<telerik:GridViewDataColumn Header="روابط ورود اطلاعات" IsReadOnly="True" DataMemberBinding="{Binding RelatedEntityNames}"></telerik:GridViewDataColumn>-->
+                <telerik:GridViewComboBoxColumn  Header="روابط یک به چند غیر فعال" ItemsSourceBinding="{Binding Relationships}" x:Name="colRelationshipsNonSuspicious" DataMemberBinding="{Binding Relationships}"   >
+                    <telerik:GridViewComboBoxColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding RelatedEntityNames}"  />
+                        </DataTemplate>
+                    </telerik:GridViewComboBoxColumn.CellTemplate>
+                    <telerik:GridViewComboBoxColumn.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Entity1}" IsChecked="{Binding Select}" />
+                        </DataTemplate>
+                    </telerik:GridViewComboBoxColumn.ItemTemplate>
+                </telerik:GridViewComboBoxColumn>
+                <!--<telerik:GridViewDataColumn Header="جستجوی اولیه" Name="colSearchInitiallyNonSuspicious" DataMemberBinding="{Binding Entity.SearchInitially}"></telerik:GridViewDataColumn>-->
+
+                <!--<telerik:GridViewDataColumn Header="جستجوی اولیه"  DataMemberBinding="{Binding Entity.SearchInitially}"></telerik:GridViewDataColumn>-->
+                <!--<telerik:GridViewDataColumn Header="ورود اطلاعات دسته جمعی" DataMemberBinding="{Binding Entity.BatchDataEntry}"></telerik:GridViewDataColumn>-->
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+    </Grid>
+</UserControl>

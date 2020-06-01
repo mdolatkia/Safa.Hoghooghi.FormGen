@@ -1,0 +1,1347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{807F51A0-3A82-4CD6-ADEF-397621AAC22B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyProject_WPF</RootNamespace>
+    <AssemblyName>MyProject_WPF</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Componenets\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\Componenets\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Diagrams.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams.Extensions, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Diagrams.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Docking, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Expressions, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Expressions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Input.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.Navigation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.RibbonView, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Controls.RibbonView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Diagrams.Core, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Diagrams.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents, Version=2018.2.620.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Documents.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Core, Version=2018.2.619.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Documents.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow, Version=2018.2.619.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Documents.Flow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip, Version=2018.2.619.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2018.2.620.45\Telerik.Windows.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Archive\frmArchiveFolder.xaml.cs">
+      <DependentUpon>frmArchiveFolder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Archive\frmArchiveTag.xaml.cs">
+      <DependentUpon>frmArchiveTag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Archive\frmArchiveRelationships.xaml.cs">
+      <DependentUpon>frmArchiveRelationships.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Column\frmColumnValueRange.xaml.cs">
+      <DependentUpon>frmColumnValueRange.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonTemp\frmCodeFunction.xaml.cs">
+      <DependentUpon>frmCodeFunction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonTemp\frmCodeFunctionSelect.xaml.cs">
+      <DependentUpon>frmCodeFunctionSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonTemp\frmColumnTree.xaml.cs">
+      <DependentUpon>frmColumnTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonTemp\frmDatabaseFunctionTree.xaml.cs">
+      <DependentUpon>frmDatabaseFunctionTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonTemp\frmDatabaseFunction_Entity.xaml.cs">
+      <DependentUpon>frmDatabaseFunction_Entity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonTemp\frmDatabaseTree.xaml.cs">
+      <DependentUpon>frmDatabaseTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonTemp\frmDataSelect.xaml.cs">
+      <DependentUpon>frmDataSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\frmDatabaseSetting.xaml.cs">
+      <DependentUpon>frmDatabaseSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\frmLinekedServer.xaml.cs">
+      <DependentUpon>frmLinekedServer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\frmSQLConnectionString.xaml.cs">
+      <DependentUpon>frmSQLConnectionString.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DrivedEntities\SelectDrivedEntites.xaml.cs">
+      <DependentUpon>SelectDrivedEntites.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RelationshipTail\frmEntityRelationshipTail.xaml.cs">
+      <DependentUpon>frmEntityRelationshipTail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formula\frmFormula.xaml.cs">
+      <DependentUpon>frmFormula.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formula\frmFormulaDefinition.xaml.cs">
+      <DependentUpon>frmFormulaDefinition.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formula\frmFormulaParameterSelect.xaml.cs">
+      <DependentUpon>frmFormulaParameterSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formula\frmFormulaSelect.xaml.cs">
+      <DependentUpon>frmFormulaSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formula\frmFormulaTree.xaml.cs">
+      <DependentUpon>frmFormulaTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\frmDBServerSelect.xaml.cs">
+      <DependentUpon>frmDBServerSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\frmDatabaseSelect.xaml.cs">
+      <DependentUpon>frmDatabaseSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\DatabaseImportWizard.xaml.cs">
+      <DependentUpon>DatabaseImportWizard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\frmEntitySettings.xaml.cs">
+      <DependentUpon>frmEntitySettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\frmImportViewsAndFunctions.xaml.cs">
+      <DependentUpon>frmImportViewsAndFunctions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\frmImportRelationships.xaml.cs">
+      <DependentUpon>frmImportRelationships.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\frmImportFunctions.xaml.cs">
+      <DependentUpon>frmImportFunctions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\frmEntityIsDataReference.xaml.cs">
+      <DependentUpon>frmEntityIsDataReference.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\frmEntityIsIndependent.xaml.cs">
+      <DependentUpon>frmEntityIsIndependent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\frmImportViews.xaml.cs">
+      <DependentUpon>frmImportViews.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\frmImportTables.xaml.cs">
+      <DependentUpon>frmImportTables.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\ucWizardSteps.xaml.cs">
+      <DependentUpon>ucWizardSteps.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBImport\WizardHelper.cs" />
+    <Compile Include="Entities\frmBackendActionActivity.xaml.cs">
+      <DependentUpon>frmBackendActionActivity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DrivedEntities\frmEditSubEntity.xaml.cs">
+      <DependentUpon>frmEditSubEntity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SearchView\frmEntitySearch.xaml.cs">
+      <DependentUpon>frmEntitySearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SearchView\frmEntitySearchSelect.xaml.cs">
+      <DependentUpon>frmEntitySearchSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EntityState\frmUIActionActivitySelect.xaml.cs">
+      <DependentUpon>frmUIActionActivitySelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GridView\frmEntityGridView.xaml.cs">
+      <DependentUpon>frmEntityGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Letter\frmLetterRelationships.xaml.cs">
+      <DependentUpon>frmLetterRelationships.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Relationship\BizRelationshipConverter.cs" />
+    <Compile Include="DataLink\frmDataLink.xaml.cs">
+      <DependentUpon>frmDataLink.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataLink\frmDataLinkSelect.xaml.cs">
+      <DependentUpon>frmDataLinkSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataView\frmEntityDataView.xaml.cs">
+      <DependentUpon>frmEntityDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Letter\frmPartialLetterTemplate.xaml.cs">
+      <DependentUpon>frmPartialLetterTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Letter\frmPartialLetterTemplateSelect.xaml.cs">
+      <DependentUpon>frmPartialLetterTemplateSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Letter\frmMainLetterTemplateSelect.xaml.cs">
+      <DependentUpon>frmMainLetterTemplateSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Letter\frmMainLetterTemplate.xaml.cs">
+      <DependentUpon>frmMainLetterTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Letter\frmLetterSetting.xaml.cs">
+      <DependentUpon>frmLetterSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Letter\UC_LetterTemplateFields.xaml.cs">
+      <DependentUpon>UC_LetterTemplateFields.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Relationship\frmRelationships.xaml.cs">
+      <DependentUpon>frmRelationships.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityDirectReport.xaml.cs">
+      <DependentUpon>frmEntityDirectReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityDirectReportSelect.xaml.cs">
+      <DependentUpon>frmEntityDirectReportSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataMenu\frmDataMenuSetting.xaml.cs">
+      <DependentUpon>frmDataMenuSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityGridViewReport.xaml.cs">
+      <DependentUpon>frmEntityGridViewReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityDataViewReport.xaml.cs">
+      <DependentUpon>frmEntityDataViewReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityGridViewReportSelect.xaml.cs">
+      <DependentUpon>frmEntityGridViewReportSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityDataViewReportSelect.xaml.cs">
+      <DependentUpon>frmEntityDataViewReportSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntitySubListReportColumns.xaml.cs">
+      <DependentUpon>frmEntitySubListReportColumns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmPreDefinedSearchList.xaml.cs">
+      <DependentUpon>frmPreDefinedSearchList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmExternalReportSelect.xaml.cs">
+      <DependentUpon>frmExternalReportSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmExternalReport.xaml.cs">
+      <DependentUpon>frmExternalReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmSearchRepository.xaml.cs">
+      <DependentUpon>frmSearchRepository.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmConditionalPermissionSelect.xaml.cs">
+      <DependentUpon>frmConditionalPermissionSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmEntitySecurityDirect.xaml.cs">
+      <DependentUpon>frmEntitySecurityDirect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmEntitySecurityDirectSelect.xaml.cs">
+      <DependentUpon>frmEntitySecurityDirectSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmEntitySecurityIndirect.xaml.cs">
+      <DependentUpon>frmEntitySecurityIndirect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmLogin.xaml.cs">
+      <DependentUpon>frmLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmOrganization.xaml.cs">
+      <DependentUpon>frmOrganization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmOrganizationType.xaml.cs">
+      <DependentUpon>frmOrganizationType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmOrganizationSelect.xaml.cs">
+      <DependentUpon>frmOrganizationSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmRoleTypeSelect.xaml.cs">
+      <DependentUpon>frmRoleTypeSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmPermission.xaml.cs">
+      <DependentUpon>frmPermission.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmSecurityAction.xaml.cs">
+      <DependentUpon>frmSecurityAction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmRoleType.xaml.cs">
+      <DependentUpon>frmRoleType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmUsers.xaml.cs">
+      <DependentUpon>frmUsers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmOrganizationTypeSelect.xaml.cs">
+      <DependentUpon>frmOrganizationTypeSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmSecuritySubjectSelect.xaml.cs">
+      <DependentUpon>frmSecuritySubjectSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\frmUserSelect.xaml.cs">
+      <DependentUpon>frmUserSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow\Diagram\PercentageConverter.cs" />
+    <Compile Include="Workflow\Diagram\StateShape.cs" />
+    <Compile Include="Database\frmDBServer.xaml.cs">
+      <DependentUpon>frmDBServer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Database\frmDatabase.xaml.cs">
+      <DependentUpon>frmDatabase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBViewFunctions\frmDBViewFunctions.xaml.cs">
+      <DependentUpon>frmDBViewFunctions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\frmEntities.xaml.cs">
+      <DependentUpon>frmEntities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityCrosstabReportSelect.xaml.cs">
+      <DependentUpon>frmEntityCrosstabReportSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityCrosstabReport.xaml.cs">
+      <DependentUpon>frmEntityCrosstabReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\frmEntityCommand.xaml.cs">
+      <DependentUpon>frmEntityCommand.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\frmEntityCommandSelect.xaml.cs">
+      <DependentUpon>frmEntityCommandSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityChartReport.xaml.cs">
+      <DependentUpon>frmEntityChartReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityChartReportSelect.xaml.cs">
+      <DependentUpon>frmEntityChartReportSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ListView\frmEntityListViewSelect.xaml.cs">
+      <DependentUpon>frmEntityListViewSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ListView\frmEntityListView.xaml.cs">
+      <DependentUpon>frmEntityListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityListReport.xaml.cs">
+      <DependentUpon>frmEntityListReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\frmEntityListReportSelect.xaml.cs">
+      <DependentUpon>frmEntityListReportSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Relationship\frmAllRelationships.xaml.cs">
+      <DependentUpon>frmAllRelationships.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Relationship\frmRelationshipCreate.xaml.cs">
+      <DependentUpon>frmRelationshipCreate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Relationship\frmRelationshipFilter.xaml.cs">
+      <DependentUpon>frmRelationshipFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EntityState\frmEntityStates.xaml.cs">
+      <DependentUpon>frmEntityStates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\frmBackendActionActivitySelect.xaml.cs">
+      <DependentUpon>frmBackendActionActivitySelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EntityState\frmUIActionActivity.xaml.cs">
+      <DependentUpon>frmUIActionActivity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\frmEntityValidations.xaml.cs">
+      <DependentUpon>frmEntityValidations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EntityState\frmEntityStateSelect.xaml.cs">
+      <DependentUpon>frmEntityStateSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\frmEntityValidationSelect.xaml.cs">
+      <DependentUpon>frmEntityValidationSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow\frmAddActivity.xaml.cs">
+      <DependentUpon>frmAddActivity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow\frmAddAction.xaml.cs">
+      <DependentUpon>frmAddAction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow\frmAddSelectState.xaml.cs">
+      <DependentUpon>frmAddSelectState.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow\frmProcess.xaml.cs">
+      <DependentUpon>frmProcess.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow\frmProcessSelect.xaml.cs">
+      <DependentUpon>frmProcessSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow\frmTransitionInfo.xaml.cs">
+      <DependentUpon>frmTransitionInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow\frmTransitions.xaml.cs">
+      <DependentUpon>frmTransitions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow\UC_ConnectionContent.xaml.cs">
+      <DependentUpon>UC_ConnectionContent.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Archive\frmArchiveFolder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Archive\frmArchiveTag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Archive\frmArchiveRelationships.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Column\frmColumnValueRange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CommonTemp\frmCodeFunction.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CommonTemp\frmCodeFunctionSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CommonTemp\frmColumnTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CommonTemp\frmDatabaseFunctionTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CommonTemp\frmDatabaseFunction_Entity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CommonTemp\frmDatabaseTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CommonTemp\frmDataSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Database\frmDatabaseSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Database\frmLinekedServer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Database\frmSQLConnectionString.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DrivedEntities\SelectDrivedEntites.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RelationshipTail\frmEntityRelationshipTail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Formula\frmFormula.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Formula\frmFormulaDefinition.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Formula\frmFormulaParameterSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Formula\frmFormulaSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Formula\frmFormulaTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Database\frmDBServerSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Database\frmDatabaseSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataLink\frmDataLink.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataLink\frmDataLinkSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataView\frmEntityDataView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DBImport\DatabaseImportWizard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DBImport\frmEntitySettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DBImport\frmImportViewsAndFunctions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DBImport\frmImportRelationships.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DBImport\frmImportFunctions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DBImport\frmEntityIsDataReference.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DBImport\frmEntityIsIndependent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DBImport\frmImportViews.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DBImport\frmImportTables.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DBImport\ucWizardSteps.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DBImport\Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Entities\frmBackendActionActivity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DrivedEntities\frmEditSubEntity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SearchView\frmEntitySearch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SearchView\frmEntitySearchSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EntityState\frmUIActionActivitySelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CommonTemp\frmChooseItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Database\frmDBServer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Database\frmDatabase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DBViewFunctions\frmDBViewFunctions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Entities\frmEntities.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GridView\frmEntityGridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Letter\frmLetterRelationships.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Relationship\frmRelationships.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityCrosstabReportSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityCrosstabReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Entities\frmEntityCommand.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Entities\frmEntityCommandSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityDirectReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityDirectReportSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataMenu\frmDataMenuSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityGridViewReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityDataViewReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityGridViewReportSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntitySubListReportColumns.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityChartReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityChartReportSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ListView\frmEntityListViewSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ListView\frmEntityListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityListReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Report\frmEntityDataViewReportSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmPreDefinedSearchList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmEntityListReportSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Relationship\frmAllRelationships.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Relationship\frmRelationshipCreate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Relationship\frmRelationshipFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Relationship\frmCreateManyToManyRelationship.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Entities\frmEntityTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DrivedEntities\frmEditBaseEntity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Report\frmSearchRepository.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UISetting\frmEntityUIComposition.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EntityState\frmEntityStates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Entities\frmBackendActionActivitySelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EntityState\frmUIActionActivity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Entities\frmEntityValidations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EntityState\frmEntityStateSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Entities\frmEntityValidationSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmTestLookup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Relationship\frmUnionRelationshipCreateSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Navigation\frmNavigationTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Relationship\frmISARelationshipCreateSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Letter\frmPartialLetterTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Letter\frmPartialLetterTemplateSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Letter\frmMainLetterTemplateSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Letter\frmMainLetterTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Letter\frmLetterSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Letter\UC_LetterTemplateFields.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ControlHelper.cs" />
+    <Compile Include="CommonTemp\frmChooseItem.xaml.cs">
+      <DependentUpon>frmChooseItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Relationship\frmCreateManyToManyRelationship.xaml.cs">
+      <DependentUpon>frmCreateManyToManyRelationship.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\frmEntityTree.xaml.cs">
+      <DependentUpon>frmEntityTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DrivedEntities\frmEditBaseEntity.xaml.cs">
+      <DependentUpon>frmEditBaseEntity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UISetting\frmEntityUIComposition.xaml.cs">
+      <DependentUpon>frmEntityUIComposition.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmTestLookup.xaml.cs">
+      <DependentUpon>frmTestLookup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Relationship\frmUnionRelationshipCreateSelect.xaml.cs">
+      <DependentUpon>frmUnionRelationshipCreateSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Navigation\frmNavigationTree.xaml.cs">
+      <DependentUpon>frmNavigationTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Relationship\frmISARelationshipCreateSelect.xaml.cs">
+      <DependentUpon>frmISARelationshipCreateSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Report\frmExternalReportSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\frmExternalReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmConditionalPermissionSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmEntitySecurityDirect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmEntitySecurityDirectSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmEntitySecurityIndirect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmLogin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmOrganization.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmOrganizationType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmOrganizationSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmRoleTypeSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmPermission.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmSecurityAction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Security\frmRoleType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmUsers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmOrganizationTypeSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmSecuritySubjectSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\frmUserSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Workflow\frmTransitionInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Workflow\frmTransitions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Workflow\Template\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Workflow\frmAddActivity.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Workflow\frmAddAction.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Workflow\frmAddSelectState.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Workflow\frmProcess.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Workflow\frmProcessSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Workflow\UC_ConnectionContent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MyProjectHelper.cs" />
+    <Compile Include="MyProjectManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyCommonWPFControls\MyCommonWPFControls.csproj">
+      <Project>{df529814-4102-4145-9345-b405ed79138a}</Project>
+      <Name>MyCommonWPFControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyConnectionManager\MyConnectionManager.csproj">
+      <Project>{BD833980-A9AD-4889-A9B0-23A0EFCFEA80}</Project>
+      <Name>MyConnectionManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDatabaseToObject\MyDatabaseToObject.csproj">
+      <Project>{bb4870cd-5a28-474c-a513-491af655988f}</Project>
+      <Name>MyDatabaseToObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDataManagerBusiness\MyDataEditManagerBusiness.csproj">
+      <Project>{015494b7-335c-4b3f-b896-278e4fe3b878}</Project>
+      <Name>MyDataEditManagerBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDataSearchManagerBusiness\MyDataSearchManagerBusiness.csproj">
+      <Project>{518BDF6D-0AD2-44DD-945D-DCF74BB4A055}</Project>
+      <Name>MyDataSearchManagerBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyFormulaLibrary\MyFormulaFunctionStateFunctionLibrary.csproj">
+      <Project>{27638591-e3a9-4697-87c5-19c33e24a658}</Project>
+      <Name>MyFormulaFunctionStateFunctionLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyGeneralLibrary\MyGeneralLibrary.csproj">
+      <Project>{6f52d329-3bdd-4a8a-bb6e-5fe5a118e3be}</Project>
+      <Name>MyGeneralLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyInterfaces\MyInterfaces.csproj">
+      <Project>{8abc6369-3f6e-40fb-a354-5106930cb07c}</Project>
+      <Name>MyInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyLetterGenerator\MyLetterGenerator.csproj">
+      <Project>{9F61E0ED-FAB1-47C5-AED2-3B9DB06DEFB2}</Project>
+      <Name>MyLetterGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyLetterManager\MyDataItemManager.csproj">
+      <Project>{14CAAA31-D18C-4D10-805D-5E0E7E2C5B02}</Project>
+      <Name>MyDataItemManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyModelGenerator\MyModelGenerator.csproj">
+      <Project>{3a828530-4845-4d05-b809-a3812ac4b26a}</Project>
+      <Name>MyModelGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyModelManager\MyModelManager.csproj">
+      <Project>{c85c5486-ca1a-4963-8594-c85e441cebc2}</Project>
+      <Name>MyModelManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MySecurity\MySecurity.csproj">
+      <Project>{878D3665-BE5E-401F-A859-C81D3406E5C7}</Project>
+      <Name>MySecurity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyUIGenerator\MyUIGenerator.csproj">
+      <Project>{FE03E933-B20F-4560-ACA1-A38DE76FF8EE}</Project>
+      <Name>MyUIGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyUILibraryInterfaces\MyUILibraryInterfaces.csproj">
+      <Project>{5c85873c-c376-4899-8806-fe8544419b18}</Project>
+      <Name>MyUILibraryInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyUILibrary\MyUILibrary.csproj">
+      <Project>{3175eafa-138c-4b2b-8ea6-4c09d8c0fa81}</Project>
+      <Name>MyUILibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProxyLibrary\ProxyLibrary.csproj">
+      <Project>{2ad586dd-c9be-42d3-8ef7-e9657f992503}</Project>
+      <Name>ProxyLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\database.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\form.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\column.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\relationship.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tabcontrol.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\property.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\function.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dbformula.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\code.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\formula.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\return.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\function1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\state.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\command.png" />
+    <Resource Include="Images\organization.png" />
+    <Resource Include="Images\organization_user.png" />
+    <Resource Include="Images\permission.png" />
+    <Resource Include="Images\role.png" />
+    <Resource Include="Images\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\navigationtree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\addnew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\color_picker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cursor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\document_background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\jpg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\magnet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\zoom_extend.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\organizationtype.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\msword.png" />
+    <Resource Include="Images\pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\parameter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\duplicate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\validate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\action.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\view.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\listView.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\datalink.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\piechart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\externalreport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dataview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\listgroup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\crosstab.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\archive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\archivetag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\date.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\string.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\columnrule.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\formula1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\convert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\filter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\type.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\merge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\extract.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\datasecurity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\datasecurityindeirect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\conditionalsecurity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\uicomposition.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\server.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\down.png" />
+    <Resource Include="Images\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tabpage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\confirm.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

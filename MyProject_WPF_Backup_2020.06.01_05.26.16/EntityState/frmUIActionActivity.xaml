@@ -1,0 +1,195 @@
+﻿<UserControl x:Class="MyProject_WPF.frmUIActionActivity"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyProject_WPF"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        mc:Ignorable="d"
+         d:DesignHeight="500" d:DesignWidth="700">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="عنوان"></TextBlock>
+            <TextBox x:Name="txtTitle" Grid.ColumnSpan="3" Grid.Column="1"></TextBox>
+
+        </Grid>
+        <Grid  Margin="2" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+             
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="شروط" HorizontalAlignment="Left"></TextBlock>
+                <RadioButton x:Name="optColumnValue" Margin="10,0,10,0" Checked="optColumnValue_Checked">مقداردهی پیش فرض ستون</RadioButton>
+                <RadioButton x:Name="optUIEnablity" Margin="10,0,10,0" Checked="optUIEnablity_Checked">فعالسازی کنترلها</RadioButton>
+                <RadioButton x:Name="optEntityReadonly" Margin="10,0,10,0" Checked="optEntityReadonly_Checked">فقط خواندنی سازی موجودیت</RadioButton>
+                <RadioButton x:Name="optUIColumnValueRange" Margin="10,0,10,0" Checked="optUIColumnValueRange_Checked">فیلتر بازه داده</RadioButton>
+            </StackPanel>
+            <TabControl Grid.Row="1">
+                <TabItem x:Name="tabColumnValue" Header="مقادیر ستونها">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                        </Grid.ColumnDefinitions>
+                        <!--<TextBlock  Text="زنجیره رابطه"></TextBlock>
+                        <ComboBox  x:Name="cmbColumnValueRelationshipTail" HorizontalAlignment="Stretch" SelectionChanged="cmbRelationshipTail_SelectionChanged" Grid.Column="1"></ComboBox>
+                        <Button x:Name="btnColumnValueRelationshipTail"  Width="120" Height="20" Content="افزودن زنجیره رابطه ..." Grid.Column="2" Click="btnRelationshipTail_Click"></Button>-->
+                        <!--<TextBlock Grid.Row="1"  Text="ستون"></TextBlock>
+                        <ComboBox Grid.Row="1"  x:Name="cmbColumns" Width="230" Grid.Column="1"></ComboBox>-->
+                        <TextBlock Grid.Row="1"  Text="مقداردهی مستقیم"></TextBlock>
+                        <telerik:RadGridView Grid.Row="1" Grid.Column="1" Height="200" x:Name="dtgColumnValue" >
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewComboBoxColumn x:Name="colColumnValueColumn" Header="انتخاب ستون" DataMemberBinding="{Binding ColumnID}" />
+                                <telerik:GridViewDataColumn Header="مقدار" DataMemberBinding="{Binding ExactValue}" />
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView> 
+                        <!--<TextBox Grid.Row="2" HorizontalAlignment="Left" x:Name="txtColumnValue" Width="230" Grid.Column="1"></TextBox>-->
+                        <!--<TextBlock Grid.Row="3" VerticalAlignment="Top" Text="لیست مقادیر معتبر"></TextBlock>
+                        <telerik:RadGridView Grid.Row="3" Grid.Column="1" Height="200" x:Name="dtgColumnValue" >
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn Header="مقدار معتبر" DataMemberBinding="{Binding ValidValue}" />
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView>-->
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabUIEnablity" Header="فعالسازی کنترلها">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                        </Grid.ColumnDefinitions>
+                        <!--<TextBlock  Text="زنجیره رابطه"></TextBlock>
+                        <ComboBox  x:Name="cmbUIEnablityRelationshipTail" HorizontalAlignment="Stretch" SelectionChanged="cmbUIEnablityRelationshipTail_SelectionChanged" Grid.Column="1"></ComboBox>-->
+                        <!--<Button x:Name="btnUIEnablityRelationshipTail"  Width="120" Height="20" Content="افزودن زنجیره رابطه ..." Grid.Column="2" Click="btnUIEnablityRelationshipTail_Click"></Button>-->
+                        <TextBlock VerticalAlignment="Top" Grid.Row="1" Text="ستونها و  روابط"></TextBlock>
+                        <telerik:RadGridView x:Name="dtgDetails" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch">
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewComboBoxColumn x:Name="colColumn" Header="انتخاب ستون" DataMemberBinding="{Binding ColumnID}" />
+                                <telerik:GridViewComboBoxColumn x:Name="colRelationship" Header="انتخاب رابطه" DataMemberBinding="{Binding RelationshipID}" />
+                                <!--<telerik:GridViewComboBoxColumn x:Name="colUIComposition" Header="انتخاب پنل" DataMemberBinding="{Binding UICompositionID}" />-->
+                                <telerik:GridViewCheckBoxColumn Header="مخفی/معمولی" DataMemberBinding="{Binding Hidden}"></telerik:GridViewCheckBoxColumn>
+                                <telerik:GridViewCheckBoxColumn Header="فقط خواندنی/معمولی" DataMemberBinding="{Binding Readonly}"></telerik:GridViewCheckBoxColumn>
+
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView>
+                        <!--<RadioButton Grid.Row="1" x:Name="optUIEnablityColumn" HorizontalAlignment="Right" Checked="optUIEnablityColumn_Checked">
+                            <TextBlock Margin="0,0,5,0">ستون</TextBlock>
+                        </RadioButton>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                        <ComboBox  x:Name="cmbUIEnablityColumn" Width="230"></ComboBox>
+                            <RadioButton x:Name="optUIEnablityColumnEnable">فعال</RadioButton>
+                            <RadioButton x:Name="optUIEnablityColumnDisable">غیر فعال</RadioButton>
+                        </StackPanel>
+                        <RadioButton Grid.Row="2" x:Name="optUIEnablityUIComposition" HorizontalAlignment="Right" Checked="optUIEnablityColumn_Checked">
+                            <TextBlock Margin="0,0,5,0">پنل</TextBlock>
+                        </RadioButton>
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                            <ComboBox  x:Name="cmbUIEnablityUIComposition" Width="230"></ComboBox>
+                            <RadioButton x:Name="optUIEnablityUICompositionEnable">فعال</RadioButton>
+                            <RadioButton x:Name="optUIEnablityUICompositionDisable">غیر فعال</RadioButton>
+                        </StackPanel>-->
+
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabUIColumnValueRange" Header="بازه داده">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                        </Grid.ColumnDefinitions>
+                        <!--<TextBlock  Text="زنجیره رابطه"></TextBlock>
+                        <ComboBox  x:Name="cmbUIEnablityRelationshipTail" HorizontalAlignment="Stretch" SelectionChanged="cmbUIEnablityRelationshipTail_SelectionChanged" Grid.Column="1"></ComboBox>-->
+                        <!--<Button x:Name="btnUIEnablityRelationshipTail"  Width="120" Height="20" Content="افزودن زنجیره رابطه ..." Grid.Column="2" Click="btnUIEnablityRelationshipTail_Click"></Button>-->
+                        <telerik:RadGridView Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False" Height="200" x:Name="dtgColumnValueRange" >
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewComboBoxColumn x:Name="colColumnValueRange" Header="انتخاب ستون" DataMemberBinding="{Binding ColumnValueRangeID}" />
+                                <telerik:GridViewComboBoxColumn x:Name="colEnumTag" Header="خصوصیت" DataMemberBinding="{Binding EnumTag}" />
+                                <telerik:GridViewComboBoxColumn Header="مقدار" DataMemberBinding="{Binding Value}" ItemsSourceBinding="{Binding vwCandidateValues}" />
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView>
+
+                    </Grid>
+                </TabItem>
+        
+                <!--<TabItem x:Name="tabRelationshipEnablity" Header="فعالسازی رابطه">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                        </Grid.ColumnDefinitions>
+                        <TextBlock  Text="زنجیره رابطه"></TextBlock>
+                        <ComboBox  x:Name="cmbRelationshipEnablityRelationshipTail" HorizontalAlignment="Stretch"  Grid.Column="1"></ComboBox>
+                        <Button x:Name="btnRelationshipEnablityRelationshipTail"  Width="120" Height="20" Content="افزودن زنجیره رابطه ..." Grid.Column="2" Click="btnRelationshipEnablityRelationshipTail_Click"></Button>
+                        <TextBlock Grid.Row="1"  Text="وضعیت"></TextBlock>
+                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                            <RadioButton x:Name="optRelationshipEnable">فعال</RadioButton>
+                            <RadioButton x:Name="optRelationshipDisable">غیر فعال</RadioButton>
+                        </StackPanel>
+                        <TextBlock Grid.Row="2"  Text="وضعیت"></TextBlock>
+                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                            <RadioButton x:Name="optRelationshipNotReadonly">معمولی</RadioButton>
+                            <RadioButton x:Name="optRelationshipReadonly">فقط خواندنی</RadioButton>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>-->
+
+            </TabControl>
+            <!--<Border BorderBrush="Black" Grid.Row="1" BorderThickness="1" CornerRadius="5" >
+              
+            </Border>-->
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="ثبت" x:Name="btnSave" Click="btnSave_Click"></Button>
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="جدید" x:Name="btnNew" Click="btnNew_Click"></Button>
+            <!--<Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="جستجو" x:Name="btnSearch" Click="btnSearch_Click"></Button>-->
+            <Button    Grid.Row="0" Width="120" HorizontalAlignment="Right" Content="بازگشت" x:Name="btnReturn" Click="btnReturn_Click"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

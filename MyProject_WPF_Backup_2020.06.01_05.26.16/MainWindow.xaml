@@ -1,0 +1,145 @@
+﻿<Window xmlns:MyProject_WPF="clr-namespace:MyProject_WPF"   x:Class="MyProject_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="650" Width="925"
+         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" WindowState="Maximized"  >
+
+    <Grid FlowDirection="RightToLeft" Background="#FFD0DCE0" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Image Grid.Row="1" Width="24" Margin="2" FlowDirection="RightToLeft" x:Name="imgUser" Source="Images/user.png" HorizontalAlignment="Right"></Image>
+        <!--<DockPanel Grid.Row="1" FlowDirection="RightToLeft" LastChildFill="False" >
+            <ToolBarTray DockPanel.Dock="Left" >
+                <ToolBar  >
+                    <Button x:Name="btnDBConnector" Click="btnDBConnector_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Source="images\database.png"  />
+                            <TextBlock Text="انتخاب پایگاه داده"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+            <ToolBarTray DockPanel.Dock="Left" >
+                <ToolBar  >
+                    <Button x:Name="btnEntities" Click="btnEntities_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Source="images\form.png"  />
+                            <TextBlock Text="مدیریت موجودیت ها"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnRelationships" Click="btnRelationships_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Source="images\relationship1.png"  />
+                            <TextBlock Text="مدیریت روابط"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnOthers" Click="btnOthers_Click" ToolTip="توابع ، نماها و ..">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Source="images\state.png"  />
+                            <TextBlock Text="سایر موارد"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+            <ToolBarTray DockPanel.Dock="Left">
+                <ToolBar >
+                    <Button x:Name="btnNavigationTree" Click="btnNavigationTree_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Source="images\navigationtree.png"  />
+                            <TextBlock Text="تعریف منوها"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+            <ToolBarTray DockPanel.Dock="Left">
+                <ToolBar   >
+                    <Button x:Name="btnProcess" Click="btnProcess_Click" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Source="images\report.png"  />
+                            <TextBlock Text="مدیریت جریان کار"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+                <ToolBar   >
+                    <Button x:Name="btnSecurity" Click="btnSecurity_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Source="images\permission.png"  />
+                            <TextBlock Text="نظیمات امنیتی"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnLetterSetting" Click="btnLetterSetting_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Source="images\mail.png"  />
+                            <TextBlock Text="تنظیمات نامه"></TextBlock>
+                        </StackPanel>
+
+                    </Button>
+                </ToolBar>
+
+            </ToolBarTray>
+        </DockPanel>-->
+        <!--<Grid Grid.Row="2" Margin="2" Background="#FFD7DADA" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="نام کاربر" x:Name="lblUserName"></TextBlock>
+            <TextBox Width="200" IsEnabled="False"  Grid.Column="1" IsReadOnly="True" x:Name="txtUserName"></TextBox>
+            <TextBlock Text="واحد سازمانی"  Grid.Column="2" x:Name="lblOrganization" ></TextBlock>
+            <TextBox Width="300" IsEnabled="False" Grid.Column="3"   IsReadOnly="True" x:Name="txtOrganization"></TextBox>
+            <TextBlock Text="نقشها" Grid.Column="4" x:Name="lblRoles"></TextBlock>
+            <TextBox Width="300" IsEnabled="False"  Grid.Column="5"   IsReadOnly="True" x:Name="txtRoles"/>
+
+        </Grid>-->
+        <telerik:RadDocking Grid.Row="3" HasDocumentHost="True">
+            <telerik:RadDocking.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFD1D1D1" Offset="0"/>
+                    <GradientStop Color="#FFE6F2F3" Offset="1"/>
+                </LinearGradientBrush>
+            </telerik:RadDocking.Background>
+            <telerik:RadDocking.DocumentHost >
+                <telerik:RadSplitContainer>
+                    <telerik:RadPaneGroup  x:Name="pnlForms">
+                    </telerik:RadPaneGroup>
+                </telerik:RadSplitContainer>
+            </telerik:RadDocking.DocumentHost>
+            <telerik:RadSplitContainer Orientation="Vertical"  Width="300" InitialPosition="DockedLeft" >
+                <telerik:RadPaneGroup x:Name="pnlNavigationTree">
+                    <telerik:RadPane Header="فرمها">
+                        <telerik:RadTreeView  IsLineEnabled="True"  x:Name="treeMenu"></telerik:RadTreeView>
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+            <telerik:RadSplitContainer   InitialPosition="DockedBottom">
+                <telerik:RadPaneGroup  x:Name="grpInfo" >
+                    <telerik:RadPane IsPinned="False" IsDockable="False" x:Name="pnlInfo" CanUserClose="False" Header="Info">
+                        <ListBox></ListBox>
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+
+
+
+        </telerik:RadDocking>
+
+
+
+        <!--<Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="lblInfo"></TextBlock>
+        </Grid>-->
+    </Grid>
+</Window>

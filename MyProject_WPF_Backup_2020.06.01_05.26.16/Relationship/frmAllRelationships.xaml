@@ -1,0 +1,344 @@
+﻿<UserControl x:Class="MyProject_WPF.frmAllRelationships"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MyProject_WPF"
+           xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900" FlowDirection="RightToLeft">
+    <Grid>
+        <Grid.RowDefinitions>
+            <!--<RowDefinition Height="30"></RowDefinition>-->
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            -->
+        <!--<Button Margin="2" Width="140" Content="استخراج روابط" x:Name="btnImportRelationships" Click="btnImportRelationships_Click"></Button>-->
+        <!--<Button Margin="2" Width="190" Content="اعمال قوانین شناسایی نوع رابطه" x:Name="btnImposeRelationshipRule" Click="btnImposeRuleRelationship_Click"></Button>-->
+        <!--
+        </StackPanel>-->
+        <TabControl x:Name="tabInternalRelationships" Grid.Row="0">
+            <!--<TabItem IsSelected="True" x:Name="tabRelationship" Header="همه روابط">
+                <local:frmRelationships x:Name="formRelationships"/>
+                --><!--<Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90" x:Name="btnUpdateRelationships" Click="btnUpdateRelationships_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\save.png"  />
+                                <TextBlock Text="ثبت"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" Width="90" Click="btnRefreshRelationship_Click" x:Name="btnRefreshRelationship">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        --><!--<Button Margin="2" Width="190" x:Name="btnImposeRelationshipRule" Click="btnImposeRuleRelationship_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\relationship.png"  />
+                                <TextBlock Text="اعمال قوانین شناسایی نوع رابطه"></TextBlock>
+                            </StackPanel>
+                        </Button>--><!--
+                    </StackPanel>
+                    <telerik:RadGridView x:Name="dtgRelationships" Grid.Row="1">
+
+                    </telerik:RadGridView>
+                </Grid>--><!--
+                
+            </TabItem>-->
+            <!--<TabItem IsSelected="True" x:Name="tabOneToManyRelationships" Header="روابط یک به چند">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90" x:Name="btnUpdateOneToMany" Click="btnUpdateOneToMany_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\save.png"  />
+                                <TextBlock Text="ثبت"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" Width="90"  x:Name="btnRefreshOneToMany" Click="btnRefreshOneToMany_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <telerik:RadGridView x:Name="dtgOneToMany" Grid.Row="1">
+
+                    </telerik:RadGridView>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabManyToOneRelationships"  Header="روابط چند به یک">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90" x:Name="btnUpdateManyToOne" Click="btnUpdateManyToOne_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\save.png"  />
+                                <TextBlock Text="ثبت"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" Width="90"  x:Name="btnRefreshManyToOne" Click="btnRefreshManyToOne_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <telerik:RadGridView x:Name="dtgManyToOne" Grid.Row="1">
+
+                    </telerik:RadGridView>
+                </Grid>
+            </TabItem>
+            <TabItem IsSelected="True" x:Name="tabImplicitRelationships" Header="روابط یک به یک ضمنی">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90" x:Name="btnUpdateImplicit" Click="btnUpdateImplicit_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\save.png"  />
+                                <TextBlock Text="ثبت"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" Width="90"  x:Name="btnRefreshImplicit" Click="btnRefreshImplicit_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <telerik:RadGridView x:Name="dtgImplicit" Grid.Row="1">
+
+                    </telerik:RadGridView>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabExplicitRelationships" Header="روابط یک به یک صریح">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90" x:Name="btnUpdateExplicit" Click="btnUpdateExplicit_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\save.png"  />
+                                <TextBlock Text="ثبت"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" Width="90"  x:Name="btnRefreshExplicit" Click="btnRefreshExplicit_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <telerik:RadGridView x:Name="dtgExplicit" Grid.Row="1">
+
+                    </telerik:RadGridView>
+                </Grid>
+            </TabItem>-->
+            <TabItem IsSelected="True" x:Name="tabManyToManyRelationships" Header="روابط چند به چند">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="5"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90" x:Name="btnUpdateManyToMany" Click="btnUpdateManyToMany_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\save.png"  />
+                                <TextBlock Text="ثبت"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" Width="90"  x:Name="btnRefreshManyToMany" Click="btnRefreshManyToMany_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <telerik:RadGridView x:Name="dtgManyToMany" Grid.Row="1">
+
+                    </telerik:RadGridView>
+                    <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
+                    <Grid Grid.Row="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Background="LightGray" >
+                            <TextBlock Text="روابط چند به یک مرتبط"></TextBlock>
+                        </Grid>
+                        <telerik:RadGridView x:Name="dtgManyToMany_ManyToOne" Grid.Row="1">
+
+                        </telerik:RadGridView>
+                    </Grid>
+                </Grid>
+
+
+
+            </TabItem>
+            <TabItem IsSelected="True" x:Name="tabInheritanceRelationships" Header="روابط ارث بری">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="5"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90" x:Name="btnUpdateISA" Click="btnUpdateISA_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\save.png"  />
+                                <TextBlock Text="ثبت"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" Width="90"  x:Name="btnRefreshISA" Click="btnRefreshISA_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <telerik:RadGridView x:Name="dtgISARelationship" Grid.Row="1">
+
+                    </telerik:RadGridView>
+
+                    <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
+                    <TabControl Grid.Row="3" IsSelected="True" x:Name="tabControlInheritanceRelationships" >
+                        <TabItem IsSelected="True" x:Name="tabSuperToSubRelationships" Header="روابط ابرکلاس به زیرکلاس">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Margin="2" Width="90" x:Name="btnUpdateSuperToSub" Click="btnUpdateSuperToSub_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="20" Source="..\Images\save.png"  />
+                                            <TextBlock Text="ثبت"></TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                                <telerik:RadGridView x:Name="dtgSuperToSub" Grid.Row="1">
+
+                                </telerik:RadGridView>
+                            </Grid>
+                        </TabItem>
+                        <TabItem IsSelected="True" x:Name="tabSubToSuperRelationships" Header="روابط زیرکلاس به ابرکلاس ">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Margin="2" Width="90" x:Name="btnUpdateSubToSuper" Click="btnUpdateSubToSuper_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="20" Source="..\Images\save.png"  />
+                                            <TextBlock Text="ثبت"></TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                                <telerik:RadGridView x:Name="dtgSubToSuper" Grid.Row="1">
+
+                                </telerik:RadGridView>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+
+                </Grid>
+
+
+            </TabItem>
+            <TabItem IsSelected="True" x:Name="tabUnionRelationships" Header="روابط اجتماع">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="5"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Margin="2" Width="90" x:Name="btnUpdateUnionRelationship" Click="btnUpdateUnionRelationship_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\save.png"  />
+                                <TextBlock Text="ثبت"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="2" Width="90"  x:Name="btnRefreshUnion" Click="btnRefreshUnionRelationship_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" Source="..\Images\refresh.png"  />
+                                <TextBlock Text="بازاوری"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <telerik:RadGridView x:Name="dtgUnionRelationship" Grid.Row="1">
+
+                    </telerik:RadGridView>
+                    <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
+                    <TabControl IsSelected="True" Grid.Row="3" x:Name="tabcontrolUnionRelationships" >
+                        <TabItem IsSelected="True" x:Name="tabSuperUnionToSubUnionRelationships" Header="روابط ابرکلاس به زیرکلاس">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Margin="2" Width="90" x:Name="btnUpdateSuperUnionToSubUnion" Click="btnUpdateSuperUnionToSubUnion_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="20" Source="..\Images\save.png"  />
+                                            <TextBlock Text="ثبت"></TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                                <telerik:RadGridView x:Name="dtgUnionToSubUnion" Grid.Row="1">
+                                </telerik:RadGridView>
+                            </Grid>
+                        </TabItem>
+                        <TabItem IsSelected="True" x:Name="tabSubUnionToSuperUnionRelationships" Header="روابط زیرکلاس به ابرکلاس ">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Margin="2" Width="90" x:Name="btnUpdateSubUnionToSuperUnion" Click="btnUpdateSubUnionToSuperUnion_Click">
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Image Width="20" Source="..\Images\save.png"  />
+                                            <TextBlock Text="ثبت"></TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                                <telerik:RadGridView x:Name="dtgSubUnionToUnion" Grid.Row="1">
+                                </telerik:RadGridView>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

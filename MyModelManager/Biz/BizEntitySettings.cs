@@ -283,7 +283,7 @@ namespace MyModelManager
                         stringDateTimeColumn.DateTimeColumnType.ShowAMPMFormat = true;
                     }
                 }
-             
+
                 var serviceRequest = projectContext.TableDrivedEntity.First(x => x.Name == "ServiceRequest" && x.Table.DBSchema.DatabaseInformationID == databaseID);
                 if (serviceRequest != null)
                 {

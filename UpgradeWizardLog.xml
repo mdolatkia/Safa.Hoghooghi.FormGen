@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="_UpgradeWizard_Files\UpgradeWizardLog.xslt"?>
+<log>
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\DataAccess\DataAccess.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\DataAccess\App.Config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\DataAccess\App.Config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\DataAccess\App.Config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\DataAccess\App.Config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\DataAccess\App.Config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\DataAccess\App.Config" />
+  <event action="Analyze" type="Success" name="App.Config" path="E:\Safa.Hoghooghi.FormGen\DataAccess\App.Config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\DataAccess\packages.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\DataAccess\packages.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\DataAccess\packages.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\DataAccess\packages.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\DataAccess\packages.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\DataAccess\packages.config" />
+  <event action="Analyze" type="Success" name="packages.config" path="E:\Safa.Hoghooghi.FormGen\DataAccess\packages.config" />
+  <event action="Analyze" type="Success" name="DataAccess" path="E:\Safa.Hoghooghi.FormGen\DataAccess\DataAccess.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\MyUIGenerator.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\app.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\app.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\app.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\app.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\app.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\app.config" />
+  <event action="Analyze" type="Success" name="app.config" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\app.config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="packages.config" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Resources.resx" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\Properties\Resources.resx" />
+  <event action="Analyze" type="Success" name="MyUIGenerator" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\MyUIGenerator.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyUILibrary\MyUILibrary.csproj" />
+  <event action="Analyze" type="Success" name="MyUILibrary" path="E:\Safa.Hoghooghi.FormGen\MyUILibrary\MyUILibrary.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\ProxyLibrary\ProxyLibrary.csproj" />
+  <event action="Analyze" type="Success" name="ProxyLibrary" path="E:\Safa.Hoghooghi.FormGen\ProxyLibrary\ProxyLibrary.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyDataManager\MyDataManagerService.csproj" />
+  <event action="Analyze" type="Success" name="MyDataManagerService" path="E:\Safa.Hoghooghi.FormGen\MyDataManager\MyDataManagerService.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyDataManagerBusiness\MyDataEditManagerBusiness.csproj" />
+  <event action="Analyze" type="Success" name="MyDataEditManagerBusiness" path="E:\Safa.Hoghooghi.FormGen\MyDataManagerBusiness\MyDataEditManagerBusiness.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MySecurity\MySecurity.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MySecurity\App.Config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MySecurity\App.Config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MySecurity\App.Config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MySecurity\App.Config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MySecurity\App.Config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MySecurity\App.Config" />
+  <event action="Analyze" type="Success" name="App.Config" path="E:\Safa.Hoghooghi.FormGen\MySecurity\App.Config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MySecurity\packages.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MySecurity\packages.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MySecurity\packages.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MySecurity\packages.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MySecurity\packages.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MySecurity\packages.config" />
+  <event action="Analyze" type="Success" name="packages.config" path="E:\Safa.Hoghooghi.FormGen\MySecurity\packages.config" />
+  <event action="Analyze" type="Success" name="MySecurity" path="E:\Safa.Hoghooghi.FormGen\MySecurity\MySecurity.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyProject_WPF\MyProject_WPF.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyProject_WPF\App.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyProject_WPF\App.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyProject_WPF\App.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyProject_WPF\App.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyProject_WPF\App.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyProject_WPF\App.config" />
+  <event action="Analyze" type="Success" name="App.config" path="E:\Safa.Hoghooghi.FormGen\MyProject_WPF\App.config" />
+  <event action="Analyze" type="Success" name="Resources.resx" path="E:\Safa.Hoghooghi.FormGen\MyProject_WPF\Properties\Resources.resx" />
+  <event action="Analyze" type="Success" name="MyProject_WPF" path="E:\Safa.Hoghooghi.FormGen\MyProject_WPF\MyProject_WPF.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyModelManager\MyModelManager.csproj" />
+  <event action="Analyze" type="Success" name="MyModelManager" path="E:\Safa.Hoghooghi.FormGen\MyModelManager\MyModelManager.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\MyModelGenerator.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\App.Config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\App.Config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\App.Config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\App.Config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\App.Config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\App.Config" />
+  <event action="Analyze" type="Success" name="App.Config" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\App.Config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="packages.config" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\packages.config" />
+  <event action="Analyze" type="Success" name="MyModelGenerator" path="E:\Safa.Hoghooghi.FormGen\MyModelGenerator\MyModelGenerator.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyGeneralLibrary\MyGeneralLibrary.csproj" />
+  <event action="Analyze" type="Success" name="MyGeneralLibrary" path="E:\Safa.Hoghooghi.FormGen\MyGeneralLibrary\MyGeneralLibrary.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyFormulaLibrary\MyFormulaFunctionStateFunctionLibrary.csproj" />
+  <event action="Analyze" type="Success" name="MyFormulaFunctionStateFunctionLibrary" path="E:\Safa.Hoghooghi.FormGen\MyFormulaLibrary\MyFormulaFunctionStateFunctionLibrary.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyCacheManager\MyCacheManager.csproj" />
+  <event action="Analyze" type="Success" name="MyCacheManager" path="E:\Safa.Hoghooghi.FormGen\MyCacheManager\MyCacheManager.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyInterfaces\MyInterfaces.csproj" />
+  <event action="Analyze" type="Success" name="MyInterfaces" path="E:\Safa.Hoghooghi.FormGen\MyInterfaces\MyInterfaces.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyTestImplLibrary\MyTestImplLibrary.csproj" />
+  <event action="Analyze" type="Success" name="MyTestImplLibrary" path="E:\Safa.Hoghooghi.FormGen\MyTestImplLibrary\MyTestImplLibrary.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyCodeFunctionLibrary\MyCodeFunctionLibrary.csproj" />
+  <event action="Analyze" type="Success" name="MyCodeFunctionLibrary" path="E:\Safa.Hoghooghi.FormGen\MyCodeFunctionLibrary\MyCodeFunctionLibrary.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyConnectionManager\MyConnectionManager.csproj" />
+  <event action="Analyze" type="Success" name="MyConnectionManager" path="E:\Safa.Hoghooghi.FormGen\MyConnectionManager\MyConnectionManager.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyDataSearchManagerBusiness\MyDataSearchManagerBusiness.csproj" />
+  <event action="Analyze" type="Success" name="MyDataSearchManagerBusiness" path="E:\Safa.Hoghooghi.FormGen\MyDataSearchManagerBusiness\MyDataSearchManagerBusiness.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyPackageManager\MyPackageManager.csproj" />
+  <event action="Analyze" type="Success" name="MyPackageManager" path="E:\Safa.Hoghooghi.FormGen\MyPackageManager\MyPackageManager.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyDatatbaseFunctionLibrary\MyDatabaseFunctionLibrary.csproj" />
+  <event action="Analyze" type="Success" name="MyDatabaseFunctionLibrary" path="E:\Safa.Hoghooghi.FormGen\MyDatatbaseFunctionLibrary\MyDatabaseFunctionLibrary.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyDatabaseToObject\MyDatabaseToObject.csproj" />
+  <event action="Analyze" type="Success" name="MyDatabaseToObject" path="E:\Safa.Hoghooghi.FormGen\MyDatabaseToObject\MyDatabaseToObject.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyUILibraryInterfaces\MyUILibraryInterfaces.csproj" />
+  <event action="Analyze" type="Success" name="MyUILibraryInterfaces" path="E:\Safa.Hoghooghi.FormGen\MyUILibraryInterfaces\MyUILibraryInterfaces.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyCommonWPFControls\MyCommonWPFControls.csproj" />
+  <event action="Analyze" type="Success" name="MyCommonWPFControls" path="E:\Safa.Hoghooghi.FormGen\MyCommonWPFControls\MyCommonWPFControls.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyReportManager\MyReportManager.csproj" />
+  <event action="Analyze" type="Success" name="MyReportManager" path="E:\Safa.Hoghooghi.FormGen\MyReportManager\MyReportManager.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\MyDataItemManager.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\App.Config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\App.Config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\App.Config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\App.Config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\App.Config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\App.Config" />
+  <event action="Analyze" type="Success" name="App.Config" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\App.Config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\packages.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\packages.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\packages.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\packages.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\packages.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\packages.config" />
+  <event action="Analyze" type="Success" name="packages.config" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\packages.config" />
+  <event action="Analyze" type="Success" name="MyDataItemManager" path="E:\Safa.Hoghooghi.FormGen\MyLetterManager\MyDataItemManager.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyLetterGenerator\MyLetterGenerator.csproj" />
+  <event action="Analyze" type="Success" name="MyLetterGenerator" path="E:\Safa.Hoghooghi.FormGen\MyLetterGenerator\MyLetterGenerator.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyRelationshipDataManager\MyRelationshipDataManager.csproj" />
+  <event action="Analyze" type="Success" name="MyRelationshipDataManager" path="E:\Safa.Hoghooghi.FormGen\MyRelationshipDataManager\MyRelationshipDataManager.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyTestApp\MyTestApp.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyTestApp\App.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyTestApp\App.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyTestApp\App.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyTestApp\App.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyTestApp\App.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyTestApp\App.config" />
+  <event action="Analyze" type="Success" name="App.config" path="E:\Safa.Hoghooghi.FormGen\MyTestApp\App.config" />
+  <event action="Analyze" type="Success" name="Resources.resx" path="E:\Safa.Hoghooghi.FormGen\MyTestApp\Properties\Resources.resx" />
+  <event action="Analyze" type="Success" name="MyTestApp" path="E:\Safa.Hoghooghi.FormGen\MyTestApp\MyTestApp.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyRelationshipTailDataManager\MyRelationshipTailDataManager.csproj" />
+  <event action="Analyze" type="Success" name="MyRelationshipTailDataManager" path="E:\Safa.Hoghooghi.FormGen\MyRelationshipTailDataManager\MyRelationshipTailDataManager.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\MyExternalReportLibrary.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\App.Config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\App.Config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\App.Config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\App.Config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\App.Config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\App.Config" />
+  <event action="Analyze" type="Success" name="App.Config" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\App.Config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\packages.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\packages.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\packages.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\packages.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\packages.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\packages.config" />
+  <event action="Analyze" type="Success" name="packages.config" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\packages.config" />
+  <event action="Analyze" type="Success" name="MyExternalReportLibrary" path="E:\Safa.Hoghooghi.FormGen\MyExternalReportLibrary\MyExternalReportLibrary.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\Paper_MetadataManagement.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\App.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\App.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\App.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\App.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\App.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\App.config" />
+  <event action="Analyze" type="Success" name="App.config" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\App.config" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\packages.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\packages.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\packages.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\packages.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\packages.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\packages.config" />
+  <event action="Analyze" type="Success" name="packages.config" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\packages.config" />
+  <event action="Analyze" type="Success" name="Resources.resx" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\Properties\Resources.resx" />
+  <event action="Analyze" type="Success" name="Paper_MetadataManagement" path="E:\Safa.Hoghooghi.FormGen\Paper_MetadataManagement\Paper_MetadataManagement.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MySampleCodeFunctions\MySampleCodeFunctions.csproj" />
+  <event action="Analyze" type="Success" name="MySampleCodeFunctions" path="E:\Safa.Hoghooghi.FormGen\MySampleCodeFunctions\MySampleCodeFunctions.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\MyReportRestServices.csproj" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\packages.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\packages.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\packages.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\packages.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\packages.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\packages.config" />
+  <event action="Analyze" type="Success" name="packages.config" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\packages.config" />
+  <event action="Analyze" type="Success" name="Report1.resx" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\Report1.resx" />
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\Web.config" />
+  <event action="Analyze" type="Success" name="Http Handlers" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\Web.config" />
+  <event action="Analyze" type="Success" name="Handlers (IIS7+)" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\Web.config" />
+  <event action="Analyze" type="Success" name="Config Sections" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\Web.config" />
+  <event action="Analyze" type="Success" name="Render Extensions" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\Web.config" />
+  <event action="Analyze" type="Success" name="Session State Providers" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\Web.config" />
+  <event action="Analyze" type="Success" name="Web.config" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\Web.config" />
+  <event action="Analyze" type="Success" name="Web.Debug.config" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\Web.Debug.config" />
+  <event action="Analyze" type="Success" name="Web.Release.config" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\Web.Release.config" />
+  <event action="Analyze" type="Success" name="MyReportRestServices" path="E:\Safa.Hoghooghi.FormGen\MyReportRestServices\MyReportRestServices.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyTargetDatabaseManager\MyTargetDatabaseManager.csproj" />
+  <event action="Analyze" type="Success" name="MyTargetDatabaseManager" path="E:\Safa.Hoghooghi.FormGen\MyTargetDatabaseManager\MyTargetDatabaseManager.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyWorkflowRequestManager\MyWorkflowRequestManager.csproj" />
+  <event action="Analyze" type="Success" name="MyWorkflowRequestManager" path="E:\Safa.Hoghooghi.FormGen\MyWorkflowRequestManager\MyWorkflowRequestManager.csproj" />
+  <event>Get project references.</event>
+  <event action="Analyze" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\WpfPersianDatePicker\WpfPersianDatePicker.csproj" />
+  <event action="Analyze" type="Success" name="Resources.resx" path="E:\Safa.Hoghooghi.FormGen\WpfPersianDatePicker\Properties\Resources.resx" />
+  <event action="Analyze" type="Success" name="WpfPersianDatePicker" path="E:\Safa.Hoghooghi.FormGen\WpfPersianDatePicker\WpfPersianDatePicker.csproj" />
+  <event action="Analyze" type="Success" name="SafaLHQReportGenerator" path="E:\Safa.Hoghooghi.FormGen\SafaLHQReportGenerator.sln" />
+  <event action="Backup" type="Success" name="MyUIGenerator" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\MyUIGenerator.csproj" />
+  <event action="Backup" type="Success" name="MyUILibrary" path="E:\Safa.Hoghooghi.FormGen\MyUILibrary\MyUILibrary.csproj" />
+  <event action="Upgrade" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\MyUIGenerator.csproj" />
+  <event action="Upgrade" type="Success" name="MyUIGenerator" path="E:\Safa.Hoghooghi.FormGen\MyUIGenerator\MyUIGenerator.csproj" />
+  <event action="Upgrade" type="Success" name="Assembly References" path="E:\Safa.Hoghooghi.FormGen\MyUILibrary\MyUILibrary.csproj" />
+  <event action="Upgrade" type="Success" name="MyUILibrary" path="E:\Safa.Hoghooghi.FormGen\MyUILibrary\MyUILibrary.csproj" />
+  <event action="Upgrade" type="Success" name="SafaLHQReportGenerator" path="E:\Safa.Hoghooghi.FormGen\SafaLHQReportGenerator.sln" />
+</log>

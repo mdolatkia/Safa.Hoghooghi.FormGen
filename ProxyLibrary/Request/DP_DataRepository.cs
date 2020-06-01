@@ -638,13 +638,13 @@ namespace ProxyLibrary
                                 // و تغییر رابطه بخواد مونیتور بشه چم کردن پرنتها بیهوده است. چون پرنت عوض شه کلا همه چی عوض میشه
                                 //if (item.columnID != 0)
                                 //{
-                                    if (ParantChildRelationshipInfo.Relationship.PairRelationshipID.ToString() == firstRel)
-                                    {
-                                        ParantChildRelationshipInfo.SourceData.AddChangeMonitor(item.GeneralKey, item.UsageKey, Rest, item.columnID, item.DataToCall);
-                                        ChangeMonitorItems.Remove(item);
-                                        observerSet = true;
+                                if (ParantChildRelationshipInfo.Relationship.PairRelationshipID.ToString() == firstRel)
+                                {
+                                    ParantChildRelationshipInfo.SourceData.AddChangeMonitor(item.GeneralKey, item.UsageKey, Rest, item.columnID, item.DataToCall);
+                                    ChangeMonitorItems.Remove(item);
+                                    observerSet = true;
 
-                                    }
+                                }
                                 //}
                             }
                         }

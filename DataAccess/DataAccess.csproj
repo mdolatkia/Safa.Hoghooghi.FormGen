@@ -153,9 +153,6 @@
     <Compile Include="ColumnValueRangeDetails.cs">
       <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
     </Compile>
-    <Compile Include="ColumnValue_ValidValues.cs">
-      <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
-    </Compile>
     <Compile Include="ConditionalPermission.cs">
       <DependentUpon>MyProjectDataAccess.tt</DependentUpon>
     </Compile>

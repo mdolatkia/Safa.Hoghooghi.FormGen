@@ -63,7 +63,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
     }
     public class NumericHelper
     {
-        public double IsNull(object value,double resValue)
+        public double IsNull(object value, double resValue)
         {
             if (value == null)
                 return resValue;

@@ -14,11 +14,6 @@ namespace DataAccess
     
     public partial class UIColumnValue
     {
-        public UIColumnValue()
-        {
-            this.ColumnValue_ValidValues = new HashSet<ColumnValue_ValidValues>();
-        }
-    
         public int ID { get; set; }
         public int ColumnID { get; set; }
         public string ExactValue { get; set; }
@@ -27,7 +22,6 @@ namespace DataAccess
         public bool EvenHasValue { get; set; }
     
         public virtual Column Column { get; set; }
-        public virtual ICollection<ColumnValue_ValidValues> ColumnValue_ValidValues { get; set; }
         public virtual UIActionActivity UIActionActivity { get; set; }
     }
 }

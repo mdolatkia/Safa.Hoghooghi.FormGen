@@ -16,9 +16,9 @@ namespace MyProject_WPF.Biz
         BizISARelationship bizISARelationship = new BizISARelationship();
         BizUnionRelationship bizUnionRelationship = new BizUnionRelationship();
         //DatabaseDTO Database { set; get; }
-        public void ConvertRelationship( RelationshipDTO relationship, Enum_RelationshipType targetRaltionshipType)
+        public void ConvertRelationship(RelationshipDTO relationship, Enum_RelationshipType targetRaltionshipType)
         {
-           
+
             ModelDataHelper dataHelper = new ModelDataHelper();
             var relationshinInfo = dataHelper.GetRelationshipsInfoWithEntityIds(MyProjectManager.GetMyProjectManager.GetRequester(), relationship);
 
