@@ -11,25 +11,25 @@ namespace MyFormulaFunctionStateFunctionLibrary
     class FormulaInstanceItemsHelper
     {
         List<FormulaItemDTO> FormulaItems = new List<FormulaItemDTO>();
-        internal List<FormulaItemDTO> GetFormulaItems(FormulaDefinitionInstance formulaInstance, string expressionStr)
-        {
-            FormulaItems.Clear();
-            //if (MainFormulaObject is FormulaObject)
-            //{
-            formulaInstance.PropertyGetCalled += FormulaInstance_PropertyGetCalled;
-            //}
-            //else if (mainFormulaObjectOrList is IList)
-            //{
-            //    foreach (FormulaObject item in (mainFormulaObjectOrList as IList))
-            //    {
-            //        item.PropertyGetCalled += FormulaInstance_PropertyGetCalled;
-            //    }
-            //}
-            //     GetExpression(expressionStr);
-            formulaInstance.CalculateExpression(expressionStr);
-            formulaInstance.PropertyGetCalled -= FormulaInstance_PropertyGetCalled;
-            return FormulaItems;
-        }
+        //////internal List<FormulaItemDTO> GetFormulaItems(FormulaDefinitionInstance formulaInstance, string expressionStr)
+        //////{
+        //////    FormulaItems.Clear();
+        //////    //if (MainFormulaObject is FormulaObject)
+        //////    //{
+        //////    //////formulaInstance.PropertyGetCalled += FormulaInstance_PropertyGetCalled;
+        //////    //}
+        //////    //else if (mainFormulaObjectOrList is IList)
+        //////    //{
+        //////    //    foreach (FormulaObject item in (mainFormulaObjectOrList as IList))
+        //////    //    {
+        //////    //        item.PropertyGetCalled += FormulaInstance_PropertyGetCalled;
+        //////    //    }
+        //////    //}
+        //////    //     GetExpression(expressionStr);
+        //////    //////formulaInstance.CalculateExpression(expressionStr);
+        //////    //////formulaInstance.PropertyGetCalled -= FormulaInstance_PropertyGetCalled;
+        //////    return FormulaItems;
+        //////}
 
         private void FormulaInstance_PropertyGetCalled(object sender, PropertyGetArg e)
         {
@@ -67,8 +67,8 @@ namespace MyFormulaFunctionStateFunctionLibrary
                 return FormuaItemType.Relationship;
             else if (propertyType == PropertyType.FormulaParameter)
                 return FormuaItemType.FormulaParameter;
-            else if (propertyType == PropertyType.DBFormula)
-                return FormuaItemType.DatabaseFunction;
+            //else if (propertyType == PropertyType.DBFormula)
+            //    return FormuaItemType.DatabaseFunction;
             else if (propertyType == PropertyType.Code)
                 return FormuaItemType.Code;
             else if (propertyType == PropertyType.State)

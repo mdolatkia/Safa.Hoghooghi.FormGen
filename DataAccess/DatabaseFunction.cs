@@ -25,7 +25,6 @@ namespace DataAccess
     
         public int ID { get; set; }
         public string FunctionName { get; set; }
-        public string ReturnType { get; set; }
         public string Title { get; set; }
         public short Type { get; set; }
         public int DBSchemaID { get; set; }

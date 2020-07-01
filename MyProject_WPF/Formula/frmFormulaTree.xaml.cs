@@ -189,11 +189,11 @@ namespace MyProject_WPF
             AddColumnNodes(columnsNode.Items, entityID);
             AddRalationshipNodes(relatoinshipNode.Items, entityID);
             AddParameterNodes(parametersNode.Items, entityID);
-            AddDatabaseFunctionNodes(databaseFunctionNode.Items, entityID);
+            //AddDatabaseFunctionNodes(databaseFunctionNode.Items, entityID);
             AddCodeFunctionNodes(codeFunctionNode.Items, entityID);
 
             RadContextMenu.SetContextMenu(parametersNode, GetParametersContextMenu(entityID, parametersNode));
-            RadContextMenu.SetContextMenu(databaseFunctionNode, GetDatabaseFunctionsContextMenu(entityID, databaseFunctionNode));
+            //RadContextMenu.SetContextMenu(databaseFunctionNode, GetDatabaseFunctionsContextMenu(entityID, databaseFunctionNode));
             RadContextMenu.SetContextMenu(codeFunctionNode, GetCodeFunctionsContextMenu(entityID, codeFunctionNode));
         }
 
@@ -218,7 +218,7 @@ namespace MyProject_WPF
             //formulaParameterIntention.EntityID = entityID;
             frmFormula view = new frmFormula(0, entityID);
             view.FormulaUpdated += (sender1, e1) => view_FormulaParameterUpdated(sender1, e1, entityID, parametersNode.Items);
-            MyProjectManager.GetMyProjectManager.ShowDialog(view, "Form");
+            MyProjectManager.GetMyProjectManager.ShowDialog(view, "Form", Enum_WindowSize.Maximized);
         }
 
 
@@ -290,79 +290,79 @@ namespace MyProject_WPF
 
             frmFormula view = new frmFormula(parameterID, entityID);
             view.FormulaUpdated += (sender1, e1) => view_FormulaParameterUpdated(sender1, e1, entityID, collection);
-            MyProjectManager.GetMyProjectManager.ShowDialog(view, "فرمول");
+            MyProjectManager.GetMyProjectManager.ShowDialog(view, "فرمول", Enum_WindowSize.Maximized);
         }
 
-        private RadContextMenu GetDatabaseFunctionsContextMenu(int entityID, RadTreeViewItem databaseFunctionsNode)
-        {
-            RadContextMenu menu = new RadContextMenu();
-            RadMenuItem item = new RadMenuItem();
-            item.Header = "تعریف فانکشن";
-            item.Click += (sender, e) => item_ClickDatabaseFunction(sender, e, entityID, databaseFunctionsNode);
-            menu.Items.Add(item);
+        //private RadContextMenu GetDatabaseFunctionsContextMenu(int entityID, RadTreeViewItem databaseFunctionsNode)
+        //{
+        //    RadContextMenu menu = new RadContextMenu();
+        //    RadMenuItem item = new RadMenuItem();
+        //    item.Header = "تعریف فانکشن";
+        //    item.Click += (sender, e) => item_ClickDatabaseFunction(sender, e, entityID, databaseFunctionsNode);
+        //    menu.Items.Add(item);
 
-            return menu;
-        }
+        //    return menu;
+        //}
 
 
-        void item_ClickDatabaseFunction(object sender, RoutedEventArgs e, int entityID, RadTreeViewItem databaseFunctionsNode)
-        {
+        //void item_ClickDatabaseFunction(object sender, RoutedEventArgs e, int entityID, RadTreeViewItem databaseFunctionsNode)
+        //{
 
-            var DatabaseFunctionIntention = new DatabaseFunctionEntityIntention();
-            DatabaseFunctionIntention.Type = Enum_DatabaseFunctionEntityIntention.DatabaseFunctionEntityDefinition;
-            DatabaseFunctionIntention.EntityID = entityID;
-            frmDatabaseFunction_Entity view = new frmDatabaseFunction_Entity(DatabaseFunctionIntention);
-            view.DatabaseFunctionEntitySelected += (sender1, e1) => view_DatabaseFunctionSelected(sender1, e1, databaseFunctionsNode.Items);
-            MyProjectManager.GetMyProjectManager.ShowDialog(view, "DatabaseFunction");
-        }
-        private void AddDatabaseFunctionNodes(ItemCollection items, int entityID)
-        {
-            items.Clear();
-            var listFunctoins = bizDatabaseFunction.GetDatabaseFunctionEntities(entityID);
-            foreach (var databaseFunction in listFunctoins)
-            {
-                AddDatabaseFunctionNode(items, databaseFunction);
-            }
+        //    var DatabaseFunctionIntention = new DatabaseFunctionEntityIntention();
+        //    DatabaseFunctionIntention.Type = Enum_DatabaseFunctionEntityIntention.DatabaseFunctionEntityDefinition;
+        //    DatabaseFunctionIntention.EntityID = entityID;
+        //    frmDatabaseFunction_Entity view = new frmDatabaseFunction_Entity(DatabaseFunctionIntention);
+        //    view.DatabaseFunctionEntitySelected += (sender1, e1) => view_DatabaseFunctionSelected(sender1, e1, databaseFunctionsNode.Items);
+        //    MyProjectManager.GetMyProjectManager.ShowDialog(view, "DatabaseFunction");
+        //}
+        //private void AddDatabaseFunctionNodes(ItemCollection items, int entityID)
+        //{
+        //    items.Clear();
+        //    var listFunctoins = bizDatabaseFunction.GetDatabaseFunctionEntities(entityID);
+        //    foreach (var databaseFunction in listFunctoins)
+        //    {
+        //        AddDatabaseFunctionNode(items, databaseFunction);
+        //    }
 
-        }
-        private RadTreeViewItem AddDatabaseFunctionNode(ItemCollection collection, DatabaseFunction_EntityDTO databaseFunctionEntity)
-        {
-            var node = GetNode();
-            node.DataContext = databaseFunctionEntity;
-            node.Header = GetNodeHeader(databaseFunctionEntity.DatabaseFunction.Title, DatabaseObjectCategory.DatabaseFunction);
-            node.ToolTip = databaseFunctionEntity.DatabaseFunction.Title;
-            collection.Add(node);
-            _AllItems.Add(node);
-            RadContextMenu.SetContextMenu(node, GetDatabaseFunctionContextMenu(collection, databaseFunctionEntity.ID));
-            return node;
-        }
+        //}
+        //private RadTreeViewItem AddDatabaseFunctionNode(ItemCollection collection, DatabaseFunction_EntityDTO databaseFunctionEntity)
+        //{
+        //    var node = GetNode();
+        //    node.DataContext = databaseFunctionEntity;
+        //    node.Header = GetNodeHeader(databaseFunctionEntity.DatabaseFunction.Title, DatabaseObjectCategory.DatabaseFunction);
+        //    node.ToolTip = databaseFunctionEntity.DatabaseFunction.Title;
+        //    collection.Add(node);
+        //    _AllItems.Add(node);
+        //    RadContextMenu.SetContextMenu(node, GetDatabaseFunctionContextMenu(collection, databaseFunctionEntity.ID));
+        //    return node;
+        //}
 
-        private RadContextMenu GetDatabaseFunctionContextMenu(ItemCollection collection, int databaseFunctionEntityID)
-        {
-            RadContextMenu menu = new RadContextMenu();
-            RadMenuItem item = new RadMenuItem();
-            item.Header = "اصلاح فانکشن";
-            item.Click += (sender, e) => item_ClickDatabaseFunction(sender, e, collection, databaseFunctionEntityID);
-            menu.Items.Add(item);
+        //private RadContextMenu GetDatabaseFunctionContextMenu(ItemCollection collection, int databaseFunctionEntityID)
+        //{
+        //    RadContextMenu menu = new RadContextMenu();
+        //    RadMenuItem item = new RadMenuItem();
+        //    item.Header = "اصلاح فانکشن";
+        //    item.Click += (sender, e) => item_ClickDatabaseFunction(sender, e, collection, databaseFunctionEntityID);
+        //    menu.Items.Add(item);
 
-            return menu;
-        }
+        //    return menu;
+        //}
 
-        private void item_ClickDatabaseFunction(object sender, RadRoutedEventArgs e, ItemCollection collection, int databaseFunctionEntityID)
-        {
+        //private void item_ClickDatabaseFunction(object sender, RadRoutedEventArgs e, ItemCollection collection, int databaseFunctionEntityID)
+        //{
 
-            var DatabaseFunctionIntention = new DatabaseFunctionEntityIntention();
-            DatabaseFunctionIntention.Type = Enum_DatabaseFunctionEntityIntention.DatabaseFunctionEntityEdit;
-            DatabaseFunctionIntention.DatabaseFunctionEntityID = databaseFunctionEntityID;
-            frmDatabaseFunction_Entity view = new frmDatabaseFunction_Entity(DatabaseFunctionIntention);
-            view.DatabaseFunctionEntitySelected += (sender1, e1) => view_DatabaseFunctionSelected(sender1, e1, collection);
-            MyProjectManager.GetMyProjectManager.ShowDialog(view, "DatabaseFunction_Entity");
-        }
+        //    var DatabaseFunctionIntention = new DatabaseFunctionEntityIntention();
+        //    DatabaseFunctionIntention.Type = Enum_DatabaseFunctionEntityIntention.DatabaseFunctionEntityEdit;
+        //    DatabaseFunctionIntention.DatabaseFunctionEntityID = databaseFunctionEntityID;
+        //    frmDatabaseFunction_Entity view = new frmDatabaseFunction_Entity(DatabaseFunctionIntention);
+        //    view.DatabaseFunctionEntitySelected += (sender1, e1) => view_DatabaseFunctionSelected(sender1, e1, collection);
+        //    MyProjectManager.GetMyProjectManager.ShowDialog(view, "DatabaseFunction_Entity");
+        //}
 
-        void view_DatabaseFunctionSelected(object sender, DatabaseFunctionEntitySelectedArg e, ItemCollection collection)
-        {
-            AddDatabaseFunctionNodes(collection, EntityID);
-        }
+        //void view_DatabaseFunctionSelected(object sender, DatabaseFunctionEntitySelectedArg e, ItemCollection collection)
+        //{
+        //    AddDatabaseFunctionNodes(collection, EntityID);
+        //}
 
 
         private RadContextMenu GetCodeFunctionsContextMenu(int entityID, RadTreeViewItem codeFunctionsNode)

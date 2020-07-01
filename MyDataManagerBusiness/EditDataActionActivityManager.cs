@@ -90,6 +90,7 @@ namespace MyDataEditManagerBusiness
                         }
                         else if (entityActionActivity.DatabaseFunctionID != 0)
                         {
+                            ////اصلاح شود و با خصوصیات صدا زده شود یا حداقل لیست خصوصیات ارسال شود چون بهتره ارتباط 
                             var resultFunction = databaseFunctionHandler.GetDatabaseFunctionValue(requester, entityActionActivity.DatabaseFunctionID, queryItem.DataItem);
                             if (resultFunction.ExecutionException != null)
                             {

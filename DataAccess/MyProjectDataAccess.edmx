@@ -226,7 +226,6 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FunctionName" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="ReturnType" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Title" Type="varchar" MaxLength="128" />
           <Property Name="Type" Type="smallint" Nullable="false" />
           <Property Name="DBSchemaID" Type="int" Nullable="false" />
@@ -259,6 +258,8 @@
           <Property Name="DataType" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="ParamName" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Enable" Type="bit" Nullable="false" />
+          <Property Name="InputOutput" Type="smallint" Nullable="false" />
+          <Property Name="Order" Type="smallint" />
         </EntityType>
         <EntityType Name="DatabaseInformation">
           <Key>
@@ -7285,7 +7286,6 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FunctionName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="ReturnType" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="Title" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="Int16" Nullable="false" />
           <Property Name="DBSchemaID" Type="Int32" Nullable="false" />
@@ -7330,8 +7330,10 @@
           <Property Name="DataType" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="ParamName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="Enable" Type="Boolean" Nullable="false" />
+          <Property Name="InputOutput" Type="Int16" Nullable="false" />
           <NavigationProperty Name="DatabaseFunction" Relationship="MyProjectModel.FKDatabaseFu370493" FromRole="DatabaseFunctionParameter" ToRole="DatabaseFunction" />
           <NavigationProperty Name="DatabaseFunction_TableDrivedEntity_Columns" Relationship="MyProjectModel.FKDatabaseFu935636" FromRole="DatabaseFunctionParameter" ToRole="DatabaseFunction_TableDrivedEntity_Columns" />
+          <Property Name="Order" Type="Int16" />
         </EntityType>
         <EntityType Name="DatabaseInformation">
           <Key>
@@ -12299,7 +12301,6 @@
                 <ScalarProperty Name="DBSchemaID" ColumnName="DBSchemaID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="ReturnType" ColumnName="ReturnType" />
                 <ScalarProperty Name="FunctionName" ColumnName="FunctionName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -12328,6 +12329,8 @@
           <EntitySetMapping Name="DatabaseFunctionParameter">
             <EntityTypeMapping TypeName="MyProjectModel.DatabaseFunctionParameter">
               <MappingFragment StoreEntitySet="DatabaseFunctionParameter">
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="InputOutput" ColumnName="InputOutput" />
                 <ScalarProperty Name="Enable" ColumnName="Enable" />
                 <ScalarProperty Name="ParamName" ColumnName="ParamName" />
                 <ScalarProperty Name="DataType" ColumnName="DataType" />

@@ -705,16 +705,15 @@ namespace MyModelManager
             }
         }
 
-        public int GetTableDrivedEntityIDByName(DR_Requester requester, string entityName)
+        public TableDrivedEntityDTO GetPermissionedEntityByName(DR_Requester requester, int databaseID, string entityName)
         {
-
             using (var projectContext = new DataAccess.MyProjectEntities())
             {
-                var table = projectContext.TableDrivedEntity.FirstOrDefault(x => x.Name == entityName);
-                if (table != null)
-                    return table.ID;
+                var entity = projectContext.TableDrivedEntity.FirstOrDefault(x => x.Name == entityName);
+                if (entity != null)
+                    return GetPermissionedEntity(requester, entity.ID);
                 else
-                    return 0;
+                    return null;
             }
         }
 
@@ -1074,7 +1073,7 @@ namespace MyModelManager
                         if (dbColumn.StringColumnType == null)
                             dbColumn.StringColumnType = new StringColumnType();
                         dbColumn.StringColumnType.MaxLength = column.StringColumnType.MaxLength;
-                        RemoveColumnTypes(projectContext, dbColumn, new List<Enum_ColumnType>() { Enum_ColumnType.DateTime,Enum_ColumnType.String });
+                        RemoveColumnTypes(projectContext, dbColumn, new List<Enum_ColumnType>() { Enum_ColumnType.DateTime, Enum_ColumnType.String });
                     }
                     else
                         RemoveColumnTypes(projectContext, dbColumn, new List<Enum_ColumnType>() { Enum_ColumnType.DateTime });
@@ -1086,7 +1085,7 @@ namespace MyModelManager
 
                     dbColumn.NumericColumnType.Precision = column.NumericColumnType.Precision;
                     dbColumn.NumericColumnType.Scale = column.NumericColumnType.Scale;
-                    RemoveColumnTypes(projectContext, dbColumn,new List<Enum_ColumnType>() { Enum_ColumnType.Numeric });
+                    RemoveColumnTypes(projectContext, dbColumn, new List<Enum_ColumnType>() { Enum_ColumnType.Numeric });
                 }
 
                 dbColumn.DBCalculateFormula = column.DBFormula;

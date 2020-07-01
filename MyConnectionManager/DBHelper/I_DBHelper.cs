@@ -12,19 +12,20 @@ namespace MyConnectionManager
     {
         DbTransaction GetDBTransaction();
         DbConnection GetDBConnection();
-        DataTable ExecuteProcedure(string PROC_NAME, params object[] parameters);
-        DataTable ExecuteQuery(string query, params object[] parameters);
+        //DataTable ExecuteProcedure(string PROC_NAME, params object[] parameters);
+        DataTable ExecuteQuery(string query, List<IDataParameter> parameters = null);
 
         //برای اپدیت و دیلیت 
-        int ExecuteNonQuery(string query, params object[] parameters);
+        int ExecuteNonQuery(string query, List<IDataParameter> parameters = null);
 
 
-        object ExecuteScalar(string query, params object[] parameters);
+        object ExecuteScalar(string query, List<IDataParameter> parameters = null);
         TestConnectionResult TestConnection();
-        object ExecuteStoredProcedure(string spName, params object[] parameters);
+        object ExecuteStoredProcedure(string spName, List<IDataParameter> parameters, string outputParameterName);
         //static int NonQuery(string query, IList<SqlParameter> parametros);
         //static object Scalar(string query, List<SqlParameter> parametros);
     }
+
     public interface I_TransactionalDBHelper
     {
         TransactionResult ExecuteTransactionalQueryItems(List<QueryItem> queryItems);

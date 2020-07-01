@@ -78,6 +78,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="DynamicExpresso.Core, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamicExpresso.Core.2.3.1\lib\net45\DynamicExpresso.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Componenets\EntityFramework.dll</HintPath>
@@ -214,14 +218,17 @@
     <Compile Include="DrivedEntities\SelectDrivedEntites.xaml.cs">
       <DependentUpon>SelectDrivedEntites.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formula\FormulaAutoComplete.xaml.cs">
+      <DependentUpon>FormulaAutoComplete.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formula\frmNewFormulaDefinition.xaml.cs">
+      <DependentUpon>frmNewFormulaDefinition.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RelationshipTail\frmEntityRelationshipTail.xaml.cs">
       <DependentUpon>frmEntityRelationshipTail.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formula\frmFormula.xaml.cs">
       <DependentUpon>frmFormula.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Formula\frmFormulaDefinition.xaml.cs">
-      <DependentUpon>frmFormulaDefinition.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formula\frmFormulaParameterSelect.xaml.cs">
       <DependentUpon>frmFormulaParameterSelect.xaml</DependentUpon>
@@ -563,15 +570,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formula\FormulaAutoComplete.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formula\frmNewFormulaDefinition.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RelationshipTail\frmEntityRelationshipTail.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Formula\frmFormula.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Formula\frmFormulaDefinition.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1044,6 +1055,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -1335,6 +1347,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\confirm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\method.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

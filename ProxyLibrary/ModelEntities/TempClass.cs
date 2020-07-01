@@ -2811,7 +2811,7 @@ namespace ModelEntites
         public int SchemaID { set; get; }
         public int DatabaseID { set; get; }
         public string RelatedSchema { set; get; }
-        public string ReturnType { set; get; }
+    //    public string ReturnType { set; get; }
 
         public bool Enable { set; get; }
         //public ValueCustomType ValueCustomType { set; get; }
@@ -2834,13 +2834,22 @@ namespace ModelEntites
         public string DataType { set; get; }
         public Type DotNetType { set; get; }
         public string ParameterName { set; get; }
-
+        public short Order { set; get; }
+        public Enum_DatabaseFunctionParameterType InputOutput { set; get; }
+      //  public bool IsPrimaryOutput { set; get; }
     }
     public enum Enum_DatabaseFunctionType
     {
         None,
         Function,
         StoredProcedure
+    }
+    public enum Enum_DatabaseFunctionParameterType
+    {
+        Input,
+        Output,
+        InputOutput,
+        ReturnValue
     }
     public class DatabaseFunction_EntityDTO
     {

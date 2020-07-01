@@ -51,114 +51,35 @@ namespace MyConnectionManager
             }
             return result;
         }
-        public DataTable ExecuteProcedure(string PROC_NAME, params object[] parameters)
-        {
-            try
-            {
-                if (parameters.Length % 2 != 0)
-                    throw new ArgumentException("Wrong number of parameters sent to procedure. Expected an even number.");
-                DataTable a = new DataTable();
-                List<SqlParameter> filters = new List<SqlParameter>();
+        //public DataTable ExecuteProcedure(string PROC_NAME, params object[] parameters)
+        //{
+        //    try
+        //    {
+        //        if (parameters.Length % 2 != 0)
+        //            throw new ArgumentException("Wrong number of parameters sent to procedure. Expected an even number.");
+        //        DataTable a = new DataTable();
+        //        List<SqlParameter> filters = new List<SqlParameter>();
 
-                string query = "EXEC " + PROC_NAME;
+        //        string query = "EXEC " + PROC_NAME;
 
-                bool first = true;
-                for (int i = 0; i < parameters.Length; i += 2)
-                {
-                    filters.Add(new SqlParameter(parameters[i] as string, parameters[i + 1]));
-                    query += (first ? " " : ", ") + ((string)parameters[i]);
-                    first = false;
-                }
+        //        bool first = true;
+        //        for (int i = 0; i < parameters.Length; i += 2)
+        //        {
+        //            filters.Add(new SqlParameter(parameters[i] as string, parameters[i + 1]));
+        //            query += (first ? " " : ", ") + ((string)parameters[i]);
+        //            first = false;
+        //        }
 
-                a = Query(query, filters);
-                return a;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        a = Query(query, filters);
+        //        return a;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-        public DataTable ExecuteQuery(string query, params object[] parameters)
-        {
-            try
-            {
-                if (parameters.Length % 2 != 0)
-                    throw new ArgumentException("Wrong number of parameters sent to procedure. Expected an even number.");
-                DataTable a = new DataTable();
-                List<SqlParameter> filters = new List<SqlParameter>();
-
-                for (int i = 0; i < parameters.Length; i += 2)
-                    filters.Add(new SqlParameter(parameters[i] as string, parameters[i + 1]));
-
-                a = Query(query, filters);
-                return a;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-
-        public int ExecuteNonQuery(string query, params object[] parameters)
-        {
-            try
-            {
-                if (parameters.Length % 2 != 0)
-                    throw new ArgumentException("Wrong number of parameters sent to procedure. Expected an even number.");
-                List<SqlParameter> filters = new List<SqlParameter>();
-
-                for (int i = 0; i < parameters.Length; i += 2)
-                    filters.Add(new SqlParameter(parameters[i] as string, parameters[i + 1]));
-                return NonQuery(query, filters);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public object ExecuteScalar(string query, params object[] parameters)
-        {
-            try
-            {
-                if (parameters.Length % 2 != 0)
-                    throw new ArgumentException("Wrong number of parameters sent to query. Expected an even number.");
-                List<SqlParameter> filters = new List<SqlParameter>();
-
-                for (int i = 0; i < parameters.Length; i += 2)
-                    filters.Add(new SqlParameter(parameters[i] as string, parameters[i + 1]));
-                return Scalar(query, filters);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-
-        public object ExecuteStoredProcedure(string spName, params object[] parameters)
-        {
-            try
-            {
-                if (parameters.Length % 2 != 0)
-                    throw new ArgumentException("Wrong number of parameters sent to query. Expected an even number.");
-                List<SqlParameter> filters = new List<SqlParameter>();
-
-                for (int i = 0; i < parameters.Length; i += 2)
-                    filters.Add(new SqlParameter(parameters[i] as string, parameters[i + 1]));
-                return StoredProcedure(spName, filters);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        #region Private Methods
-
-        private DataTable Query(String consulta, IList<SqlParameter> parametros)
+        public DataTable ExecuteQuery(string query, List<IDataParameter> parameters)
         {
             try
             {
@@ -174,17 +95,17 @@ namespace MyConnectionManager
                     if (SQLConnection.State != ConnectionState.Open)
                         SQLConnection.Open();
                     command.Connection = SQLConnection;
-                    command.CommandText = consulta;
-                    if (parametros != null)
+                    command.CommandText = query;
+                    if (parameters != null)
                     {
-                        command.Parameters.AddRange(parametros.ToArray());
+                        command.Parameters.AddRange(parameters.ToArray());
                     }
                     da = new SqlDataAdapter(command);
                     da.Fill(dt);
                 }
                 finally
                 {
-                    if (SQLTransaction== null)
+                    if (SQLTransaction == null)
                     {
                         if (SQLConnection != null)
                             SQLConnection.Close();
@@ -196,11 +117,10 @@ namespace MyConnectionManager
             {
                 throw;
             }
-
         }
 
 
-        private int NonQuery(string query, IList<SqlParameter> parametros)
+        public int ExecuteNonQuery(string query, List<IDataParameter> parameters)
         {
             try
             {
@@ -217,7 +137,8 @@ namespace MyConnectionManager
                         SQLConnection.Open();
                     command.Connection = SQLConnection;
                     command.CommandText = query;
-                    command.Parameters.AddRange(parametros.ToArray());
+                    if (parameters != null)
+                        command.Parameters.AddRange(parameters.ToArray());
                     return command.ExecuteNonQuery();
 
                 }
@@ -237,7 +158,7 @@ namespace MyConnectionManager
             }
         }
 
-        private object Scalar(string query, List<SqlParameter> parametros)
+        public object ExecuteScalar(string query, List<IDataParameter> parameters)
         {
             try
             {
@@ -254,7 +175,10 @@ namespace MyConnectionManager
                         SQLConnection.Open();
                     command.Connection = SQLConnection;
                     command.CommandText = query;
-                    command.Parameters.AddRange(parametros.ToArray());
+                    if (parameters != null)
+                    {
+                        command.Parameters.AddRange(parameters.ToArray());
+                    }
                     return command.ExecuteScalar();
 
                 }
@@ -273,11 +197,13 @@ namespace MyConnectionManager
                 throw ex;
             }
         }
-        private object StoredProcedure(string spName, List<SqlParameter> parametros)
+
+
+        public object ExecuteStoredProcedure(string spName, List<IDataParameter> parameters, string outputParameterName)
         {
             try
             {
-                DataSet dt = new DataSet();
+
                 SqlCommand command = new SqlCommand();
 
                 try
@@ -288,15 +214,25 @@ namespace MyConnectionManager
                     }
                     if (SQLConnection.State != ConnectionState.Open)
                         SQLConnection.Open();
-                    var returnParameter = new SqlParameter("@ReturnValue", SqlDbType.VarChar, 100);
-                    returnParameter.Direction = ParameterDirection.Output;
-                    parametros.Insert(0,returnParameter);
-
-
+                    if (parameters == null)
+                        parameters = new List<IDataParameter>();
+                    IDataParameter returnParameter = parameters.First(x=>x.ParameterName== outputParameterName);
+                    //if (!parameters.Any(x => x.Direction == ParameterDirection.InputOutput ||
+                    // x.Direction == ParameterDirection.Output || x.Direction == ParameterDirection.ReturnValue))
+                    //{
+                    //    returnParameter = new SqlParameter("@ReturnValue", SqlDbType.VarChar, 100);
+                    //    returnParameter.Direction = ParameterDirection.ReturnValue;
+                    //    parameters.Insert(0, returnParameter);
+                    //}
+                    //else
+                    //{
+                    //    returnParameter = parameters.FirstOrDefault(x => x.Direction == ParameterDirection.InputOutput ||
+                    //   x.Direction == ParameterDirection.Output );
+                    //}
                     command.Connection = SQLConnection;
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = spName;
-                    command.Parameters.AddRange(parametros.ToArray());
+                    command.Parameters.AddRange(parameters.ToArray());
                     command.ExecuteNonQuery();
                     return returnParameter.Value;
                 }
@@ -315,6 +251,29 @@ namespace MyConnectionManager
                 throw ex;
             }
         }
+
+        #region Private Methods
+
+        //private DataTable Query(String consulta, IList<IDataParameter> parametros)
+        //{
+
+
+        //}
+
+
+        //private int NonQuery(string query, IList<SqlParameter> parametros)
+        //{
+
+        //}
+
+        //private object Scalar(string query, List<DbParameter> parametros)
+        //{
+
+        //}
+        //private object StoredProcedure(string spName, List<SqlParameter> parametros)
+        //{
+
+        //}
 
         public DbConnection GetDBConnection()
         {

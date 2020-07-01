@@ -56,7 +56,7 @@ namespace MyProject_WPF
             {
                 var item = e.DataElement as FunctionImportItem;
                 if (!string.IsNullOrEmpty(item.Tooltip))
-                    ToolTipService.SetToolTip(e.Row, item.Tooltip);
+                    ToolTipService.SetToolTip(e.Row, ControlHelper.GetTooltip(item.Tooltip, false));
             }
         }
 
@@ -77,89 +77,108 @@ namespace MyProject_WPF
         }
         private async void SetImportedInfo()
         {
-            try
+            //try
+            //{
+            FormIsBusy(this, null);
+            var result = await GetFunctionsInfo();
+            listNew = new List<FunctionImportItem>();
+            listEdited = new List<FunctionImportItem>();
+            listDeleted = new List<FunctionImportItem>();
+            listExisting = new List<FunctionImportItem>();
+            listException = new List<FunctionImportItem>();
+            var originalFunctions = bizDatabaseFunction.GetOrginalFunctions(Database.ID);
+            foreach (var item in result.Where(x => x.Exception == false))
             {
-                FormIsBusy(this, null);
-                var result = await GetFunctionsInfo();
-                listNew = new List<FunctionImportItem>();
-                listEdited = new List<FunctionImportItem>();
-                listDeleted = new List<FunctionImportItem>();
-                listExisting = new List<FunctionImportItem>();
-                listException = new List<FunctionImportItem>();
-                var originalFunctions = bizDatabaseFunction.GetOrginalFunctions(Database.ID);
-                foreach (var item in result.Where(x => x.Exception == false))
+                if (originalFunctions.Any(x => x.FunctionName.ToLower() == item.Function.FunctionName.ToLower()))
                 {
-                    if (originalFunctions.Any(x => x.FunctionName.ToLower() == item.Function.FunctionName.ToLower()))
+                    var existingEntity = originalFunctions.First(x => x.FunctionName.ToLower() == item.Function.FunctionName.ToLower());
+                    if (existingEntity.Enable)
                     {
-                        var existingEntity = originalFunctions.First(x => x.FunctionName.ToLower() == item.Function.FunctionName.ToLower());
-                        if (existingEntity.Enable)
+                        var diff = EntityIsModified(item.Function, existingEntity);
+                        if (!string.IsNullOrEmpty(diff))
                         {
-                            var diff = EntityIsModified(item.Function, existingEntity);
-                            if (!string.IsNullOrEmpty(diff))
-                            {
-                                item.Selected = true;
-                                item.Tooltip = diff;
-                                listEdited.Add(item);
-                            }
-                            else
-                                listExisting.Add(item);
+                            item.Selected = true;
+                            item.Tooltip = diff;
+                            listEdited.Add(item);
                         }
-                    }
-                    else
-                    {
-                        item.Selected = true;
-                        listNew.Add(item);
+                        else
+                            listExisting.Add(item);
                     }
                 }
-                foreach (var item in result.Where(x => x.Exception == true))
-                {
-                    listException.Add(item);
-                }
-                foreach (var item in originalFunctions.Where(x => x.Enable && !result.Any(y => y.Function.FunctionName == x.FunctionName)))
-                {
-                    listDeleted.Add(new FunctionImportItem(item, "", true));
-                }
-                //var result = await GenerateDefaultEntitiesAndColumns();
-                //نتیجه خط بالا که برگشت ادامه کار طی میشود
-                //    ManageLogs(result, lstFunctions);
-
-                dtgNewFunctions.ItemsSource = listNew;
-                dtgEditFunctions.ItemsSource = listEdited;
-                dtgExistingFunctions.ItemsSource = listExisting;
-                dtgExceptionFunctions.ItemsSource = listException;
-                dtgDeletedFunctions.ItemsSource = listDeleted;
-
-                if (listException.Any())
-                    tabException.Visibility = Visibility.Visible;
                 else
-                    tabException.Visibility = Visibility.Collapsed;
-
-                tabNewFunctions.Foreground = listNew.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
-                tabEditFunctions.Foreground = listEdited.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
-                tabDeletedFunctions.Foreground = listDeleted.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
-                tabException.Foreground = listException.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
-                tabExistingFunctions.Foreground = listExisting.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
-
-                if (listNew.Any())
-                    tabNewFunctions.IsSelected = true;
-                else if (listEdited.Any())
-                    tabEditFunctions.IsSelected = true;
-                else if (listDeleted.Any())
-                    tabDeletedFunctions.IsSelected = true;
-                else if (listException.Any())
-                    tabException.IsSelected = true;
-                else if (listExisting.Any())
-                    tabExistingFunctions.IsSelected = true;
-                btnInsert.IsEnabled = listNew.Any() || listEdited.Any() || listDeleted.Any();
+                {
+                    item.Selected = true;
+                    listNew.Add(item);
+                }
             }
-            catch (Exception ex)
+            foreach (var item in result.Where(x => x.Exception == true))
             {
-                MessageBox.Show("خطا در پردازش اطلاعات" + Environment.NewLine + ex.Message);
+                listException.Add(item);
             }
-            finally
+            foreach (var item in originalFunctions.Where(x => x.Enable && !result.Any(y => y.Function.FunctionName == x.FunctionName)))
             {
-                FormIsFree(this, null);
+                listDeleted.Add(new FunctionImportItem(item, "", true));
             }
+            if (listNew.Any())
+            {
+              
+                foreach (var item in listNew)
+                {
+                    item.Tooltip = GetNewItemTooltip(item);
+                }
+            }
+            //var result = await GenerateDefaultEntitiesAndColumns();
+            //نتیجه خط بالا که برگشت ادامه کار طی میشود
+            //    ManageLogs(result, lstFunctions);
+
+            dtgNewFunctions.ItemsSource = listNew;
+            dtgEditFunctions.ItemsSource = listEdited;
+            dtgExistingFunctions.ItemsSource = listExisting;
+            dtgExceptionFunctions.ItemsSource = listException;
+            dtgDeletedFunctions.ItemsSource = listDeleted;
+
+            if (listException.Any())
+                tabException.Visibility = Visibility.Visible;
+            else
+                tabException.Visibility = Visibility.Collapsed;
+
+            tabNewFunctions.Foreground = listNew.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+            tabEditFunctions.Foreground = listEdited.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+            tabDeletedFunctions.Foreground = listDeleted.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+            tabException.Foreground = listException.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+            tabExistingFunctions.Foreground = listExisting.Any() ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red);
+
+            if (listNew.Any())
+                tabNewFunctions.IsSelected = true;
+            else if (listEdited.Any())
+                tabEditFunctions.IsSelected = true;
+            else if (listDeleted.Any())
+                tabDeletedFunctions.IsSelected = true;
+            else if (listException.Any())
+                tabException.IsSelected = true;
+            else if (listExisting.Any())
+                tabExistingFunctions.IsSelected = true;
+            btnInsert.IsEnabled = listNew.Any() || listEdited.Any() || listDeleted.Any();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("خطا در پردازش اطلاعات" + Environment.NewLine + ex.Message);
+            //}
+            //finally
+            //{
+            //    FormIsFree(this, null);
+            //}
+        }
+        private string GetNewItemTooltip(FunctionImportItem item)
+        {
+            string tooltip = item.Function.FunctionName;
+            tooltip += Environment.NewLine + "Parameters : ";
+            foreach (var column in item.Function.DatabaseFunctionParameter)
+            {
+                tooltip += Environment.NewLine + column.ParameterName 
+                    + "  " + column.DataType +"  "+column.InputOutput.ToString();
+            }
+            return tooltip;
         }
         public Task<List<FunctionImportItem>> GetFunctionsInfo()
         {
@@ -174,8 +193,8 @@ namespace MyProject_WPF
             string result = "";
             if (dbItem.RelatedSchema != existingEntity.RelatedSchema)
                 result += (result == "" ? "" : Environment.NewLine) + "شمای موجودیت تغییر کرده است";
-            if (dbItem.ReturnType != existingEntity.ReturnType)
-                result += (result == "" ? "" : Environment.NewLine) + "خروجی موجودیت تغییر کرده است";
+            //if (dbItem.ReturnType != existingEntity.ReturnType)
+            //    result += (result == "" ? "" : Environment.NewLine) + "خروجی موجودیت تغییر کرده است";
             if (dbItem.DatabaseFunctionParameter.Any(x => !existingEntity.DatabaseFunctionParameter.Any(y => y.ParameterName == x.ParameterName)))
             {
                 foreach (var column in dbItem.DatabaseFunctionParameter.Where(x => !existingEntity.DatabaseFunctionParameter.Any(y => y.ParameterName == x.ParameterName)))
@@ -190,7 +209,9 @@ namespace MyProject_WPF
             {
                 var dbColumn = dbItem.DatabaseFunctionParameter.First(y => y.ParameterName == column.ParameterName);
                 if (column.DataType != dbColumn.DataType)
-                    result += (result == "" ? "" : Environment.NewLine) + "نوع ستون" + " " + column.ParameterName + " " + "تغییر کرده است";
+                    result += (result == "" ? "" : Environment.NewLine) + "نوع داده ستون" + " " + column.ParameterName + " " + "تغییر کرده است";
+                if (column.InputOutput != dbColumn.InputOutput)
+                    result += (result == "" ? "" : Environment.NewLine) + "نوع ورودی/خروجی ستون" + " " + column.ParameterName + " " + "تغییر کرده است";
             }
             return result;
         }

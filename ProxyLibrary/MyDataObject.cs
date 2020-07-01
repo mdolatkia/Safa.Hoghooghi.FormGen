@@ -241,7 +241,7 @@ namespace ProxyLibrary
         }
         public bool ValueSearched { set; get; }
         public string Name { set; get; }
-        public RelationshipPropertyInfo RelationshipPropertyInfo { set; get; }
+     //   public RelationshipPropertyInfo RelationshipPropertyInfo { set; get; }
         public int ID { set; get; }
 
         public MyDataObject ParentFormulaObjectForZoolbia { set; get; }
@@ -267,27 +267,28 @@ namespace ProxyLibrary
     }
     public enum PropertyType
     {
+        //اضافی ها حذف شوند
         Column,
         FormulaParameter,
         Relationship,
-        DBFormula,
+        Method,
         Code,
         State,
         Helper,
         This,
         Mock
     }
-    public class RelationshipPropertyInfo
+    //public class RelationshipPropertyInfo
 
-    {
-        public RelationshipPropertyInfo()
-        {
-            Properties = new List<EntityInstanceProperty>();
-        }
-        public int TargetEntityID { set; get; }
-        public bool OneToManyItems { get; internal set; }
-        public List<EntityInstanceProperty> Properties { set; get; }
-    }
+    //{
+    //    public RelationshipPropertyInfo()
+    //    {
+    //        Properties = new List<EntityInstanceProperty>();
+    //    }
+    //    public int TargetEntityID { set; get; }
+    //    public bool OneToManyItems { get; internal set; }
+    //    public List<EntityInstanceProperty> Properties { set; get; }
+    //}
 
 
 

@@ -206,7 +206,7 @@ namespace MyModelGenerator
                                 column.OriginalColumnType = Enum_ColumnType.Date;
                                 column.ColumnType = Enum_ColumnType.DateTime;
                                 if (column.DateTimeColumnType == null)
-                                    column.DateTimeColumnType = new  DateTimeColumnTypeDTO();
+                                    column.DateTimeColumnType = new DateTimeColumnTypeDTO();
                             }
                             else if (IsDateType(column))
                             {
@@ -365,11 +365,11 @@ namespace MyModelGenerator
         }
         private bool IsDateType(ColumnDTO column)
         {
-            return (column.DataType == "date" );
+            return (column.DataType == "date");
         }
         private bool IsDateTimeType(ColumnDTO column)
         {
-            return ( column.DataType == "datetime");
+            return (column.DataType == "datetime");
         }
         public List<RelationshipImportItem> GetRelationships()
         {
@@ -998,70 +998,45 @@ namespace MyModelGenerator
                         {
                             var function = new DatabaseFunctionDTO();
                             function.FunctionName = reader["function_name"].ToString();
-                            try
-                            {
+                            //try
+                            //{
 
 
-                                counter++;
-                                if (ItemImportingStarted != null)
-                                    ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = function.FunctionName, TotalProgressCount = count, CurrentProgress = counter });
+                            counter++;
+                            if (ItemImportingStarted != null)
+                                ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = function.FunctionName, TotalProgressCount = count, CurrentProgress = counter });
 
-                                //var DatabaseFunction = projectContext.DatabaseFunction.Where(x => x.FunctionName == function.Title && x.DBSchema.DatabaseInformationID == Database.ID && x.Type == 1).FirstOrDefault();
+                            function.RelatedSchema = reader["schema_name"].ToString();
+                            function.Type = Enum_DatabaseFunctionType.Function;
 
-                                function.RelatedSchema = reader["schema_name"].ToString();
-                                //var dbSchema = projectContext.DBSchema.FirstOrDefault(x => x.DatabaseInformationID == Database.ID && x.Name == schema);
-                                //if (dbSchema == null)
-                                //{
-                                //    dbSchema = new DBSchema() { DatabaseInformationID = Database.ID, Name = schema };
-                                //    dbSchema.SecurityObject = new SecurityObject();
-                                //    dbSchema.SecurityObject.Type = (int)DatabaseObjectCategory.Schema;
-                                //    projectContext.DBSchema.Add(dbSchema);
-                                //}
+                            var columnReturnValue = new DatabaseFunctionColumnDTO();
+                            function.DatabaseFunctionParameter.Add(columnReturnValue);
+                            columnReturnValue.ParameterName = "ReturnValue";
+                            columnReturnValue.DataType = reader["Data_Type"].ToString().Trim();
+                            columnReturnValue.InputOutput = Enum_DatabaseFunctionParameterType.ReturnValue;
 
-                                //if (DatabaseFunction == null)
-                                //{
-                                //    DatabaseFunction = new DatabaseFunction();
-                                //    DatabaseFunction.FunctionName = function.Title;
-
-                                //}
-
-                                //DatabaseFunction.DBSchema = dbSchema;
-                                function.ReturnType = reader["Data_Type"].ToString().Trim();
-                                function.Type = Enum_DatabaseFunctionType.Function;
-
-                                var queryColumns = @"SELECT specific_Name,Parameter_Mode Is_Result,Parameter_Name,Data_Type
+                            var queryColumns = @"SELECT specific_Name,Parameter_Mode Is_Result,Parameter_Name,Data_Type
                                                FROM  INFORMATION_SCHEMA.PARAMETERS where  specific_Name='" + function.FunctionName + "' and Parameter_Mode='IN'";
-                                using (SqlCommand commandFields = new SqlCommand(queryColumns, testConn))
-                                using (SqlDataReader readerFields = commandFields.ExecuteReader())
-                                {
-                                    while (readerFields.Read())
-                                    {
-                                        var column = new DatabaseFunctionColumnDTO();
-                                        function.DatabaseFunctionParameter.Add(column);
-                                        column.ParameterName = readerFields["Parameter_Name"].ToString();
-                                        column.DataType = readerFields["Data_Type"].ToString();
-                                        //var column = DatabaseFunction.DatabaseFunctionParameter.Where(x => x.ParamName == paramName).FirstOrDefault();
-                                        //if (column == null)
-                                        //{
-                                        //    column = new DatabaseFunctionParameter();
-                                        //    column.ParamName = paramName;
-                                        //    DatabaseFunction.DatabaseFunctionParameter.Add(column);
-                                        //}
-                                        //column.DataType = dataType;
-                                    }
-                                }
-
-                                //if (DatabaseFunction.ID == 0)
-                                //    projectContext.DatabaseFunction.Add(DatabaseFunction);
-                                //projectContext.SaveChanges();
-                                result.Add(new FunctionImportItem(function, false, ""));
-                            }
-                            catch (Exception ex)
+                            using (SqlCommand commandFields = new SqlCommand(queryColumns, testConn))
+                            using (SqlDataReader readerFields = commandFields.ExecuteReader())
                             {
-                                result.Add(new FunctionImportItem(function, true, ex.Message));
-                                //resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
-                                //result.FailedItems.Add(resultitem);
+                                while (readerFields.Read())
+                                {
+                                    var column = new DatabaseFunctionColumnDTO();
+                                    function.DatabaseFunctionParameter.Add(column);
+                                    column.ParameterName = readerFields["Parameter_Name"].ToString();
+                                    column.DataType = readerFields["Data_Type"].ToString();
+                                    column.InputOutput = Enum_DatabaseFunctionParameterType.Input;
+                                }
                             }
+                            result.Add(new FunctionImportItem(function, false, ""));
+                            //}
+                            //catch (Exception ex)
+                            //{
+                            //    result.Add(new FunctionImportItem(function, true, ex.Message));
+                            //    //resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
+                            //    //result.FailedItems.Add(resultitem);
+                            //}
                         }
                     }
                 }
@@ -1090,70 +1065,50 @@ namespace MyModelGenerator
                         {
                             var function = new DatabaseFunctionDTO();
                             function.FunctionName = reader["specific_name"].ToString();
-                            try
-                            {
+                            //try
+                            //{
+                            counter++;
+                            if (ItemImportingStarted != null)
+                                ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = function.FunctionName, TotalProgressCount = count, CurrentProgress = counter });
+                            function.RelatedSchema = reader["specific_schema"].ToString();
+                            function.Type = Enum_DatabaseFunctionType.StoredProcedure;
 
-                                //var function.Title = reader["specific_name"].ToString();
-                                counter++;
-                                if (ItemImportingStarted != null)
-                                    ItemImportingStarted(this, new ItemImportingStartedArg() { ItemName = function.FunctionName, TotalProgressCount = count, CurrentProgress = counter });
+                            var columnReturnValue = new DatabaseFunctionColumnDTO();
+                            function.DatabaseFunctionParameter.Add(columnReturnValue);
+                            columnReturnValue.ParameterName = "ReturnValue";
+                            columnReturnValue.DataType = "int";
+                            columnReturnValue.InputOutput = Enum_DatabaseFunctionParameterType.ReturnValue;
 
-                                //var DatabaseFunction = projectContext.DatabaseFunction.Where(x => x.FunctionName == function.FunctionName && x.DBSchema.DatabaseInformationID == Database.ID && x.Type == 2).FirstOrDefault();
 
-                                function.RelatedSchema = reader["specific_schema"].ToString();
-                                //var dbSchema = projectContext.DBSchema.FirstOrDefault(x => x.DatabaseInformationID == Database.ID && x.Name == schema);
-                                //if (dbSchema == null)
-                                //{
-                                //    dbSchema = new DBSchema() { DatabaseInformationID = Database.ID, Name = schema };
-                                //    dbSchema.SecurityObject = new SecurityObject();
-                                //    dbSchema.SecurityObject.Type = (int)DatabaseObjectCategory.Schema;
-                                //    projectContext.DBSchema.Add(dbSchema);
-                                //}
-
-                                //if (DatabaseFunction == null)
-                                //{
-                                //    DatabaseFunction = new DatabaseFunction();
-                                //    DatabaseFunction.FunctionName = function.Title;
-                                //}
-
-                                //DatabaseFunction.DBSchema = dbSchema;
-                                function.ReturnType = "";
-                                function.Type = Enum_DatabaseFunctionType.StoredProcedure;
-
-                                var queryColumns = @"select * from 
+                            var queryColumns = @"select * from 
                                        sys.objects inner join INFORMATION_SCHEMA.PARAMETERS on sys.objects.name=specific_Name
-                                     WHERE (type = 'P')  and specific_Name='" + function.FunctionName + "' and Parameter_Mode='IN'";
-                                using (SqlCommand commandFields = new SqlCommand(queryColumns, testConn))
-                                using (SqlDataReader readerFields = commandFields.ExecuteReader())
-                                {
-                                    while (readerFields.Read())
-                                    {
-                                        var column = new DatabaseFunctionColumnDTO();
-                                        function.DatabaseFunctionParameter.Add(column);
-                                        column.ParameterName = readerFields["Parameter_Name"].ToString();
-                                        column.DataType = readerFields["Data_Type"].ToString();
-                                        //var column = DatabaseFunction.DatabaseFunctionParameter.Where(x => x.ParamName == paramName).FirstOrDefault();
-                                        //if (column == null)
-                                        //{
-                                        //    column = new DatabaseFunctionParameter();
-                                        //    column.ParamName = paramName;
-                                        //    DatabaseFunction.DatabaseFunctionParameter.Add(column);
-                                        //}
-                                        //column.DataType = dataType;
-                                    }
-                                }
-
-                                //if (DatabaseFunction.ID == 0)
-                                //    projectContext.DatabaseFunction.Add(DatabaseFunction);
-                                //projectContext.SaveChanges();
-                                result.Add(new FunctionImportItem(function, false, ""));
-                            }
-                            catch (Exception ex)
+                                     WHERE (type = 'P')  and specific_Name='" + function.FunctionName + "'";// and Parameter_Mode='IN'";
+                            using (SqlCommand commandFields = new SqlCommand(queryColumns, testConn))
+                            using (SqlDataReader readerFields = commandFields.ExecuteReader())
                             {
-                                result.Add(new FunctionImportItem(function, true, ex.Message));
-                                //resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
-                                //result.FailedItems.Add(resultitem);
+                                while (readerFields.Read())
+                                {
+                                    var column = new DatabaseFunctionColumnDTO();
+                                    function.DatabaseFunctionParameter.Add(column);
+                                    column.ParameterName = readerFields["Parameter_Name"].ToString();
+                                    column.DataType = readerFields["Data_Type"].ToString();
+                                    if (readerFields["Parameter_Mode"].ToString().ToLower() == "in")
+                                        column.InputOutput = Enum_DatabaseFunctionParameterType.Input;
+                                    else if (readerFields["Parameter_Mode"].ToString().ToLower() == "out")
+                                        column.InputOutput = Enum_DatabaseFunctionParameterType.Output;
+                                    else if (readerFields["Parameter_Mode"].ToString().ToLower() == "inout")
+                                        column.InputOutput = Enum_DatabaseFunctionParameterType.InputOutput;
+                                }
                             }
+
+                            result.Add(new FunctionImportItem(function, false, ""));
+                            //}
+                            //catch (Exception ex)
+                            //{
+                            //    result.Add(new FunctionImportItem(function, true, ex.Message));
+                            //    //resultitem.Message = MyGeneralLibrary.GeneralExceptionManager.GetExceptionMessage(ex);
+                            //    //result.FailedItems.Add(resultitem);
+                            //}
                         }
                     }
                 }

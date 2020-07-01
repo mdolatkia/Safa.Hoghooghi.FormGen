@@ -176,7 +176,7 @@ namespace MyProject_WPF
         {
             frmFormula view = new frmFormula(0, EntityID);
             view.FormulaUpdated += View_FormulaSelected;
-            MyProjectManager.GetMyProjectManager.ShowDialog(view, "Form");
+            MyProjectManager.GetMyProjectManager.ShowDialog(view, "Form",Enum_WindowSize.Maximized);
         }
 
         private void View_FormulaSelected(object sender, FormulaSelectedArg e)

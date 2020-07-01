@@ -24,6 +24,8 @@ namespace DataAccess
         public string DataType { get; set; }
         public string ParamName { get; set; }
         public bool Enable { get; set; }
+        public short InputOutput { get; set; }
+        public Nullable<short> Order { get; set; }
     
         public virtual DatabaseFunction DatabaseFunction { get; set; }
         public virtual ICollection<DatabaseFunction_TableDrivedEntity_Columns> DatabaseFunction_TableDrivedEntity_Columns { get; set; }

@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using MyGeneralLibrary;
 using System.ComponentModel;
+using MyDatabaseFunctionLibrary;
 
 namespace MyFormulaFunctionStateFunctionLibrary
 {
@@ -53,10 +54,14 @@ namespace MyFormulaFunctionStateFunctionLibrary
             {
                 if (theWord.ToLower() == "PersianDateHelper".ToLower())
                     return typeof(PersianDateHelper);
+                else if (theWord.ToLower() == "MiladiDateHelper".ToLower())
+                    return typeof(MiladiDateHelper);
                 else if (theWord.ToLower() == "StringHelper".ToLower())
                     return typeof(StringHelper);
                 else if (theWord.ToLower() == "NumericHelper".ToLower())
                     return typeof(NumericHelper);
+                else if (theWord.ToLower() == "DBFunctionHelper".ToLower())
+                    return typeof(DBFunctionHelper);
             }
             return null;
         }
@@ -84,6 +89,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             else
                 return Convert.ToInt64(value);
         }
+
     }
     public class StringHelper
     {
@@ -217,9 +223,54 @@ namespace MyFormulaFunctionStateFunctionLibrary
             catch { return ""; }
         }
     }
-    //public interface Helper
-    //{
-    //    event EventHandler<string> ValueDefined
+    public class MiladiDateHelper
+    {
+        public double DateDiffAsHours(object firstDateTime, object secondDateTime)
+        {
+            return ((DateTime)firstDateTime).Subtract((DateTime)secondDateTime).TotalHours;
+        }
+        public double DateDiffAsDays(object firstDateTime, object secondDateTime)
+        {
+            return ((DateTime)firstDateTime).Subtract((DateTime)secondDateTime).TotalDays;
+        }
+    }
+    public class DBFunctionHelper
+    {
+        public DBFunctionHelper(int databaseID)
+        {
+            DatabaseID = databaseID;
+        }
+        DatabaseFunctionHandler DatabaseFunctionHandler = new DatabaseFunctionHandler();
+        public int DatabaseID { set; get; }
+        DR_Requester Requester { set; get; }
+        public object CalculateFunction(string name)
+        {
+            var result = DatabaseFunctionHandler.GetDatabaseFunctionValue(Requester, DatabaseID, name, null);
+            if (result.ExecutionException != null)
+                throw result.ExecutionException;
+            return result.Result;
+        }
+        public object CalculateFunction(string name, string param1Name, object param1Value)
+        {
+            var result = DatabaseFunctionHandler.GetDatabaseFunctionValue(Requester, DatabaseID, name, new List<Tuple<string, object>>() { new Tuple<string, object>(param1Name, param1Value) });
+            if (result.ExecutionException != null)
+                throw result.ExecutionException;
+            return result.Result;
+        }
+        public object CalculateFunction(string name, string param1Name, object param1Value, string param2Name, object param2Value)
+        {
+            var result = DatabaseFunctionHandler.GetDatabaseFunctionValue(Requester, DatabaseID, name, new List<Tuple<string, object>>() { new Tuple<string, object>(param1Name, param1Value), new Tuple<string, object>(param2Name, param2Value) });
+            if (result.ExecutionException != null)
+                throw result.ExecutionException;
+            return result.Result;
+        }
+        public object CalculateFunction(string name, string param1Name, object param1Value, string param2Name, object param2Value, string param3Name, object param3Value)
+        {
+            var result = DatabaseFunctionHandler.GetDatabaseFunctionValue(Requester, DatabaseID, name, new List<Tuple<string, object>>() { new Tuple<string, object>(param1Name, param1Value), new Tuple<string, object>(param2Name, param2Value), new Tuple<string, object>(param3Name, param3Value) });
+            if (result.ExecutionException != null)
+                throw result.ExecutionException;
+            return result.Result;
+        }
+    }
 
-    //}
 }

@@ -33,6 +33,21 @@ namespace MyModelManager
             }
             return result;
         }
+        public DatabaseFunctionDTO GetDatabaseFunctionByName(int databaseID, string name)
+        {
+            List<DatabaseFunctionDTO> result = new List<DatabaseFunctionDTO>();
+            using (var projectContext = new DataAccess.MyProjectEntities())
+            {
+                var dbFunction = projectContext.DatabaseFunction.FirstOrDefault(x => x.FunctionName == name && x.DBSchema.DatabaseInformationID == databaseID);
+
+                if (dbFunction != null)
+                    return ToDatabaseFunctionDTO(dbFunction, true);
+                else
+                    return null;
+
+            }
+        }
+
         public List<DatabaseFunctionDTO> GetDatabaseFunctions(Enum_DatabaseFunctionType type, int databaseID = 0)
         {
             List<DatabaseFunctionDTO> result = new List<DatabaseFunctionDTO>();
@@ -111,11 +126,11 @@ namespace MyModelManager
             result.SchemaID = cItem.DBSchemaID;
             result.DatabaseID = cItem.DBSchema.DatabaseInformationID;
             result.RelatedSchema = cItem.DBSchema.Name;
-            result.ReturnType = cItem.ReturnType;
+            //result.ReturnType = cItem.ReturnType;
             //if (cItem.ValueCustomType != null)
             //    result.ValueCustomType = (ValueCustomType)cItem.ValueCustomType;
             result.Type = (Enum_DatabaseFunctionType)cItem.Type;
-            result.DotNetType = bizColumn.GetColumnDotNetType(cItem.ReturnType, false);
+
             result.Title = cItem.Title;
             result.Enable = cItem.Enable;
             //if (result.Title == null)
@@ -136,12 +151,22 @@ namespace MyModelManager
             List<DatabaseFunctionColumnDTO> result = new List<DatabaseFunctionColumnDTO>();
             foreach (var column in cItem.DatabaseFunctionParameter)
             {
-                result.Add(new DatabaseFunctionColumnDTO() { ID = column.ID, DataType = column.DataType, Enable = column.Enable, ParameterName = column.ParamName, DotNetType = bizColumn.GetColumnDotNetType(column.DataType, false) });
+                var item = new DatabaseFunctionColumnDTO()
+                {
+                    ID = column.ID,
+                    DataType = column.DataType,
+                    Enable = column.Enable,
+                    ParameterName = column.ParamName,
+                    DotNetType = bizColumn.GetColumnDotNetType(column.DataType, false),
+                    Order = column.Order ?? 0,
+                    InputOutput = (Enum_DatabaseFunctionParameterType)column.InputOutput
+
+                };
+
+                result.Add(item);
             }
             return result;
         }
-
-
 
 
         public List<DatabaseFunctionColumnDTO> GetDatabaseFunctionParameter(int functionID)
@@ -239,7 +264,7 @@ namespace MyModelManager
                 dbFunction.Enable = true;
             }
             dbFunction.DBSchema = dbSchema;
-            dbFunction.ReturnType = function.ReturnType;
+
             dbFunction.Type = (short)function.Type;
             foreach (var column in function.DatabaseFunctionParameter)
             {
@@ -251,7 +276,7 @@ namespace MyModelManager
                     dbColumn.Enable = true;
                     dbFunction.DatabaseFunctionParameter.Add(dbColumn);
                 }
-
+                dbColumn.InputOutput = (short)column.InputOutput;
                 dbColumn.DataType = column.DataType;
                 dbColumn.ParamName = column.ParameterName;
             }

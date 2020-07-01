@@ -1,4 +1,5 @@
-﻿using ModelEntites;
+﻿using DynamicExpresso;
+using ModelEntites;
 using MyFormulaFunctionStateFunctionLibrary;
 using MyModelManager;
 using ProxyLibrary;
@@ -14,43 +15,55 @@ namespace MyFormulaFunctionStateFunctionLibrary
     public class FormulaFunctionHandler
     {
         List<FormulaUsageParemetersDTO> FormulaUsageParemeters = new List<FormulaUsageParemetersDTO>();
-
         BizFormula bizFormula = new BizFormula();
         FormulaDTO Formula { set; get; }
-
-        public FormulaResult CalculateFormula(int formulaID, DP_DataView mainDataItem, DR_Requester requester, List<int> usedFormulaIDs = null)
+        public I_ExpressionEvaluator GetExpressionEvaluator(DP_DataRepository mainDataItem, DR_Requester requester, bool definition, List<int> usedFormulaIDs = null)
+        {
+            return FormulaInstanceInternalHelper.GetExpressionEvaluator(mainDataItem, requester, definition, usedFormulaIDs);
+        }
+        public FormulaResult CalculateFormula(int formulaID, DP_DataView mainDataItem, DR_Requester requester, bool deficition = false, List<int> usedFormulaIDs = null)
         {
             //DP_DataRepository data = new DP_DataRepository();
-            return CalculateFormula(formulaID, mainDataItem, requester, usedFormulaIDs);
+            return CalculateFormula(formulaID, mainDataItem, requester, deficition, usedFormulaIDs);
         }
-        public FormulaResult CalculateFormula(int formulaID, DP_DataRepository mainDataItem, DR_Requester requester, List<int> usedFormulaIDs = null)
+        public FormulaResult CalculateFormula(int formulaID, DP_DataRepository mainDataItem, DR_Requester requester, bool deficition = false, List<int> usedFormulaIDs = null)
         {
             Formula = bizFormula.GetFormula(formulaID, true);
-            return CalculateFormula(Formula.Formula, mainDataItem, requester, usedFormulaIDs);
+            return CalculateFormula(Formula.Formula, mainDataItem, requester, deficition, usedFormulaIDs);
         }
-        public FormulaResult CalculateFormula(string expression, DP_DataRepository mainDataItem, DR_Requester requester, List<int> usedFormulaIDs = null)
+
+        public FormulaResult CalculateFormula(string expression, DP_DataRepository mainDataItem, DR_Requester requester, bool definition = false, List<int> usedFormulaIDs = null)
         {
             FormulaResult result = new FormulaResult();
             result.FormulaUsageParemeters = FormulaUsageParemeters;
-            FormulaInstance formulaInstance = null;
+            //FormulaInstance formulaInstance = null;
             try
             {
-             
-                formulaInstance = new FormulaInstance(mainDataItem, requester, usedFormulaIDs);
-                formulaInstance.PropertyGetCalled += FormulaInstance_PropertyGetCalled;
-                var instanceResult = formulaInstance.CalculateExpression(expression);
-                if (formulaInstance.Exceptions.Any())
-                    throw new Exception("instance Error");
-                else
-                    result.Result = instanceResult;
-                formulaInstance.PropertyGetCalled -= FormulaInstance_PropertyGetCalled;
+
+                var target = FormulaInstanceInternalHelper.GetExpressionEvaluator(mainDataItem, requester, definition, usedFormulaIDs);
+
+                result.Result = target.Calculate(expression);
+
+                //formulaInstance = new FormulaInstance(mainDataItem, requester, usedFormulaIDs);
+                //formulaInstance.PropertyGetCalled += FormulaInstance_PropertyGetCalled;
+                //var instanceResult = formulaInstance.CalculateExpression(expression);
+                //if (formulaInstance.Exceptions.Any())
+                //    throw new Exception("instance Error");
+                //else
+                //    result.Result = instanceResult;
+                //formulaInstance.PropertyGetCalled -= FormulaInstance_PropertyGetCalled;
+
+
             }
             catch (Exception ex)
             {
-                result.Exception = HandleException(ex, formulaInstance);
+                result.Exception = "خطا در محاسبه فرمول" + Environment.NewLine + ex.Message;
             }
             return result;
         }
+
+
+
         List<MyPropertyInfo> PropertyInfos = new List<MyPropertyInfo>();
         private void FormulaInstance_PropertyGetCalled(object sender, PropertyGetArg e)
         {
@@ -58,7 +71,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
                 return;
             if (PropertyInfos.Any(x => x == e.PropertyInfo))
                 return;
-            if(!IsValidForUsage( e.PropertyInfo))
+            if (!IsValidForUsage(e.PropertyInfo))
                 return;
             PropertyInfos.Add(e.PropertyInfo);
             FormulaUsageParemetersDTO item = new FormulaUsageParemetersDTO();
@@ -105,23 +118,45 @@ namespace MyFormulaFunctionStateFunctionLibrary
 
 
 
-        private string HandleException(Exception ex, FormulaInstance formulaInstance)
-        {
-            var error = ex.Message;
-            if (error == null)
-                error = "";
-            if (formulaInstance != null)
-            {
-                foreach (var item in formulaInstance.Exceptions)
-                {
-                    error += (error == "" ? "" : "<<>>") + item.Message;
-                }
-                //برای اکسپشن هندلینگ داخل قرمول اینستنس چون ممکن است تو در تو صدا زده شود باید لیست تهیه و مرتبا لیستها به هم اضافه شوند
-            }
-            var message = "خطا در محاسبه فرمول" + (error == "" ? "" : Environment.NewLine) + error;
-            return message;
-        }
+        //////private string HandleException(Exception ex, FormulaInstance formulaInstance)
+        //////{
+        //////    var error = ex.Message;
+        //////    if (error == null)
+        //////        error = "";
+        //////    if (formulaInstance != null)
+        //////    {
+        //////        foreach (var item in formulaInstance.Exceptions)
+        //////        {
+        //////            error += (error == "" ? "" : "<<>>") + item.Message;
+        //////        }
+        //////        //برای اکسپشن هندلینگ داخل قرمول اینستنس چون ممکن است تو در تو صدا زده شود باید لیست تهیه و مرتبا لیستها به هم اضافه شوند
+        //////    }
+        //////    var message = "خطا در محاسبه فرمول" + (error == "" ? "" : Environment.NewLine) + error;
+        //////    return message;
+        //////}
     }
 
+    public interface I_ExpressionEvaluator
+    {
+        object Calculate(string expression);
 
+
+    }
+   
+    //public interface I_ExpressionEvaluator
+    //{
+    //    FormulaResult Calculate(string expression);
+    //}
+    //public class ExpressionEvaluator : I_ExpressionEvaluator
+    //{
+    //    I_Interpreter Interpreter { set; get; }
+    //    public ExpressionEvaluator(DP_DataRepository myData, DR_Requester requester, bool definition)
+    //    {
+    //        Interpreter = FormulaInstanceInternalHelper.GetInterpreter(myData, requester, definition);
+    //    }
+    //    public FormulaResult Calculate(string expression)
+    //    {
+    //        return Interpreter.Calculate()
+    //    }
+    //}
 }

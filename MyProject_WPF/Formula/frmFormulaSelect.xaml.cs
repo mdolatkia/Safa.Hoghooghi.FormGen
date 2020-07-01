@@ -32,20 +32,49 @@ namespace MyProject_WPF
         public event EventHandler<FormulaSelectedArg> FormulaSelected;
         public int EntityID { set; get; }
         BizFormula bizFormula = new BizFormula();
+        SelectorGrid SelectorGrid = null;
         public frmFormulaSelect(int entityID)
         {
             InitializeComponent();
 
             EntityID = entityID;
+
+            var listColumns = new Dictionary<string, string>();
+            listColumns.Add("Name", "نام فرمول");
+            listColumns.Add("Title", "عنوان");
+            listColumns.Add("ResultType", "نوع نتیجه");
+            listColumns.Add("ResultDotNetType", "نوع در برنامه");
+
+            SelectorGrid = ControlHelper.SetSelectorGrid(dtgFormulas, listColumns);
+            SelectorGrid.DataItemSelected += SelectorGrid_DataItemSelected;
+
+
             this.Loaded += FrmFormula_Loaded;
         }
+        private void SelectorGrid_DataItemSelected(object sender, object e)
+        {
+            CheckSelectedItem(e);
+        }
+        private void CheckSelectedItem(object item)
+        {
+            if (item != null)
+            {
+                var selected = dtgFormulas.SelectedItem as FormulaDTO;
+                if (selected != null)
+                {
+                    if (FormulaSelected != null)
+                        FormulaSelected(this, new  FormulaSelectedArg() {  FormulaID = selected.ID });
+                }
+            }
+        }
+
 
         private void FrmFormula_Loaded(object sender, RoutedEventArgs e)
         {
             GetFormulas();
 
         }
-     
+
         private void GetFormulas()
         {
             var listFomula = bizFormula.GetFormulas(EntityID);
@@ -57,13 +86,7 @@ namespace MyProject_WPF
         }
         private void btnSelect_Click(object sender, RoutedEventArgs e)
         {
-            var formula = dtgFormulas.SelectedItem as FormulaDTO;
-            if (formula != null)
-            {
-                if (FormulaSelected != null)
-                    FormulaSelected(this, new FormulaSelectedArg() { FormulaID = formula.ID });
-            }
-            MyProjectManager.GetMyProjectManager.CloseDialog(this);
+            CheckSelectedItem(dtgFormulas.SelectedItem);
         }
     }
 

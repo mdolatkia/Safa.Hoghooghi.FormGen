@@ -232,7 +232,7 @@ namespace MyProject_WPF
             var entity = dtgRuleEntity.SelectedItem as TableDrivedEntityDTO;
             frmFormula view = new frmFormula(formulaID, entity.ID);
             view.FormulaUpdated += (sender1, e1) => View_ItemSelected(sender1, e1, (sender as MyStaticLookup), entity.ID);
-            MyProjectManager.GetMyProjectManager.ShowDialog(view, "فرمول", Enum_WindowSize.Big);
+            MyProjectManager.GetMyProjectManager.ShowDialog(view, "فرمول", Enum_WindowSize.Maximized);
 
         }
         private void SetColumnFormulas(int entityID)
@@ -699,7 +699,7 @@ namespace MyProject_WPF
         {
             frmFormula frm = new frmFormula(0, entity.ID);
             frm.FormulaUpdated += (sender1, e1) => Frm_FormulaUpdated(sender1, e1, entity.ID);
-            MyProjectManager.GetMyProjectManager.ShowDialog(frm, "frmFormula", Enum_WindowSize.Big);
+            MyProjectManager.GetMyProjectManager.ShowDialog(frm, "frmFormula", Enum_WindowSize.Maximized);
         }
 
         private void Frm_FormulaUpdated(object sender, FormulaSelectedArg e, int entityID)

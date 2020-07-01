@@ -14,7 +14,7 @@ public static class StringExtensions
     //    return str.ToString();
     //}
 }
-public class BindableTypeDescriptor<T> : FormulaObject, INotifyPropertyChanged, ICustomTypeDescriptor
+public class BindableTypeDescriptor<T> : CustomObject, INotifyPropertyChanged, ICustomTypeDescriptor
 {
     public BindableTypeDescriptor()
         : base()

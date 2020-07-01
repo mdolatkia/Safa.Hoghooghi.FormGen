@@ -96,8 +96,8 @@ namespace MyProject_WPF
         {
             //BindableTypeDescriptor CustomType = null;
             //ParametersForFormula = formulaHelper.GetFormulaParameters(FormulaIntention.Type, FormulaIntention.TableID);
-            frmFormulaDefinition view = new frmFormulaDefinition(txtFormula.Text, EntityID);
-            view.FormulaDefined += View_FormulaDefined;
+            frmNewFormulaDefinition view = new frmNewFormulaDefinition(txtFormula.Text, EntityID);
+         //   view.FormulaDefined += View_FormulaDefined;
             MyProjectManager.GetMyProjectManager.ShowDialog(view, "Form",Enum_WindowSize.Maximized);
         }
         private void View_FormulaDefined(object sender, FormulaDefinedArg e)
@@ -179,6 +179,7 @@ namespace MyProject_WPF
 
         private void View_FormulaSelected(object sender, FormulaSelectedArg e)
         {
+            MyProjectManager.GetMyProjectManager.CloseDialog(sender);
             if (e.FormulaID != 0)
             {
                 GetFormula(e.FormulaID);
