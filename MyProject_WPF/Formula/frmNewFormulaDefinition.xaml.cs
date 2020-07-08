@@ -53,14 +53,18 @@ namespace MyProject_WPF
         private I_ExpressionEvaluator ExpressionEvaluator;
 
         DP_DataRepository DataItem { set; get; }
-        DispatcherTimer textChangedTimer = new DispatcherTimer();
+        DispatcherTimer textChangedCalculationTimer = new DispatcherTimer();
+        DispatcherTimer textChangedColorTimer = new DispatcherTimer();
+
+        DispatcherTimer autoCompleteTimer = new DispatcherTimer();
         DispatcherTimer selectionTimer = new DispatcherTimer();
+        List<NodeContext> nodeDictionary = new List<NodeContext>();
         public frmNewFormulaDefinition(string formula, int entityID)
         {
             InitializeComponent();
             EntityID = entityID;
             Entity = bizTableDrivedEntity.GetPermissionedEntity(MyProjectManager.GetMyProjectManager.GetRequester(), entityID);
-            formulaAutoComplete = new FormulaAutoComplete(MyProjectManager.GetMyProjectManager.GetRequester(), Entity);
+            formulaAutoComplete = new FormulaAutoComplete();
             formulaAutoComplete.NodeSelected += FormulaAutoComplete_NodeSelected;
             FormulaString = formula;
 
@@ -70,13 +74,20 @@ namespace MyProject_WPF
             DataItem.IsFullData = true;
             ExpressionEvaluator = formulaFunctionHandler.GetExpressionEvaluator(DataItem, MyProjectManager.GetMyProjectManager.GetRequester(), true);
 
-
+            txtFormula.TextChanged += TxtFormula_TextChanged;
             txtFormula.KeyUp += TxtFormula_KeyUp;
             SetParametersTree();
             SetEditEntityArea();
             //   txtFormula.KeyUp += ExpressionEditor_KeyUp;
             txtFormula.FontSize = 18;
         }
+
+        private void TxtFormula_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //textChangedColorTimer.Stop();
+            //textChangedColorTimer.Start();
+        }
+
         private void SetEditEntityArea()
         {
             MyUILibrary.AgentUICoreMediator.GetAgentUICoreMediator.SetUIManager(new UIManager());
@@ -127,99 +138,395 @@ namespace MyProject_WPF
                 ctrlSpace = true;
             if (e.Key == Key.OemPeriod)//&& (!Keyboard.IsKeyDown(Key.LeftShift) && !Keyboard.IsKeyDown(Key.RightShift)))
                 dot = true;
+
+
+
             if (dot || ctrlSpace)
             {
-                FormulaAutoCompleteKeyType keyType;
-
-                string theCurrentWord = "";
-                string theWordBeforeLastDot = "";
-                if (ctrlSpace && GetFormulaText() == "")
-                {
-                    keyType = FormulaAutoCompleteKeyType.EmptyLeftCtrlSpace;
-                }
-                else
-                {
-
-                    //DocumentPosition pos = new DocumentPosition(txtFormula.Document);
-                    //pos.MoveToPosition(txtFormula.Document.CaretPosition);
-                    //pos.MoveToPrevious();
-                    theCurrentWord = GetCurrentWord();
-
-                    //    var str = (txtFormula.Document.CaretPosition.GetCurrentWord());
-                    if (theCurrentWord == Environment.NewLine)
-                        theWord = GetPreviousWord(txtFormula.Document, GetPreviousWord(txtFormula.Document, txtFormula.Document.CaretPosition).Item1).Item2;
-                    else
-                        theWord = GetPreviousWord(txtFormula.Document, txtFormula.Document.CaretPosition).Item2;
-
-                    if (dot)
-                    {
-                        keyType = FormulaAutoCompleteKeyType.DotOnly;
-                    }
-                    else
-                    {
-                        //leftctrlSpace
-                        if (pos.GetCurrentWord() == ".")
-                        {
-                            keyType = FormulaAutoCompleteKeyType.AfterDotLeftCtrlSpace;
-                        }
-                        else
-                            keyType = FormulaAutoCompleteKeyType.InTextLeftControlSpace;
-                    }
-
-
-                }
-
-
-                ShowAutoComplete(keyType, theWord);
-
+                autoCompleteTimer.Stop();
+                autoCompleteTimer.Start();
             }
-            else if (e.Key != Key.LeftCtrl
-                && e.Key != Key.LeftAlt)
+
+
+            //        ShowAutoComplete(keyType, theWord);
+
+
+            //else if (e.Key != Key.LeftCtrl
+            //    && e.Key != Key.LeftAlt)
+            //{
+            //    //myPopup.IsOpen = false;
+            //}
+        }
+        private void AutoCompleteTimer_Tick(object sender, EventArgs e)
+        {
+            (sender as DispatcherTimer).Stop();
+            FormulaAutoCompleteKeyType keyType;
+            List<NodeContext> nodes = null;
+            WordDetection wordDetection = GetWordDetection(txtFormula.CaretPosition);
+            MessageBox.Show(wordDetection.CurrentWord.Item3);
+            //////if (wordDetection.PreviousWords == null || wordDetection.PreviousWords.Count == 0)
+            //////{
+            //////    nodes = nodeDictionary.ToList();
+            //////}
+            //////else
+            //////{
+            //////    wordDetection.PreviousWords.Reverse();
+            //////    //       nodes = GetAutocompleteNodes(wordDetection.PreviousWords, nodeDictionary);
+            //////}
+
+            if (nodes != null)
+                ShowAutoComplete(nodes);
+
+
+        }
+        private List<NodeContext> GetAutocompleteNodes(List<string> listNames, List<NodeContext> parentNodes)
+        {
+            if (listNames.Any() && parentNodes != null)
             {
-                //myPopup.IsOpen = false;
+                var name = listNames.First();
+                List<string> rest = new List<string>();
+                for (int i = 1; i < listNames.Count; i++)
+                {
+                    rest.Add(listNames[i]);
+                }
+                //اینجا یه ایرادی داره و اینکه اگر مثلا چند فانکشن با اسامی یکسان اما مقدار برگشتی متفاوت بود چی. اونوقت مسیرها منحرف میشد در حالیکه ما فقط اولی را در نظر میگیریم
+
+                if (parentNodes.Any(x => x.Name == name))
+                {
+                    var node = parentNodes.First(x => x.Name == name);
+                    if (node.ChildNodes == null)
+                        SetNodes(node);
+                    if (rest.Any())
+                    {
+                        return GetAutocompleteNodes(rest, node.ChildNodes);
+                    }
+                    else
+                        return node.ChildNodes;
+                }
+            }
+            return null;
+        }
+
+        private WordDetection GetWordDetection(TextPointer caretPosition)
+        {
+            WordDetection result = new WordDetection();
+            result.CurrentWord = GetCurrentWord(caretPosition);
+            //var prevtext = GetTextRange(currentWord.Item1, -1);
+            //if (prevtext != null && prevtext.Item2 == ".")
+            var list = new List<Tuple<TextPointer, TextPointer, string>>();
+            //       GetBlocks(result.CurrentWord.Item1, list);
+            //  List<StatementTree> stTree = GetStatementTree(list, 0);
+
+            return result;
+        }
+        private List<TextStateChain> GetTextStateChains(TextPointer point)
+        {
+            List<TextStateChain> result = new List<MyProject_WPF.TextStateChain>();
+            var list = GetBlocks(point);
+            var statementTree = GetStatementTree(list);
+            foreach (var item in statementTree)
+            {
+                if (item.IsText)
+                {
+                    TextStateChain rItem = new TextStateChain();
+                    //rItem.StartPointer = list[i].Item1;
+                    rItem.TextStates = CheckCallChain(statementTree, item);
+                }
+            }
+            return result;
+        }
+
+        private List<FormulaTextBlock> CheckCallChain(List<CodeBlock> statementTree, CodeBlock item, CodeBlock lastItem = null, List<FormulaTextBlock> result = null, bool canAcceptOnlyDot = false)
+        {
+            if (result == null)
+                result = new List<FormulaTextBlock>();
+            if (canAcceptOnlyDot)
+            {
+                if ((item is NonTextBlock) && (item as NonTextBlock).IsDot && statementTree.IndexOf(item) != statementTree.Count - 1)
+                {
+                    CheckCallChain(statementTree, statementTree[statementTree.IndexOf(item) + 1], item, result, false);
+                }
+            }
+            else
+            {
+                if (item is FormulaTextBlock)
+                {
+                    result.Add(item as FormulaTextBlock);
+                }
+
+                if (statementTree.IndexOf(item) != statementTree.Count - 1)
+                {
+                    bool canContinue = false;
+                    bool nextCanAcceptOnlyDot = false;
+                    if (item is FormulaTextBlock)
+                    {
+                        canContinue = true;
+                    }
+                    else if ((item is NonTextBlock) && (item as NonTextBlock).IsStartingParantese && (item as NonTextBlock).PairBlock != null)
+                    {
+                        if (lastItem is FormulaTextBlock)
+                        {
+                            (lastItem as FormulaTextBlock).IsFunction = true;
+                        }
+                        canContinue = true;
+                        item = (item as NonTextBlock).PairBlock;
+                        nextCanAcceptOnlyDot = true;
+                    }
+                    if (canContinue)
+                        CheckCallChain(statementTree, statementTree[statementTree.IndexOf(item) + 1], item, result, nextCanAcceptOnlyDot);
+                }
+            }
+
+
+
+            return result;
+        }
+
+        private List<CodeBlock> GetStatementTree(List<Tuple<TextPointer, TextPointer, string>> list, int j = 0)
+        {
+            List<CodeBlock> result = new List<CodeBlock>();
+            for (int i = j; i < list.Count - 1; i++)
+            {
+                //if (!list[i].Item4)
+                //{
+                CodeBlock rItem = null;
+                ////////if (list[i].Item4)
+                ////////{
+                ////////    rItem = new FormulaTextBlock();
+                ////////}
+                ////////else
+                ////////{
+                ////////    rItem = new NonTextBlock();
+                ////////}
+                rItem.StartPointer = list[i].Item1;
+                rItem.EndPointer = list[i].Item2;
+                rItem.Text = list[i].Item3;
+                //////         rItem.IsText = list[i].Item4;
+                result.Add(rItem);
+                //}
+                //else
+                //{
+                //TextStateChain rItem = new TextStateChain();
+                //rItem.StartPointer = list[i].Item1;
+                //rItem.TextStates = CheckCallChain(list, ref i);
+                //string text = "";
+                //foreach (var item in rItem.TextStates)
+                //{
+                //    text += (text == "" ? "" : ".") + item.Text;
+                //}
+                //rItem.Text = text;
+                //rItem.EndPointer = rItem.TextStates.Last().EndPointer;
+                //}
+            }
+
+            SetNonTextBlockProperties(result.Where(x => x is NonTextBlock).Cast<NonTextBlock>().ToList());
+            return result;
+        }
+
+        private void SetNonTextBlockProperties(List<NonTextBlock> result)
+        {
+            foreach (var item in result)
+            {
+                var block = item as NonTextBlock;
+                if (block.Text == "(")
+                {
+                    block.IsStartingParantese = true;
+                }
+                else if (block.Text == ")")
+                {
+                    block.IsEndingParantese = true;
+                }
+                else if (item.Text == ".")
+                {
+                    block.IsDot = true;
+                }
+            }
+            foreach (var item in result.Where(x => x.IsStartingParantese))
+            {
+                SetPairParantese(result, item);
             }
         }
 
-        private string GetCurrentWord()
+        private void SetPairParantese(List<NonTextBlock> result, NonTextBlock item, int debth = 0)
         {
-            TextPointer start = txtFormula.CaretPosition;  // this is the variable we will advance to the left until a non-letter character is found
-            TextPointer end = txtFormula.CaretPosition;    // this is the variable we will advance to the right until a non-letter character is found
-
-            String stringBeforeCaret = start.GetTextInRun(LogicalDirection.Backward);   // extract the text in the current run from the caret to the left
-            String stringAfterCaret = start.GetTextInRun(LogicalDirection.Forward);     // extract the text in the current run from the caret to the left
-
-            Int32 countToMoveLeft = 0;  // we record how many positions we move to the left until a non-letter character is found
-            Int32 countToMoveRight = 0; // we record how many positions we move to the right until a non-letter character is found
-
-            for (Int32 i = stringBeforeCaret.Length - 1; i >= 0; --i)
+            for (int i = result.IndexOf(item) + 1; i <= result.Count - 1; i++)
             {
-                // if the character at the location CaretPosition-LeftOffset is a letter, we move more to the left
-                if (Char.IsLetter(stringBeforeCaret[i]))
-                    ++countToMoveLeft;
-                else break; // otherwise we have found the beginning of the word
+
+                if (debth == 0 && result[i].IsEndingParantese)
+                {
+                    item.PairBlock = result[i];
+                    result[i].PairBlock = item;
+                }
+                else if (result[i].IsStartingParantese)
+                    debth--;
+                else if (result[i].IsEndingParantese)
+                {
+                    debth++;
+                    if (debth > 0)
+                        break;
+                }
             }
+        }
 
 
-            for (Int32 i = 0; i < stringAfterCaret.Length; ++i)
+
+        private List<Tuple<TextPointer, TextPointer, string>> GetBlocks(TextPointer item1, List<Tuple<TextPointer, TextPointer, string>> result = null)
+        {
+            if (result == null)
+                result = new List<Tuple<TextPointer, TextPointer, string>>();
+            var previousWord = GetPreviousText(item1, true);
+            if (previousWord != null)
             {
-                // if the character at the location CaretPosition+RightOffset is a letter, we move more to the right
-                if (Char.IsLetter(stringAfterCaret[i]))
-                    ++countToMoveRight;
-                else break; // otherwise we have found the end of the word
+                result.Add(new Tuple<TextPointer, TextPointer, string>(previousWord.Item1, previousWord.Item2, previousWord.Item3));
+                GetBlocks(previousWord.Item1, result);
             }
+            return result;
+        }
+
+        //private void SetPreviousWords(WordDetection result, int count, TextPointer item1, int i = 0, int parantesDebth = 0)
+        //{
+        //    if (i >= count)
+        //        return;
+        //    if (result.PreviousWords == null)
+        //        result.PreviousWords = new List<string>();
+        //    var previousWord = GetPreviousText(item1, new List<char>() { '_', '-' }, false);
+        //    if (previousWord == null)
+        //        return;
+        //    else if (previousWord.Item2 == "")
+        //    {
+        //        previousWord = GetPreviousText(item1, new List<char>() { '_', '-' }, true);
+        //        if (previousWord == null || previousWord.Item2 == "")
+        //            return;
+        //        else
+        //        {
+        //            if (previousWord.Item2 == ")")
+        //                parantesDebth++;
+        //            else if (previousWord.Item2 == "(")
+        //                parantesDebth--;
+        //            SetPreviousWords(result, count, previousWord.Item1, i, parantesDebth);
+        //        }
 
 
+        //    }
+        //    else
+        //    {
+        //        if (parantesDebth == 0)
+        //        {
+        //            result.PreviousWords.Add(previousWord.Item2);
+        //            SetPreviousWords(result, count, previousWord.Item1, i + 1, parantesDebth);
+        //        }
+        //        else
+        //            SetPreviousWords(result, count, previousWord.Item1, i, parantesDebth);
 
-            start = start.GetPositionAtOffset(-countToMoveLeft);    // modify the start pointer by the offset we have calculated
-            end = end.GetPositionAtOffset(countToMoveRight);        // modify the end pointer by the offset we have calculated
+        //    }
 
+        //}
+        private Tuple<TextPointer, TextPointer, string> GetCurrentWord(TextPointer item1)
+        {
+            Tuple<TextPointer, TextPointer, string> prevText;
+            Tuple<TextPointer, TextPointer, string> nextText;
+            prevText = GetPreviousText(item1, false);
+            nextText = GetNextText(item1, false);
+            TextPointer start;
+            TextPointer end;
 
-            // extract the text between those two pointers
+            string prevContent = "";
+            string nextContent = "";
+            if (prevText == null)
+                start = item1;
+            else
+            {
+                prevContent = prevText.Item3;
+                start = prevText.Item1;
+            }
+            if (nextText == null)
+                end = item1;
+            else
+            {
+                nextContent = nextText.Item3;
+                end = nextText.Item2;
+            }
+            return new Tuple<TextPointer, TextPointer, string>(start, end, prevContent + nextContent);
+        }
+        private Tuple<TextPointer, TextPointer, string> GetPreviousText(TextPointer start, bool includeSingleNonText)
+        {
+            var len = GetPreviousTextLen(start, includeSingleNonText);
+            if (len == 0)
+                return null;
+            else
+                return GetTextRange(start, len);
+        }
+        private int GetPreviousTextLen(TextPointer cStart, bool includeSingleNonText, int result = 0)
+        {
+
+            if (txtFormula.Document.ContentStart.GetOffsetToPosition(cStart) <= 0)
+                return result;
+
+            var nextChar = GetTextRange(cStart, -1);
+            if (nextChar.Item3 != "" && IsValidChar(nextChar.Item3[0]))
+            {
+                result--;
+                return GetPreviousTextLen(nextChar.Item1, includeSingleNonText, result);
+            }
+            else
+            {
+                if (includeSingleNonText && result == 0)
+                    result--;
+            }
+            return result;
+        }
+
+        private Tuple<TextPointer, TextPointer, string> GetNextText(TextPointer start, bool includeSingleNonText)
+        {
+            var len = GetNextTextLen(start, includeSingleNonText);
+            if (len == 0)
+                return null;
+            else
+                return GetTextRange(start, len);
+        }
+        private int GetNextTextLen(TextPointer cStart, bool includeSingleNonText, int result = 0)
+        {
+            if (txtFormula.Document.ContentEnd.GetOffsetToPosition(cStart) >= 0)
+                return result;
+            var nextChar = GetTextRange(cStart, 1);
+            if (nextChar.Item3 != "" && IsValidChar(nextChar.Item3[0]))
+            {
+                result++;
+                return GetNextTextLen(nextChar.Item2, includeSingleNonText, result);
+            }
+            else
+            {
+                if (includeSingleNonText && result == 0)
+                    result++;
+
+            }
+            return result;
+        }
+        private Tuple<TextPointer, TextPointer, string> GetTextRange(TextPointer position, int len)
+        {
+            TextPointer start;
+            TextPointer end;
+            if (len >= 0)
+            {
+                start = position;
+                end = start.GetPositionAtOffset(len);
+            }
+            else
+            {
+                end = position;
+                start = end.GetPositionAtOffset(len);
+            }
             TextRange r = new TextRange(start, end);
             String text = r.Text;
-
-
-            return text;
+            return new Tuple<TextPointer, TextPointer, string>(start, end, text);
+        }
+        private bool IsValidChar(char ch)
+        {
+            return Char.IsLetterOrDigit(ch) || new List<char>() { '_' }.Contains(ch);
+        }
+        private bool IsValidChar(char ch, List<char> validChars)
+        {
+            return Char.IsLetterOrDigit(ch) || (validChars != null && validChars.Contains(ch));
         }
 
         private string GetLastWord()
@@ -229,8 +536,8 @@ namespace MyProject_WPF
 
         private void TextChanged()
         {
-            textChangedTimer.Stop();
-            textChangedTimer.Start();
+            textChangedCalculationTimer.Stop();
+            textChangedCalculationTimer.Start();
         }
 
 
@@ -242,8 +549,33 @@ namespace MyProject_WPF
             selectionTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
             selectionTimer.Tick += SelectionTimer_Tick;
 
-            textChangedTimer.Interval = new TimeSpan(0, 0, 0, 0, 2000);
-            textChangedTimer.Tick += TextChanged_Tick;
+            textChangedCalculationTimer.Interval = new TimeSpan(0, 0, 0, 0, 2000);
+            textChangedCalculationTimer.Tick += TextChanged_Tick;
+
+            textChangedColorTimer.Interval = new TimeSpan(0, 0, 0, 0, 2000);
+            textChangedColorTimer.Tick += TextChangedColorTimer_Tick;
+
+            autoCompleteTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            autoCompleteTimer.Tick += AutoCompleteTimer_Tick;
+        }
+
+        private void TextChangedColorTimer_Tick(object sender, EventArgs e)
+        {
+            (sender as DispatcherTimer).Stop();
+            var list = new List<Tuple<TextPointer, TextPointer, string, bool>>();
+            var stTree = GetTextStateChains(txtFormula.Document.ContentEnd);
+
+            foreach (var item in stTree)
+            {
+                foreach (var block in item.TextStates)
+                {
+                    var textRange = new TextRange(block.StartPointer, block.EndPointer);
+                    if (block.IsFunction)
+                        textRange.ApplyPropertyValue(TextElement.ForegroundProperty­, Brushes.Red);
+                    else
+                        textRange.ApplyPropertyValue(TextElement.ForegroundProperty­, Brushes.Blue);
+                }
+            }
         }
 
         private void TextChanged_Tick(object sender, EventArgs e)
@@ -314,86 +646,86 @@ namespace MyProject_WPF
 
         private void FormulaAutoComplete_NodeSelected(object sender, NodeSelectedArg e)
         {
-            if (e.PropertyType == NodeType.Method)
-            {
-                txtFormula.Insert(e.NodePath);
-                if (e.NodePath.Contains("(") && e.NodePath.Contains(")"))
-                {
-                    var fIndex = e.NodePath.IndexOf("(");
-                    var lIndex = e.NodePath.IndexOf(")");
-                    var lenght = lIndex - fIndex;
-                    var paramStr = e.NodePath.Substring((fIndex + 1), lenght - 1);
+            txtFormula.CaretPosition.InsertTextInRun(e.NodeTitle);
+            //if (e.PropertyType == NodeType.Method)
+            //{
+            //    txtFormula.CaretPosition.InsertTextInRun(e.NodeTitle);
+            //    if (e.NodePath.Contains("(") && e.NodePath.Contains(")"))
+            //    {
+            //        var fIndex = e.NodePath.IndexOf("(");
+            //        var lIndex = e.NodePath.IndexOf(")");
+            //        var lenght = lIndex - fIndex;
+            //        var paramStr = e.NodePath.Substring((fIndex + 1), lenght - 1);
 
-                    if (!string.IsNullOrEmpty(paramStr))
-                    {
-                        if (!paramStr.Contains("[]"))
-                            SelectText(paramStr);
-                    }
-                }
+            //        if (!string.IsNullOrEmpty(paramStr))
+            //        {
+            //            if (!paramStr.Contains("[]"))
+            //                SelectText(paramStr);
+            //        }
+            //    }
 
-            }
-            else
-            {
-                txtFormula.Insert(e.NodePath);
-            }
+            //}
+            //else
+            //{
+            //    txtFormula.Insert(e.NodePath);
+            //}
             autoCompleteWindow.Close();
             txtFormula.Focus();
-
         }
         string selectionText = "";
 
         RadWindow autoCompleteWindow;
 
 
-        private void ShowAutoComplete(FormulaAutoCompleteKeyType keyType, string theWord)
+        private void ShowAutoComplete(List<NodeContext> nodes)
         {
-            bool currentList = false;
-            bool mainEntity = true;
-            List<TableDrivedEntityDTO> entities = new List<TableDrivedEntityDTO>();
-            if (keyType == FormulaAutoCompleteKeyType.DotOnly || keyType == FormulaAutoCompleteKeyType.AfterDotLeftCtrlSpace)
-            {
-                if (!string.IsNullOrEmpty(theWord))
-                {
-                    if (FormulaHepler.IsHelperType(theWord) != null)
-                    {
-                        var helperType = FormulaHepler.IsHelperType(theWord);
-                        formulaAutoComplete.SetCurrentList(helperType);
-                        currentList = true;
-                    }
-                    else if (IsKnownPhraseType(theWord))
-                    {
-                        if (IsEntity(theWord))
-                        {
-                            if (IsOneToOneEntity(theWord))
-                            {
-                                currentList = formulaAutoComplete.SetCurrentList(GetEntityNameFromWord(theWord));
-                            }
-                        }
-                    }
-                }
-            }
+            //bool currentList = false;
+            //bool mainEntity = true;
+            //List<TableDrivedEntityDTO> entities = new List<TableDrivedEntityDTO>();
+            //if (keyType == FormulaAutoCompleteKeyType.DotOnly || keyType == FormulaAutoCompleteKeyType.AfterDotLeftCtrlSpace)
+            //{
+            //    if (!string.IsNullOrEmpty(theWord))
+            //    {
+            //        if (FormulaHepler.IsHelperType(theWord) != null)
+            //        {
+            //            var helperType = FormulaHepler.IsHelperType(theWord);
+            //            formulaAutoComplete.SetCurrentList(helperType);
+            //            currentList = true;
+            //        }
+            //        else if (IsKnownPhraseType(theWord))
+            //        {
+            //            if (IsEntity(theWord))
+            //            {
+            //                if (IsOneToOneEntity(theWord))
+            //                {
+            //                    currentList = formulaAutoComplete.SetCurrentList(GetEntityNameFromWord(theWord));
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
-            if (mainEntity || currentList)
+            //if (mainEntity || currentList)
+            //{
+            formulaAutoComplete.SetTree(nodes);
+            if (autoCompleteWindow == null)
             {
-                formulaAutoComplete.SetTreeVisiblities(mainEntity, currentList);
-                if (autoCompleteWindow == null)
-                {
-                    autoCompleteWindow = new RadWindow();
-                    autoCompleteWindow.Header = "";
-                    autoCompleteWindow.Content = formulaAutoComplete;
-                    autoCompleteWindow.HideMinimizeButton = true;
-                    autoCompleteWindow.HideMaximizeButton = true;
-                    //   autoCompleteWindow.SizeToContent = true;
-                    autoCompleteWindow.ResizeMode = ResizeMode.NoResize;
-                }
-                if (txtFormula != null)
-                {
-                    var aa = txtFormula.Document.CaretPosition;
-                    autoCompleteWindow.Left = aa.Location.X + 50;
-                    autoCompleteWindow.Top = aa.Location.Y + 200;
-                }
-                autoCompleteWindow.ShowDialog();
+                autoCompleteWindow = new RadWindow();
+                autoCompleteWindow.Header = "";
+                autoCompleteWindow.Content = formulaAutoComplete;
+                autoCompleteWindow.HideMinimizeButton = true;
+                autoCompleteWindow.HideMaximizeButton = true;
+                //   autoCompleteWindow.SizeToContent = true;
+                autoCompleteWindow.ResizeMode = ResizeMode.NoResize;
             }
+            //////if (txtFormula != null)
+            //////{
+            //////    var aa = txtFormula.Document.CaretPosition;
+            //////    autoCompleteWindow.Left = aa.Location.X + 50;
+            //////    autoCompleteWindow.Top = aa.Location.Y + 200;
+            //////}
+            autoCompleteWindow.ShowDialog();
+            //}
             //myPopup.BringIntoView();
             //myPopup.UpdateLayout();
             //myPopup.Focus();
@@ -405,425 +737,85 @@ namespace MyProject_WPF
 
         }
 
-        private string GetEntityNameFromWord(string word)
-        {
-            word = word.ToLower();
-            if (word.StartsWith("otorel"))
-            {
-                word = word.Substring(6, word.Length - 6);
-            }
-            else if (word.StartsWith("otmrel"))
-            {
-                word = word.Substring(6, word.Length - 6);
-            }
-            else if (word.StartsWith("mtorel"))
-            {
-                word = word.Substring(6, word.Length - 6);
-            }
-            if (word.EndsWith("1") || word.EndsWith("2") || word.EndsWith("3") || word.EndsWith("4"))
-            {
-                word = word.Substring(0, word.Length - 1);
-            }
-            return word;
-        }
-
-
-        //private void DoGeneralAutoComplete()
-        //{
-        //    var previousEntityWords = GetPreviousWords(richTextBox.Document.CaretPosition).Where(x => IsEntity(x.Item2)).Select(x => x.Item2).ToList();
-        //    List<PropertyFunction> list1 = new List<PropertyFunction>();
-        //    if (!previousEntityWords.Any())
-        //        previousEntityWords.Add(Entity.Name);
-        //    foreach (var entity in previousEntityWords)
-        //    {
-        //        var fItem = FormulaInstance.GetEntityAndProperties(entity);
-        //        if (fItem != null)
-        //        {
-        //            list1.AddRange(GetFromulaObjectPropertiesAndFunctions(fItem.Properties, previousEntityWords.Count > 1 ? fItem.Entity.Name : ""));
-        //        }
-        //    }
-        //    if (list1 != null && list1.Any())
-        //    {
-        //        ShowPopup(list1);
-        //    }
-        //}
-
-
-        //private List<PropertyFunction> GetPropertyOrFunctionList(string theWord)
-        //{
-        //    //کش شود.دیتابیس هم برداشته شود
-        //    List<PropertyFunction> result = null;
-        //    if (!string.IsNullOrEmpty(theWord) && FormulaHepler.IsHelperType(theWord) != null)
-        //    {
-        //        var helperType = FormulaHepler.IsHelperType(theWord);
-        //        result = GetDotNetTypePropertiesAndMethods(helperType);
-        //    }
-        //    else
-        //    {
-        //        List<TableDrivedEntityDTO> entities = new List<TableDrivedEntityDTO>();
-        //        if (!string.IsNullOrEmpty(theWord))
-        //        {
-        //            if (IsKnownPhraseType(theWord))
-        //            {
-        //                if (IsEntity(theWord))
-        //                {
-        //                    if (IsOneToOneEntity(theWord))
-        //                    {
-        //                        entities = GetPossibleEntity(theWord);
-
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            entities.Add(bizTableDrivedEntity.GetPermissionedEntity(MyProjectManager.GetMyProjectManager.GetRequester(), EntityID));
-        //        }
-
-        //        if (entities.Any())
-        //            return GetFromulaObjectPropertiesAndFunctions(GetEntityAndProperties(entities));
-        //    }
-        //}
-        //public TableDrivedEntityDTO GetPossibleEntity(string word)
-        //{
-
-
-        //}
-
-
-        //private List<PropertyFunction> GetPropertyOrFunctionList()
-        //{
-        //    List<PropertyFunction> result = null;
-
-        //    List<string> entities = new List<string>();
-        //    string property = null;
-        //    var str = (richTextBox.Document.CaretPosition.GetCurrentWord());
-        //    Tuple<DocumentPosition, string> theFirstWord = null;
-        //    Tuple<DocumentPosition, string> theSecondWord = null;
-        //    if (str == Environment.NewLine)
-        //        theFirstWord = GetPreviousWord(richTextBox.Document, GetPreviousWord(richTextBox.Document, richTextBox.Document.CaretPosition).Item1);
-        //    else
-        //        theFirstWord = GetPreviousWord(richTextBox.Document, richTextBox.Document.CaretPosition);
-        //    if (theFirstWord.Item2 == ".")
-        //        theFirstWord = GetPreviousWord(richTextBox.Document, theFirstWord.Item1);
-        //    if (theFirstWord != null)
-        //    {
-        //        var helperType = FormulaHepler.IsHelperType(theFirstWord.Item2);
-        //        if (helperType != null)
-        //        {
-        //            result = GetDotNetTypePropertiesAndMethods(helperType);
-        //        }
-        //        else
-        //        {
-        //            var theDotBeforeTheFirstWord = GetPreviousWord(richTextBox.Document, theFirstWord.Item1);
-        //            if (theDotBeforeTheFirstWord.Item2 == ".")
-        //            {
-        //                theSecondWord = GetPreviousWord(richTextBox.Document, theDotBeforeTheFirstWord.Item1);
-        //            }
-
-        //            if (IsKnownPropertyType(theFirstWord.Item2))
-        //            {
-        //                if (IsEntity(theFirstWord.Item2))
-        //                {
-        //                    entities.Add(theFirstWord.Item2);
-        //                }
-        //                else if (IsProperty(theFirstWord.Item2))
-        //                {
-        //                    property = theFirstWord.Item2;
-        //                    entities = GetEntitiesBeforeProperty(theSecondWord, theFirstWord);
-        //                }
-        //            }
-
-        //            if (entities.Any())
-        //            {
-        //                if (string.IsNullOrEmpty(property))
-        //                {
-        //                    //اگر پراپرتی نباشد همیشه یکی میاد
-        //                    var theEntity = entities.First();
-        //                    if (IsOneToOneEntity(theEntity))
-        //                    {
-        //                        var fItem = FormulaInstance.GetEntityAndProperties(theEntity);
-        //                        if (fItem != null)
-        //                            result = GetFromulaObjectPropertiesAndFunctions(fItem.Properties);
-        //                    }
-        //                    else
-        //                        result = GetDotNetTypePropertiesAndMethods(typeof(Enumerable));
-        //                }
-        //                else
-        //                {
-        //                    if (entities.Count == 1)
-        //                    {
-        //                        var fItem = FormulaInstance.GetEntityProperty(entities.First(), property);
-        //                        if (fItem != null)
-        //                            result = GetDotNetTypePropertiesAndMethods(fItem.Type);
-        //                    }
-        //                    else
-        //                    {
-        //                        List<PropertyFunction> list1 = new List<PropertyFunction>();
-        //                        foreach (var entity in entities)
-        //                        {
-        //                            var fItem = FormulaInstance.GetEntityProperty(entity, property);
-        //                            if (fItem != null)
-        //                                list1.AddRange(GetDotNetTypePropertiesAndMethods(fItem.Type));
-        //                        }
-        //                        result = list1;
-        //                    }
-        //                }
-        //            }
-
-        //        }
-        //    }
-
-
-        //    return result;
-        //}
-        //private void ShowAutoCompleteMainObject(DocumentPosition caretPosition)
-        //{
-        //    var CaretPosition = caretPosition;
-        //    var list = GetFromulaObjectPropertiesAndFunctions(FormulaInstance.MainFormulaObject.Properties.Select(x => x.Value).ToList());
-        //    ShowPopup(list);
-        //}
-
-        //private List<string> GetEntitiesBeforeProperty(Tuple<DocumentPosition, string> theWordBefore, Tuple<DocumentPosition, string> thePropertyWord)
-        //{
-        //    List<string> contextEntity = new List<string>();
-        //    if (theWordBefore != null && IsEntity(theWordBefore.Item2))
-        //    {
-        //        contextEntity.Add(theWordBefore.Item2);
-        //    }
-        //    else
-        //    {
-        //        var previousWords = GetPreviousWords(thePropertyWord.Item1);
-        //        if (!previousWords.Any(x => IsEntity(x.Item2)))
-        //        {
-        //            contextEntity.Add(Entity.Name);
-        //        }
-        //        else
-        //        {
-        //            var entities = previousWords.Where(x => IsEntity(x.Item2));
-        //            foreach (var entity in entities)
-        //            {
-        //                contextEntity.Add(entity.Item2);
-        //            }
-        //        }
-        //    }
-        //    return contextEntity;
-        //}
-
-        //private List<PropertyFunction> GetDotNetTypePropertiesAndMethods(Type type)
-        //{
-        //    List<PropertyFunction> result = new List<PropertyFunction>();
-        //    var propertyArray = type.GetProperties();
-        //    foreach (var prop in propertyArray)
-        //    {
-        //        var propertyFunction = new PropertyFunction();
-        //        propertyFunction.Title = prop.Name;
-        //        propertyFunction.Name = prop.Name;
-        //        propertyFunction.Type = Enum_PropertyFunctionType.Property;
-        //        propertyFunction.Image = GetPropertyImage();
-        //        result.Add(propertyFunction);
-        //    }
-        //    var methodList = GetMehtodList(type);
-        //    result.AddRange(methodList);
-        //    return result;
-
-
-        //}
-
-        private bool IsOneToOneEntity(string item2)
-        {
-            return item2.ToLower().StartsWith("otorel") || item2.ToLower().StartsWith("mtorel");
-        }
-
-
-        private List<PropertyFunction> GetMehtodList(Type type)
-        {
-            List<PropertyFunction> result = new List<PropertyFunction>();
-            IEnumerable<MethodInfo> methodList = null;
-            //if (specificMethod)
-            //    methodList = type.GetMethods().Where(x => SpecificMethodNames.Contains(x.Name));
-            //else
-            methodList = type.GetMethods();
-            foreach (var method in methodList)
-            {
-                var attr = method.Attributes;
-                var paramList = method.GetParameters();
-                var methodTitle = method.Name;
-                var methodName = method.Name;
-                var paramsStr = "";
-                if (paramList.Count() > 0)
-                {
-
-                    foreach (var param in paramList)
-                    {
-                        if (type == typeof(Enumerable) && param.Name.ToLower() == "source")
-                            continue;
-                        paramsStr += (paramsStr == "" ? "" : ",") + param.ParameterType.Name + " " + param.Name;
-                    }
-                    methodTitle += "(" + paramsStr + ")";
-                }
-                else
-                    methodTitle += "()";
-                if (!result.Any(x => x.Title == methodTitle))
-                {
-                    var propertyFunction = new PropertyFunction();
-                    propertyFunction.Title = methodTitle;
-                    propertyFunction.ParamsStr = paramsStr;
-                    propertyFunction.Name = methodName;
-                    propertyFunction.Type = Enum_PropertyFunctionType.Method;
-                    propertyFunction.Image = GetMethodImage(methodName);
-
-                    result.Add(propertyFunction);
-                }
-            }
-
-            return result;
-        }
-        private ImageSource GetMethodImage(string methodName)
-        {
-            //if (SpecificMethodNames.Contains(methodName))
-            //    return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/function.png", UriKind.Relative));
-            //else
-            return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/function1.png", UriKind.Relative));
-        }
-        private bool IsKnownPhraseType(string word)
-        {
-            if (word.ToLower().StartsWith("otorel")
-                || word.ToLower().StartsWith("otmrel")
-                 || word.ToLower().StartsWith("mtorel")
-                     //|| word.StartsWith("cl_")
-                     //  || word.StartsWith("st_")
-                     //  || word.StartsWith("p_")
-                     //  || word.StartsWith("fn_")
-                     //  || word.StartsWith("sp_")
-                     //    || word.StartsWith("cd_")
-                     )
-                return true;
-            else
-                return false;
-        }
-        private bool IsEntity(string word)
-        {
-            if (word.ToLower().StartsWith("otorel")
-                || word.ToLower().StartsWith("otmrel")
-                  || word.ToLower().StartsWith("mtorel"))
-                return true;
-            else
-                return false;
-        }
-        public bool IsProperty(string word)
-        {
-            if (word.StartsWith("cl_")
-                  || word.StartsWith("st_")
-                  || word.StartsWith("p_")
-                  || word.StartsWith("fn_")
-                  || word.StartsWith("sp_")
-                    || word.StartsWith("cd_")
-                    || word == "Helper")
-                return true;
-            else
-                return false;
-        }
-
-        //private Tuple<DocumentPosition, string> GetPreviousWord(RadDocument radDocument, DocumentPosition caretPosition)
-        //{
-
-        //    DocumentPosition pos = new DocumentPosition(txtFormula.Document);
-        //    pos.MoveToPosition(caretPosition);
-        //    pos.MoveToPreviousWordStart();
-        //    radDocument.Selection.SetSelectionStart(pos);
-        //    radDocument.Selection.AddSelectionEnd(caretPosition);
-
-
-
-        //    // var text = pos.GetCurrentInlineBox().Text;
-        //    string text = radDocument.Selection.GetSelectedText(); ;// pos.GetCurrentWord();
-        //    if (text.Contains("_"))
-        //    {
-        //        pos.MoveToPreviousWordStart();
-        //        radDocument.Selection.SetSelectionStart(pos);
-        //        radDocument.Selection.AddSelectionEnd(caretPosition);
-        //        text = radDocument.Selection.GetSelectedText();
-
-        //    }
-        //    if (text != null && text != "" && text != ".")
-        //    {
-        //        if (text.EndsWith("."))
-        //            text = text.Substring(0, text.Length - 1);
-        //    }
-        //    var previousOfMainCaret = new DocumentPosition(pos);
-        //    radDocument.Selection.Clear();
-        //    return new Tuple<DocumentPosition, string>(previousOfMainCaret, text);
-        //    //////var word = GetText(previousOfMainCaret, caretPosition);// pos.Get
-        //    //////return new Tuple<DocumentPosition, string>(previousOfMainCaret, word);
-        //}
-        //private List<Tuple<DocumentPosition, string>> GetPreviousWords(DocumentPosition caretPosition, List<Tuple<DocumentPosition, string>> result = null)
-        //{
-        //    if (result == null)
-        //        result = new List<Tuple<DocumentPosition, string>>();
-
-        //    DocumentPosition pos = new DocumentPosition(txtFormula.Document);
-        //    pos.MoveToPosition(caretPosition);
-        //    pos.MoveToPreviousWordStart();
-        //    var text = pos.GetCurrentInlineBox().Text;
-        //    if (text.Contains("_"))
-        //        pos.MoveToPreviousWordStart();
-        //    var previousOfMainCaret = new DocumentPosition(pos);
-        //    if (previousOfMainCaret != caretPosition)
-        //    {
-        //        result.Add(new Tuple<DocumentPosition, string>(previousOfMainCaret, text));
-
-        //        GetPreviousWords(previousOfMainCaret, result);
-        //    }
-
-        //    return result;
-        //    //////var word = GetText(previousOfMainCaret, caretPosition);// pos.Get
-        //    //////return new Tuple<DocumentPosition, string>(previousOfMainCaret, word);
-        //}
-        private void SelectText(string text)
-        {
-            selectionText = text;
-            selectionTimer.Start();
-        }
-
-
         private void SetParametersTree()
         {
+            var fNodeTitle = FormulaInstanceInternalHelper.GetObjectPrefrix();
+            NodeContext rootNodeContext = null;
+            if (!string.IsNullOrEmpty(fNodeTitle))
+            {
+                rootNodeContext = new MyProject_WPF.NodeContext()
+                {
+                    Context = Entity,
+                    Name = fNodeTitle,
+                    Title = fNodeTitle,
+                    NodeType = NodeType.MainVariable
+                };
+                var treeItem = AddNodeContext(null, rootNodeContext, false);
+                treeItem.IsExpanded = true;
+            }
             var entityAndProperties = GetEntityAndProperties(Entity);
-            SetTree(treeProperties.Items, entityAndProperties);
+            SetNodes(rootNodeContext, entityAndProperties);
             foreach (var item in FormulaInstanceInternalHelper.GetHelpers())
             {
-                AddPropertyNode(treeProperties.Items, item);
+                var nodeContext = new MyProject_WPF.NodeContext() { ParentPath = "", Context = item.Value, Name = item.Key, Title = item.Key, NodeType = NodeType.HelperProperty };
+                var node = AddNodeContext(null, nodeContext, false);
+                SetNodes(nodeContext, item.Value);
             }
+
+            foreach (var item in FormulaInstanceInternalHelper.GetExpressionBuiltinVariables())
+            {
+                var nodeContext = new MyProject_WPF.NodeContext() { ParentPath = "", Context = item.Value, Name = item.Key, Title = item.Key, NodeType = NodeType.HelperProperty };
+                AddNodeContext(null, nodeContext, false);
+                SetNodes(nodeContext, item.Value);
+            }
+
+        }
+        private RadTreeViewItem AddNodeContext(NodeContext parentNodeContext, NodeContext nodeContext, bool lateExpand)
+        {
+
+
+            string parentPath = "";
+            if (parentNodeContext != null)
+                parentPath = (string.IsNullOrEmpty(parentNodeContext.ParentPath) ? "" : parentNodeContext.ParentPath + ".") + parentNodeContext.Name;
+            nodeContext.ParentPath = parentPath;
+            nodeContext.ParentNode = parentNodeContext;
+
+            if (parentNodeContext != null)
+            {
+                if (parentNodeContext.ChildNodes == null)
+                    parentNodeContext.ChildNodes = new List<MyProject_WPF.NodeContext>();
+                parentNodeContext.ChildNodes.Add(nodeContext);
+            }
+            else
+                nodeDictionary.Add(nodeContext);
+
+
+
+            var fnode = AddNodeToTree(nodeContext, lateExpand);
+            nodeContext.UIItem = fnode;
+            return fnode;
         }
 
-        private void AddPropertyNode(ItemCollection items, Type type)
+        private RadTreeViewItem AddNodeToTree(NodeContext nodeContext, bool lateExpand)
         {
-            var node = AddNode(items, new MyProject_WPF.NodeContext() { Context = type, Name = type.Name, NodeType = NodeType.HelperProperty });
-            SetTree(node.Items, type);
-        }
+            ItemCollection collection;
+            if (nodeContext.ParentNode != null)
+                collection = (nodeContext.ParentNode.UIItem as RadTreeViewItem).Items;
+            else
+                collection = treeProperties.Items;
 
-        private RadTreeViewItem AddNode(ItemCollection items, NodeContext nodeContext)
-        {
             RadTreeViewItem node = new RadTreeViewItem();
             node.DataContext = nodeContext;
             node.Header = GetHeader(node);
-            node.Expanded += Node_Expanded;
+
             // node.DoubleClick += Node_DoubleClick;
 
-            if (nodeContext.Context is MyPropertyInfo)
+            if (lateExpand)
             {
-                var myPropertyInfo = (nodeContext.Context as MyPropertyInfo);
-                if (myPropertyInfo.PropertyType == ProxyLibrary.PropertyType.Helper)
-                {
-                    node.Items.Add("aaa");
-                }
-                else if (myPropertyInfo.PropertyType == ProxyLibrary.PropertyType.Relationship)
-                {
-                    node.Items.Add("aaa");
-                }
+                node.Expanded += Node_Expanded;
+                node.Items.Add("aaa");
             }
-            items.Add(node);
+            collection.Add(node);
             return node;
         }
         private void Node_Expanded(object sender, Telerik.Windows.RadRoutedEventArgs e)
@@ -835,48 +827,78 @@ namespace MyProject_WPF
                 if (node.Items.Count == 1 && node.Items[0].ToString() == "aaa")
                 {
                     node.Items.Clear();
-                    if (nodeContext.Context is MyPropertyInfo)
-                    {
-                        if ((nodeContext.Context as MyPropertyInfo).PropertyType == ProxyLibrary.PropertyType.Helper)
-                        {
-                            SetTree(node.Items, (nodeContext.Context as MyPropertyInfo).Type);
-                        }
-                        else if ((nodeContext.Context as MyPropertyInfo).PropertyType == ProxyLibrary.PropertyType.Relationship)
-                        {
-                            var entityAndProperties = GetEntityAndProperties((nodeContext.Context as MyPropertyInfo).PropertyRelationship.EntityID2);
-                            if (entityAndProperties != null)
-                            {
-                                SetTree(node.Items, entityAndProperties);
-                            }
-                        }
-                    }
+                    SetNodes(nodeContext);
                 }
             }
         }
-        private void SetTree(ItemCollection items, EntityAndProperties entityAndProperties)
+
+        private void SetNodes(NodeContext parentNodeContext, EntityAndProperties entityAndProperties)
         {
-            items.Clear();
+
+            //if (nodeDictionary.Any(x => x.ParentPath == parentPath))
+            //    return nodeDictionary.Where(x => x.ParentPath == parentPath).ToList();
+            var result = new List<MyProject_WPF.NodeContext>();
             foreach (var property in entityAndProperties.Properties)
             {
                 NodeContext nodeContext = new MyProject_WPF.NodeContext();
                 nodeContext.Name = property.Name;
+                nodeContext.Title = nodeContext.Name;
                 nodeContext.Context = property;
-                nodeContext.NodeType = NodeType.Property;
-                AddNode(items, nodeContext);
+                if (property.PropertyType == PropertyType.Relationship)
+                    nodeContext.NodeType = NodeType.RelationshipProperty;
+                else
+                    nodeContext.NodeType = NodeType.CustomProperty;
+                result.Add(nodeContext);
+            }
+            foreach (var item in result)
+            {
+                AddNodeContext(parentNodeContext, item, true);
+            }
+
+        }
+        private void SetNodes(NodeContext nodeContext)
+        {
+            if (nodeContext.NodeType == NodeType.CustomProperty || nodeContext.NodeType == NodeType.RelationshipProperty)
+            {
+                if ((nodeContext.Context as MyPropertyInfo).PropertyType == ProxyLibrary.PropertyType.Relationship)
+                {
+                    var entityAndProperties = GetEntityAndProperties((nodeContext.Context as MyPropertyInfo).PropertyRelationship.EntityID2);
+                    if (entityAndProperties != null)
+                    {
+                        SetNodes(nodeContext, entityAndProperties);
+                    }
+                }
+                else
+                {
+                    SetNodes(nodeContext, (nodeContext.Context as MyPropertyInfo).Type);
+                }
+            }
+            else if (nodeContext.NodeType == NodeType.DotNetProperty)
+            {
+                SetNodes(nodeContext, (nodeContext.Context as PropertyInfo).PropertyType);
+            }
+            else if (nodeContext.NodeType == NodeType.DotNetMethod)
+            {
+                SetNodes(nodeContext, (nodeContext.Context as MethodInfo).ReturnType);
             }
         }
-        private void SetTree(ItemCollection items, Type type)
+        private void SetNodes(NodeContext parentNodeContext, Type type)
         {
+            //if (nodeDictionary.Any(x => x.Key == type.Name))
+            //    return nodeDictionary[type.Name];
+
+            List<NodeContext> result = new List<MyProject_WPF.NodeContext>();
             foreach (var prop in type.GetProperties())
             {
                 NodeContext nodeContext = new MyProject_WPF.NodeContext();
                 nodeContext.Name = prop.Name;
-                nodeContext.NodeType = NodeType.Property;
+                nodeContext.Title = nodeContext.Name;
+                nodeContext.NodeType = NodeType.DotNetProperty;
                 nodeContext.Context = prop;
-                AddNode(items, nodeContext);
+                result.Add(nodeContext);
             }
 
-            foreach (var method in type.GetMethods())
+            foreach (var method in type.GetMethods().Where(x => x.IsPublic))
             {
                 var methodParamStr = "";
                 var paramList = method.GetParameters();
@@ -897,10 +919,18 @@ namespace MyProject_WPF
 
 
                 NodeContext nodeContext = new MyProject_WPF.NodeContext();
-                nodeContext.Name = methodName + methodParamStr;
-                nodeContext.NodeType = NodeType.Method;
+                nodeContext.Name = methodName;
+                nodeContext.Title = methodName + methodParamStr;
+                nodeContext.NodeType = NodeType.DotNetMethod;
                 nodeContext.Context = method;
-                AddNode(items, nodeContext);
+                result.Add(nodeContext);
+            }
+            //nodeDictionary.Add(type.Name, result);
+            //nodeDictionary.AddRange(result);
+
+            foreach (var item in result)
+            {
+                AddNodeContext(parentNodeContext, item, true);
             }
         }
         EntityAndProperties GetEntityAndProperties(string entityName)
@@ -957,50 +987,46 @@ namespace MyProject_WPF
             var context = node.DataContext as NodeContext;
             StackPanel pnl = new StackPanel();
             pnl.Orientation = Orientation.Horizontal;
-            TextBlock lbl = new TextBlock();
-            lbl.Text = context.Name;
+            System.Windows.Controls.TextBlock lbl = new System.Windows.Controls.TextBlock();
+            lbl.Text = context.Title;
             Image img = new Image();
             img.Source = GetPropertyImage(context.NodeType);
             img.Width = 15;
             pnl.Children.Add(img);
             pnl.Children.Add(lbl);
 
-            if (context.Context is MyPropertyInfo)
-            {
-                Image imgAdd = new Image();
-                imgAdd.Source = new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/addnew.png", UriKind.Relative));
-                imgAdd.Width = 15;
-                imgAdd.Cursor = Cursors.Hand;
-                imgAdd.MouseLeftButtonUp += (sender, e) => ImgAdd_MouseLeftButtonUp(sender, e, node);
-                pnl.Children.Add(imgAdd);
+            //if (context.Context is MyPropertyInfo)
+            //{
+            Image imgAdd = new Image();
+            imgAdd.Source = new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/addnew.png", UriKind.Relative));
+            imgAdd.Width = 15;
+            imgAdd.Cursor = Cursors.Hand;
+            imgAdd.MouseLeftButtonUp += (sender, e) => ImgAdd_MouseLeftButtonUp(sender, e, node);
+            pnl.Children.Add(imgAdd);
 
-                Image imgAddWithPath = new Image();
-                imgAddWithPath.Source = new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/datalink.png", UriKind.Relative));
-                imgAddWithPath.Width = 15;
-                imgAddWithPath.Cursor = Cursors.Hand;
-                imgAddWithPath.MouseLeftButtonUp += (sender, e) => ImgAddWithPath_MouseLeftButtonUp(sender, e, node);
+            Image imgAddWithPath = new Image();
+            imgAddWithPath.Source = new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/datalink.png", UriKind.Relative));
+            imgAddWithPath.Width = 15;
+            imgAddWithPath.Cursor = Cursors.Hand;
+            imgAddWithPath.MouseLeftButtonUp += (sender, e) => ImgAddWithPath_MouseLeftButtonUp(sender, e, node);
 
-                pnl.Children.Add(imgAddWithPath);
-            }
+            pnl.Children.Add(imgAddWithPath);
+            //}
             return pnl;
         }
 
         private void ImgAdd_MouseLeftButtonUp(object sender, MouseButtonEventArgs e, RadTreeViewItem node)
         {
             var context = node.DataContext as NodeContext;
-            string exp = "";
-            if (node.ParentItem == null)
-                exp = "x." + context.Name;
-            else
-                exp = context.Name;
-            txtFormula.Insert(exp);
+            string exp = context.Name;
+            txtFormula.CaretPosition.InsertTextInRun(exp);
             TextChanged();
         }
         private void ImgAddWithPath_MouseLeftButtonUp(object sender, MouseButtonEventArgs e, RadTreeViewItem node)
         {
             var context = node.DataContext as NodeContext;
-            var exp = "x." + GetNodePath(node, context.Name);
-            txtFormula.Insert(exp);
+            var exp = GetNodePath(node, context.Name);
+            txtFormula.CaretPosition.InsertTextInRun(exp);
             TextChanged();
         }
         private string GetNodePath(RadTreeViewItem node, string currentPath = "")
@@ -1019,11 +1045,11 @@ namespace MyProject_WPF
         }
         private ImageSource GetPropertyImage(NodeType propertyType)
         {
-            if (propertyType == NodeType.Property)
+            if (propertyType == NodeType.DotNetProperty || propertyType == NodeType.CustomProperty)
             {
                 return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/property.png", UriKind.Relative));
             }
-            else if (propertyType == NodeType.Method)
+            else if (propertyType == NodeType.DotNetMethod)
             {
                 return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/method.png", UriKind.Relative));
             }
@@ -1031,7 +1057,10 @@ namespace MyProject_WPF
             {
                 return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/type.png", UriKind.Relative));
             }
-
+            else if (propertyType == NodeType.HelperProperty)
+            {
+                return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/validate.png", UriKind.Relative));
+            }
             return null;
         }
         private void btnConfirm_Click(object sender, RoutedEventArgs e)
@@ -1063,6 +1092,12 @@ namespace MyProject_WPF
         I_EditEntityArea EditEntityArea { set; get; }
         private void btnTest_Click(object sender, RoutedEventArgs e)
         {
+            var list = GetBlocks(txtFormula.CaretPosition);
+            lstItems.Items.Clear();
+            foreach (var item in list)
+            {
+                lstItems.Items.Add(item.Item3);
+            }
             if (EditEntityArea.GetDataList().Any())
             {
                 TestData(EditEntityArea.GetDataList().First());
@@ -1216,4 +1251,40 @@ namespace MyProject_WPF
         InTextLeftControlSpace,
         DotOnly
     }
+    public class WordDetection
+    {
+        public Tuple<TextPointer, TextPointer, string> CurrentWord { set; get; }
+        public List<Tuple<TextPointer, TextPointer, string>> PreviousWords { set; get; }
+
+    }
+
+    public class CodeBlock
+    {
+        public TextPointer StartPointer { set; get; }
+        public TextPointer EndPointer { set; get; }
+        public string Text { set; get; }
+
+        public bool IsText { get; internal set; }
+
+    }
+    public class NonTextBlock : CodeBlock
+    {
+        public bool IsStartingParantese { set; get; }
+        public CodeBlock PairBlock { set; get; }
+        public bool IsEndingParantese { get; internal set; }
+        public bool IsDot { get; internal set; }
+
+    }
+    public class FormulaTextBlock : CodeBlock
+    {
+        public List<NodeContext> NodeContexts { set; get; }
+        public bool IsFunction { get; internal set; }
+    }
+    public class TextStateChain
+    {
+        public List<FormulaTextBlock> TextStates { set; get; }
+    }
+
+
+
 }

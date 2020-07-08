@@ -19,8 +19,10 @@ namespace MyProject_WPF
             base.OnStartup(e);
             //frmTestLookup frm = new frmTestLookup();
             ////frm.ShowDialog();
-         //   MyProjectManager.GetMyProjectManager.ShowDialog(frm,"");
-         MyProjectManager.GetMyProjectManager.StartApp();
+            //   MyProjectManager.GetMyProjectManager.ShowDialog(frm,"");
+            var frm = new frmNewFormulaDefinition("", 54278);
+            MyProjectManager.GetMyProjectManager.ShowDialog(frm, "",Enum_WindowSize.Maximized);
+          //  MyProjectManager.GetMyProjectManager.StartApp();
 
 
         }

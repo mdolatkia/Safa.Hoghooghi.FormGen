@@ -78,7 +78,7 @@ namespace MyProject_WPF
         private FrameworkElement GetNodeHeader(string title, string type)
         {
             StackPanel pnlHeader = new StackPanel();
-            TextBlock label = new TextBlock();
+            System.Windows.Controls.TextBlock label = new System.Windows.Controls.TextBlock();
             label.Text = title;
             Image img = new Image();
             img.Width = 15;

@@ -6,17 +6,18 @@
              mc:Ignorable="d" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              Height="400" Width="300" FlowDirection="LeftToRight">
     <Grid>
+        <telerik:RadTreeView x:Name="treeMainEntity" ></telerik:RadTreeView>
         <!--<Grid.RowDefinitions>
             --><!--<RowDefinition></RowDefinition>--><!--
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>-->
-        <TabControl Grid.Row="1" Height="400">
+        <!--<TabControl Grid.Row="1" Height="400">
             <TabItem Header="ریشه" x:Name="tabMainEntity">
                 <telerik:RadTreeView x:Name="treeMainEntity" ></telerik:RadTreeView>
             </TabItem>
             <TabItem  x:Name="tabCurrentEntity" >
                 <telerik:RadTreeView x:Name="treeCurrentEntity" ></telerik:RadTreeView>
             </TabItem>
-        </TabControl>
+        </TabControl>-->
     </Grid>
 </UserControl>

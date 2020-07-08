@@ -27,238 +27,51 @@ namespace MyProject_WPF
     public partial class FormulaAutoComplete : UserControl
     {
         public event EventHandler<NodeSelectedArg> NodeSelected;
-        BizTableDrivedEntity bizTableDrivedEntity = new BizTableDrivedEntity();
-        DR_Requester Requester { set; get; }
-        TableDrivedEntityDTO MainEntity { set; get; }
-        List<EntityAndProperties> EntityAndProperties = new List<EntityAndProperties>();
-        public FormulaAutoComplete(DR_Requester requester, TableDrivedEntityDTO mainEntity)
+        public FormulaAutoComplete()
         {
             InitializeComponent();
-            treeCurrentEntity.IsLineEnabled = true;
-            treeMainEntity.IsLineEnabled = true;
-            Requester = requester;
-            MainEntity = mainEntity;
-            var entityAndProperties = GetEntityAndProperties(MainEntity);
-            SetTree(treeMainEntity.Items, entityAndProperties);
         }
 
-        public bool SetCurrentList(string entityName)
+        internal void SetTree(List<NodeContext> nodes)
         {
-            var entityAndProperties = GetEntityAndProperties(entityName);
-            if (entityAndProperties != null)
+            treeMainEntity.Items.Clear();
+            foreach (var node in nodes)
             {
-                SetTree(treeCurrentEntity.Items, entityAndProperties);
-                tabCurrentEntity.Header = entityName;
-                return true;
-            }
-            else
-                return false;
-        }
-        public void SetCurrentList(Type type)
-        {
-            SetTree(treeCurrentEntity.Items, type);
-            tabCurrentEntity.Header = type.Name;
-        }
-        public void SetTreeVisiblities(bool mainEntity, bool currentList)
-        {
-            tabMainEntity.Visibility = mainEntity ? Visibility.Visible : Visibility.Collapsed;
-            if (currentList)
-            {
-                tabCurrentEntity.Visibility = Visibility.Visible;
-                tabCurrentEntity.IsSelected = true;
-            }
-            else
-            {
-                tabCurrentEntity.Visibility = Visibility.Collapsed;
-                tabMainEntity.IsSelected = true;
+                AddNode(treeMainEntity.Items, node);
             }
         }
-            EntityAndProperties GetEntityAndProperties(string entityName)
-            {
-                if (!EntityAndProperties.Any(x => x.Entity.Name.ToLower() == entityName.ToLower()))
-                {
-                    var entity = bizTableDrivedEntity.GetPermissionedEntityByName(MyProjectManager.GetMyProjectManager.GetRequester(), MainEntity.DatabaseID, entityName);
-                    if (entity != null)
-                    {
-                        return GetEntityAndProperties(entity);
-                    }
-                    else
-                        return null;
-                }
-                else
-                {
-                    return EntityAndProperties.First(x => x.Entity.Name == entityName);
-                }
-            }
-            EntityAndProperties GetEntityAndProperties(int entityID)
-            {
-                if (!EntityAndProperties.Any(x => x.Entity.ID == entityID))
-                {
-                    var entity = bizTableDrivedEntity.GetPermissionedEntity(MyProjectManager.GetMyProjectManager.GetRequester(), entityID);
-                    if (entity != null)
-                    {
-                        return GetEntityAndProperties(entity);
-                    }
-                    else
-                        return null;
-                }
-                else
-                {
-                    return EntityAndProperties.First(x => x.Entity.ID == entityID);
-                }
-            }
-            EntityAndProperties GetEntityAndProperties(TableDrivedEntityDTO entity)
-            {
-                EntityAndProperties entityAndProperties = null;
-                if (!EntityAndProperties.Any(x => x.Entity.ID == entity.ID))
-                {
-                    var properties = FormulaInstanceInternalHelper.GetProperties(entity, null, true).Select(x => x.Value).ToList();
-                    entityAndProperties = new EntityAndProperties() { Entity = entity, Properties = properties };
-                    EntityAndProperties.Add(entityAndProperties);
-                }
-                else
-                {
-                    entityAndProperties = EntityAndProperties.First(x => x.Entity.ID == entity.ID);
-                }
-                return entityAndProperties;
-            }
-        private void SetTree(ItemCollection items, EntityAndProperties entityAndProperties)
-        {
-            items.Clear();
-            foreach (var property in entityAndProperties.Properties)
-            {
-                NodeContext nodeContext = new MyProject_WPF.NodeContext();
-                nodeContext.Name = property.Name;
-                nodeContext.Context = property;
-                nodeContext.NodeType = NodeType.Property;
-                AddNode(items, nodeContext);
-            }
-        }
-        private void AddNode(ItemCollection items, NodeContext nodeContext)
-        {
-            RadTreeViewItem node = new RadTreeViewItem();
-            node.DataContext = nodeContext;
-            node.Header = GetHeader(nodeContext.Name, nodeContext.NodeType);
-            node.Expanded += Node_Expanded;
-            node.DoubleClick += Node_DoubleClick;
-
-            if (nodeContext.Context is MyPropertyInfo)
-            {
-                var myPropertyInfo = (nodeContext.Context as MyPropertyInfo);
-                if (myPropertyInfo.PropertyType == ProxyLibrary.PropertyType.Helper)
-                {
-                    node.Items.Add("aaa");
-                }
-                else if (myPropertyInfo.PropertyType == ProxyLibrary.PropertyType.Relationship)
-                {
-                    node.Items.Add("aaa");
-                }
-            }
-            items.Add(node);
-        }
-
         private void Node_DoubleClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             e.Handled = true;
             var node = sender as RadTreeViewItem;
             var nodeContext = node.DataContext as NodeContext;
-            var path = GetNodePath(node);
+            //    var path = GetNodePath(node);
             if (NodeSelected != null)
-                NodeSelected(sender, new NodeSelectedArg() { NodeName = nodeContext.Name, NodePath = path, PropertyType = nodeContext.NodeType });
+                NodeSelected(sender, new NodeSelectedArg() { NodeTitle = nodeContext.Title, PropertyType = nodeContext.NodeType });
         }
 
 
-        private string GetNodePath(RadTreeViewItem node, string currentPath = "")
+        private RadTreeViewItem AddNode(ItemCollection items, NodeContext nodeContext)
         {
-            if (currentPath == "")
-                currentPath = (node.DataContext as NodeContext).Name;
-            if (node.ParentItem != null)
-            {
-                currentPath = (node.ParentItem.DataContext as NodeContext).Name + "." + currentPath;
-                return GetNodePath(node.ParentItem, currentPath);
-            }
-            else
-            {
-                return currentPath;
-            }
+            RadTreeViewItem node = new RadTreeViewItem();
+            node.DataContext = nodeContext;
+            node.Header = GetHeader(node);
+
+            node.DoubleClick += Node_DoubleClick;
+
+
+            items.Add(node);
+            return node;
         }
-
-        private void Node_Expanded(object sender, Telerik.Windows.RadRoutedEventArgs e)
+        private object GetHeader(RadTreeViewItem node)
         {
-            if (sender is RadTreeViewItem)
-            {
-                var node = (sender as RadTreeViewItem);
-                var nodeContext = (node.DataContext as NodeContext);
-                if (node.Items.Count == 1 && node.Items[0].ToString() == "aaa")
-                {
-                    node.Items.Clear();
-                    if (nodeContext.Context is MyPropertyInfo)
-                    {
-                        if ((nodeContext.Context as MyPropertyInfo).PropertyType == ProxyLibrary.PropertyType.Helper)
-                        {
-                            SetTree(node.Items, (nodeContext.Context as MyPropertyInfo).Type);
-                        }
-                        else if ((nodeContext.Context as MyPropertyInfo).PropertyType == ProxyLibrary.PropertyType.Relationship)
-                        {
-                            var entityAndProperties = GetEntityAndProperties((nodeContext.Context as MyPropertyInfo).PropertyRelationship.EntityID2);
-                            if (entityAndProperties != null)
-                            {
-                                SetTree(node.Items, entityAndProperties);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void SetTree(ItemCollection items, Type type)
-        {
-            foreach (var prop in type.GetProperties())
-            {
-                NodeContext nodeContext = new MyProject_WPF.NodeContext();
-                nodeContext.Name = prop.Name;
-                nodeContext.NodeType = NodeType.Property;
-                nodeContext.Context = prop;
-                AddNode(items, nodeContext);
-            }
-
-            foreach (var method in type.GetMethods())
-            {
-                var methodParamStr = "";
-                var paramList = method.GetParameters();
-                var methodName = method.Name;
-                var paramsStr = "";
-                if (paramList.Count() > 0)
-                {
-                    foreach (var param in paramList)
-                    {
-                        if (type == typeof(Enumerable) && param.Name.ToLower() == "source")
-                            continue;
-                        paramsStr += (paramsStr == "" ? "" : ",") + param.ParameterType.Name + " " + param.Name;
-                    }
-                    methodParamStr += "(" + paramsStr + ")";
-                }
-                else
-                    methodParamStr += "()";
-
-
-                NodeContext nodeContext = new MyProject_WPF.NodeContext();
-                nodeContext.Name = methodName + methodParamStr;
-                nodeContext.NodeType = NodeType.Method;
-                nodeContext.Context = method;
-                AddNode(items, nodeContext);
-            }
-        }
-
-
-        private object GetHeader(string title, NodeType propertyType)
-        {
+            var context = node.DataContext as NodeContext;
             StackPanel pnl = new StackPanel();
             pnl.Orientation = Orientation.Horizontal;
-            TextBlock lbl = new TextBlock();
-            lbl.Text = title;
+            System.Windows.Controls.TextBlock lbl = new System.Windows.Controls.TextBlock();
+            lbl.Text = context.Title;
             Image img = new Image();
-            img.Source = GetPropertyImage(propertyType);
+            img.Source = GetPropertyImage(context.NodeType);
             img.Width = 15;
             pnl.Children.Add(img);
             pnl.Children.Add(lbl);
@@ -267,19 +80,22 @@ namespace MyProject_WPF
 
         private ImageSource GetPropertyImage(NodeType propertyType)
         {
-            if (propertyType == NodeType.Property)
+            if (propertyType == NodeType.DotNetProperty || propertyType == NodeType.CustomProperty)
             {
                 return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/property.png", UriKind.Relative));
             }
-            else if (propertyType == NodeType.Method)
+            else if (propertyType == NodeType.DotNetMethod)
             {
                 return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/method.png", UriKind.Relative));
             }
             else if (propertyType == NodeType.RelationshipProperty)
             {
-                return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/relationship1.png", UriKind.Relative));
+                return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/type.png", UriKind.Relative));
             }
-
+            else if (propertyType == NodeType.HelperProperty)
+            {
+                return new BitmapImage(new Uri(@"/MyProject_WPF;component/Images/validate.png", UriKind.Relative));
+            }
             return null;
         }
     }
@@ -295,21 +111,29 @@ namespace MyProject_WPF
     }
     public class NodeContext
     {
+        public NodeContext ParentNode { set; get; }
+        public List<NodeContext> ChildNodes { set; get; }
+        public string ParentPath { set; get; }
         public object Context { set; get; }
         public string Name { set; get; }
+        public string Title { set; get; }
         public NodeType NodeType { set; get; }
+        public object UIItem  { set; get; }
+
     }
     public enum NodeType
     {
-        Property,
+        MainVariable,
+        CustomProperty,
         RelationshipProperty,
-        Method,
+        DotNetProperty,
+        DotNetMethod,
         HelperProperty
     }
     public class NodeSelectedArg
     {
         public NodeType PropertyType { set; get; }
-        public string NodeName { set; get; }
-        public string NodePath { set; get; }
+        public string NodeTitle { set; get; }
+        //     public string NodePath { set; get; }
     }
 }

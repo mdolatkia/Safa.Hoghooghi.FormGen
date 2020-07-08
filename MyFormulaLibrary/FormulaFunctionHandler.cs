@@ -135,13 +135,8 @@ namespace MyFormulaFunctionStateFunctionLibrary
         //////    return message;
         //////}
     }
-
-    public interface I_ExpressionEvaluator
-    {
-        object Calculate(string expression);
-
-
-    }
+   
+  
    
     //public interface I_ExpressionEvaluator
     //{

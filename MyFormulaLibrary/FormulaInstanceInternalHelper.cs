@@ -307,15 +307,30 @@ namespace MyFormulaFunctionStateFunctionLibrary
 
             return propertyInfo.Name;
         }
-
-        public static List<Type> GetHelpers()
+        static I_ExpressionHandler _GetExpressionHandler;
+        private static I_ExpressionHandler GetExpressionHandler
         {
-            List<Type> result = new List<Type>();
-            result.Add(typeof(NumericHelper));
-            result.Add(typeof(StringHelper));
-            result.Add(typeof(PersianDateHelper));
-            result.Add(typeof(MiladiDateHelper));
+            get
+            {
+                if (_GetExpressionHandler == null)
+                    _GetExpressionHandler = new DynamicExpressoExpressionHandler();
+                return _GetExpressionHandler;
+            }
+        }
+        public static Dictionary<string, Type> GetHelpers()
+        {
+            Dictionary<string, Type> result = new Dictionary<string, Type>();
+            result.Add("NumericHelper", typeof(NumericHelper));
+            result.Add("StringHelper", typeof(StringHelper));
+            result.Add("PersianDateHelper", typeof(PersianDateHelper));
+            result.Add("MiladiDateHelper", typeof(MiladiDateHelper));
+
+          
             return result;
+        }
+        public static Dictionary<string, Type> GetExpressionBuiltinVariables()
+        {
+            return GetExpressionHandler.GetExpressionBuiltinVariables();
         }
         public static I_ExpressionEvaluator GetExpressionEvaluator(DP_DataRepository mainDataItem, DR_Requester requester, bool definition, List<int> usedFormulaIDs)
         {
@@ -324,11 +339,16 @@ namespace MyFormulaFunctionStateFunctionLibrary
             MyCustomData formulaObject = new MyCustomData(mainDataItem, requester, definition, properties, usedFormulaIDs);
             var helpers = GetHelpers();
 
-            return new DynamicExpressoInterpreter(formulaObject, helpers, typeof(MyExtensions));
+            return GetExpressionHandler.GetExpressionEvaluator(formulaObject, helpers, typeof(MyExtensions));
         }
         public static I_ExpressionDelegate GetExpressionDelegate()
         {
-            return new DynamicExpressoDelegate(typeof(MyExtensions));
+            return GetExpressionHandler.GetExpressionDelegate(typeof(MyExtensions));
+        }
+
+        public static string GetObjectPrefrix()
+        {
+            return GetExpressionHandler.GetObjectPrefrix();
         }
 
 
@@ -430,8 +450,19 @@ namespace MyFormulaFunctionStateFunctionLibrary
 
         //}
     }
+    public interface I_ExpressionHandler
+    {
+        I_ExpressionEvaluator GetExpressionEvaluator(MyCustomData customData, Dictionary<string, Type> helpers, Type extenstion);
+        I_ExpressionDelegate GetExpressionDelegate(Type extenstion);
+        Dictionary<string, Type> GetExpressionBuiltinVariables();
+        string GetObjectPrefrix();
+    }
+    public interface I_ExpressionEvaluator
+    {
+        object Calculate(string expression);
+    }
     public interface I_ExpressionDelegate
     {
-        T GetDelegate<T>( string expression, string key);
+        T GetDelegate<T>(string expression, string key);
     }
 }

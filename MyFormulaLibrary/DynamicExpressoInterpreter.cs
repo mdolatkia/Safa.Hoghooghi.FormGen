@@ -10,16 +10,46 @@ namespace MyFormulaFunctionStateFunctionLibrary
 {
     public class InterpreterGenerator
     {
-        public static Interpreter GetInterpreter(Type extenstion)
+        public static Interpreter GetInterpreter(Type extenstion = null)
         {
             Interpreter target = new Interpreter();
-            var refType = new ReferenceType(extenstion);
-            foreach (var method in extenstion.GetMethods())
+            if (extenstion != null)
             {
-                refType.ExtensionMethods.Add(method);
+                var refType = new ReferenceType(extenstion);
+                foreach (var method in extenstion.GetMethods())
+                {
+                    refType.ExtensionMethods.Add(method);
+                }
+                target.Reference(refType);
             }
-            target.Reference(refType);
             return target;
+        }
+    }
+    public class DynamicExpressoExpressionHandler : I_ExpressionHandler
+    {
+        public I_ExpressionDelegate GetExpressionDelegate(Type extenstion)
+        {
+            return new DynamicExpressoDelegate(extenstion);
+        }
+
+        public I_ExpressionEvaluator GetExpressionEvaluator(MyCustomData customData, Dictionary<string, Type> helpers, Type extenstion)
+        {
+            return new DynamicExpressoInterpreter(customData, helpers, extenstion);
+        }
+        public Dictionary<string, Type> GetExpressionBuiltinVariables()
+        {
+            Dictionary<string, Type> result = new Dictionary<string, Type>();
+            var target = InterpreterGenerator.GetInterpreter();
+            foreach (var refType in target.ReferencedTypes)
+            {
+                result.Add(refType.Name, refType.Type);
+            }
+            return result;
+        }
+
+        public string GetObjectPrefrix()
+        {
+            return "x";
         }
     }
     public class DynamicExpressoInterpreter : I_ExpressionEvaluator
@@ -29,13 +59,13 @@ namespace MyFormulaFunctionStateFunctionLibrary
         private DR_Requester Requester;
         private List<Type> Helpers;
         Interpreter target = null;
-        public DynamicExpressoInterpreter(MyCustomData customData, List<Type> helpers, Type extenstion)
+        public DynamicExpressoInterpreter(MyCustomData customData, Dictionary<string, Type> helpers, Type extenstion)
         {
             target = InterpreterGenerator.GetInterpreter(extenstion);
             CustomData = customData;
             foreach (var item in helpers)
             {
-                target.SetVariable(item.Name, Activator.CreateInstance(item));
+                target.SetVariable(item.Key, Activator.CreateInstance(item.Value));
             }
             target.SetVariable("x", CustomData);
         }

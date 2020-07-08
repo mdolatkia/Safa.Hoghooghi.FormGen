@@ -104,7 +104,7 @@ namespace MyProject_WPF
         {
             if (!string.IsNullOrEmpty(tooltip))
             {
-                TextBlock text = new TextBlock();
+                System.Windows.Controls.TextBlock text = new System.Windows.Controls.TextBlock();
                 if (rtlDirection)
                     text.FlowDirection = System.Windows.FlowDirection.RightToLeft;
                 else

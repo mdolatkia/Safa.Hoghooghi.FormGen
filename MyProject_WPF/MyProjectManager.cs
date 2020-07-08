@@ -77,13 +77,13 @@ namespace MyProject_WPF
             result.OrganizationPosts = new BizOrganization().GetOrganizationPostsByUserID(userID);
             return result;
         }
-        TextBlock InfoTextBlock;
+        System.Windows.Controls.TextBlock InfoTextBlock;
         internal void ShowInfo(string text, string detail, Color color)
         {
             if (MainWindow.pnlInfo.Content == null)
             {
                 ScrollViewer scroll = new ScrollViewer();
-                InfoTextBlock = new TextBlock();
+                InfoTextBlock = new System.Windows.Controls.TextBlock();
                 scroll.Content = InfoTextBlock;
                 MainWindow.pnlInfo.Content = scroll;
             }

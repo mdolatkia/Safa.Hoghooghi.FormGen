@@ -61,7 +61,7 @@ namespace MyProject_WPF
                 grid.Tag = item;
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
-                var textblock = new TextBlock();
+                var textblock = new System.Windows.Controls.TextBlock();
                 Hyperlink link = new Hyperlink();
                 link.Click += (sender, e) => Link_Click(sender, e, WizardSteps.Find(item));
                 link.Inlines.Add(item.Title);
@@ -69,7 +69,7 @@ namespace MyProject_WPF
                 textblock.Tag = item;
                 grid.Children.Add(textblock);
 
-                var textblockSpace = new TextBlock();
+                var textblockSpace = new System.Windows.Controls.TextBlock();
                 textblockSpace.Inlines.Add(">");
                 Grid.SetColumn(textblockSpace, 1);
                 grid.Children.Add(textblockSpace);
@@ -108,7 +108,7 @@ namespace MyProject_WPF
         private void changeState(LinkedListNode<ImportWizardStep> step)
         {
             CurrentState = step;
-            var texts = pnlSteps.ChildrenOfType<TextBlock>();
+            var texts = pnlSteps.ChildrenOfType<System.Windows.Controls.TextBlock>();
             foreach (var item in texts)
             {
                 if (item.Tag != null)

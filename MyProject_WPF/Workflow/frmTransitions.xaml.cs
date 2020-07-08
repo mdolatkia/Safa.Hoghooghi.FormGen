@@ -479,7 +479,7 @@ namespace MyProject_WPF
             grid.ColumnDefinitions.Add(new ColumnDefinition());
             grid.ColumnDefinitions.Add(new ColumnDefinition());
 
-            TextBlock title = new TextBlock() { Text = "مجموعه ابزار" };
+            System.Windows.Controls.TextBlock title = new System.Windows.Controls.TextBlock() { Text = "مجموعه ابزار" };
             grid.Children.Add(title);
             Grid.SetColumn(title, 1);
 
