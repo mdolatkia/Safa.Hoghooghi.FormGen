@@ -107,12 +107,12 @@ namespace MyFormulaFunctionStateFunctionLibrary
         //    }
         //    return result;
         //}
-        public string Trim(string value)
+        public string Trim(object value)
         {
             if (value == null)
                 return null;
             else
-                return value.Trim();
+                return value.ToString().Trim();
         }
         public string GetPropertyString(ICustomTypeDescriptor obj, string propertyPath)
         {

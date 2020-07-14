@@ -6,7 +6,7 @@
              mc:Ignorable="d" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              Height="400" Width="300" FlowDirection="LeftToRight">
     <Grid>
-        <telerik:RadTreeView x:Name="treeMainEntity" ></telerik:RadTreeView>
+        <ListBox x:Name="treeMainEntity" TextSearch.TextPath="DataContext.Title" ></ListBox>
         <!--<Grid.RowDefinitions>
             --><!--<RowDefinition></RowDefinition>--><!--
             <RowDefinition></RowDefinition>

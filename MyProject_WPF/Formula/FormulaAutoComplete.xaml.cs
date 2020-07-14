@@ -30,16 +30,58 @@ namespace MyProject_WPF
         public FormulaAutoComplete()
         {
             InitializeComponent();
+            this.Loaded += FormulaAutoComplete_Loaded;
+        }
+
+        private void FormulaAutoComplete_Loaded(object sender, RoutedEventArgs e)
+        {
+            treeMainEntity.Focus();
         }
 
         internal void SetTree(List<NodeContext> nodes)
         {
             treeMainEntity.Items.Clear();
-            foreach (var node in nodes)
+            foreach (var node in nodes.OrderBy(x => x.NodeType).ThenBy(x => x.Order1))
             {
                 AddNode(treeMainEntity.Items, node);
             }
+            //treeMainEntity.TextSearchMode = TextSearchMode.StartsWith;
+            treeMainEntity.IsTextSearchEnabled = true;
+           
         }
+
+
+
+        private ListBoxItem AddNode(ItemCollection items, NodeContext nodeContext)
+        {
+            //RadTreeViewItem node = new RadTreeViewItem();
+            //node.DataContext = nodeContext;
+            //node.Header = GetHeader(node);
+            //node.IsTextSearchEnabled = true;
+            //node.DoubleClick += Node_DoubleClick;
+            //node.KeyUp += Node_KeyUp;
+            //items.Add(node);
+            //return node;
+
+            ListBoxItem node = new ListBoxItem();
+            node.DataContext = nodeContext;
+            node.Content = GetHeader(nodeContext);
+            node.MouseDoubleClick += Node_MouseDoubleClick;
+            node.KeyUp += Node_KeyUp;
+            items.Add(node);
+            return node;
+        }
+
+        private void Node_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            var node = sender as ListBoxItem;
+            var nodeContext = node.DataContext as NodeContext;
+            //    var path = GetNodePath(node);
+            if (NodeSelected != null)
+                NodeSelected(sender, new NodeSelectedArg() { Node = nodeContext });
+        }
+
         private void Node_DoubleClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
             e.Handled = true;
@@ -47,31 +89,47 @@ namespace MyProject_WPF
             var nodeContext = node.DataContext as NodeContext;
             //    var path = GetNodePath(node);
             if (NodeSelected != null)
-                NodeSelected(sender, new NodeSelectedArg() { NodeTitle = nodeContext.Title, PropertyType = nodeContext.NodeType });
+                NodeSelected(sender, new NodeSelectedArg() { Node = nodeContext });
+        }
+        private void Node_KeyUp(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+            var node = sender as ListBoxItem;
+            var nodeContext = node.DataContext as NodeContext;
+
+            bool selected = false;
+            var arg = new NodeSelectedArg();
+            arg.Node = nodeContext;
+
+            if (e.Key == Key.Enter)
+            {
+                selected = true;
+            }
+            else if (e.Key == Key.OemPeriod)
+            {
+                selected = true;
+                arg.Dot = true;
+            }
+            else if (e.Key == Key.OemOpenBrackets)
+            {
+                selected = true;
+                arg.Parantese = true;
+            }
+            if (selected)
+            {
+                if (NodeSelected != null)
+                    NodeSelected(sender, arg);
+            }
         }
 
-
-        private RadTreeViewItem AddNode(ItemCollection items, NodeContext nodeContext)
+        private object GetHeader(NodeContext node)
         {
-            RadTreeViewItem node = new RadTreeViewItem();
-            node.DataContext = nodeContext;
-            node.Header = GetHeader(node);
-
-            node.DoubleClick += Node_DoubleClick;
-
-
-            items.Add(node);
-            return node;
-        }
-        private object GetHeader(RadTreeViewItem node)
-        {
-            var context = node.DataContext as NodeContext;
             StackPanel pnl = new StackPanel();
             pnl.Orientation = Orientation.Horizontal;
             System.Windows.Controls.TextBlock lbl = new System.Windows.Controls.TextBlock();
-            lbl.Text = context.Title;
+            lbl.Text = node.Title;
             Image img = new Image();
-            img.Source = GetPropertyImage(context.NodeType);
+            img.Source = GetPropertyImage(node.NodeType);
             img.Width = 15;
             pnl.Children.Add(img);
             pnl.Children.Add(lbl);
@@ -111,6 +169,10 @@ namespace MyProject_WPF
     }
     public class NodeContext
     {
+        public NodeContext()
+        {
+
+        }
         public NodeContext ParentNode { set; get; }
         public List<NodeContext> ChildNodes { set; get; }
         public string ParentPath { set; get; }
@@ -118,22 +180,25 @@ namespace MyProject_WPF
         public string Name { set; get; }
         public string Title { set; get; }
         public NodeType NodeType { set; get; }
-        public object UIItem  { set; get; }
-
+        public object UIItem { set; get; }
+        public int Order1 { set; get; }
     }
     public enum NodeType
     {
         MainVariable,
-        CustomProperty,
+        HelperProperty,
         RelationshipProperty,
+        CustomProperty,
         DotNetProperty,
-        DotNetMethod,
-        HelperProperty
+        DotNetMethod
     }
     public class NodeSelectedArg
     {
-        public NodeType PropertyType { set; get; }
-        public string NodeTitle { set; get; }
+        public NodeContext Node { set; get; }
+        public bool Dot { set; get; }
+        public bool Parantese { set; get; }
+        //public NodeType PropertyType { set; get; }
+        //public string NodeTitle { set; get; }
         //     public string NodePath { set; get; }
     }
 }
