@@ -218,6 +218,7 @@
     <Compile Include="DrivedEntities\SelectDrivedEntites.xaml.cs">
       <DependentUpon>SelectDrivedEntites.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formula\Definitions.cs" />
     <Compile Include="Formula\FormulaAutoComplete.xaml.cs">
       <DependentUpon>FormulaAutoComplete.xaml</DependentUpon>
     </Compile>

@@ -56,7 +56,6 @@ namespace MyProject_WPF
         DispatcherTimer textChangedCalculationTimer = new DispatcherTimer();
         DispatcherTimer textChangedTimer = new DispatcherTimer();
 
-        DispatcherTimer autoCompleteTimer = new DispatcherTimer();
         DispatcherTimer selectionTimer = new DispatcherTimer();
         List<NodeContext> nodeDictionary = new List<NodeContext>();
         List<FormulaTextBlock> AllTextStates = new List<FormulaTextBlock>();
@@ -68,7 +67,6 @@ namespace MyProject_WPF
             formulaAutoComplete = new FormulaAutoComplete();
             formulaAutoComplete.NodeSelected += FormulaAutoComplete_NodeSelected;
             FormulaString = formula;
-            this.Loaded += FrmNewFormulaDefinition_Loaded;
             SetTimers();
             txtFormula.SelectionChanged += TxtFormula_SelectionChanged;
             DataItem = new ProxyLibrary.DP_DataRepository(EntityID, "");
@@ -79,7 +77,6 @@ namespace MyProject_WPF
             txtFormula.KeyUp += TxtFormula_KeyUp;
             SetParametersTree();
             SetEditEntityArea();
-            //   txtFormula.KeyUp += ExpressionEditor_KeyUp;
             txtFormula.FontSize = 18;
         }
 
@@ -88,15 +85,6 @@ namespace MyProject_WPF
             lblPointer.Text = txtFormula.CaretPosition.GetOffsetToPosition(txtFormula.Document.ContentStart).ToString();
         }
 
-        bool loaded = false;
-        private void FrmNewFormulaDefinition_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!loaded)
-            {
-                txtFormula.AppendText(Environment.NewLine);
-            }
-            loaded = true;
-        }
         private void txtClear_Click(object sender, RoutedEventArgs e)
         {
             txtFormula.SelectAll();
@@ -106,27 +94,34 @@ namespace MyProject_WPF
         bool skipTextChanged = false;
         private void TxtFormula_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var output = GetFormulaText();
-            //if (output == " \r\n")
-            //{
-            //    //txtFormula.AppendText(" ");
-            //}
-            //else
-            //{
-            CalculationTimer();
-
             if (!skipTextChanged)
             {
-                //var lastChar = GetPreviousText(txtFormula.Document.ContentEnd, true);
-                //if (lastChar.Item3 == "")
-                //{
+                textChangedCalculationTimer.Stop();
+                textChangedCalculationTimer.Start();
 
-                //    txtFormula.CaretPosition.InsertTextInRun();
-                //}
                 textChangedTimer.Stop();
                 textChangedTimer.Start();
             }
-            //}
+
+        }
+        private void textChangedCalculationTimer_Tick(object sender, EventArgs e)
+        {
+            (sender as DispatcherTimer).Stop();
+            var output = GetFormulaText();
+            // var text = new TextRange(new DocumentPosition()., txtFormula.Document.ContentEnd).Text;
+            try
+            {
+                var res = ExpressionEvaluator.Calculate(output);
+                if (res != null)
+                    lblResult.Text = res.ToString();
+                else
+                    lblResult.Text = "Null";
+            }
+            catch (Exception ex)
+            {
+                lblResult.Text = "Exception:" + " " + ex.Message;
+            }
+
         }
         private void TextChangedTimer_Tick(object sender, EventArgs e)
         {
@@ -136,33 +131,21 @@ namespace MyProject_WPF
             list = list.Where(x => x.Item3 != "").ToList();
             list.Reverse();
 
+            var chains = GetTextStateChains(txtFormula.Document.ContentEnd);
+            AllTextStates = chains.Item2;
 
+            ClearColor();
+            if (AllTextStates != null)
+                SetColor(AllTextStates, true);
+        }
 
+        private void ClearColor()
+        {
             skipTextChanged = true;
             var alltextRange = new TextRange(txtFormula.Document.ContentStart, txtFormula.Document.ContentEnd);
             alltextRange.ApplyPropertyValue(TextElement.ForegroundProperty­, Brushes.Black);
             alltextRange.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
             skipTextChanged = false;
-
-
-            //var statementTree = GetStatementTree(list);
-            //foreach (var item in statementTree)
-            //{
-            //    if (item.Text == ")")
-            //    {
-            //        var textRange = new TextRange(item.StartPointer, item.EndPointer);
-            //        textRange.ApplyPropertyValue(TextElement.ForegroundProperty­, Brushes.Red);
-
-            //    }
-            //}
-            //return;
-
-            var chains = GetTextStateChains(txtFormula.Document.ContentEnd);
-            AllTextStates = chains.Item2;
-
-            CheckAutoComplete();
-            if (AllTextStates != null)
-                SetColor(AllTextStates, true);
         }
 
         private void SetEditEntityArea()
@@ -185,139 +168,48 @@ namespace MyProject_WPF
                 grdSelectData.Children.Add(EditEntityArea.TemporaryDisplayView as UIElement);
             }
         }
-        //private void ExpressionEditor_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    if (!_loaded)
-        //    {
-        //        CustomizeExpressionEditor();
-        //        //myPopup.Child = formulaAutoComplete;
-        //        //myPopup.IsOpen = false;
-        //        _loaded = true;
-        //    }
-        //}
-
-        //bool _loaded = false;
-        //private void CustomizeExpressionEditor()
-        //{
-        //    //txtFormula = new RadRichTextBox();
-        //    //if (txtFormula != null)
-        //    //{
-
-        //    //}
-        //}
-        TextPointer autoCompletePointer = null;
         private void TxtFormula_KeyUp(object sender, KeyEventArgs e)
         {
-            //  TextChanged();
-
+            e.Handled = true;
             bool ctrlSpace = false;
             bool dot = false;
             if (e.Key == Key.Space && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
                 ctrlSpace = true;
             if (e.Key == Key.OemPeriod)//&& (!Keyboard.IsKeyDown(Key.LeftShift) && !Keyboard.IsKeyDown(Key.RightShift)))
                 dot = true;
-
-
-
             if (dot || ctrlSpace)
             {
-                //autoCompleteTimer.Stop();
-                //autoCompleteTimer.Start();
                 if (dot)
                 {
-                    autoCompletePointer = txtFormula.CaretPosition;
-                    CheckAutoComplete();
+                    CheckAutoComplete(txtFormula.CaretPosition);
                 }
                 else
                 {
                     var prev = GetPreviousText(txtFormula.CaretPosition, true);
-                    if (prev.Item3 == ".")
+                    if (prev!=null && prev.Item3 == ".")
                     {
-                        autoCompletePointer = prev.Item1;
-                        CheckAutoComplete();
+                        CheckAutoComplete(prev.Item2);
                     }
                     else
                         ShowAutoComplete(nodeDictionary);
-
-
                 }
             }
-            else
-                autoCompletePointer = null;
-
-            //        ShowAutoComplete(keyType, theWord);
-
-
-            //else if (e.Key != Key.LeftCtrl
-            //    && e.Key != Key.LeftAlt)
-            //{
-            //    //myPopup.IsOpen = false;
-            //}
         }
-        private void AutoCompleteTimer_Tick(object sender, EventArgs e)
+        private void CheckAutoComplete(TextPointer pointer)
         {
-            (sender as DispatcherTimer).Stop();
-            //FormulaAutoCompleteKeyType keyType;
-            //List<NodeContext> nodes = null;
-            WordDetection wordDetection = GetWordDetection(txtFormula.CaretPosition);
-            MessageBox.Show(wordDetection.CurrentWord.Item3);
-            //////if (wordDetection.PreviousWords == null || wordDetection.PreviousWords.Count == 0)
-            //////{
-            //////    nodes = nodeDictionary.ToList();
-            //////}
-            //////else
-            //////{
-            //////    wordDetection.PreviousWords.Reverse();
-            //////    //       nodes = GetAutocompleteNodes(wordDetection.PreviousWords, nodeDictionary);
-            //////}
-
-            //if (nodes != null)
-            //    ShowAutoComplete(nodes);
-
-
+            if (AllTextStates != null)
+            {
+                var state = AllTextStates.FirstOrDefault(x => IsSameOffset(x.ActualEndPointer, pointer));
+                if (state != null)
+                {
+                    if (state.NextPossibleContexts != null && state.NextPossibleContexts.Any())
+                    {
+                        ShowAutoComplete(state.NextPossibleContexts);
+                    }
+                }
+            }
         }
-        //private List<NodeContext> GetAutocompleteNodes(List<string> listNames, List<NodeContext> parentNodes)
-        //{
-        //    if (listNames.Any() && parentNodes != null)
-        //    {
-        //        var name = listNames.First();
-        //        List<string> rest = new List<string>();
-        //        for (int i = 1; i < listNames.Count; i++)
-        //        {
-        //            rest.Add(listNames[i]);
-        //        }
-        //        //اینجا یه ایرادی داره و اینکه اگر مثلا چند فانکشن با اسامی یکسان اما مقدار برگشتی متفاوت بود چی. اونوقت مسیرها منحرف میشد در حالیکه ما فقط اولی را در نظر میگیریم
 
-        //        if (parentNodes.Any(x => x.Name == name))
-        //        {
-        //            var node = parentNodes.First(x => x.Name == name);
-        //            if (node.ChildNodes == null)
-        //                SetNodes(node);
-        //            if (rest.Any())
-        //            {
-        //                return GetAutocompleteNodes(rest, node.ChildNodes);
-        //            }
-        //            else
-        //                return node.ChildNodes;
-        //        }
-        //    }
-        //    return null;
-        //}
-
-        private WordDetection GetWordDetection(TextPointer caretPosition)
-        {
-            WordDetection result = new WordDetection();
-            result.CurrentWord = GetCurrentWord(caretPosition);
-            var allChains = GetTextStateChains(caretPosition);
-
-            //var prevtext = GetTextRange(currentWord.Item1, -1);
-            //if (prevtext != null && prevtext.Item2 == ".")
-            //        var list = new List<Tuple<TextPointer, TextPointer, string>>();
-            //       GetBlocks(result.CurrentWord.Item1, list);
-            //  List<StatementTree> stTree = GetStatementTree(list, 0);
-
-            return result;
-        }
         private Tuple<List<TextStateChain>, List<FormulaTextBlock>> GetTextStateChains(TextPointer point)
         {
             var list = GetBlocks(point);
@@ -424,30 +316,11 @@ namespace MyProject_WPF
                   && txtFormula.Document.ContentStart.GetOffsetToPosition(end) >= txtFormula.Document.ContentStart.GetOffsetToPosition(item.EndPointer);
         }
 
-        //private TextPointer GetEndCallChainEndPoint(List<FormulaTextBlock> textStates)
-        //{
-        //  return textStates[textStates.Count - 1]; ;
-        //    if (lastItem.IsFunction)
-        //    {
-        //        return lastItem.FunctionParantestPointers.Item2;
-        //    }
-        //    else
-        //        return lastItem.EndPointer;
-        //}
-
         private List<FormulaTextBlock> CheckCallChain(List<CodeBlock> statementTree, CodeBlock item, CodeBlock lastItem = null, List<FormulaTextBlock> result = null)
         {
             if (result == null)
                 result = new List<FormulaTextBlock>();
-            //if (canAcceptOnlyDot)
-            //{
-            //    if ((item is NonTextBlock) && (item as NonTextBlock).IsDot && statementTree.IndexOf(item) != statementTree.Count - 1)
-            //    {
-            //        CheckCallChain(statementTree, statementTree[statementTree.IndexOf(item) + 1], item, result, false);
-            //    }
-            //}
-            //else
-            //{
+
             if (item is FormulaTextBlock)
             {
                 result.Add(item as FormulaTextBlock);
@@ -475,9 +348,13 @@ namespace MyProject_WPF
                         (lastItem as FormulaTextBlock).FunctionParantestPointers = new Tuple<TextPointer, TextPointer>(item.StartPointer, (item as NonTextBlock).PairBlock.EndPointer);
                     }
                     item = (item as NonTextBlock).PairBlock;
-                    if (nextItem is NonTextBlock)
-                        if ((nextItem as NonTextBlock).IsDot)
-                            canContinue = true;
+                    if (statementTree.IndexOf(item) != statementTree.Count - 1)
+                    {
+                        nextItem = statementTree[statementTree.IndexOf(item) + 1];
+                        if (nextItem is NonTextBlock)
+                            if ((nextItem as NonTextBlock).IsDot)
+                                canContinue = true;
+                    }
                 }
                 if (canContinue)
                     CheckCallChain(statementTree, statementTree[statementTree.IndexOf(item) + 1], item, result);
@@ -514,20 +391,7 @@ namespace MyProject_WPF
                 rItem.Text = list[i].Item3;
 
                 result.Add(rItem);
-                //}
-                //else
-                //{
-                //TextStateChain rItem = new TextStateChain();
-                //rItem.StartPointer = list[i].Item1;
-                //rItem.TextStates = CheckCallChain(list, ref i);
-                //string text = "";
-                //foreach (var item in rItem.TextStates)
-                //{
-                //    text += (text == "" ? "" : ".") + item.Text;
-                //}
-                //rItem.Text = text;
-                //rItem.EndPointer = rItem.TextStates.Last().EndPointer;
-                //}
+
             }
 
             SetNonTextBlockProperties(result.Where(x => x is NonTextBlock).Cast<NonTextBlock>().ToList());
@@ -599,44 +463,6 @@ namespace MyProject_WPF
             return result;
         }
 
-        //private void SetPreviousWords(WordDetection result, int count, TextPointer item1, int i = 0, int parantesDebth = 0)
-        //{
-        //    if (i >= count)
-        //        return;
-        //    if (result.PreviousWords == null)
-        //        result.PreviousWords = new List<string>();
-        //    var previousWord = GetPreviousText(item1, new List<char>() { '_', '-' }, false);
-        //    if (previousWord == null)
-        //        return;
-        //    else if (previousWord.Item2 == "")
-        //    {
-        //        previousWord = GetPreviousText(item1, new List<char>() { '_', '-' }, true);
-        //        if (previousWord == null || previousWord.Item2 == "")
-        //            return;
-        //        else
-        //        {
-        //            if (previousWord.Item2 == ")")
-        //                parantesDebth++;
-        //            else if (previousWord.Item2 == "(")
-        //                parantesDebth--;
-        //            SetPreviousWords(result, count, previousWord.Item1, i, parantesDebth);
-        //        }
-
-
-        //    }
-        //    else
-        //    {
-        //        if (parantesDebth == 0)
-        //        {
-        //            result.PreviousWords.Add(previousWord.Item2);
-        //            SetPreviousWords(result, count, previousWord.Item1, i + 1, parantesDebth);
-        //        }
-        //        else
-        //            SetPreviousWords(result, count, previousWord.Item1, i, parantesDebth);
-
-        //    }
-
-        //}
         private Tuple<TextPointer, TextPointer, string> GetCurrentWord(TextPointer item1)
         {
             Tuple<TextPointer, TextPointer, string> prevText;
@@ -752,39 +578,6 @@ namespace MyProject_WPF
             return Char.IsLetterOrDigit(ch) || (validChars != null && validChars.Contains(ch));
         }
 
-        private string GetLastWord()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void CalculationTimer()
-        {
-            textChangedCalculationTimer.Stop();
-            textChangedCalculationTimer.Start();
-        }
-        private void TextChanged_Tick(object sender, EventArgs e)
-        {
-            (sender as DispatcherTimer).Stop();
-            var output = GetFormulaText();
-            // var text = new TextRange(new DocumentPosition()., txtFormula.Document.ContentEnd).Text;
-            try
-            {
-                var res = ExpressionEvaluator.Calculate(output);
-                if (res != null)
-                    lblResult.Text = res.ToString();
-                else
-                    lblResult.Text = "Null";
-            }
-            catch (Exception ex)
-            {
-                lblResult.Text = "Exception:" + " " + ex.Message;
-            }
-
-        }
-
-
-
-
         private void SetTimers()
         {
             //کل متن را انتخاب میکند
@@ -792,33 +585,12 @@ namespace MyProject_WPF
             selectionTimer.Tick += SelectionTimer_Tick;
 
             textChangedCalculationTimer.Interval = new TimeSpan(0, 0, 0, 0, 2000);
-            textChangedCalculationTimer.Tick += TextChanged_Tick;
+            textChangedCalculationTimer.Tick += textChangedCalculationTimer_Tick;
 
-            textChangedTimer.Interval = new TimeSpan(0, 0, 0, 0, 2000);
+            textChangedTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000);
             textChangedTimer.Tick += TextChangedTimer_Tick;
 
-            autoCompleteTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
-            autoCompleteTimer.Tick += AutoCompleteTimer_Tick;
-        }
 
-
-
-        private void CheckAutoComplete()
-        {
-            if (autoCompletePointer != null)
-            {
-                if (AllTextStates != null)
-                {
-                    var state = AllTextStates.FirstOrDefault(x => IsSameOffset(x.ActualEndPointer, autoCompletePointer));
-                    if (state != null)
-                    {
-                        if (state.NextPossibleContexts != null && state.NextPossibleContexts.Any())
-                        {
-                            ShowAutoComplete(state.NextPossibleContexts);
-                        }
-                    }
-                }
-            }
         }
 
         private bool IsSameOffset(TextPointer actualEndPointer, TextPointer autoCompletePointer)
@@ -853,9 +625,11 @@ namespace MyProject_WPF
                     colors.Add(new Tuple<TextRange, int, SolidColorBrush, bool>(textRange, textstate.Offset, null, true));
                 }
             }
-            foreach(var color in colors.OrderByDescending(x=>x.Item2))
+            //اینجا لیست رو میسازیم و از ته شروع میکنیم. چون اگه رنج های قبل رو مثلا رنگی کنیم
+            // رنج های بعدی جابجا میشن. زیرا خود رنگ یک رنج حساب میشه
+            foreach (var color in colors.OrderByDescending(x => x.Item2))
             {
-                if(color.Item4)
+                if (color.Item4)
                 {
                     color.Item1.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
                 }
@@ -870,48 +644,25 @@ namespace MyProject_WPF
 
         private string GetFormulaText()
         {
-            //   TxtFormatProvider provider = new TxtFormatProvider();
-            //return provider.Export(txtFormula.str);
-
             TextRange textRange = new TextRange(
-              // TextPointer to the start of content in the RichTextBox.
-              txtFormula.Document.ContentStart,
-          // TextPointer to the end of content in the RichTextBox.
-          txtFormula.Document.ContentEnd
-             );
-
-            // The Text property on a TextRange object returns a string
-            // representing the plain text content of the TextRange.
+                 txtFormula.Document.ContentStart,
+                txtFormula.Document.ContentEnd
+                   );
             return textRange.Text;
         }
 
-
-
-
         private void FormulaAutoComplete_NodeSelected(object sender, NodeSelectedArg e)
         {
-            NodeSelected(e.Node, e.Dot, e.Parantese);
+            NodeSelected(e.Title);
         }
         string selectedNodeText;
         TextPointer selectedNodePosition;
-        bool insetedwithdot;
-        private void NodeSelected(NodeContext node, bool dot = false, bool parantese = false, bool withPath = false)
+
+        private void NodeSelected(string text)
         {
             selectedNodePosition = txtFormula.CaretPosition;
-            var text = "";
-            if (withPath)
-            {
-                text = GetNodePath(node, node.Title);
-            }
-            else
-            {
-                text = node.Title;
-            }
-            insetedwithdot = dot;
-            if (dot)
-                text += ".";
-            else if (parantese)
-                text += "(";
+          
+
             selectedNodeText = text;
             txtFormula.CaretPosition.InsertTextInRun(text);
             //return;
@@ -929,11 +680,7 @@ namespace MyProject_WPF
             var newPos = selectedNodePosition.GetPositionAtOffset(selectedNodeText.Length);
             if (newPos != null)
                 txtFormula.CaretPosition = newPos;
-            if (insetedwithdot)
-            {
-                autoCompletePointer = txtFormula.CaretPosition;
-                CheckAutoComplete();
-            }
+
             if (selectedNodeText.Contains("(") && selectedNodeText.Contains(")"))
             {
                 var fIndex = selectedNodeText.IndexOf("(");
@@ -968,34 +715,7 @@ namespace MyProject_WPF
 
         private void ShowAutoComplete(List<NodeContext> nodes)
         {
-            //bool currentList = false;
-            //bool mainEntity = true;
-            //List<TableDrivedEntityDTO> entities = new List<TableDrivedEntityDTO>();
-            //if (keyType == FormulaAutoCompleteKeyType.DotOnly || keyType == FormulaAutoCompleteKeyType.AfterDotLeftCtrlSpace)
-            //{
-            //    if (!string.IsNullOrEmpty(theWord))
-            //    {
-            //        if (FormulaHepler.IsHelperType(theWord) != null)
-            //        {
-            //            var helperType = FormulaHepler.IsHelperType(theWord);
-            //            formulaAutoComplete.SetCurrentList(helperType);
-            //            currentList = true;
-            //        }
-            //        else if (IsKnownPhraseType(theWord))
-            //        {
-            //            if (IsEntity(theWord))
-            //            {
-            //                if (IsOneToOneEntity(theWord))
-            //                {
-            //                    currentList = formulaAutoComplete.SetCurrentList(GetEntityNameFromWord(theWord));
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-
-            //if (mainEntity || currentList)
-            //{
+           
             formulaAutoComplete.SetTree(nodes);
             if (autoCompleteWindow == null)
             {
@@ -1007,23 +727,8 @@ namespace MyProject_WPF
                 //   autoCompleteWindow.SizeToContent = true;
                 autoCompleteWindow.ResizeMode = ResizeMode.NoResize;
             }
-            //////if (txtFormula != null)
-            //////{
-            //////    var aa = txtFormula.Document.CaretPosition;
-            //////    autoCompleteWindow.Left = aa.Location.X + 50;
-            //////    autoCompleteWindow.Top = aa.Location.Y + 200;
-            //////}
-            autoCompleteWindow.ShowDialog();
-            //}
-            //myPopup.BringIntoView();
-            //myPopup.UpdateLayout();
-            //myPopup.Focus();
-            //myPopup.FlowDirection = System.Windows.FlowDirection.RightToLeft;
-            //myPopup.Height = 400;
-            //myPopup.PlacementTarget = ExpressionEditor;
-            //myPopup.IsOpen = true;
-            //myPopup.StaysOpen = true;
 
+            autoCompleteWindow.ShowDialog();
         }
 
         private void SetParametersTree()
@@ -1314,20 +1019,14 @@ namespace MyProject_WPF
 
         private void ImgAdd_MouseLeftButtonUp(object sender, MouseButtonEventArgs e, RadTreeViewItem node)
         {
-            NodeSelected(node.DataContext as NodeContext);
-
-            //var context = node.DataContext as NodeContext;
-            //string exp = context.Name;
-            //txtFormula.CaretPosition.InsertTextInRun(exp);
-            // TextChanged();
+            var context = node.DataContext as NodeContext;
+            NodeSelected(context.Title);
         }
         private void ImgAddWithPath_MouseLeftButtonUp(object sender, MouseButtonEventArgs e, RadTreeViewItem node)
         {
-            NodeSelected(node.DataContext as NodeContext, false, false, true);
-            //var context = node.DataContext as NodeContext;
-
-            //txtFormula.CaretPosition.InsertTextInRun(exp);
-            //TextChanged();
+            var context = node.DataContext as NodeContext;
+            var text = GetNodePath(context, context.Title);
+            NodeSelected(text);
         }
         private string GetNodePath(NodeContext node, string currentPath = "")
         {
@@ -1503,108 +1202,6 @@ namespace MyProject_WPF
         //        MessageBox.Show("چنین داده ای یافت نشد");
         //}
 
-    }
-
-
-
-    public class FormulaDefinedArg : EventArgs
-    {
-        public string Expression { set; get; }
-        public List<FormulaItemDTO> FormulaItems { set; get; }
-
-        public Type ExpressionResultType { set; get; }
-    }
-
-    public enum AutoCompleteMode
-    {
-        Dot,
-        NotDot,
-        Urgent
-    }
-    public class MyAutoComplete
-    {
-        public TableDrivedEntityDTO MainEntity { set; get; }
-        public TableDrivedEntityDTO CurrentEntity { set; get; }
-    }
-    public class PropertyFunction
-    {
-        public string Title { set; get; }
-        public string ParamsStr { set; get; }
-        public string Tooltip { set; get; }
-        public string Name { set; get; }
-        public ImageSource Image { set; get; }
-        public Enum_PropertyFunctionType Type { set; get; }
-    }
-
-    public class AutoCompleteItem
-    {
-        public string Title { set; get; }
-        public string ParamsStr { set; get; }
-        public string Tooltip { set; get; }
-        public string Name { set; get; }
-        public ImageSource Image { set; get; }
-        public Enum_PropertyFunctionType Type { set; get; }
-    }
-    public enum FormulaAutoCompleteKeyType
-    {
-        None,
-        EmptyLeftCtrlSpace,
-        AfterDotLeftCtrlSpace,
-        InTextLeftControlSpace,
-        DotOnly
-    }
-    public class WordDetection
-    {
-        public Tuple<TextPointer, TextPointer, string> CurrentWord { set; get; }
-        // public List<Tuple<TextPointer, TextPointer, string>> PreviousWords { set; get; }
-        public List<NodeContext> PossibleContexts { set; get; }
-    }
-
-    public class CodeBlock
-    {
-        public TextPointer StartPointer { set; get; }
-        public TextPointer EndPointer { set; get; }
-        public string Text { set; get; }
-
-        public bool IsText { get; internal set; }
-        public int Offset { get; internal set; }
-    }
-    public class NonTextBlock : CodeBlock
-    {
-        public bool IsStartingParantese { set; get; }
-        public CodeBlock PairBlock { set; get; }
-        public bool IsEndingParantese { get; internal set; }
-        public bool IsDot { get; internal set; }
-
-    }
-    public class FormulaTextBlock : CodeBlock
-    {
-        public FormulaTextBlock()
-        {
-
-        }
-        public List<NodeContext> NextPossibleContexts { set; get; }
-        public List<NodeContext> NodeContexts { set; get; }
-        public bool IsFunction { get; internal set; }
-        public Tuple<TextPointer, TextPointer> FunctionParantestPointers { get; internal set; }
-        public TextPointer ActualEndPointer
-        {
-            get
-            {
-                if (IsFunction)
-                    return FunctionParantestPointers.Item2;
-                else
-                    return EndPointer;
-            }
-        }
-        public List<TextStateChain> TextStateChains { get; internal set; }
-        public List<NodeContext> FoundContexts { get; internal set; }
-    }
-    public class TextStateChain
-    {
-        public List<FormulaTextBlock> TextStates { set; get; }
-        public TextPointer StartPointer { set; get; }
-        public TextPointer EndPointer { set; get; }
     }
 
 

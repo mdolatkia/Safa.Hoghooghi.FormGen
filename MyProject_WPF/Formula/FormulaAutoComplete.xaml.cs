@@ -31,6 +31,8 @@ namespace MyProject_WPF
         {
             InitializeComponent();
             this.Loaded += FormulaAutoComplete_Loaded;
+            treeMainEntity.IsTextSearchEnabled = true;
+            //قضیه تکست سرچ یا تایپ کردن تست بشه
         }
 
         private void FormulaAutoComplete_Loaded(object sender, RoutedEventArgs e)
@@ -41,31 +43,25 @@ namespace MyProject_WPF
         internal void SetTree(List<NodeContext> nodes)
         {
             treeMainEntity.Items.Clear();
-            foreach (var node in nodes.OrderBy(x => x.NodeType).ThenBy(x => x.Order1))
+            var list = nodes.GroupBy(x => new AutoCompleteItem(x.NodeType, x.Title));
+
+            foreach (var node in list.OrderBy(x => x.Key.NodeType).ThenBy(x => x.Key.Title))
             {
-                AddNode(treeMainEntity.Items, node);
+                AddNode(treeMainEntity.Items, node.Key);
             }
             //treeMainEntity.TextSearchMode = TextSearchMode.StartsWith;
             treeMainEntity.IsTextSearchEnabled = true;
-           
+            treeMainEntity.IsTextSearchCaseSensitive = false;
         }
 
 
 
-        private ListBoxItem AddNode(ItemCollection items, NodeContext nodeContext)
+        private ListBoxItem AddNode(ItemCollection items, AutoCompleteItem context)
         {
-            //RadTreeViewItem node = new RadTreeViewItem();
-            //node.DataContext = nodeContext;
-            //node.Header = GetHeader(node);
-            //node.IsTextSearchEnabled = true;
-            //node.DoubleClick += Node_DoubleClick;
-            //node.KeyUp += Node_KeyUp;
-            //items.Add(node);
-            //return node;
-
             ListBoxItem node = new ListBoxItem();
-            node.DataContext = nodeContext;
-            node.Content = GetHeader(nodeContext);
+            
+            node.DataContext = context;
+            node.Content = GetHeader(context.NodeType, context.Title);
             node.MouseDoubleClick += Node_MouseDoubleClick;
             node.KeyUp += Node_KeyUp;
             items.Add(node);
@@ -74,47 +70,46 @@ namespace MyProject_WPF
 
         private void Node_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            e.Handled = true;
             var node = sender as ListBoxItem;
-            var nodeContext = node.DataContext as NodeContext;
+            var nodeContext = node.DataContext as AutoCompleteItem;
             //    var path = GetNodePath(node);
             if (NodeSelected != null)
-                NodeSelected(sender, new NodeSelectedArg() { Node = nodeContext });
+                NodeSelected(sender, new NodeSelectedArg() { NodeType = nodeContext.NodeType, Title = nodeContext.Title });
         }
 
         private void Node_DoubleClick(object sender, Telerik.Windows.RadRoutedEventArgs e)
         {
-            e.Handled = true;
             var node = sender as RadTreeViewItem;
-            var nodeContext = node.DataContext as NodeContext;
+            var nodeContext = node.DataContext as AutoCompleteItem;
             //    var path = GetNodePath(node);
             if (NodeSelected != null)
-                NodeSelected(sender, new NodeSelectedArg() { Node = nodeContext });
+                NodeSelected(sender, new NodeSelectedArg() { NodeType = nodeContext.NodeType, Title = nodeContext.Title });
         }
         private void Node_KeyUp(object sender, KeyEventArgs e)
         {
-            e.Handled = true;
+         
             var node = sender as ListBoxItem;
-            var nodeContext = node.DataContext as NodeContext;
+            var nodeContext = node.DataContext as AutoCompleteItem;
 
             bool selected = false;
             var arg = new NodeSelectedArg();
-            arg.Node = nodeContext;
+            arg.NodeType = nodeContext.NodeType;
+            arg.Title = nodeContext.Title;
 
             if (e.Key == Key.Enter)
             {
                 selected = true;
             }
-            else if (e.Key == Key.OemPeriod)
-            {
-                selected = true;
-                arg.Dot = true;
-            }
-            else if (e.Key == Key.OemOpenBrackets)
-            {
-                selected = true;
-                arg.Parantese = true;
-            }
+            //else if (e.Key == Key.OemPeriod)
+            //{
+            //    selected = true;
+            //    arg.Dot = true;
+            //}
+            //else if (e.Key == Key.OemOpenBrackets)
+            //{
+            //    selected = true;
+            //    arg.Parantese = true;
+            //}
             if (selected)
             {
                 if (NodeSelected != null)
@@ -122,14 +117,14 @@ namespace MyProject_WPF
             }
         }
 
-        private object GetHeader(NodeContext node)
+        private object GetHeader(NodeType nodeeType, string title)
         {
             StackPanel pnl = new StackPanel();
             pnl.Orientation = Orientation.Horizontal;
             System.Windows.Controls.TextBlock lbl = new System.Windows.Controls.TextBlock();
-            lbl.Text = node.Title;
+            lbl.Text = title;
             Image img = new Image();
-            img.Source = GetPropertyImage(node.NodeType);
+            img.Source = GetPropertyImage(nodeeType);
             img.Width = 15;
             pnl.Children.Add(img);
             pnl.Children.Add(lbl);
@@ -158,47 +153,4 @@ namespace MyProject_WPF
         }
     }
 
-    public class EntityAndProperties
-    {
-        public EntityAndProperties()
-        {
-            Properties = new List<MyFormulaFunctionStateFunctionLibrary.MyPropertyInfo>();
-        }
-        public TableDrivedEntityDTO Entity { set; get; }
-        public List<MyPropertyInfo> Properties { set; get; }
-    }
-    public class NodeContext
-    {
-        public NodeContext()
-        {
-
-        }
-        public NodeContext ParentNode { set; get; }
-        public List<NodeContext> ChildNodes { set; get; }
-        public string ParentPath { set; get; }
-        public object Context { set; get; }
-        public string Name { set; get; }
-        public string Title { set; get; }
-        public NodeType NodeType { set; get; }
-        public object UIItem { set; get; }
-        public int Order1 { set; get; }
-    }
-    public enum NodeType
-    {
-        MainVariable,
-        HelperProperty,
-        RelationshipProperty,
-        CustomProperty,
-        DotNetProperty,
-        DotNetMethod
-    }
-    public class NodeSelectedArg
-    {
-        public NodeContext Node { set; get; }
-        public bool Dot { set; get; }
-        public bool Parantese { set; get; }
-        //public NodeType PropertyType { set; get; }
-        //public string NodeTitle { set; get; }
-        //     public string NodePath { set; get; }
-    }
 }
