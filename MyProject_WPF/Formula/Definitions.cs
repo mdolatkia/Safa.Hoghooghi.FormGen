@@ -45,6 +45,17 @@ namespace MyProject_WPF
         DotNetProperty,
         DotNetMethod
     }
+    public class MyProp
+    {
+        public MyProp(string name , Type type)
+        {
+            Name = name;
+            Type = type;
+        }
+
+        public string Name { set; get; }
+        public Type Type { set; get; }
+    }
     public class NodeSelectedArg
     {
         public string Title { set; get; }

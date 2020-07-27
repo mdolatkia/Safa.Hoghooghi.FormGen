@@ -44,9 +44,9 @@ namespace MyFormulaFunctionStateFunctionLibrary
                 propertyInfo.PropertyRelationship = relationship;
                 propertyInfo.Tooltip = relationship.TypeStr + Environment.NewLine + relationship.Name;
                 if (relationship.TypeEnum == Enum_RelationshipType.OneToMany)
-                    propertyInfo.Type = typeof(List<MyCustomData>);
+                    propertyInfo.Type = typeof(List<MyCustomSingleData>);
                 else
-                    propertyInfo.Type = typeof(MyCustomData);
+                    propertyInfo.Type = typeof(MyCustomSingleData);
                 m_properties.Add(propertyInfo.Name, propertyInfo);
 
             }
@@ -317,33 +317,43 @@ namespace MyFormulaFunctionStateFunctionLibrary
                 return _GetExpressionHandler;
             }
         }
-        public static Dictionary<string, Type> GetHelpers()
+        private static List<Type> GetRefTypes()
         {
-            Dictionary<string, Type> result = new Dictionary<string, Type>();
-            result.Add("NumericHelper", typeof(NumericHelper));
-            result.Add("StringHelper", typeof(StringHelper));
-            result.Add("PersianDateHelper", typeof(PersianDateHelper));
-            result.Add("MiladiDateHelper", typeof(MiladiDateHelper));
+            List<Type> result = new List<Type>();
+            result.Add(typeof(NumericHelper));
+            result.Add(typeof(StringHelper));
+            result.Add(typeof(PersianDateHelper));
+            result.Add(typeof(MiladiDateHelper));
+            //result.Add(typeof(MyExtensions));
 
-          
             return result;
         }
-        public static Dictionary<string, Type> GetExpressionBuiltinVariables()
-        {
-            return GetExpressionHandler.GetExpressionBuiltinVariables();
-        }
+        //public static Dictionary<string, Type> GetExpressionBuiltinVariables()
+        //{
+        //    return GetExpressionHandler.GetExpressionBuiltinVariables();
+        //}
         public static I_ExpressionEvaluator GetExpressionEvaluator(DP_DataRepository mainDataItem, DR_Requester requester, bool definition, List<int> usedFormulaIDs)
         {
             var entity = bizTableDrivedEntity.GetPermissionedEntity(requester, mainDataItem.TargetEntityID);
             var properties = GetProperties(entity, null, definition);
-            MyCustomData formulaObject = new MyCustomData(mainDataItem, requester, definition, properties, usedFormulaIDs);
-            var helpers = GetHelpers();
-
-            return GetExpressionHandler.GetExpressionEvaluator(formulaObject, helpers, typeof(MyExtensions));
+            MyCustomSingleData formulaObject = new MyCustomSingleData(mainDataItem, requester, definition, properties, usedFormulaIDs);
+            var refTypes = GetRefTypes();
+            var variables = GetRefObjects(entity, requester);
+            return GetExpressionHandler.GetExpressionEvaluator(formulaObject, refTypes, variables);
         }
+
+        private static List<object> GetRefObjects(TableDrivedEntityDTO entity, DR_Requester requester)
+        {
+            List<object> result = new List<object>();
+            result.Add(new DBFunctionHelper(entity.DatabaseID, requester));
+            return result;
+        }
+
+
         public static I_ExpressionDelegate GetExpressionDelegate()
         {
-            return GetExpressionHandler.GetExpressionDelegate(typeof(MyExtensions));
+            var refTypes = GetRefTypes();
+            return GetExpressionHandler.GetExpressionDelegate(refTypes, null);
         }
 
         public static string GetObjectPrefrix()
@@ -351,118 +361,27 @@ namespace MyFormulaFunctionStateFunctionLibrary
             return GetExpressionHandler.GetObjectPrefrix();
         }
 
-
-        //private static Type GetPersianDateType()
-        //{
-        //    return typeof(PersianDate);
-        //}
-        //private static PersianDate GetPersianDateDefaultValue()
-        //{
-        //    return new PersianDate() { Value = "1397/01/01" };
-        //}
-        //private static Type GetCustomTypePropertyType(MyPropertyInfo propertyInfo, ValueCustomType valueCustomType)
-        //{
-        //    if (valueCustomType == ValueCustomType.IsPersianDate)
-        //    {
-        //        return typeof(PersianDate);
-        //    }
-        //    return null;
-        //}
-        //private static object GetCustomTypePropertyDefaultValue(MyPropertyInfo propertyInfo, ValueCustomType valueCustomType)
-        //{
-        //    if (valueCustomType == ValueCustomType.IsPersianDate)
-        //    {
-        //        return new PersianDate() { Value = "1397/01/01" };
-        //    }
-        //    return null;
-        //}
-        //private static object GetCustomTypePropertyValue(MyPropertyInfo propertyInfo, ValueCustomType valueCustomType, string value)
-        //{//<NULL> چی مقدار
-        //    if (valueCustomType == ValueCustomType.IsPersianDate)
-        //    {
-        //        return new PersianDate() { Value = value };
-        //    }
-        //    return null;
-        //}
-
-        //public static CustomObject GetNewFormulaObject(MyPropertyInfo propertyInfo)
-        //{
-        //    CustomObject result = null;
-        //    //short propertyInfo.RelationshipLevel = 0;
-        //    //if (propertyInfo != null)
-        //    //    propertyInfo.RelationshipLevel = propertyInfo.RelationshipLevel;
-        //    if (propertyInfo.RelationshipLevel == 0)
-        //        result = new BindableTypeDescriptor<tempClass1>();
-        //    else if (propertyInfo.RelationshipLevel == 1)
-        //        result = new BindableTypeDescriptor<tempClass2>();
-        //    else if (propertyInfo.RelationshipLevel == 2)
-        //        result = new BindableTypeDescriptor<tempClass3>();
-        //    else if (propertyInfo.RelationshipLevel == 3)
-        //        result = new BindableTypeDescriptor<tempClass4>();
-        //    else if (propertyInfo.RelationshipLevel == 4)
-        //        result = new BindableTypeDescriptor<tempClass5>();
-        //    else if (propertyInfo.RelationshipLevel == 5)
-        //        result = new BindableTypeDescriptor<tempClass6>();
-        //    else if (propertyInfo.RelationshipLevel == 6)
-        //        result = new BindableTypeDescriptor<tempClass7>();
-        //    else if (propertyInfo.RelationshipLevel == 7)
-        //        result = new BindableTypeDescriptor<tempClass8>();
-        //    else if (propertyInfo.RelationshipLevel == 8)
-        //        result = new BindableTypeDescriptor<tempClass9>();
-
-        //    //var aa = (result as BindableTypeDescriptor<tempClass3>).WordCount();
-        //    return result;
-
-        //}
-
-        //public static IList GetNewFormulaObjectList(MyPropertyInfo propertyInfo)
-        //{
-        //    //var propertyInfo.RelationshipLevel = parentFormulaObject.RelationshipLevel;
-        //    if (propertyInfo.RelationshipLevel == 0)
-        //        return new List<BindableTypeDescriptor<tempClass1>>();
-        //    else if (propertyInfo.RelationshipLevel == 1)
-        //        return new List<BindableTypeDescriptor<tempClass2>>();
-        //    else if (propertyInfo.RelationshipLevel == 2)
-        //        return new List<BindableTypeDescriptor<tempClass3>>();
-        //    else if (propertyInfo.RelationshipLevel == 3)
-        //        return new List<BindableTypeDescriptor<tempClass4>>();
-        //    else if (propertyInfo.RelationshipLevel == 4)
-        //        return new List<BindableTypeDescriptor<tempClass5>>();
-        //    else if (propertyInfo.RelationshipLevel == 5)
-        //        return new List<BindableTypeDescriptor<tempClass6>>();
-        //    else if (propertyInfo.RelationshipLevel == 6)
-        //        return new List<BindableTypeDescriptor<tempClass7>>();
-        //    else if (propertyInfo.RelationshipLevel == 7)
-        //        return new List<BindableTypeDescriptor<tempClass8>>();
-        //    else if (propertyInfo.RelationshipLevel == 8)
-        //        return new List<BindableTypeDescriptor<tempClass9>>();
-        //    return null;
-        //}
-
-        //public static IList GetNewFormulaObjectList()
-        //{
-        //    return new List<FormulaObject>();
-
-        //}
-        //public static FormulaObject GetNewFormulaObject()
-        //{
-        //    return new FormulaObject();
-
-        //}
     }
     public interface I_ExpressionHandler
     {
-        I_ExpressionEvaluator GetExpressionEvaluator(MyCustomData customData, Dictionary<string, Type> helpers, Type extenstion);
-        I_ExpressionDelegate GetExpressionDelegate(Type extenstion);
-        Dictionary<string, Type> GetExpressionBuiltinVariables();
+        I_ExpressionEvaluator GetExpressionEvaluator(MyCustomSingleData customData, List<Type> refTypes, List<object> variables);
+        I_ExpressionDelegate GetExpressionDelegate(List<Type> refTypes, List<object> variables);
         string GetObjectPrefrix();
     }
     public interface I_ExpressionEvaluator
     {
+        List<BuiltinRefClass> GetExpressionBuiltinVariables();
         object Calculate(string expression);
     }
     public interface I_ExpressionDelegate
     {
         T GetDelegate<T>(string expression, string key);
+    }
+    public class BuiltinRefClass
+    {
+        public Type Type { set; get; }
+        public bool IsType { set; get; }
+        public bool IsObject { set; get; }
+        public string Name { set; get; }
     }
 }

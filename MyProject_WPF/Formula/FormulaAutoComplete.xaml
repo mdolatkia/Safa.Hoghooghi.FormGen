@@ -6,7 +6,12 @@
              mc:Ignorable="d" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              Height="400" Width="300" FlowDirection="LeftToRight">
     <Grid>
-        <ListBox x:Name="treeMainEntity" TextSearch.TextPath="Title" ></ListBox>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="txtSearch" TextChanged="txtSearch_TextChanged"></TextBox>
+        <ListBox x:Name="lstProperties" Margin="2" Grid.Row="1" ></ListBox>
         <!--<Grid.RowDefinitions>
             --><!--<RowDefinition></RowDefinition>--><!--
             <RowDefinition></RowDefinition>

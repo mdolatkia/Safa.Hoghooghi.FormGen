@@ -20,69 +20,69 @@ using MyDatabaseFunctionLibrary;
 
 namespace MyFormulaFunctionStateFunctionLibrary
 {
-    public class FormulaHepler
+    //public static class FormulaHepler
+    //{
+    //    //public  FormulaHepler()
+    //    //{
+
+    //    //}
+    //    //StringHelper _StringHelper;
+    //    //public static StringHelper StringHelper
+    //    //{
+    //    //    get
+    //    //    {
+    //    //        if (_StringHelper == null)
+    //    //            _StringHelper = new StringHelper();
+    //    //        return _StringHelper;
+    //    //    }
+    //    //}
+    //    //PersianDateHelper _PersianDateHelper;
+    //    //public static PersianDateHelper PersianDateHelper
+    //    //{
+    //    //    get
+    //    //    {
+    //    //        if (_PersianDateHelper == null)
+    //    //            _PersianDateHelper = new PersianDateHelper();
+    //    //        return _PersianDateHelper;
+    //    //    }
+    //    //}
+
+
+    //    public static  Type IsHelperType(string theWord)
+    //    {
+    //        if (!string.IsNullOrEmpty(theWord))
+    //        {
+    //            if (theWord.ToLower() == "PersianDateHelper".ToLower())
+    //                return typeof(PersianDateHelper);
+    //            else if (theWord.ToLower() == "MiladiDateHelper".ToLower())
+    //                return typeof(MiladiDateHelper);
+    //            else if (theWord.ToLower() == "StringHelper".ToLower())
+    //                return typeof(StringHelper);
+    //            else if (theWord.ToLower() == "NumericHelper".ToLower())
+    //                return typeof(NumericHelper);
+    //            else if (theWord.ToLower() == "DBFunctionHelper".ToLower())
+    //                return typeof(DBFunctionHelper);
+    //        }
+    //        return null;
+    //    }
+    //}
+    public static class NumericHelper
     {
-        public FormulaHepler()
-        {
-
-        }
-        //StringHelper _StringHelper;
-        //public StringHelper StringHelper
-        //{
-        //    get
-        //    {
-        //        if (_StringHelper == null)
-        //            _StringHelper = new StringHelper();
-        //        return _StringHelper;
-        //    }
-        //}
-        //PersianDateHelper _PersianDateHelper;
-        //public PersianDateHelper PersianDateHelper
-        //{
-        //    get
-        //    {
-        //        if (_PersianDateHelper == null)
-        //            _PersianDateHelper = new PersianDateHelper();
-        //        return _PersianDateHelper;
-        //    }
-        //}
-
-
-        public static Type IsHelperType(string theWord)
-        {
-            if (!string.IsNullOrEmpty(theWord))
-            {
-                if (theWord.ToLower() == "PersianDateHelper".ToLower())
-                    return typeof(PersianDateHelper);
-                else if (theWord.ToLower() == "MiladiDateHelper".ToLower())
-                    return typeof(MiladiDateHelper);
-                else if (theWord.ToLower() == "StringHelper".ToLower())
-                    return typeof(StringHelper);
-                else if (theWord.ToLower() == "NumericHelper".ToLower())
-                    return typeof(NumericHelper);
-                else if (theWord.ToLower() == "DBFunctionHelper".ToLower())
-                    return typeof(DBFunctionHelper);
-            }
-            return null;
-        }
-    }
-    public class NumericHelper
-    {
-        public double IsNull(object value, double resValue)
+        public static double IsNull(object value, double resValue)
         {
             if (value == null)
                 return resValue;
             else
                 return Convert.ToDouble(value);
         }
-        public int IsNull(object value, int resValue)
+        public static int IsNull(object value, int resValue)
         {
             if (value == null)
                 return resValue;
             else
                 return Convert.ToInt32(value);
         }
-        public long IsNull(object value, long resValue)
+        public static long IsNull(object value, long resValue)
         {
             if (value == null)
                 return resValue;
@@ -91,13 +91,21 @@ namespace MyFormulaFunctionStateFunctionLibrary
         }
 
     }
-    public class StringHelper
+    public static class StringHelper
     {
-        public bool IsNullOrEmpty(string str)
+        //public static bool bbb(this string str)
+        //{
+        //    return String.IsNullOrEmpty(str);
+        //}
+        public static bool bbb(this String str)
         {
             return String.IsNullOrEmpty(str);
         }
-        //public string GetPropertiesString(ICustomTypeDescriptor obj, string delimiter, params string[] list)
+        public static bool IsNullOrEmpty(string str)
+        {
+            return String.IsNullOrEmpty(str);
+        }
+        //public static string GetPropertiesString(ICustomTypeDescriptor obj, string delimiter, params string[] list)
         //{
         //    string result = "";
         //    foreach (var item in list)
@@ -107,14 +115,14 @@ namespace MyFormulaFunctionStateFunctionLibrary
         //    }
         //    return result;
         //}
-        public string Trim(object value)
+        public static string Trim(object value)
         {
             if (value == null)
                 return null;
             else
                 return value.ToString().Trim();
         }
-        public string GetPropertyString(ICustomTypeDescriptor obj, string propertyPath)
+        public static string GetPropertyString(ICustomTypeDescriptor obj, string propertyPath)
         {
             var res = FollowPropertyPath(obj, propertyPath);
             return res == null ? "" : res.ToString();
@@ -145,16 +153,16 @@ namespace MyFormulaFunctionStateFunctionLibrary
         }
     }
 
-    public class PersianDateHelper
+    public static class PersianDateHelper
     {
-        public string Today
+        public static string Today
         {
             get
             {
                 return GeneralHelper.GetShamsiDate(DateTime.Today);
             }
         }
-        public string AddDays(string persianDate, double value)
+        public static string AddDays(string persianDate, double value)
         {
             try
             {
@@ -164,7 +172,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             catch { return ""; }
         }
 
-        public string AddHours(string persianDate, double value)
+        public static string AddHours(string persianDate, double value)
         {
             try
             {
@@ -173,7 +181,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             }
             catch { return ""; }
         }
-        public string AddMinutes(string persianDate, double value)
+        public static string AddMinutes(string persianDate, double value)
         {
             try
             {
@@ -183,7 +191,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             catch { return ""; }
         }
 
-        public string AddMonths(string persianDate, int value)
+        public static string AddMonths(string persianDate, int value)
         {
             try
             {
@@ -193,7 +201,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             catch { return ""; }
         }
 
-        public string AddSeconds(string persianDate, double value)
+        public static string AddSeconds(string persianDate, double value)
         {
             try
             {
@@ -203,7 +211,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             catch { return ""; }
         }
 
-        public string AddTicks(string persianDate, long value)
+        public static string AddTicks(string persianDate, long value)
         {
             try
             {
@@ -213,7 +221,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             catch { return ""; }
         }
 
-        public string AddYears(string persianDate, int value)
+        public static string AddYears(string persianDate, int value)
         {
             try
             {
@@ -223,22 +231,27 @@ namespace MyFormulaFunctionStateFunctionLibrary
             catch { return ""; }
         }
     }
-    public class MiladiDateHelper
+    public static class MiladiDateHelper
     {
-        public double DateDiffAsHours(object firstDateTime, object secondDateTime)
+        public static double DateDiffAsHours(object firstDateTime, object secondDateTime)
         {
             return ((DateTime)firstDateTime).Subtract((DateTime)secondDateTime).TotalHours;
         }
-        public double DateDiffAsDays(object firstDateTime, object secondDateTime)
+        public static double DateDiffAsDays(object firstDateTime, object secondDateTime)
         {
             return ((DateTime)firstDateTime).Subtract((DateTime)secondDateTime).TotalDays;
         }
     }
     public class DBFunctionHelper
     {
-        public DBFunctionHelper(int databaseID)
+        public static object CalculateFunction()
+        {
+            return null;
+        }
+        public DBFunctionHelper(int databaseID, DR_Requester requester)
         {
             DatabaseID = databaseID;
+            Requester = requester;
         }
         DatabaseFunctionHandler DatabaseFunctionHandler = new DatabaseFunctionHandler();
         public int DatabaseID { set; get; }

@@ -7,87 +7,87 @@ using System.Threading.Tasks;
 
 namespace MyFormulaFunctionStateFunctionLibrary
 {
-    public class MyExtensions
+    public static class MyExtensions
     {
-        public static MyCustomData First(object obj, string criteria = null)
+        public static MyCustomSingleData First(this MyCustomSingleData obj, string criteria = null)
         {
             var list = GetList(obj);
             var delegateExpression = GetExpression(obj, criteria);
             return list.First(delegateExpression);
         }
-        public static MyCustomData First(object obj)
+        public static MyCustomSingleData First(this MyCustomSingleData obj)
         {
             var list = GetList(obj);
             return list.First();
         }
-        public static MyCustomData FirstOrDefault(object obj, string criteria = null)
+        public static MyCustomSingleData FirstOrDefault(this MyCustomSingleData obj, string criteria = null)
         {
             var list = GetList(obj);
             var delegateExpression = GetExpression(obj, criteria);
             return list.FirstOrDefault(delegateExpression);
 
         }
-        public static MyCustomData FirstOrDefault(object obj)
+        public static MyCustomSingleData FirstOrDefault(this MyCustomSingleData obj)
         {
             var list = GetList(obj);
             return list.FirstOrDefault();
         }
-        public static MyCustomData Last(object obj, string criteria = null)
+        public static MyCustomSingleData Last(this MyCustomSingleData obj, string criteria = null)
         {
             var list = GetList(obj);
             var delegateExpression = GetExpression(obj, criteria);
             return list.Last(delegateExpression);
         }
-        public static MyCustomData Last(object obj)
+        public static MyCustomSingleData Last(this MyCustomSingleData obj)
         {
             var list = GetList(obj);
             return list.Last();
         }
-        public static MyCustomData LastOrDefault(object obj, string criteria = null)
+        public static MyCustomSingleData LastOrDefault(this MyCustomSingleData obj, string criteria = null)
         {
             var list = GetList(obj);
             var delegateExpression = GetExpression(obj, criteria);
             return list.LastOrDefault(delegateExpression);
         }
-        public static MyCustomData LastOrDefault(object obj)
+        public static MyCustomSingleData LastOrDefault(this MyCustomSingleData obj)
         {
             var list = GetList(obj);
             return list.LastOrDefault();
         }
-        public static bool All(object obj, string criteria = null)
+        public static bool All(this MyCustomSingleData obj, string criteria = null)
         {
             var list = GetList(obj);
             var delegateExpression = GetExpression(obj, criteria);
             return list.All(delegateExpression);
 
         }
-        public static int Count(object obj, string criteria = null)
+        public static int Count(this MyCustomSingleData obj, string criteria = null)
         {
             var list = GetList(obj);
             var delegateExpression = GetExpression(obj, criteria);
             return list.Count(delegateExpression);
         }
-        public static int Count(object obj)
+        public static int Count(this MyCustomSingleData obj)
         {
             var list = GetList(obj);
             return list.Count();
         }
-        public static bool Any(object obj, string criteria = null)
+        public static bool Any(this MyCustomSingleData obj, string criteria = null)
         {
             var list = GetList(obj);
             var delegateExpression = GetExpression(obj, criteria);
             return list.Any(delegateExpression);
         }
-        public static bool Any(object obj)
+        public static bool Any(this MyCustomSingleData obj)
         {
             var list = GetList(obj);
             return list.Any();
         }
-        private static List<MyCustomData> GetList(object obj)
+        private static List<MyCustomSingleData> GetList(this object obj)
         {
-            if (obj is List<MyCustomData>)
+            if (obj is List<MyCustomSingleData>)
             {
-                return obj as List<MyCustomData>;
+                return obj as List<MyCustomSingleData>;
             }
             else
             {
@@ -95,11 +95,11 @@ namespace MyFormulaFunctionStateFunctionLibrary
             }
         }
 
-        private static Func<MyCustomData, bool> GetExpression(object obj, string criteria)
+        private static Func<MyCustomSingleData, bool> GetExpression(object obj, string criteria)
         {
             var keyCriteria = GetKeyAndCriteria(criteria);
             var interpreter = FormulaInstanceInternalHelper.GetExpressionDelegate();
-            return interpreter.GetDelegate<Func<MyCustomData, bool>>(keyCriteria.Item2, keyCriteria.Item1);
+            return interpreter.GetDelegate<Func<MyCustomSingleData, bool>>(keyCriteria.Item2, keyCriteria.Item1);
 
         }
         private static Tuple<string, string> GetKeyAndCriteria(string criteria)
@@ -119,7 +119,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             return new Tuple<string, string>(key, where);
         }
 
-        public static bool IsEqual(object obj, object value)
+        public static bool IsEqual(this object obj, object value)
         {
             if (obj == null && value == null)
                 return true;
@@ -128,7 +128,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
             else
                 return obj.ToString() == value.ToString();
         }
-        //public static int ToInt(object obj)
+        //public static int ToInt(this  object obj)
         //{
         //    return Convert.ToInt32(obj);
         //}

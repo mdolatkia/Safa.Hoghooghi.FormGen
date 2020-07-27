@@ -26,45 +26,154 @@ namespace MyProject_WPF
     /// </summary>
     public partial class FormulaAutoComplete : UserControl
     {
+        public List<ListBoxItem> ListItems { get; private set; }
+
         public event EventHandler<NodeSelectedArg> NodeSelected;
         public FormulaAutoComplete()
         {
             InitializeComponent();
             this.Loaded += FormulaAutoComplete_Loaded;
-            treeMainEntity.IsTextSearchEnabled = true;
-            //قضیه تکست سرچ یا تایپ کردن تست بشه
+            lstProperties.IsTextSearchEnabled = true;
+            //     txtSearch.KeyUp += TxtSearch_KeyUp;
+            //   txtSearch.KeyDown += TxtSearch_KeyUp;
+            txtSearch.PreviewKeyDown += TxtSearch_PreviewKeyDown;
+            this.KeyUp += FormulaAutoComplete_KeyUp;
+        }
+
+        private void FormulaAutoComplete_KeyUp(object sender, KeyEventArgs e)
+        {
+          if(e.Key==Key.Escape)
+            {
+                CloseDialog();
+            }
+        }
+
+        private void CloseDialog()
+        {
+            MyProjectManager.GetMyProjectManager.CloseDialog(this);
+        }
+
+        private void TxtSearch_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var selectedItem = GetSelectedItem();
+                if (selectedItem != null)
+                {
+                    NodeIsSelected(sender, selectedItem.DataContext as AutoCompleteItem);
+                }
+            }
+            else if (e.Key == Key.Down)
+            {
+                e.Handled = true;
+                if (SelectItem(SelectMode.Next))
+                    txtSearch.Focus();
+            }
+            else if (e.Key == Key.Up)
+            {
+                e.Handled = true;
+                if (SelectItem(SelectMode.Prev))
+                    txtSearch.Focus();
+            }
+        }
+
+        private bool SelectItem(SelectMode mode)
+        {
+            var selectedItem = GetSelectedItem();
+            var index = ListItems.IndexOf(selectedItem);
+            ListBoxItem target = null;
+            if (selectedItem != null)
+            {
+                if (mode == SelectMode.Next)
+                {
+                    if (index != ListItems.Count - 1)
+                    {
+                        target = ListItems[index + 1];
+                    }
+                }
+                else if (mode == SelectMode.Prev)
+                {
+                    if (index != 0)
+                    {
+                        target = ListItems[index - 1];
+                    }
+                }
+            }
+            if (target != null)
+            {
+
+                target.IsSelected = true;
+                target.Focus();
+                return true;
+            }
+            return false;
+        }
+
+        private ListBoxItem GetSelectedItem()
+        {
+            if (lstProperties.Items != null)
+            {
+                foreach (var item in lstProperties.Items)
+                {
+                    if ((item as ListBoxItem).IsSelected)
+                        return item as ListBoxItem;
+                }
+            }
+            return null;
         }
 
         private void FormulaAutoComplete_Loaded(object sender, RoutedEventArgs e)
         {
-            treeMainEntity.Focus();
+            txtSearch.Focus();
         }
 
         internal void SetTree(List<NodeContext> nodes)
         {
-            treeMainEntity.Items.Clear();
-            var list = nodes.GroupBy(x => new AutoCompleteItem(x.NodeType, x.Title));
+            //   lstProperties.ItemsSource = nodes;
+            ListItems = null;
+            txtSearch.Text = "";
 
+            var list = nodes.GroupBy(x => new AutoCompleteItem(x.NodeType, x.Title));
+            List<ListBoxItem> items = new List<ListBoxItem>();
             foreach (var node in list.OrderBy(x => x.Key.NodeType).ThenBy(x => x.Key.Title))
             {
-                AddNode(treeMainEntity.Items, node.Key);
+                items.Add(AddNode(node.Key));
             }
-            //treeMainEntity.TextSearchMode = TextSearchMode.StartsWith;
-            treeMainEntity.IsTextSearchEnabled = true;
-            treeMainEntity.IsTextSearchCaseSensitive = false;
+            ListItems = items;
+            SetListItems("");
+
         }
 
+        private void SetListItems(string text)
+        {
+            lstProperties.Items.Clear();
+            if (ListItems != null)
+            {
+                foreach (var item in ListItems)
+                {
+                    if (text == "" || (item.DataContext as AutoCompleteItem).Title.ToLower().StartsWith(text.ToLower()))
+                        lstProperties.Items.Add(item);
+                }
+                if (lstProperties.Items.Count > 0)
+                {
+                    (lstProperties.Items[0] as ListBoxItem).IsSelected = true;
+                }
+            }
+        }
 
+        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetListItems(txtSearch.Text);
+        }
 
-        private ListBoxItem AddNode(ItemCollection items, AutoCompleteItem context)
+        private ListBoxItem AddNode(AutoCompleteItem context)
         {
             ListBoxItem node = new ListBoxItem();
-            
+
             node.DataContext = context;
             node.Content = GetHeader(context.NodeType, context.Title);
             node.MouseDoubleClick += Node_MouseDoubleClick;
             node.KeyUp += Node_KeyUp;
-            items.Add(node);
             return node;
         }
 
@@ -73,6 +182,11 @@ namespace MyProject_WPF
             var node = sender as ListBoxItem;
             var nodeContext = node.DataContext as AutoCompleteItem;
             //    var path = GetNodePath(node);
+            NodeIsSelected(sender, nodeContext);
+        }
+
+        private void NodeIsSelected(object sender, AutoCompleteItem nodeContext)
+        {
             if (NodeSelected != null)
                 NodeSelected(sender, new NodeSelectedArg() { NodeType = nodeContext.NodeType, Title = nodeContext.Title });
         }
@@ -81,39 +195,23 @@ namespace MyProject_WPF
         {
             var node = sender as RadTreeViewItem;
             var nodeContext = node.DataContext as AutoCompleteItem;
-            //    var path = GetNodePath(node);
-            if (NodeSelected != null)
-                NodeSelected(sender, new NodeSelectedArg() { NodeType = nodeContext.NodeType, Title = nodeContext.Title });
+            NodeIsSelected(sender, nodeContext);
+
         }
         private void Node_KeyUp(object sender, KeyEventArgs e)
         {
-         
             var node = sender as ListBoxItem;
             var nodeContext = node.DataContext as AutoCompleteItem;
 
-            bool selected = false;
-            var arg = new NodeSelectedArg();
-            arg.NodeType = nodeContext.NodeType;
-            arg.Title = nodeContext.Title;
 
             if (e.Key == Key.Enter)
             {
-                selected = true;
+                NodeIsSelected(sender, nodeContext);
             }
-            //else if (e.Key == Key.OemPeriod)
-            //{
-            //    selected = true;
-            //    arg.Dot = true;
-            //}
-            //else if (e.Key == Key.OemOpenBrackets)
-            //{
-            //    selected = true;
-            //    arg.Parantese = true;
-            //}
-            if (selected)
+            else if (e.Key == Key.Up)
             {
-                if (NodeSelected != null)
-                    NodeSelected(sender, arg);
+                if ((lstProperties.Items[0] as ListBoxItem).IsSelected)
+                    txtSearch.Focus();
             }
         }
 
@@ -151,6 +249,13 @@ namespace MyProject_WPF
             }
             return null;
         }
-    }
 
+
+    }
+    public enum SelectMode
+    {
+        Next,
+        Prev
+
+    }
 }

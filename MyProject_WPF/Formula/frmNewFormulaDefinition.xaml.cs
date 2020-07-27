@@ -80,6 +80,18 @@ namespace MyProject_WPF
             txtFormula.FontSize = 18;
         }
 
+        private void SetTimers()
+        {
+            //کل متن را انتخاب میکند
+            selectionTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            selectionTimer.Tick += SelectionTimer_Tick;
+
+            textChangedCalculationTimer.Interval = new TimeSpan(0, 0, 0, 0, 2000);
+            textChangedCalculationTimer.Tick += textChangedCalculationTimer_Tick;
+
+            textChangedTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000);
+            textChangedTimer.Tick += TextChangedTimer_Tick;
+        }
         private void TxtFormula_SelectionChanged(object sender, RoutedEventArgs e)
         {
             lblPointer.Text = txtFormula.CaretPosition.GetOffsetToPosition(txtFormula.Document.ContentStart).ToString();
@@ -126,6 +138,7 @@ namespace MyProject_WPF
         private void TextChangedTimer_Tick(object sender, EventArgs e)
         {
             (sender as DispatcherTimer).Stop();
+            ClearColor();
 
             var list = GetBlocks(txtFormula.Document.ContentEnd);
             list = list.Where(x => x.Item3 != "").ToList();
@@ -134,7 +147,6 @@ namespace MyProject_WPF
             var chains = GetTextStateChains(txtFormula.Document.ContentEnd);
             AllTextStates = chains.Item2;
 
-            ClearColor();
             if (AllTextStates != null)
                 SetColor(AllTextStates, true);
         }
@@ -186,7 +198,7 @@ namespace MyProject_WPF
                 else
                 {
                     var prev = GetPreviousText(txtFormula.CaretPosition, true);
-                    if (prev!=null && prev.Item3 == ".")
+                    if (prev != null && prev.Item3 == ".")
                     {
                         CheckAutoComplete(prev.Item2);
                     }
@@ -447,9 +459,6 @@ namespace MyProject_WPF
                 }
             }
         }
-
-
-
         private List<Tuple<TextPointer, TextPointer, string, int, int>> GetBlocks(TextPointer item1, List<Tuple<TextPointer, TextPointer, string, int, int>> result = null)
         {
             if (result == null)
@@ -462,7 +471,6 @@ namespace MyProject_WPF
             }
             return result;
         }
-
         private Tuple<TextPointer, TextPointer, string> GetCurrentWord(TextPointer item1)
         {
             Tuple<TextPointer, TextPointer, string> prevText;
@@ -517,7 +525,6 @@ namespace MyProject_WPF
             }
             return result;
         }
-
         private Tuple<TextPointer, TextPointer, string> GetNextText(TextPointer start, bool includeSingleNonText)
         {
             var len = GetNextTextLen(start, includeSingleNonText);
@@ -549,7 +556,6 @@ namespace MyProject_WPF
             var end = start.GetPositionAtOffset(len);
             return new TextRange(start, end);
         }
-
         private Tuple<TextPointer, TextPointer, string> GetTextRangeTuple(TextPointer position, int len)
         {
             TextPointer start;
@@ -577,29 +583,11 @@ namespace MyProject_WPF
         {
             return Char.IsLetterOrDigit(ch) || (validChars != null && validChars.Contains(ch));
         }
-
-        private void SetTimers()
-        {
-            //کل متن را انتخاب میکند
-            selectionTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
-            selectionTimer.Tick += SelectionTimer_Tick;
-
-            textChangedCalculationTimer.Interval = new TimeSpan(0, 0, 0, 0, 2000);
-            textChangedCalculationTimer.Tick += textChangedCalculationTimer_Tick;
-
-            textChangedTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000);
-            textChangedTimer.Tick += TextChangedTimer_Tick;
-
-
-        }
-
         private bool IsSameOffset(TextPointer actualEndPointer, TextPointer autoCompletePointer)
         {
             var res = actualEndPointer.GetOffsetToPosition(txtFormula.Document.ContentStart) - autoCompletePointer.GetOffsetToPosition(txtFormula.Document.ContentStart);
             return res <= 1 && res >= -1;
-
         }
-
         private void SetColor(List<FormulaTextBlock> textStates, bool first)
         {
             skipTextChanged = true;
@@ -661,7 +649,7 @@ namespace MyProject_WPF
         private void NodeSelected(string text)
         {
             selectedNodePosition = txtFormula.CaretPosition;
-          
+
 
             selectedNodeText = text;
             txtFormula.CaretPosition.InsertTextInRun(text);
@@ -711,11 +699,9 @@ namespace MyProject_WPF
         }
 
         RadWindow autoCompleteWindow;
-
-
         private void ShowAutoComplete(List<NodeContext> nodes)
         {
-           
+
             formulaAutoComplete.SetTree(nodes);
             if (autoCompleteWindow == null)
             {
@@ -727,7 +713,6 @@ namespace MyProject_WPF
                 //   autoCompleteWindow.SizeToContent = true;
                 autoCompleteWindow.ResizeMode = ResizeMode.NoResize;
             }
-
             autoCompleteWindow.ShowDialog();
         }
 
@@ -750,25 +735,25 @@ namespace MyProject_WPF
             }
             var entityAndProperties = GetEntityAndProperties(Entity);
             SetNodes(rootNodeContext, entityAndProperties);
-            foreach (var item in FormulaInstanceInternalHelper.GetHelpers().OrderBy(x => x.Key))
+            foreach (var item in ExpressionEvaluator.GetExpressionBuiltinVariables().OrderBy(x => x.Name))
             {
-                var nodeContext = new MyProject_WPF.NodeContext() { Order1 = 1, ParentPath = "", Context = item.Value, Name = item.Key, Title = item.Key, NodeType = NodeType.HelperProperty };
+                var nodeContext = new MyProject_WPF.NodeContext() { Order1 = 1, ParentPath = "", Context = item, Name = item.Name, Title = item.Name, NodeType = NodeType.HelperProperty };
                 var node = AddNodeContext(null, nodeContext, false);
-                SetNodes(nodeContext, item.Value);
+                SetNodes(nodeContext, item);
             }
 
-            foreach (var item in FormulaInstanceInternalHelper.GetExpressionBuiltinVariables().OrderBy(x => x.Key))
-            {
-                var nodeContext = new MyProject_WPF.NodeContext() { Order1 = 2, ParentPath = "", Context = item.Value, Name = item.Key, Title = item.Key, NodeType = NodeType.HelperProperty };
-                AddNodeContext(null, nodeContext, false);
-                SetNodes(nodeContext, item.Value);
-            }
+            //foreach (var item in FormulaInstanceInternalHelper.GetExpressionBuiltinVariables().OrderBy(x => x.Key))
+            //{
+            //    var nodeContext = new MyProject_WPF.NodeContext() { Order1 = 2, ParentPath = "", Context = item.Value, Name = item.Key, Title = item.Key, NodeType = NodeType.HelperProperty };
+            //    AddNodeContext(null, nodeContext, false);
+            //    SetNodes(nodeContext, item.Value);
+            //}
 
         }
+
+
         private RadTreeViewItem AddNodeContext(NodeContext parentNodeContext, NodeContext nodeContext, bool lateExpand)
         {
-
-
             string parentPath = "";
             if (parentNodeContext != null)
                 parentPath = (string.IsNullOrEmpty(parentNodeContext.ParentPath) ? "" : parentNodeContext.ParentPath + ".") + parentNodeContext.Name;
@@ -783,8 +768,6 @@ namespace MyProject_WPF
             }
             else
                 nodeDictionary.Add(nodeContext);
-
-
 
             var fnode = AddNodeToTree(nodeContext, lateExpand);
             nodeContext.UIItem = fnode;
@@ -826,7 +809,6 @@ namespace MyProject_WPF
                 }
             }
         }
-
         private void SetNodes(NodeContext parentNodeContext, EntityAndProperties entityAndProperties)
         {
 
@@ -852,41 +834,109 @@ namespace MyProject_WPF
             {
                 AddNodeContext(parentNodeContext, item, true);
             }
-
+            
         }
         private void SetNodes(NodeContext nodeContext)
         {
-            if (nodeContext.NodeType == NodeType.CustomProperty || nodeContext.NodeType == NodeType.RelationshipProperty)
+            if (nodeContext.Context is MyPropertyInfo
+               || ((nodeContext.Context is MethodInfo) && (nodeContext.Context as MethodInfo).ReturnType == typeof(MyCustomSingleData)))
             {
-                if ((nodeContext.Context as MyPropertyInfo).PropertyType == ProxyLibrary.PropertyType.Relationship)
+                if (nodeContext.Context is MyPropertyInfo)
                 {
-                    var entityAndProperties = GetEntityAndProperties((nodeContext.Context as MyPropertyInfo).PropertyRelationship.EntityID2);
-                    if (entityAndProperties != null)
+                    if ((nodeContext.Context as MyPropertyInfo).PropertyType == ProxyLibrary.PropertyType.Relationship)
                     {
-                        SetNodes(nodeContext, entityAndProperties);
+                        if ((nodeContext.Context as MyPropertyInfo).PropertyRelationship.TypeEnum == Enum_RelationshipType.OneToMany)
+                        {
+                            SetNodes(nodeContext, typeof(MyCustomMultipleData));
+                        }
+                        else
+                        {
+                            var entityAndProperties = GetEntityAndProperties((nodeContext.Context as MyPropertyInfo).PropertyRelationship.EntityID2);
+                            if (entityAndProperties != null)
+                            {
+                                SetNodes(nodeContext, entityAndProperties);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SetNodes(nodeContext, (nodeContext.Context as MyPropertyInfo).Type);
                     }
                 }
                 else
                 {
-                    SetNodes(nodeContext, (nodeContext.Context as MyPropertyInfo).Type);
+                    var parent = nodeContext.ParentNode;
+                    if (parent.Context is MyPropertyInfo)
+                    {
+                        if ((parent.Context as MyPropertyInfo).PropertyType == ProxyLibrary.PropertyType.Relationship)
+                        {
+                            var entityAndProperties = GetEntityAndProperties((parent.Context as MyPropertyInfo).PropertyRelationship.EntityID2);
+                            if (entityAndProperties != null)
+                            {
+                                SetNodes(nodeContext, entityAndProperties);
+                            }
+                        }
+
+                    }
                 }
             }
             else if (nodeContext.NodeType == NodeType.DotNetProperty)
             {
-                SetNodes(nodeContext, (nodeContext.Context as PropertyInfo).PropertyType);
+                SetNodes(nodeContext, (nodeContext.Context as MyProp).Type);
             }
             else if (nodeContext.NodeType == NodeType.DotNetMethod)
             {
                 SetNodes(nodeContext, (nodeContext.Context as MethodInfo).ReturnType);
             }
-        }
+            }
         private void SetNodes(NodeContext parentNodeContext, Type type)
         {
-            //if (nodeDictionary.Any(x => x.Key == type.Name))
-            //    return nodeDictionary[type.Name];
-            int i = 0;
+            List<NodeContext> result = GetPropertyAndMethods(type, false);
+            foreach (var item in result)
+            {
+                AddNodeContext(parentNodeContext, item, true);
+            }
+        }
+        private void SetNodes(NodeContext parentNodeContext, BuiltinRefClass item)
+        {
+
+            List<NodeContext> result = new List<NodeContext>();
+            if (item.IsType)
+            {
+                result.AddRange(GetPropertyAndMethods(item.Type, true));
+            }
+            if (item.IsObject)
+            {
+                result.AddRange(GetPropertyAndMethods(item.Type, false));
+            }
+            foreach (var node in result)
+            {
+                AddNodeContext(parentNodeContext, node, true);
+            }
+        }
+
+        private List<NodeContext> GetPropertyAndMethods(Type type, bool isStatic)
+        {
             List<NodeContext> result = new List<MyProject_WPF.NodeContext>();
-            foreach (var prop in type.GetProperties().OrderBy(x => x.Name))
+            int i = 0;
+
+            List<MyProp> list = new List<MyProp>();
+
+            List<PropertyInfo> properties = null;
+            var staticproperties = type.GetProperties(BindingFlags.Static).ToList();
+            if (isStatic)
+                properties = staticproperties;
+            else
+                properties = type.GetProperties().Where(x => !staticproperties.Any(y => y.Name == x.Name)).ToList();
+            foreach (var prop in properties)
+                list.Add(new MyProp(prop.Name, prop.PropertyType));
+
+            foreach (var field in type.GetFields().Where(x => x.IsPublic && x.IsStatic == isStatic))
+            {
+                list.Add(new MyProp(field.Name, field.FieldType));
+            }
+
+            foreach (var prop in list.OrderBy(x => x.Name))
             {
                 NodeContext nodeContext = new MyProject_WPF.NodeContext();
                 nodeContext.Name = prop.Name;
@@ -897,9 +947,28 @@ namespace MyProject_WPF
                 i++;
                 result.Add(nodeContext);
             }
+            List<MethodInfo> methods = new List<MethodInfo>();
+            //List<Type> AssTypes = new List<Type>();
 
-            foreach (var method in type.GetMethods().Where(x => x.IsPublic).OrderBy(x => x.Name))
+            //foreach (Assembly item in AppDomain.CurrentDomain.GetAssemblies())
+            //{
+            //    AssTypes.AddRange(item.GetTypes());
+            //}
+            //var query = from AssType in AssTypes
+            //            where AssType.IsSealed && !AssType.IsGenericType && !AssType.IsNested
+            //            from method in AssType.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+            //            where method.IsDefined(typeof(ExtensionAttribute), false)
+            //            where method.GetParameters()[0].ParameterType == type
+            //            select method;
+            //var mets = query.ToArray<MethodInfo>();
+            //methods.AddRange(mets.Where(x => x.IsPublic ));
+            methods.AddRange(type.GetMethods().Where(x => x.IsPublic && x.IsStatic == isStatic));
+            foreach (var method in methods.OrderBy(x => x.Name))
             {
+                if (method.CustomAttributes.Any(x => x.AttributeType == typeof(CompilerGeneratedAttribute)))
+                {
+                    continue;
+                }
                 var methodParamStr = "";
                 var paramList = method.GetParameters();
                 var methodName = method.Name;
@@ -908,8 +977,8 @@ namespace MyProject_WPF
                 {
                     foreach (var param in paramList)
                     {
-                        if (type == typeof(Enumerable) && param.Name.ToLower() == "source")
-                            continue;
+                        //if (item.Type == typeof(Enumerable) && param.Name.ToLower() == "source")
+                        //    continue;
                         paramsStr += (paramsStr == "" ? "" : ",") + param.ParameterType.Name + " " + param.Name;
                     }
                     methodParamStr += "(" + paramsStr + ")";
@@ -927,14 +996,9 @@ namespace MyProject_WPF
                 i++;
                 result.Add(nodeContext);
             }
-            //nodeDictionary.Add(type.Name, result);
-            //nodeDictionary.AddRange(result);
-
-            foreach (var item in result)
-            {
-                AddNodeContext(parentNodeContext, item, true);
-            }
+            return result;
         }
+
         EntityAndProperties GetEntityAndProperties(string entityName)
         {
             if (!EntityAndProperties.Any(x => x.Entity.Name.ToLower() == entityName.ToLower()))
