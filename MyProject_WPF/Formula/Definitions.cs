@@ -43,7 +43,8 @@ namespace MyProject_WPF
         RelationshipProperty,
         CustomProperty,
         DotNetProperty,
-        DotNetMethod
+        DotNetMethod,
+        Lambda
     }
     public class MyProp
     {
@@ -147,7 +148,7 @@ namespace MyProject_WPF
 
         }
         public List<NodeContext> NextPossibleContexts { set; get; }
-        public List<NodeContext> NodeContexts { set; get; }
+        public List<NodeContext> ParentNodeContexts { set; get; }
         public bool IsFunction { get; internal set; }
         public Tuple<TextPointer, TextPointer> FunctionParantestPointers { get; internal set; }
         public TextPointer ActualEndPointer
@@ -162,12 +163,15 @@ namespace MyProject_WPF
         }
         public List<TextStateChain> TextStateChains { get; internal set; }
         public List<NodeContext> FoundContexts { get; internal set; }
+        public FormulaTextBlock LastItem { get; internal set; }
+        public string LambdaText { get; internal set; }
     }
     public class TextStateChain
     {
         public List<FormulaTextBlock> TextStates { set; get; }
         public TextPointer StartPointer { set; get; }
         public TextPointer EndPointer { set; get; }
+        public FormulaTextBlock ParentFunction { get; internal set; }
     }
 
 

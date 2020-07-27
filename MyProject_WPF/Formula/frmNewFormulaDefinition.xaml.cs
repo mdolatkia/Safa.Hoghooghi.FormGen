@@ -149,6 +149,10 @@ namespace MyProject_WPF
 
             if (AllTextStates != null)
                 SetColor(AllTextStates, true);
+
+             chains = GetTextStateChains(txtFormula.Document.ContentEnd);
+            AllTextStates = chains.Item2;
+
         }
 
         private void ClearColor()
@@ -228,8 +232,6 @@ namespace MyProject_WPF
             list = list.Where(x => x.Item3 != "").ToList();
             list.Reverse();
 
-
-
             var statementTree = GetStatementTree(list);
             var chains = SetChainLevels(statementTree, txtFormula.Document.ContentStart, txtFormula.Document.ContentEnd);
             SetChainContext(chains.Item1, nodeDictionary);
@@ -247,7 +249,11 @@ namespace MyProject_WPF
         private void SetTextBlocksContext(List<FormulaTextBlock> textBlocks, List<NodeContext> parentNodes, int i = 0)
         {
             var sItem = textBlocks[i];
-            sItem.NodeContexts = parentNodes;
+            sItem.ParentNodeContexts = parentNodes;
+            //if(i==0)
+            // {
+            //     if()
+            // }
             if (parentNodes != null && parentNodes.Any())
             {
                 List<NodeContext> foundContext = null;
@@ -280,17 +286,51 @@ namespace MyProject_WPF
             }
         }
 
-        private List<NodeContext> GetFunctionNodeContext(FormulaTextBlock sItem)
+        private List<NodeContext> GetFunctionNodeContext(FormulaTextBlock parentFunction)
         {
+            List<NodeContext> result = null;
             //اینجااونجاست که لامبدا اکپرشن ها میتونن اضافه بشن y=> y.
-            return nodeDictionary;
+            Tuple<string, EntityAndProperties> tuple = null;
+            if (!string.IsNullOrEmpty(parentFunction.LambdaText))
+            {
+                if (parentFunction.FoundContexts != null && parentFunction.FoundContexts.Any())
+                {
+                    foreach (var nodeContext in parentFunction.FoundContexts)
+                    {
+                        if (nodeContext.ParentNode.Context is MyPropertyInfo)
+                        {
+                            if ((nodeContext.ParentNode.Context as MyPropertyInfo).PropertyType == ProxyLibrary.PropertyType.Relationship)
+                            {
+                                var entityAndProperties = GetEntityAndProperties((nodeContext.ParentNode.Context as MyPropertyInfo).PropertyRelationship.EntityID2);
+                                if (entityAndProperties != null)
+                                {
+                                    tuple = new Tuple<string, EntityAndProperties>(parentFunction.LambdaText, entityAndProperties);
+                                }
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+            result = nodeDictionary;
+            if (tuple == null || tuple.Item2 == null)
+            {
+
+            }
+            else
+            {
+                result.Add(new MyProject_WPF.NodeContext() { Name = tuple.Item1, Title = tuple.Item1, Context = tuple.Item2, NodeType = NodeType.Lambda });
+            }
+            return result;
         }
 
-        private Tuple<List<TextStateChain>, List<FormulaTextBlock>> SetChainLevels(List<CodeBlock> statementTree, TextPointer start, TextPointer end, int level = 0, List<FormulaTextBlock> textBlocks = null)
+        private Tuple<List<TextStateChain>, List<FormulaTextBlock>> SetChainLevels(List<CodeBlock> statementTree, TextPointer start, TextPointer end, int level = 0, List<FormulaTextBlock> alltextBlocks = null, FormulaTextBlock parentFunction = null)
         {
             List<TextStateChain> chains = new List<MyProject_WPF.TextStateChain>();
-            if (textBlocks == null)
-                textBlocks = new List<FormulaTextBlock>();
+            if (alltextBlocks == null)
+                alltextBlocks = new List<FormulaTextBlock>();
             //var result = new List<MyProject_WPF.TextStateChain>();
 
             foreach (var item in statementTree.Where(x => x.IsText))
@@ -300,8 +340,9 @@ namespace MyProject_WPF
                     if (!chains.Any(x => RangeContainsBlock(x.StartPointer, x.EndPointer, item)))
                     {
                         TextStateChain rItem = new TextStateChain();
-                        rItem.TextStates = CheckCallChain(statementTree, item);
-                        textBlocks.AddRange(rItem.TextStates);
+                        rItem.ParentFunction = parentFunction;
+                        rItem.TextStates = CheckCallChain(statementTree, item, null, null, parentFunction);
+                        alltextBlocks.AddRange(rItem.TextStates);
                         if (rItem.TextStates.Any())
                         {
                             rItem.StartPointer = rItem.TextStates[0].StartPointer;
@@ -315,11 +356,11 @@ namespace MyProject_WPF
             {
                 foreach (var fItem in item.TextStates.Where(x => x.IsFunction))
                 {
-                    var fResult = SetChainLevels(statementTree, fItem.FunctionParantestPointers.Item1, fItem.FunctionParantestPointers.Item2, level + 1);
+                    var fResult = SetChainLevels(statementTree, fItem.FunctionParantestPointers.Item1, fItem.FunctionParantestPointers.Item2, level + 1, alltextBlocks, fItem);
                     fItem.TextStateChains = fResult.Item1;
                 }
             }
-            return new Tuple<List<MyProject_WPF.TextStateChain>, List<MyProject_WPF.FormulaTextBlock>>(chains, textBlocks);
+            return new Tuple<List<MyProject_WPF.TextStateChain>, List<MyProject_WPF.FormulaTextBlock>>(chains, alltextBlocks);
         }
 
         private bool RangeContainsBlock(TextPointer start, TextPointer end, CodeBlock item)
@@ -328,19 +369,36 @@ namespace MyProject_WPF
                   && txtFormula.Document.ContentStart.GetOffsetToPosition(end) >= txtFormula.Document.ContentStart.GetOffsetToPosition(item.EndPointer);
         }
 
-        private List<FormulaTextBlock> CheckCallChain(List<CodeBlock> statementTree, CodeBlock item, CodeBlock lastItem = null, List<FormulaTextBlock> result = null)
+        private List<FormulaTextBlock> CheckCallChain(List<CodeBlock> statementTree, CodeBlock item, CodeBlock lastItem = null, List<FormulaTextBlock> result = null, FormulaTextBlock parentFunction = null)
         {
             if (result == null)
                 result = new List<FormulaTextBlock>();
 
             if (item is FormulaTextBlock)
             {
+                if (result.Any())
+                    (item as FormulaTextBlock).LastItem = result.Last();
                 result.Add(item as FormulaTextBlock);
             }
 
             if (statementTree.IndexOf(item) != statementTree.Count - 1)
             {
                 var nextItem = statementTree[statementTree.IndexOf(item) + 1];
+                if (lastItem == null)
+                {
+                    if (nextItem.Text == "=")
+                    {
+                        if (statementTree.IndexOf(nextItem) != statementTree.Count - 1)
+                        {
+                            var nextnextItem = statementTree[statementTree.IndexOf(nextItem) + 1];
+                            if (nextnextItem.Text == ">")
+                            {
+                                if (parentFunction != null)
+                                    parentFunction.LambdaText = item.Text;
+                            }
+                        }
+                    }
+                }
                 bool canContinue = false;
                 //bool nextCanAcceptOnlyDot = false;
                 if (item is FormulaTextBlock)
@@ -350,7 +408,7 @@ namespace MyProject_WPF
                 else if ((item is NonTextBlock) && (item as NonTextBlock).IsDot)
                 {
                     if (nextItem is FormulaTextBlock)
-                        CheckCallChain(statementTree, nextItem, item, result);
+                        CheckCallChain(statementTree, nextItem, item, result, parentFunction);
                 }
                 else if ((item is NonTextBlock) && (item as NonTextBlock).IsStartingParantese && (item as NonTextBlock).PairBlock != null)
                 {
@@ -369,7 +427,7 @@ namespace MyProject_WPF
                     }
                 }
                 if (canContinue)
-                    CheckCallChain(statementTree, statementTree[statementTree.IndexOf(item) + 1], item, result);
+                    CheckCallChain(statementTree, statementTree[statementTree.IndexOf(item) + 1], item, result, parentFunction);
                 //}
             }
 
@@ -590,6 +648,7 @@ namespace MyProject_WPF
         }
         private void SetColor(List<FormulaTextBlock> textStates, bool first)
         {
+
             skipTextChanged = true;
             List<Tuple<TextRange, int, SolidColorBrush, bool>> colors = new List<Tuple<TextRange, int, SolidColorBrush, bool>>();
             foreach (var textstate in textStates)
@@ -768,10 +827,14 @@ namespace MyProject_WPF
             }
             else
                 nodeDictionary.Add(nodeContext);
+            if (parentNodeContext != null && parentNodeContext.UIItem == null)
+                return null;
 
             var fnode = AddNodeToTree(nodeContext, lateExpand);
             nodeContext.UIItem = fnode;
             return fnode;
+
+
         }
 
         private RadTreeViewItem AddNodeToTree(NodeContext nodeContext, bool lateExpand)
@@ -811,9 +874,15 @@ namespace MyProject_WPF
         }
         private void SetNodes(NodeContext parentNodeContext, EntityAndProperties entityAndProperties)
         {
+            var result = GetNodes(entityAndProperties);
+            foreach (var item in result)
+            {
+                AddNodeContext(parentNodeContext, item, true);
+            }
+        }
 
-            //if (nodeDictionary.Any(x => x.ParentPath == parentPath))
-            //    return nodeDictionary.Where(x => x.ParentPath == parentPath).ToList();
+        private List<MyProject_WPF.NodeContext> GetNodes(EntityAndProperties entityAndProperties)
+        {
             var result = new List<MyProject_WPF.NodeContext>();
             int i = 0;
             foreach (var property in entityAndProperties.Properties.OrderBy(x => x.Name))
@@ -830,12 +899,9 @@ namespace MyProject_WPF
                 i++;
                 result.Add(nodeContext);
             }
-            foreach (var item in result)
-            {
-                AddNodeContext(parentNodeContext, item, true);
-            }
-            
+            return result;
         }
+
         private void SetNodes(NodeContext nodeContext)
         {
             if (nodeContext.Context is MyPropertyInfo
@@ -888,7 +954,11 @@ namespace MyProject_WPF
             {
                 SetNodes(nodeContext, (nodeContext.Context as MethodInfo).ReturnType);
             }
+            else if (nodeContext.NodeType == NodeType.Lambda)
+            {
+                SetNodes(nodeContext, nodeContext.Context as EntityAndProperties);
             }
+        }
         private void SetNodes(NodeContext parentNodeContext, Type type)
         {
             List<NodeContext> result = GetPropertyAndMethods(type, false);
