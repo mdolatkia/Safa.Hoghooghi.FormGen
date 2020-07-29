@@ -27,13 +27,13 @@ namespace MyProject_WPF
 
         }
         public NodeContext ParentNode { set; get; }
-        public List<NodeContext> ChildNodes { set; get; }
-        public string ParentPath { set; get; }
+        // public List<NodeContext> ChildNodes { set; get; }
+        //     public string ParentPath { set; get; }
         public object Context { set; get; }
         public string Name { set; get; }
         public string Title { set; get; }
         public NodeType NodeType { set; get; }
-        public object UIItem { set; get; }
+        //    public object UIItem { set; get; }
         public int Order1 { set; get; }
     }
     public enum NodeType
@@ -48,7 +48,7 @@ namespace MyProject_WPF
     }
     public class MyProp
     {
-        public MyProp(string name , Type type)
+        public MyProp(string name, Type type)
         {
             Name = name;
             Type = type;
@@ -97,7 +97,7 @@ namespace MyProject_WPF
         public Enum_PropertyFunctionType Type { set; get; }
     }
 
- 
+
     public enum FormulaAutoCompleteKeyType
     {
         None,
@@ -108,7 +108,7 @@ namespace MyProject_WPF
     }
     public class AutoCompleteItem
     {
-        public AutoCompleteItem(NodeType nodeType,string title)
+        public AutoCompleteItem(NodeType nodeType, string title)
         {
             Title = title;
             NodeType = nodeType;
@@ -126,15 +126,50 @@ namespace MyProject_WPF
 
     public class CodeBlock
     {
+        TextPointer Start;
+        public CodeBlock(TextPointer start)
+        {
+            Start = start;
+        }
         public TextPointer StartPointer { set; get; }
         public TextPointer EndPointer { set; get; }
         public string Text { set; get; }
 
         public bool IsText { get; internal set; }
-        public int Offset { get; internal set; }
+
+        public int StartOffset
+        {
+            get
+            {
+                return Start.GetOffsetToPosition(StartPointer);
+            }
+        }
+        public int EndOffset
+        {
+            get
+
+            {
+                //if (!IsEndOfDocument)
+                //    return Start.GetOffsetToPosition(EndPointer);
+                //else
+                //{
+                //    if (Start.GetOffsetToPosition(EndPointer) - Start.GetOffsetToPosition(StartPointer) > 2)
+                //        return Start.GetOffsetToPosition(EndPointer) - 2;
+                //    else
+                        return Start.GetOffsetToPosition(EndPointer);
+                //}
+            }
+        }
+
+        public bool IsEndOfDocument { get; internal set; }
+        public int EmptySpaceAfter { get; internal set; }
     }
     public class NonTextBlock : CodeBlock
     {
+        public NonTextBlock(TextPointer start) : base(start)
+        {
+        }
+
         public bool IsStartingParantese { set; get; }
         public CodeBlock PairBlock { set; get; }
         public bool IsEndingParantese { get; internal set; }
@@ -143,34 +178,46 @@ namespace MyProject_WPF
     }
     public class FormulaTextBlock : CodeBlock
     {
-        public FormulaTextBlock()
+        public FormulaTextBlock(TextPointer start) : base(start)
         {
-
         }
+
         public List<NodeContext> NextPossibleContexts { set; get; }
         public List<NodeContext> ParentNodeContexts { set; get; }
         public bool IsFunction { get; internal set; }
-        public Tuple<TextPointer, TextPointer> FunctionParantestPointers { get; internal set; }
-        public TextPointer ActualEndPointer
+        //public Tuple<TextPointer, TextPointer> FunctionParantestPointers { get; internal set; }
+
+        public NonTextBlock FunctionParanteseStart { set; get; }
+        public NonTextBlock FunctionParanteseEnd { set; get; }
+
+        //public Tuple<int, int> FunctionParantestOffset
+        //{
+        //    get
+        //    {
+        //        return new Tuple<int, int>(Start.GetOffsetToPosition(FunctionParantestPointers.Item1), Start.GetOffsetToPosition(FunctionParantestPointers.Item2));
+        //    }
+        //}
+        public int ActualEndOffset
         {
             get
             {
                 if (IsFunction)
-                    return FunctionParantestPointers.Item2;
+                    return FunctionParanteseEnd.EndOffset;
                 else
-                    return EndPointer;
+                    return EndOffset;
             }
         }
         public List<TextStateChain> TextStateChains { get; internal set; }
-        public List<NodeContext> FoundContexts { get; internal set; }
+        public List<NodeContext> PossibleContexts { get; internal set; }
         public FormulaTextBlock LastItem { get; internal set; }
         public string LambdaText { get; internal set; }
+        public bool IsLambdaSign { get; internal set; }
     }
     public class TextStateChain
     {
         public List<FormulaTextBlock> TextStates { set; get; }
-        public TextPointer StartPointer { set; get; }
-        public TextPointer EndPointer { set; get; }
+        public int StartOffset { get { return TextStates[0].StartOffset; } }
+        public int EndOffset { get { return TextStates[TextStates.Count - 1].ActualEndOffset; } }
         public FormulaTextBlock ParentFunction { get; internal set; }
     }
 

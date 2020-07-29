@@ -133,15 +133,25 @@ namespace MyProject_WPF
             ListItems = null;
             txtSearch.Text = "";
 
-            var list = nodes.GroupBy(x => new AutoCompleteItem(x.NodeType, x.Title));
+            var list = nodes.GroupBy(x => new { x.NodeType, x.Title });
             List<ListBoxItem> items = new List<ListBoxItem>();
             foreach (var node in list.OrderBy(x => x.Key.NodeType).ThenBy(x => x.Key.Title))
             {
-                items.Add(AddNode(node.Key));
+                items.Add(AddNode(new AutoCompleteItem(node.Key.NodeType,node.Key.Title)));
             }
             ListItems = items;
             SetListItems("");
 
+        }
+        private ListBoxItem AddNode(AutoCompleteItem context)
+        {
+            ListBoxItem node = new ListBoxItem();
+
+            node.DataContext = context;
+            node.Content = GetHeader(context.NodeType, context.Title);
+            node.MouseDoubleClick += Node_MouseDoubleClick;
+            node.KeyUp += Node_KeyUp;
+            return node;
         }
 
         private void SetListItems(string text)
@@ -166,17 +176,7 @@ namespace MyProject_WPF
             SetListItems(txtSearch.Text);
         }
 
-        private ListBoxItem AddNode(AutoCompleteItem context)
-        {
-            ListBoxItem node = new ListBoxItem();
-
-            node.DataContext = context;
-            node.Content = GetHeader(context.NodeType, context.Title);
-            node.MouseDoubleClick += Node_MouseDoubleClick;
-            node.KeyUp += Node_KeyUp;
-            return node;
-        }
-
+      
         private void Node_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var node = sender as ListBoxItem;

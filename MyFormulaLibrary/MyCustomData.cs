@@ -114,9 +114,9 @@ namespace MyFormulaFunctionStateFunctionLibrary
                             if (property.PropertyType == PropertyType.Column)
                             {
                                 EntityInstanceProperty dataproperty = DataItem.GetProperty(property.ID);
-                                if (property != null)
+                                if (dataproperty != null)
                                 {
-                                    property.Value = property.Value;
+                                    property.Value = dataproperty.Value;
                                 }
                                 else
                                     throw new Exception("Date property" + " " + property.Name + " not found!");
@@ -319,8 +319,14 @@ namespace MyFormulaFunctionStateFunctionLibrary
         }
         public MyCustomSingleData First(string criteria = null)
         {
-
-            return DataItems.First(GetExpression(criteria));
+            try
+            {
+                return DataItems.First(GetExpression(criteria));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public MyCustomSingleData First()
         {
@@ -328,10 +334,7 @@ namespace MyFormulaFunctionStateFunctionLibrary
         }
         public MyCustomSingleData FirstOrDefault(string criteria = null)
         {
-
-
             return DataItems.FirstOrDefault(GetExpression(criteria));
-
         }
         public MyCustomSingleData FirstOrDefault()
         {

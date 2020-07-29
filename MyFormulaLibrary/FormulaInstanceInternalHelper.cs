@@ -1,5 +1,6 @@
 ﻿using ModelEntites;
 using MyConnectionManager;
+using MyDataSearchManagerBusiness;
 using MyModelManager;
 using ProxyLibrary;
 using System;
@@ -334,12 +335,36 @@ namespace MyFormulaFunctionStateFunctionLibrary
         //}
         public static I_ExpressionEvaluator GetExpressionEvaluator(DP_DataRepository mainDataItem, DR_Requester requester, bool definition, List<int> usedFormulaIDs)
         {
+
+
             var entity = bizTableDrivedEntity.GetPermissionedEntity(requester, mainDataItem.TargetEntityID);
             var properties = GetProperties(entity, null, definition);
-            MyCustomSingleData formulaObject = new MyCustomSingleData(mainDataItem, requester, definition, properties, usedFormulaIDs);
+            MyCustomSingleData formulaObject = new MyCustomSingleData(GetMainDateItem(requester,mainDataItem), requester, definition, properties, usedFormulaIDs);
             var refTypes = GetRefTypes();
             var variables = GetRefObjects(entity, requester);
             return GetExpressionHandler.GetExpressionEvaluator(formulaObject, refTypes, variables);
+        }
+
+        private static DP_DataRepository GetMainDateItem(DR_Requester requester, DP_DataRepository mainDataItem)
+        {
+            if (!mainDataItem.IsNewItem && MyDataHelper.DataItemPrimaryKeysHaveValue(mainDataItem) && !MyDataHelper.DataItemNonPrimaryKeysHaveValues(mainDataItem))
+            {
+                SearchRequestManager searchProcessor = new SearchRequestManager();
+                DP_SearchRepository searchDataItem = new DP_SearchRepository(mainDataItem.TargetEntityID);
+                foreach (var property in mainDataItem.GetProperties())
+                    searchDataItem.Phrases.Add(new SearchProperty() { ColumnID = property.ColumnID, Value = property.Value });
+
+                //سکوریتی داده اعمال میشود
+                //یعنی ممکن است به خود داده دسترسی نداشته باشد و یا حتی به بعضی از فیلدها و روابط
+                DR_SearchFullDataRequest request = new DR_SearchFullDataRequest(requester, searchDataItem);
+                var result = searchProcessor.Process(request);
+                if (result.Result != Enum_DR_ResultType.ExceptionThrown)
+                    return result.ResultDataItems.FirstOrDefault(); // searchProcessor.GetDataItemsByListOFSearchProperties(Requester, searchDataItem).FirstOrDefault();
+                else
+                    throw (new Exception(result.Message));
+            }
+            else
+                return mainDataItem;
         }
 
         private static List<object> GetRefObjects(TableDrivedEntityDTO entity, DR_Requester requester)

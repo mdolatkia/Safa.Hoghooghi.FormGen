@@ -453,8 +453,8 @@ namespace ProxyLibrary
 
                     listKey = DataView.Properties.Where(x => string.IsNullOrEmpty(x.RelationshipIDTailPath) && x.IsKey).ToList();
                 }
-                if (listKey.Count == 0)
-                    throw new Exception("dfsdf");
+                //if (listKey.Count == 0)
+                //    throw new Exception("dfsdf");
                 return listKey;
             }
         }

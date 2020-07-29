@@ -97,9 +97,9 @@ namespace MyFormulaFunctionStateFunctionLibrary
         //{
         //    return String.IsNullOrEmpty(str);
         //}
-        public static bool bbb(this String str)
+        public static string NullAsEmpty(object str)
         {
-            return String.IsNullOrEmpty(str);
+            return str == null ? "" : str.ToString();
         }
         public static bool IsNullOrEmpty(string str)
         {
